@@ -1,12 +1,31 @@
 import { createConnection, getConnection, Connection, ConnectionOptions } from 'typeorm';
-import { User } from '../entities/user.entity';
+import {
+  Account,
+  BalanceStatement,
+  Asset,
+  Budget,
+  Transaction,
+  TransactionCategory,
+  AssetType,
+  AccountType,
+  TransactionSubCategory,
+} from '../entities';
 
-export const dbConfig: ConnectionOptions = {
+export const dbConfig = {
   type: 'sqlite',
   synchronize: true,
   logging: true,
-  database: './canutin.sqlite',
-  entities: [User],
+  entities: [
+    Account,
+    BalanceStatement,
+    Asset,
+    Budget,
+    Transaction,
+    TransactionCategory,
+    AssetType,
+    AccountType,
+    TransactionSubCategory,
+  ],
 };
 
 const connection = {

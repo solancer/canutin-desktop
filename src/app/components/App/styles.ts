@@ -58,7 +58,7 @@ export const globalStyle = css`
       local('Decima Mono Pro'), url(${DecimaMonoProBoldWoff}) format("woff");
   }
   
-  html, body, h1, h2, h3, h4, h5, p, ul, li, hr { margin: 0; }
+  html, body, h1, h2, h3, h4, h5, p, ul, li, hr, #root { margin: 0; }
   ul, li {
     list-style: none;
   }

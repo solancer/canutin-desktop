@@ -1,3 +1,3 @@
-export interface AppLoadedMessage {
+export interface DatabaseDoesNotExistsMessage {
   dbPath: string;
 }

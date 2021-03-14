@@ -1,21 +1,50 @@
 import 'reflect-metadata';
-import { app, BrowserWindow } from 'electron';
+import settings from 'electron-settings';
+import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
-import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-import settings from 'electron-settings';
 
+import {
+  DID_FINISH_LOADING,
+  ELECTRON_ACTIVATE,
+  ELECTRON_READY,
+  ELECTRON_WINDOW_CLOSED,
+} from './constants';
+import { connectAndSaveDB, findAndConnectDB } from './helpers/database.helper';
+import { OPEN_CREATE_VAULT, OPEN_EXISTING_VAULT } from '../constants/events';
 import { DATABASE_PATH } from '../constants';
-import { APP_LOADED } from '../constants/events';
-import { AppLoadedMessage } from '../constants/messages';
 
 let win: BrowserWindow | null = null;
+
+const setupEvents = async () => {
+  ipcMain.on(OPEN_CREATE_VAULT, async () => {
+    if (win) {
+      const { filePath } = await dialog.showSaveDialog(win, {
+        filters: [{ name: 'DatabaseType', extensions: ['sqlite'] }],
+      });
+
+      if (filePath) await connectAndSaveDB(win, filePath);
+    }
+  });
+
+  ipcMain.on(OPEN_EXISTING_VAULT, async () => {
+    if (win) {
+      const { filePaths } = await dialog.showOpenDialog(win, {
+        properties: ['openFile'],
+        filters: [{ name: 'DatabaseType', extensions: ['sqlite'] }],
+      });
+
+      if (filePaths.length) await connectAndSaveDB(win, filePaths[0]);
+    }
+  });
+};
 
 const createWindow = async () => {
   win = new BrowserWindow({
     width: 1280,
     height: 880,
-    titleBarStyle: "hidden",
+    titleBarStyle: 'hidden',
     trafficLightPosition: { x: 16, y: 32 },
     webPreferences: {
       nodeIntegration: true,
@@ -51,24 +80,23 @@ const createWindow = async () => {
     win.webContents.openDevTools();
   }
 
-  win.webContents.on('did-finish-load', async () => {
+  await setupEvents();
+
+  win.webContents.on(DID_FINISH_LOADING, async () => {
     const dbPath = await settings.get(DATABASE_PATH) as string;
-    const appLoadedMessage: AppLoadedMessage = {
-      dbPath,
-    };
-    win?.webContents.send(APP_LOADED, appLoadedMessage);
+    await findAndConnectDB(win, dbPath);
   });
 }
 
-app.on('ready', createWindow);
+app.on(ELECTRON_READY, createWindow);
 
-app.on('window-all-closed', () => {
+app.on(ELECTRON_WINDOW_CLOSED, () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on('activate', () => {
+app.on(ELECTRON_ACTIVATE, () => {
   if (win === null) {
     createWindow();
   }

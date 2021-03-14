@@ -21,7 +21,7 @@ export interface RouteConfigProps {
   exact?: boolean,
 }
 
-export const routeConfigs: RouteConfigProps[] = [
+export const routesConfig: RouteConfigProps[] = [
   {
     path: [routesPaths.index, routesPaths.bigpicture],
     exact: true,

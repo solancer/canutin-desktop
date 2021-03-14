@@ -3,7 +3,7 @@ import { sansSerifBold } from 'app/constants/fonts';
 import { grey10, grey3 } from 'app/constants/colors';
 
 export const container = css`
-  
+  height: 100%;
 `;
 
 export const header = css`
@@ -24,7 +24,5 @@ export const title = css`
 `;
 
 export const body = css`
-  margin-left: 130px;
-  margin-right: 130px;
-  padding-top: 60px;
+  height: 100%;
 `;

@@ -9,9 +9,9 @@ export abstract class Base extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @CreateDateColumn({ name: 'created_at', nullable: false })
+  @CreateDateColumn({ nullable: false })
   createdAt!: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', nullable: false })
+  @UpdateDateColumn({ nullable: false })
   updatedAt!: Date;
 }

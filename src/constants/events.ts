@@ -1,2 +1,2 @@
-export const APP_LOADED = 'appLoaded';
-export const APP_LOADED_ACK = 'appLoadedACK';
+export const OPEN_CREATE_VAULT = 'openCreateVault';
+export const OPEN_EXISTING_VAULT = 'openExistingVault';
