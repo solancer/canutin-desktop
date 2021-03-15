@@ -16,10 +16,11 @@ export const container = css`
   background-color: ${grey5};
   display: grid;
   grid-template-columns: max-content auto;
-  grid-template-rows: 48px auto;
+  grid-template-rows: 48px auto 48px;
   grid-template-areas:
     "title-bar title-bar"
-    "side-bar body";
+    "side-bar body"
+    "side-bar status-bar";
   height: 100vh;
 `;
 
@@ -32,7 +33,7 @@ export const globalStyle = css`
     src: local('Inter'), url(${InterRegularWoff2}) format("woff2"),
       local('Inter'), url(${InterRegularWoff}) format("woff");
   }
-  
+
   @font-face {
     font-family: 'Inter';
     font-style:  normal;
@@ -40,7 +41,7 @@ export const globalStyle = css`
     src: local('Inter'), url(${InterSemiBoldrWoff2}) format("woff2"),
       local('Inter'), url(${InterSemiBoldrWoff}) format("woff");
   }
-  
+
   /* Decima Mono Pro */
   @font-face {
     font-family: 'Decima Mono Pro';
@@ -49,20 +50,12 @@ export const globalStyle = css`
     src: local('Decima Mono Pro'), url(${DecimaMonoProRegularWoff2}) format("woff2"),
       local('Decima Mono Pro'), url(${DecimaMonoProRegularWoff}) format("woff");
   }
-  
-  @font-face {
-    font-family: 'Decima Mono Pro';
-    font-weight: 600;
-    font-style: normal;
-    src: local('Decima Mono Pro'), url(${DecimaMonoProBoldWoff2}) format("woff2"),
-      local('Decima Mono Pro'), url(${DecimaMonoProBoldWoff}) format("woff");
-  }
-  
+
   html, body, h1, h2, h3, h4, h5, p, ul, li, hr, #root { margin: 0; }
   ul, li {
     list-style: none;
   }
-  
+
   body {
     ${sansSerifRegular}
   }

@@ -4,21 +4,21 @@ import { monospaceRegular } from 'app/constants/fonts';
 
 export const body = css`
   background-color: ${grey5};
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 250px);
-  padding-left: 130px;
+  display: grid;
+  grid-gap: 16px;
+  width: 100%;
 `;
 
 export const subTitle = css`
   color: ${grey40};
   font-size: 12px;
   text-transform: uppercase;
-  margin-top: 180px;
-  margin-bottom: 15px;
+  letter-spacing: 0.1em;
   ${monospaceRegular};
 `;
 
 export const boxContainer = css`
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 8px;
 `;

@@ -43,8 +43,9 @@ const App = () => {
     <>
       <GlobalStyle />
       <BrowserRouter>
+      <Container>
         {isAppInitialized ? (
-          <Container>
+          <>
             <TopBar />
             <SideBar />
             <Switch>
@@ -54,7 +55,7 @@ const App = () => {
                 ))
               }
             </Switch>
-          </Container>
+          </>
         ) : (
           <>
             <TopBar />
@@ -66,6 +67,7 @@ const App = () => {
             />
           </>
         )}
+        </Container>
       </BrowserRouter>
     </>
   );

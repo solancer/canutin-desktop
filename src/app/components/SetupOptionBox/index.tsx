@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { container, header, body, title, subTitle } from './styles';
 
-const Container = styled.div`${container}`;
+const Container = styled.button`${container}`;
 const Header = styled.div`${header}`;
 const Body = styled.div`${body}`;
 const Title = styled.div`${title}`;

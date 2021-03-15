@@ -1,37 +1,46 @@
 import { css } from 'styled-components';
-import { plainWhite, grey10, redLight, redPlain } from 'app/constants/colors';
+import { sansSerifBold } from 'app/constants/fonts';
+import { plainWhite, grey10, grey20, grey70, redLight, redPlain } from 'app/constants/colors';
 
 export const container = css<{ error: boolean }>`
+  grid-area: status-bar;
   align-items: center;
   background-color: ${({ error }) => error ? redLight : plainWhite};
-  border-top: 1px solid ${grey10};
-  bottom: 0;
+  box-shadow: 0 -1px 0 ${grey10};
   display: flex;
-  justify-content: ${({ error }) => error ? 'flex-start' : 'space-between'};
-  height: 48px;
-  padding-left: ${({ error }) => error ? '0' : '16px'};
+  justify-content: space-between;
+  padding-left: 16px;
   padding-right: 16px;
-  position: sticky;
-  width: 100vw;
-  z-index: 1;
-  
+  line-height: 1em;
+
   -webkit-user-select: none;
 `;
 
 export const error = css`
   color: ${redPlain};
   font-size: 11px;
-  margin-left: 16px;
+  width: 100%;
 `
 
 export const closeError = css`
-  align-items: center;
-  background-color: ${plainWhite};
+  ${sansSerifBold};
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  height: 48px;
-  width: 64px;
+  padding: 8px 16px;
+  font-size: 12px;
+  border-radius: 3px;
+  color: ${grey70};
+  border: 1px solid ${grey20};
+  background-color: transparent;
+  line-height: 1em;
+  transition: transform 100ms;
+
+  &:hover {
+    border-color: ${grey70};
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
 `;
 
 export const configurationInfo = css``;
