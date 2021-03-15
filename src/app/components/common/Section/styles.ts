@@ -2,27 +2,43 @@ import { css } from 'styled-components';
 import { sansSerifBold } from 'app/constants/fonts';
 import { grey10, grey3 } from 'app/constants/colors';
 
+const componentConstraints = css`
+  max-width: 1200px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+`
+
 export const container = css`
-  height: 100%;
+  grid-area: body;
+  display: grid;
+  grid-template-rows: max-content auto;
+  overflow-y: auto;
 `;
 
 export const header = css`
+  display: flex;
   align-items: flex-end;
   background-color: ${grey3};
   border-bottom: 1px solid ${grey10};
-  justify-content: flex-start;
-  display: flex;
-  height: 150px;
+  height: 152px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  box-sizing: border-box;
 `;
 
 export const title = css`
+  ${componentConstraints};
   ${sansSerifBold};
+  padding-left: 64px;
+  padding-right: 64px;
   font-size: 24px;
-  margin-left: 130px;
-  margin-right: 130px;
-  padding-bottom: 25px;
 `;
 
 export const body = css`
-  height: 100%;
+  ${componentConstraints};
+  display: flex;
+  align-items: center;
+  padding: 64px;
 `;
