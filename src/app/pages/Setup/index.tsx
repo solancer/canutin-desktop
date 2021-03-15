@@ -10,7 +10,7 @@ import { OPEN_CREATE_VAULT, OPEN_EXISTING_VAULT } from 'constants/events';
 import { body, subTitle, boxContainer } from './styles';
 
 const Body = styled.div`${body}`
-const SubTitle = styled.span`${subTitle}`
+const SubTitle = styled.h2`${subTitle}`
 const BoxContainer = styled.div`${boxContainer}`
 
 const Setup = () => {

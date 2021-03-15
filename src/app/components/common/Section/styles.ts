@@ -14,6 +14,7 @@ export const container = css`
   grid-area: body;
   display: grid;
   grid-template-rows: max-content auto;
+  overflow-y: auto;
 `;
 
 export const header = css`
@@ -39,6 +40,5 @@ export const body = css`
   ${componentConstraints};
   display: flex;
   align-items: center;
-  overflow-y: auto;
   padding: 64px;
 `;

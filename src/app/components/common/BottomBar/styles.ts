@@ -6,7 +6,7 @@ export const container = css<{ error: boolean }>`
   grid-area: status-bar;
   align-items: center;
   background-color: ${({ error }) => error ? redLight : plainWhite};
-  box-shadow: 0 -1px 0 ${grey10};
+  box-shadow: inset 0 1px 0 ${grey10};
   display: flex;
   justify-content: space-between;
   padding-left: 16px;

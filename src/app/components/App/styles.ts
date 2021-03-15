@@ -8,8 +8,6 @@ import InterSemiBoldrWoff2 from 'app/assets/fonts/Inter-SemiBold.woff2';
 
 import DecimaMonoProRegularWoff from 'app/assets/fonts/DecimaMonoPro-Regular.woff';
 import DecimaMonoProRegularWoff2 from 'app/assets/fonts/DecimaMonoPro-Regular.woff2';
-import DecimaMonoProBoldWoff from 'app/assets/fonts/DecimaMonoPro-Bold.woff';
-import DecimaMonoProBoldWoff2 from 'app/assets/fonts/DecimaMonoPro-Bold.woff2';
 import { sansSerifRegular } from 'app/constants/fonts';
 
 export const container = css`

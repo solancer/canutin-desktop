@@ -8,6 +8,7 @@ export const container = css`
   display: grid;
   grid-gap: 8px;
   border: none;
+  text-align: left;
   padding: 0;
   background-color: ${plainWhite};
   border-radius: 4px;
