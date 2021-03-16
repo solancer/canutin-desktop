@@ -1,8 +1,8 @@
 import { css } from 'styled-components';
-import { plainWhite, grey10 } from 'app/constants/colors';
+import { whitePlain, grey10 } from 'app/constants/colors';
 
 export const container = css`
-  background-color: ${plainWhite};
+  background-color: ${whitePlain};
   border-bottom: 1px solid ${grey10};
   grid-area: title-bar;
   display: grid;

@@ -4,28 +4,28 @@ import styled from 'styled-components';
 import { container, closeError, error, configurationInfo } from './styles';
 
 const Container = styled.div`${container}`;
-const CloseError = styled.button`${closeError}`
+const Button = styled.button`${closeError}`
 const Error = styled.p`${error}`;
 const ConfigurationInfo = styled.div`${configurationInfo}`;
 
-export interface BottomBarProps {
+export interface StatusBarProps {
   errorMessage: string | ReactNode;
-  onCloseError: () => void;
-  breadCrumbs: ReactNode;
+  onClickButton: () => void;
+  breadcrumbs: ReactNode;
 }
 
-const BottomBar = ({ errorMessage, onCloseError, breadCrumbs }: BottomBarProps) => {
+const StatusBar = ({ errorMessage, onClickButton, breadcrumbs }: StatusBarProps) => {
   const error = (typeof errorMessage === "string" && errorMessage !== '') || errorMessage !== null;
 
   return (
     <Container error={error}>
-      {error ? <Error>{errorMessage}</Error> : breadCrumbs}
+      {error ? <Error>{errorMessage}</Error> : breadcrumbs}
       {error && (
-        <CloseError onClick={onCloseError}>Dismiss</CloseError>
+        <Button onClick={onClickButton}>Dismiss</Button>
       )}
       <ConfigurationInfo />
     </Container>
   );
 };
 
-export default BottomBar;
+export default StatusBar;

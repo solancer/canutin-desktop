@@ -1,27 +1,27 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
-import { container, header, title, body } from './styles';
+import { container, header, title, main } from './styles';
 
 export const Container = styled.div`${container}`;
 export const Header = styled.header`${header}`;
 export const Title = styled.h1`${title}`;
-export const Body = styled.div`${body}`;
+export const Main = styled.main`${main}`;
 
-export interface SectionProps {
+export interface ScrollViewProps {
   title: string;
   children?: ReactNode;
 }
 
-const Section = ({ title, children }: SectionProps) => (
+const ScrollView = ({ title, children }: ScrollViewProps) => (
   <Container>
     <Header>
       <Title>{title}</Title>
     </Header>
-    <Body>
+    <Main>
       {children}
-    </Body>
+    </Main>
   </Container>
 );
 
-export default Section;
+export default ScrollView;

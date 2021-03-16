@@ -36,7 +36,7 @@ export const title = css`
   font-size: 24px;
 `;
 
-export const body = css`
+export const main = css`
   ${componentConstraints};
   display: flex;
   align-items: center;

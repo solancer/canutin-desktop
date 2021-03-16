@@ -1,13 +1,13 @@
 import React from 'react';
-import Section from 'app/components/common/Section';
+import ScrollView from 'app/components/common/ScrollView';
 
 const TheBigPicture = () => (
   <>
-    <Section title="The big picture">
+    <ScrollView title="The big picture">
       <div>
         The big picture
       </div>
-    </Section>
+    </ScrollView>
   </>
 );
 

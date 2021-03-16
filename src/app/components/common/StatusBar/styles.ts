@@ -1,11 +1,11 @@
 import { css } from 'styled-components';
 import { sansSerifBold } from 'app/constants/fonts';
-import { plainWhite, grey10, grey20, grey70, redLight, redPlain } from 'app/constants/colors';
+import { whitePlain, grey10, grey20, grey70, redLight, redPlain } from 'app/constants/colors';
 
 export const container = css<{ error: boolean }>`
   grid-area: status-bar;
   align-items: center;
-  background-color: ${({ error }) => error ? redLight : plainWhite};
+  background-color: ${({ error }) => error ? redLight : whitePlain};
   box-shadow: inset 0 1px 0 ${grey10};
   display: flex;
   justify-content: space-between;

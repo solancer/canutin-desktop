@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { plainWhite, blueLight, grey50, grey80, black01 } from 'app/constants/colors';
+import { whitePlain, blueLight, grey50, grey80, blackOpacity10 } from 'app/constants/colors';
 import { sansSerifBold, sansSerifRegular } from 'app/constants/fonts';
 
 const componentPadding = css`padding: 20px;`
@@ -10,9 +10,9 @@ export const container = css`
   border: none;
   text-align: left;
   padding: 0;
-  background-color: ${plainWhite};
+  background-color: ${whitePlain};
   border-radius: 4px;
-  box-shadow: 0 4px 16px 0 ${black01};
+  box-shadow: 0 4px 16px 0 ${blackOpacity10};
   transition: transform 100ms;
 
   &:hover {

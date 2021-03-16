@@ -1,13 +1,13 @@
 import React from 'react';
-import Section from 'app/components/common/Section';
+import ScrollView from 'app/components/common/ScrollView';
 
 const Trends = () => (
   <>
-    <Section title="Trends">
+    <ScrollView title="Trends">
       <div>
         Trends
       </div>
-    </Section>
+    </ScrollView>
   </>
 );
 

@@ -1,11 +1,11 @@
 import { css } from 'styled-components';
-import { grey10, grey5, plainWhite, grey80 } from 'app/constants/colors';
+import { grey10, grey5, whitePlain, grey80 } from 'app/constants/colors';
 
 export const container = css`
   grid-area: side-bar;
   display: flex;
   flex-direction: column;
-  background-color: ${plainWhite};
+  background-color: ${whitePlain};
   border-right: 1px solid ${grey10};
   height: 100%;
 `;

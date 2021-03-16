@@ -6,17 +6,17 @@ import { container, header, body, title, subTitle } from './styles';
 const Container = styled.button`${container}`;
 const Header = styled.div`${header}`;
 const Body = styled.div`${body}`;
-const Title = styled.div`${title}`;
+const Title = styled.h3`${title}`;
 const SubTitle = styled.div`${subTitle}`;
 
-export interface SetupOptionBoxProps {
+export interface PrimaryCardProps {
   icon: ReactNode;
   title: string;
   subTitle: string;
   onClick: () => void;
 }
 
-const SetupOptionBox = ({ icon, title, subTitle, onClick }: SetupOptionBoxProps) => (
+const PrimaryCard = ({ icon, title, subTitle, onClick }: PrimaryCardProps) => (
   <Container onClick={onClick}>
     <Header>
       {icon}
@@ -28,4 +28,4 @@ const SetupOptionBox = ({ icon, title, subTitle, onClick }: SetupOptionBoxProps)
   </Container>
 );
 
-export default SetupOptionBox;
+export default PrimaryCard;

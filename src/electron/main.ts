@@ -42,6 +42,8 @@ const setupEvents = async () => {
 
 const createWindow = async () => {
   win = new BrowserWindow({
+    minWidth: 800,
+    minHeight: 600,
     width: 1280,
     height: 880,
     titleBarStyle: 'hidden',

@@ -7,10 +7,10 @@ import { container, icon } from './styles';
 const Container = styled.div`${container}`;
 const CanutinIcon = styled(Icon)`${icon}`;
 
-const TopBar = () => (
+const TitleBar = () => (
   <Container>
     <CanutinIcon />
   </Container>
 );
 
-export default TopBar;
+export default TitleBar;

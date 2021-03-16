@@ -1,13 +1,13 @@
 import React from 'react';
-import Section from 'app/components/common/Section';
+import ScrollView from 'app/components/common/ScrollView';
 
 const Budget = () => (
   <>
-    <Section title="Budget">
+    <ScrollView title="Budget">
       <div>
         Budget
       </div>
-    </Section>
+    </ScrollView>
   </>
 );
 

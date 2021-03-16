@@ -1,13 +1,13 @@
 import React from 'react';
-import Section from 'app/components/common/Section';
+import ScrollView from 'app/components/common/ScrollView';
 
 const BalanceSheet = () => (
   <>
-    <Section title="Balance sheet">
+    <ScrollView title="Balance sheet">
       <div>
         Balance sheet
       </div>
-    </Section>
+    </ScrollView>
   </>
 );
 
