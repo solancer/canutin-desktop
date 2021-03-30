@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@appConstants/*": ["src/app/constants/*"],
+      "@components/*": ["src/app/components/*"],
+      "@pages/*": ["src/app/pages/*"],
+      "@constants": ["src/constants"],
+      "@constants/*": ["src/constants/*"],
+      "@assets/*": ["src/app/assets/*"],
+      "@routes": ["src/app/routes"],
+      "@database/*": ["src/database/*"]
+   }
+  }
+}

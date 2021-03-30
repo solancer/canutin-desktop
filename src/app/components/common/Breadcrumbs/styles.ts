@@ -1,5 +1,6 @@
 import { css } from 'styled-components';
-import { grey40 } from 'app/constants/colors';
+
+import { grey40 } from '@appConstants/colors';
 
 export const text = css`
   color: ${grey40};

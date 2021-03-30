@@ -1,16 +1,15 @@
-Canutin Desktop
-===========================================================================
+# Canutin Desktop
 
 ## Available Scripts
 
-### `yarn electron:dev`
+### `yarn start`
 
 Runs the Electron app in the development mode.
 
 The Electron app will reload if you make edits in the `electron` directory.<br>
 You will also see any lint errors in the console.
 
-### `yarn electron:build`
+### `yarn build`
 
 Builds the Electron app package for production to the `dist` folder.
 

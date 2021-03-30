@@ -2,8 +2,11 @@ import 'reflect-metadata';
 import settings from 'electron-settings';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import { app, BrowserWindow, dialog, ipcMain } from 'electron';
+import isDev from 'electron-is-dev';
 import * as path from 'path';
-import * as isDev from 'electron-is-dev';
+
+import { OPEN_CREATE_VAULT, OPEN_EXISTING_VAULT } from '@constants/events';
+import { DATABASE_PATH } from '@constants';
 
 import {
   DID_FINISH_LOADING,
@@ -12,8 +15,6 @@ import {
   ELECTRON_WINDOW_CLOSED,
 } from './constants';
 import { connectAndSaveDB, findAndConnectDB } from './helpers/database.helper';
-import { OPEN_CREATE_VAULT, OPEN_EXISTING_VAULT } from '../constants/events';
-import { DATABASE_PATH } from '../constants';
 
 let win: BrowserWindow | null = null;
 
@@ -52,16 +53,15 @@ const createWindow = async () => {
       nodeIntegration: true,
       enableRemoteModule: true,
     },
-  })
+  });
 
   if (isDev) {
     win.loadURL('http://localhost:3000/index.html');
   } else {
-    // 'build/index.html'
-    win.loadURL(`file://${__dirname}/../../index.html`);
+    win.loadURL(`file://${__dirname}/../../build/index.html`);
   }
 
-  win.on('closed', () => win = null);
+  win.on('closed', () => (win = null));
 
   // Hot Reloading
   if (isDev) {
@@ -69,14 +69,14 @@ const createWindow = async () => {
     require('electron-reload')(__dirname, {
       electron: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'electron'),
       forceHardReset: true,
-      hardResetMethod: 'exit'
+      hardResetMethod: 'exit',
     });
   }
 
   // DevTools
   installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
+    .then(name => console.log(`Added Extension:  ${name}`))
+    .catch(err => console.log('An error occurred: ', err));
 
   if (isDev) {
     win.webContents.openDevTools();
@@ -85,10 +85,10 @@ const createWindow = async () => {
   await setupEvents();
 
   win.webContents.on(DID_FINISH_LOADING, async () => {
-    const dbPath = await settings.get(DATABASE_PATH) as string;
+    const dbPath = (await settings.get(DATABASE_PATH)) as string;
     await findAndConnectDB(win, dbPath);
   });
-}
+};
 
 app.on(ELECTRON_READY, createWindow);
 

@@ -4,8 +4,12 @@ import styled from 'styled-components';
 
 import { container, text } from './styles';
 
-const Container = styled(Link)`${container}`;
-const Text = styled.p`${text}`;
+const Container = styled(Link)`
+  ${container}
+`;
+const Text = styled.p`
+  ${text}
+`;
 
 export interface NavItemProps {
   icon: ReactNode;
@@ -23,6 +27,6 @@ const NavItem = ({ icon, text, toggled, to }: NavItemProps) => {
       <Text toggled={toggled}>{text}</Text>
     </Container>
   );
-}
+};
 
 export default NavItem;

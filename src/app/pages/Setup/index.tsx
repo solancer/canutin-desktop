@@ -2,16 +2,24 @@ import React from 'react';
 import styled from 'styled-components';
 import { ipcRenderer } from 'electron';
 
-import ScrollView from 'app/components/common/ScrollView';
-import PrimaryCard from 'app/components/PrimaryCard';
-import { ReactComponent as Vault } from 'app/assets/icons/Vault.svg';
-import { ReactComponent as Browse } from 'app/assets/icons/Browse.svg';
-import { OPEN_CREATE_VAULT, OPEN_EXISTING_VAULT } from 'constants/events';
+import ScrollView from '@components/common/ScrollView';
+import PrimaryCard from '@components/PrimaryCard';
+
+import { ReactComponent as Vault } from '@assets/icons/Vault.svg';
+import { ReactComponent as Browse } from '@assets/icons/Browse.svg';
+import { OPEN_CREATE_VAULT, OPEN_EXISTING_VAULT } from '@constants/events';
+
 import { body, subTitle, boxContainer } from './styles';
 
-const Section = styled.section`${body}`;
-const SubTitle = styled.h2`${subTitle}`;
-const BoxContainer = styled.div`${boxContainer}`;
+const Section = styled.section`
+  ${body}
+`;
+const SubTitle = styled.h2`
+  ${subTitle}
+`;
+const BoxContainer = styled.div`
+  ${boxContainer}
+`;
 
 const Setup = () => {
   const onOpenCreateVault = () => {

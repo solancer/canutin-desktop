@@ -1,12 +1,11 @@
 import React from 'react';
-import ScrollView from 'app/components/common/ScrollView';
+
+import ScrollView from '@components/common/ScrollView';
 
 const Trends = () => (
   <>
     <ScrollView title="Trends">
-      <div>
-        Trends
-      </div>
+      <div>Trends</div>
     </ScrollView>
   </>
 );

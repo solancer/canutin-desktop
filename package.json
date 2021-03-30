@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "author": "Canutin",
   "description": "Canutin desktop app",
-  "homepage": ".",
+  "homepage": "./",
   "main": "build/electron/main.js",
   "private": true,
   "dependencies": {
@@ -35,23 +35,27 @@
     "customize-cra": "^1.0.0",
     "electron": "^11.2.3",
     "electron-builder": "^22.9.1",
+    "prettier": "2.2.1",
     "react-app-rewired": "^2.1.8",
+    "tsconfig-paths": "^3.9.0",
+    "tscpaths": "^0.0.9",
     "wait-on": "^5.2.1"
   },
   "scripts": {
+    "electron-tsc": "tsc --project src/electron/tsconfig.json && tscpaths -p src/electron/tsconfig.json -s ./src -o ./build",
     "react-start": "react-app-rewired start",
     "react-build": "react-app-rewired build",
     "react-eject": "react-scripts eject",
     "test": "react-app-rewired test",
-    "start": "concurrently \"BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && tsc -p src/electron -w\" \"wait-on http://localhost:3000 && tsc -p src/electron && electron .\"",
-    "build": "yarn react-build && tsc -p src/electron && electron-builder --projectDir src",
-    "postinstall": "electron-builder install-app-deps",
-    "electron:windev": "concurrently \"SET BROWSER=none && yarn react-start\" \"wait-on http://localhost:3000 && tsc -p src/electron -w\" \"wait-on http://localhost:3000 && tsc -p src/electron && electron .\""
+    "start": "concurrently \"BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && yarn electron-tsc && electron .\"",
+    "build": "yarn react-build && yarn electron-tsc && electron-builder",
+    "postinstall": "electron-builder install-app-deps"
   },
   "build": {
     "extends": null,
     "files": [
-      "build/**/*"
+      "build/**/*",
+      "node_modules/**/*"
     ],
     "directories": {
       "buildResources": "assets"

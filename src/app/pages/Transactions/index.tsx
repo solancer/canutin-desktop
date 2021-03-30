@@ -1,12 +1,11 @@
 import React from 'react';
-import ScrollView from 'app/components/common/ScrollView';
+
+import ScrollView from '@components/common/ScrollView';
 
 const Transactions = () => (
   <>
     <ScrollView title="Transactions">
-      <div>
-        Transactions
-      </div>
+      <div>Transactions</div>
     </ScrollView>
   </>
 );

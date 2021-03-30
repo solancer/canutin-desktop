@@ -3,10 +3,18 @@ import styled from 'styled-components';
 
 import { container, closeError, error, configurationInfo } from './styles';
 
-const Container = styled.div`${container}`;
-const Button = styled.button`${closeError}`
-const Error = styled.p`${error}`;
-const ConfigurationInfo = styled.div`${configurationInfo}`;
+const Container = styled.div`
+  ${container}
+`;
+const Button = styled.button`
+  ${closeError}
+`;
+const Error = styled.p`
+  ${error}
+`;
+const ConfigurationInfo = styled.div`
+  ${configurationInfo}
+`;
 
 export interface StatusBarProps {
   errorMessage: string | ReactNode;
@@ -15,14 +23,12 @@ export interface StatusBarProps {
 }
 
 const StatusBar = ({ errorMessage, onClickButton, breadcrumbs }: StatusBarProps) => {
-  const error = (typeof errorMessage === "string" && errorMessage !== '') || errorMessage !== null;
+  const error = (typeof errorMessage === 'string' && errorMessage !== '') || errorMessage !== null;
 
   return (
     <Container error={error}>
       {error ? <Error>{errorMessage}</Error> : breadcrumbs}
-      {error && (
-        <Button onClick={onClickButton}>Dismiss</Button>
-      )}
+      {error && <Button onClick={onClickButton}>Dismiss</Button>}
       <ConfigurationInfo />
     </Container>
   );

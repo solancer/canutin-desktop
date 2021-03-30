@@ -12,6 +12,18 @@
     "esModuleInterop": true,
     "typeRoots": [
       "node_modules/@types"
-    ]
+    ],
+    "baseUrl": "../",
+    "paths": {
+      "@app/*": ["app/*"],
+      "@appConstants/*": ["app/constants/*"],
+      "@components/*": ["app/components/*"],
+      "@pages/*": ["app/pages/*"],
+      "@constants": ["constants"],
+      "@constants/*": ["constants/*"],
+      "@assets/*": ["app/assets/*"],
+      "@routes": ["app/routes"],
+      "@database/*": ["database/*"]
+    }
   }
 }

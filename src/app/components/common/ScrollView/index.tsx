@@ -3,10 +3,18 @@ import styled from 'styled-components';
 
 import { container, header, title, main } from './styles';
 
-export const Container = styled.div`${container}`;
-export const Header = styled.header`${header}`;
-export const Title = styled.h1`${title}`;
-export const Main = styled.main`${main}`;
+export const Container = styled.div`
+  ${container}
+`;
+export const Header = styled.header`
+  ${header}
+`;
+export const Title = styled.h1`
+  ${title}
+`;
+export const Main = styled.main`
+  ${main}
+`;
 
 export interface ScrollViewProps {
   title: string;
@@ -18,9 +26,7 @@ const ScrollView = ({ title, children }: ScrollViewProps) => (
     <Header>
       <Title>{title}</Title>
     </Header>
-    <Main>
-      {children}
-    </Main>
+    <Main>{children}</Main>
   </Container>
 );
 

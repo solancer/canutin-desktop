@@ -1,6 +1,7 @@
 import { css } from 'styled-components';
-import { sansSerifBold } from 'app/constants/fonts';
-import { grey10, grey3 } from 'app/constants/colors';
+
+import { sansSerifBold } from '@appConstants/fonts';
+import { grey10, grey3 } from '@appConstants/colors';
 
 const componentConstraints = css`
   max-width: 1200px;
@@ -8,7 +9,7 @@ const componentConstraints = css`
   box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
-`
+`;
 
 export const container = css`
   grid-area: body;

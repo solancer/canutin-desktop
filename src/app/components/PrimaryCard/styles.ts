@@ -1,8 +1,11 @@
 import { css } from 'styled-components';
-import { whitePlain, blueLight, grey50, grey80, blackOpacity10 } from 'app/constants/colors';
-import { sansSerifBold, sansSerifRegular } from 'app/constants/fonts';
 
-const componentPadding = css`padding: 20px;`
+import { whitePlain, blueLight, grey50, grey80, blackOpacity10 } from '@appConstants/colors';
+import { sansSerifBold, sansSerifRegular } from '@appConstants/fonts';
+
+const componentPadding = css`
+  padding: 20px;
+`;
 
 export const container = css`
   display: grid;
