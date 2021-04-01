@@ -17,6 +17,7 @@ export const container = css`
   border-radius: 4px;
   box-shadow: 0 4px 16px 0 ${blackOpacity10};
   transition: transform 100ms;
+  width: 100%;
 
   &:hover {
     cursor: pointer;

@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import { ipcRenderer } from 'electron';
 
 import TitleBar from '@components/common/TitleBar';
@@ -14,9 +14,9 @@ import { routesConfig, RouteConfigProps } from '@routes';
 import { DatabaseDoesNotExistsMessage } from '@constants/messages';
 import { DATABASE_CONNECTED, DATABASE_DOES_NOT_EXIST, DATABASE_NOT_DETECTED } from '@constants';
 
-import { container, globalStyle } from './styles';
+import GlobalStyle from '@app/styles/global';
+import { container } from './styles';
 
-const GlobalStyle = createGlobalStyle`${globalStyle}`;
 const Container = styled.div`
   ${container}
 `;

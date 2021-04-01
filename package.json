@@ -28,6 +28,12 @@
     "typescript": "4.1.5"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^6.1.21",
+    "@storybook/addon-essentials": "^6.1.21",
+    "@storybook/addon-links": "^6.1.21",
+    "@storybook/node-logger": "^6.1.21",
+    "@storybook/preset-create-react-app": "^3.1.7",
+    "@storybook/react": "^6.1.21",
     "@types/electron-settings": "^3.1.2",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.7",
@@ -42,6 +48,7 @@
     "wait-on": "^5.2.1"
   },
   "scripts": {
+    "storybook": "start-storybook -p 9001",
     "electron-tsc": "tsc --project src/electron/tsconfig.json && tscpaths -p src/electron/tsconfig.json -s ./src -o ./build",
     "react-start": "react-app-rewired start",
     "react-build": "react-app-rewired build",
