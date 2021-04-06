@@ -2,10 +2,10 @@ import { css } from 'styled-components';
 import { grey5, grey80, grey30, bluePlain } from '@appConstants/colors';
 
 export interface NavItemProps {
-  toggled: boolean;
+  toggled: boolean | number;
 }
 
-export const container = css<NavItemProps & { active: boolean }>`
+export const container = css<NavItemProps & { active: boolean | number }>`
   color: ${({ active }) => (active ? bluePlain : grey80)};
   cursor: default;
   display: flex;

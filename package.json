@@ -7,6 +7,8 @@
   "main": "build/electron/main.js",
   "private": true,
   "dependencies": {
+    "@testing-library/jest-dom": "^5.11.10",
+    "@testing-library/react": "^11.2.6",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/jest": "26.0.20",
     "@types/node": "14.14.27",
@@ -16,6 +18,7 @@
     "electron-is-dev": "^1.2.0",
     "electron-reload": "^1.5.0",
     "electron-settings": "^4.0.2",
+    "eslint-config-react-app": "^6.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.15.3",
@@ -34,15 +37,24 @@
     "@storybook/node-logger": "^6.1.21",
     "@storybook/preset-create-react-app": "^3.1.7",
     "@storybook/react": "^6.1.21",
+    "@testing-library/dom": "^7.30.2",
+    "@testing-library/user-event": "^13.1.1",
     "@types/electron-settings": "^3.1.2",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.7",
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "babel-loader": "8.1.0",
     "concurrently": "^5.3.0",
     "customize-cra": "^1.0.0",
     "electron": "^11.2.3",
     "electron-builder": "^22.9.1",
-    "prettier": "2.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-jest": "^24.3.2",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1",
     "react-app-rewired": "^2.1.8",
+    "ts-jest": "^26.5.4",
     "tsconfig-paths": "^3.9.0",
     "tscpaths": "^0.0.9",
     "wait-on": "^5.2.1"
@@ -53,10 +65,12 @@
     "react-start": "react-app-rewired start",
     "react-build": "react-app-rewired build",
     "react-eject": "react-scripts eject",
-    "test": "react-app-rewired test",
+    "test": "react-app-rewired test --passWithNoTests",
+    "test:coverage": "react-scripts test --coverage --watchAll",
     "start": "concurrently \"BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && yarn electron-tsc && electron .\"",
     "build": "yarn react-build && yarn electron-tsc && electron-builder",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "build": {
     "extends": null,
@@ -67,9 +81,6 @@
     "directories": {
       "buildResources": "assets"
     }
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [
@@ -86,5 +97,38 @@
   "resolutions": {
     "styled-components": "^5"
   },
-  "types": "src/typings/*.d.ts"
+  "types": "src/typings/*.d.ts",
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "identity-obj-proxy",
+      "\\.svg": "<rootDir>/src/__tests__/__mocks__/svgrMock.tsx",
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|mp4|webm|wav|mp3|m4a|aac|oga|ico)$": "<rootDir>/src/__tests__/fileMock.tsx",
+      "^electron$": "<rootDir>/src/__tests__/__mocks__/electronMock.tsx",
+      "^@appConstants(.*)$": "<rootDir>/src/app/constants$1",
+      "^@components(.*)$": "<rootDir>/src/app/components$1",
+      "^@pages(.*)$": "<rootDir>/src/app/pages$1",
+      "^@constants(.*)$": "<rootDir>/src/constants$1",
+      "^@constants$": "<rootDir>/src/constants",
+      "^@routes$": "<rootDir>/src/app/routes",
+      "^@database(.*)$": "<rootDir>/src/database$1",
+      "^@tests(.*)$": "<rootDir>/src/__tests__$1",
+      "^@assets(.*)$": "<rootDir>/src/app/assets$1",
+      "^@app(.*)$": "<rootDir>/src/app$1"
+    },
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/src/__tests__/__mocks__",
+      "<rootDir>/src/__tests__/utils",
+      "<rootDir>/src/__tests__/setup",
+      "<rootDir>/src/__tests__/fixtures"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/__tests__/setup/setUpTests.tsx"
+    ]
+  }
 }

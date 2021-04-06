@@ -44,7 +44,7 @@ export class Account extends Base {
     balanceStatements: BalanceStatement[],
     assets: Asset[],
     transactions: Transaction[],
-    accountType: AccountType,
+    accountType: AccountType
   ) {
     super();
     this.name = name;

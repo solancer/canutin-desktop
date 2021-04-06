@@ -16,12 +16,7 @@ export class BalanceStatement extends Base {
   @ManyToOne(() => Account, account => account.balanceStatements)
   account: Account;
 
-  constructor(
-    value: number,
-    date: Date,
-    manual: boolean,
-    account: Account,
-  ) {
+  constructor(value: number, date: Date, manual: boolean, account: Account) {
     super();
     this.value = value;
     this.date = date;

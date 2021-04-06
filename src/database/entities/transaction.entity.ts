@@ -34,7 +34,7 @@ export class Transaction extends Base {
     excludeFromTotals: boolean,
     account: Account,
     budget: Budget,
-    category: TransactionCategory,
+    category: TransactionCategory
   ) {
     super();
     this.description = description;

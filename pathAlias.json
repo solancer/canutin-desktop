@@ -10,7 +10,8 @@
       "@constants/*": ["src/constants/*"],
       "@assets/*": ["src/app/assets/*"],
       "@routes": ["src/app/routes"],
-      "@database/*": ["src/database/*"]
+      "@database/*": ["src/database/*"],
+      "@tests/*": ["src/__tests__/*"]
    }
   }
 }

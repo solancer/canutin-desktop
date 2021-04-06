@@ -2,7 +2,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 
 import SideBar from '@components/common/SideBar';
-import { MemoryRouter, Route } from 'react-router';
+import { MemoryRouter } from 'react-router';
 
 export default {
   title: 'Sidebar',

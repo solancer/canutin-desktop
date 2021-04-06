@@ -9,7 +9,7 @@ export class TransactionSubCategory extends Base {
 
   @ManyToOne(
     () => TransactionCategory,
-      transactionCategory => transactionCategory.transactionSubCategories,
+    transactionCategory => transactionCategory.transactionSubCategories
   )
   transactionCategory: TransactionCategory;
 

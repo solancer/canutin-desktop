@@ -38,7 +38,7 @@ export class Asset extends Base {
     sold: Date,
     balanceGroup: BalancegGroupEnum,
     account: Account,
-    assetType: AssetType,
+    assetType: AssetType
   ) {
     super();
     this.name = name;

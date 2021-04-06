@@ -1,4 +1,10 @@
-import { createConnection, getConnection, Connection, ConnectionOptions } from 'typeorm';
+import {
+  createConnection,
+  getConnection,
+  Connection,
+  ConnectionOptions,
+  AlreadyHasActiveConnectionError,
+} from 'typeorm';
 import {
   Account,
   BalanceStatement,
@@ -36,6 +42,9 @@ const connection = {
         callback(connection);
       }
     } catch (error) {
+      if (error instanceof AlreadyHasActiveConnectionError) {
+        return;
+      }
       throw new Error(`ERROR: Creating test db connection: ${error}`);
     }
   },
@@ -59,7 +68,7 @@ const connection = {
     });
 
     return Promise.all(reposToClear).then();
-  }
+  },
 };
 
 export default connection;

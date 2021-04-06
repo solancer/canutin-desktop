@@ -10,7 +10,7 @@ export class TransactionCategory extends Base {
 
   @OneToMany(
     () => TransactionSubCategory,
-      transactionSubCategory => transactionSubCategory.transactionCategory,
+    transactionSubCategory => transactionSubCategory.transactionCategory
   )
   transactionSubCategories: TransactionSubCategory[];
 
@@ -20,7 +20,7 @@ export class TransactionCategory extends Base {
   constructor(
     name: string,
     transactionSubCategories: TransactionSubCategory[],
-    transaction: Transaction,
+    transaction: Transaction
   ) {
     super();
     this.name = name;
