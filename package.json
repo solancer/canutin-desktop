@@ -1,8 +1,8 @@
 {
   "name": "canutin-desktop",
   "version": "0.1.0",
-  "author": "Canutin",
-  "description": "Canutin desktop app",
+  "author": "Canutin <support@canutin.com> (https://canutin.com)",
+  "description": "Personal finance platform",
   "homepage": "./",
   "main": "build/electron/main.js",
   "private": true,
@@ -73,13 +73,25 @@
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "build": {
+    "productName": "Canutin",
+    "appId": "com.canutin.desktop",
+    "artifactName": "${name}_v${version}.${ext}",
+    "publish": {
+      "provider": "github"
+    },
+    "mac": {
+      "category": "public.app-category.finance"
+    },
+    "linux": {
+      "category": "Office;Finance"
+    },
     "extends": null,
     "files": [
       "build/**/*",
       "node_modules/**/*"
     ],
     "directories": {
-      "buildResources": "assets"
+      "buildResources": "src/electron/resources"
     }
   },
   "browserslist": {
