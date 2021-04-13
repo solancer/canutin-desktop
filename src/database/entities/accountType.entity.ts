@@ -8,9 +8,9 @@ export class AccountType extends Base {
   name: string;
 
   @OneToOne(() => Account, account => account.accountType)
-  account: Account;
+  account?: Account;
 
-  constructor(name: string, account: Account) {
+  constructor(name: string, account?: Account) {
     super();
     this.name = name;
     this.account = account;

@@ -7,6 +7,7 @@ import TitleBar from '@components/common/TitleBar';
 import StatusBar from '@components/common/StatusBar';
 import SideBar from '@components/common/SideBar';
 import Breadcrumbs, { BreadcrumbType } from '@components/common/Breadcrumbs';
+import { StatusBarProvider } from '@app/context';
 
 import Setup from '@pages/Setup';
 
@@ -63,7 +64,7 @@ const App = () => {
         <Container>
           {!isLoading &&
             (isAppInitialized ? (
-              <>
+              <StatusBarProvider>
                 <TitleBar />
                 <SideBar />
                 <Switch>
@@ -73,7 +74,7 @@ const App = () => {
                     </Route>
                   ))}
                 </Switch>
-              </>
+              </StatusBarProvider>
             ) : (
               <>
                 <TitleBar />

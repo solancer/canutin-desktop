@@ -11,7 +11,9 @@
       "@assets/*": ["src/app/assets/*"],
       "@routes": ["src/app/routes"],
       "@database/*": ["src/database/*"],
-      "@tests/*": ["src/__tests__/*"]
-   }
+      "@tests/*": ["src/__tests__/*"],
+      "@enums/*": ["src/enums/*"],
+      "@types/*": ["src/types/*"]
+    }
   }
 }

@@ -1,8 +1,9 @@
 import { Entity, Column, ManyToOne, OneToOne } from 'typeorm';
 import { Base } from './base.entity';
-import { BalancegGroupEnum } from '../enums/balancegGroup.enum';
+import { BalancegGroupEnum } from '../../enums/balancegGroup.enum';
 import { Account } from './account.entity';
 import { AssetType } from './assetType.entity';
+import { getBalanceGroupByAssetType } from '../helpers';
 
 @Entity()
 export class Asset extends Base {
@@ -15,39 +16,33 @@ export class Asset extends Base {
   @Column()
   cost: number;
 
-  @Column()
-  value: number;
-
-  @Column()
-  sold: Date;
+  @OneToOne(() => AssetType, assetType => assetType.asset, { cascade: true })
+  assetType: AssetType;
 
   @Column()
   balanceGroup: BalancegGroupEnum;
 
-  @ManyToOne(() => Account, account => account.assets)
-  account?: Account;
+  @Column({ nullable: true })
+  sold?: Date;
 
-  @OneToOne(() => AssetType, assetType => assetType.asset)
-  assetType: AssetType;
+  @ManyToOne(() => Account, account => account.assets, { nullable: true })
+  account?: Account;
 
   constructor(
     name: string,
     quantity: number,
     cost: number,
-    value: number,
-    sold: Date,
-    balanceGroup: BalancegGroupEnum,
-    account: Account,
-    assetType: AssetType
+    assetType: AssetType,
+    account?: Account,
+    sold?: Date
   ) {
     super();
     this.name = name;
     this.quantity = quantity;
     this.cost = cost;
-    this.value = value;
-    this.sold = sold;
-    this.balanceGroup = balanceGroup;
     this.account = account;
     this.assetType = assetType;
+    this.sold = sold;
+    this.balanceGroup = getBalanceGroupByAssetType(assetType?.name);
   }
 }

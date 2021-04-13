@@ -23,7 +23,9 @@
       "@constants/*": ["constants/*"],
       "@assets/*": ["app/assets/*"],
       "@routes": ["app/routes"],
-      "@database/*": ["database/*"]
+      "@database/*": ["database/*"],
+      "@types/*": ["types/*"],
+      "@enums/*": ["enums/*"]
     }
   }
 }

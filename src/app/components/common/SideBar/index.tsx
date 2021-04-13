@@ -9,6 +9,7 @@ import { ReactComponent as BalanceSheet } from '@assets/icons/BalanceSheet.svg';
 import { ReactComponent as Budget } from '@assets/icons/Budget.svg';
 import { ReactComponent as Transactions } from '@assets/icons/Transactions.svg';
 import { ReactComponent as Trends } from '@assets/icons/Trends.svg';
+import { ReactComponent as AddIcon } from '@assets/icons/Add.svg';
 
 import { container, burgerButton, nav, navItems } from './styles';
 import NavItem from './NavItem';
@@ -16,7 +17,7 @@ import NavItem from './NavItem';
 const Container = styled.nav`
   ${container}
 `;
-const BurgerButton = styled.div`
+const BurgerButton = styled.button`
   ${burgerButton}
 `;
 const NavItems = styled.div`
@@ -41,7 +42,7 @@ const SideBar = () => {
             icon={<BigPicture />}
             text="The big picture"
             toggled={toggled}
-            to={routesPaths.index}
+            to={routesPaths.bigpicture}
           />
 
           <NavItem
@@ -63,6 +64,13 @@ const SideBar = () => {
           <NavItem icon={<Trends />} text="Trends" toggled={toggled} to={routesPaths.trends} />
         </NavItems>
       </Nav>
+
+      <NavItem
+        icon={<AddIcon />}
+        text="Add accounts or assets"
+        toggled={toggled}
+        to={routesPaths.addAccountOrAsset}
+      />
     </Container>
   );
 };

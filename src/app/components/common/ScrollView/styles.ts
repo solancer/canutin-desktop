@@ -1,7 +1,7 @@
 import { css } from 'styled-components';
 
-import { sansSerifBold } from '@appConstants/fonts';
-import { grey10, grey3 } from '@appConstants/colors';
+import { sansSerifBold, sansSerifRegular } from '@appConstants/fonts';
+import { grey10, grey3, grey40 } from '@appConstants/colors';
 
 const componentConstraints = css`
   max-width: 1200px;
@@ -19,22 +19,33 @@ export const container = css`
 `;
 
 export const header = css`
-  display: flex;
-  align-items: flex-end;
   background-color: ${grey3};
   border-bottom: 1px solid ${grey10};
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   height: 152px;
   padding-top: 24px;
   padding-bottom: 24px;
   box-sizing: border-box;
 `;
 
-export const title = css`
+export const title = css<{ subTitle: boolean }>`
   ${componentConstraints};
   ${sansSerifBold};
+  font-size: 24px;
+  padding-bottom: ${({ subTitle }) => (subTitle ? '5px' : '25px')};
   padding-left: 64px;
   padding-right: 64px;
-  font-size: 24px;
+`;
+
+export const subTitle = css`
+  ${componentConstraints};
+  ${sansSerifRegular};
+  color: ${grey40};
+  font-size: 11px;
+  padding-left: 64px;
+  padding-right: 64px;
 `;
 
 export const main = css`

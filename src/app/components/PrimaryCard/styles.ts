@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-import { whitePlain, blueLight, grey50, grey80, blackOpacity10 } from '@appConstants/colors';
+import { whitePlain, grey5, blueLight, grey50, grey80, blackOpacity10 } from '@appConstants/colors';
 import { sansSerifBold, sansSerifRegular } from '@appConstants/fonts';
 
 const componentPadding = css`
@@ -31,16 +31,16 @@ export const container = css`
   -webkit-user-select: none;
 `;
 
-export const header = css`
+export const header = css<{ disabled?: boolean }>`
   align-items: center;
-  background-color: ${blueLight};
+  background-color: ${({ disabled }) => (disabled ? grey5 : blueLight)};
   display: flex;
   justify-content: flex-start;
   ${componentPadding}
 `;
 
 export const body = css`
-  ${componentPadding}
+  ${componentPadding};
   align-items: flex-start;
   display: flex;
   flex-direction: column;

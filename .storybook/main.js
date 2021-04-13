@@ -19,6 +19,8 @@ module.exports = {
       '@assets': path.resolve(__dirname, '../src/app/assets'),
       '@routes': path.resolve(__dirname, '../src/app/routes'),
       '@database': path.resolve(__dirname, '../src/database'),
+      '@enums': path.resolve(__dirname, '../src/enums'),
+      '@types': path.resolve(__dirname, '../src/types'),
     };
     // keep this if you're doing typescript
     config.resolve.extensions.push('.ts', '.tsx');

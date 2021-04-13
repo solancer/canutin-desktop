@@ -24,11 +24,13 @@ export interface PrimaryCardProps {
   title: string;
   subTitle: string;
   onClick: () => void;
+  width?: number;
+  disabled?: boolean;
 }
 
-const PrimaryCard = ({ icon, title, subTitle, onClick }: PrimaryCardProps) => (
-  <Container onClick={onClick}>
-    <Header>{icon}</Header>
+const PrimaryCard = ({ icon, title, subTitle, onClick, disabled = false }: PrimaryCardProps) => (
+  <Container onClick={!disabled ? () => onClick() : () => {}}>
+    <Header disabled={disabled}>{icon}</Header>
     <Body>
       <Title>{title}</Title>
       <SubTitle>{subTitle}</SubTitle>

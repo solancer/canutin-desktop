@@ -20,5 +20,7 @@ module.exports = override(
     ['@routes']: path.resolve(__dirname, './src/app/routes'),
     ['@database']: path.resolve(__dirname, './src/database'),
     ['@tests']: path.resolve(__dirname, './src/__tests__'),
+    ['@enums']: path.resolve(__dirname, './src/enums'),
+    ['@types']: path.resolve(__dirname, './src/types'),
   })
 );

@@ -44,7 +44,7 @@ test('Setup Page in case there is a database set', async () => {
   });
   render(<App />);
 
-  expect(await screen.getAllByText('The big picture')).toHaveLength(3);
+  expect(await screen.getAllByText('The big picture')).toHaveLength(1);
   expect(screen.getByText('Balance sheet')).toBeInTheDocument();
   expect(screen.getByText('Budget')).toBeInTheDocument();
   expect(screen.getByText('Transactions')).toBeInTheDocument();

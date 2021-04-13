@@ -63,7 +63,7 @@ const connection = {
       try {
         reposToClear.push(repository.clear());
       } catch (error) {
-        throw new Error(`ERROR: Cleaning test db: ${error}`);
+        throw new Error(`ERROR: Cleaning db: ${error}`);
       }
     });
 

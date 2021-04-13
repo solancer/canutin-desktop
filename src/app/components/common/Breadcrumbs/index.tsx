@@ -2,8 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ReactComponent as Chevron } from '@assets/icons/Chevron.svg';
-import { text } from './styles';
+import { text, container } from './styles';
 
+const Container = styled.div`
+  ${container}
+`;
 const Text = styled.a`
   ${text}
 `;
@@ -18,14 +21,14 @@ export interface BreadcrumbsProps {
 }
 
 const Breadcrumbs = ({ items }: BreadcrumbsProps) => (
-  <>
+  <Container>
     {items.map(({ text, href }, index) => (
-      <div key={text}>
+      <div key={`${index}-${text}`}>
         <Text href={href}>{text}</Text>
         {index !== items.length - 1 && <Chevron />}
       </div>
     ))}
-  </>
+  </Container>
 );
 
 export default Breadcrumbs;

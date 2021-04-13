@@ -1,12 +1,21 @@
 import 'reflect-metadata';
 import settings from 'electron-settings';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-import { app, BrowserWindow, dialog, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, IpcMainEvent } from 'electron';
 import isDev from 'electron-is-dev';
 import * as path from 'path';
 
-import { OPEN_CREATE_VAULT, OPEN_EXISTING_VAULT } from '@constants/events';
-import { DATABASE_PATH } from '@constants';
+import {
+  OPEN_CREATE_VAULT,
+  OPEN_EXISTING_VAULT,
+  DB_NEW_ACCOUNT,
+  DB_NEW_ASSET,
+  DB_NEW_ASSET_ACK,
+  DB_NEW_ACCOUNT_ACK,
+  DB_GET_ACCOUNTS,
+  DB_GET_ACCOUNTS_ACK,
+} from '@constants/events';
+import { DATABASE_PATH, NEW_DATABASE } from '@constants';
 
 import {
   DID_FINISH_LOADING,
@@ -15,6 +24,10 @@ import {
   ELECTRON_WINDOW_CLOSED,
 } from './constants';
 import { connectAndSaveDB, findAndConnectDB } from './helpers/database.helper';
+import { AssetRepository } from '@database/repositories/asset.repository';
+import { AccountRepository } from '@database/repositories/account.repository';
+import { NewAssetType } from '../types/asset.type';
+import { NewAccountType } from '../types/account.type';
 
 let win: BrowserWindow | null = null;
 
@@ -26,6 +39,7 @@ const setupEvents = async () => {
       });
 
       if (filePath) await connectAndSaveDB(win, filePath);
+      win.webContents.send(NEW_DATABASE);
     }
   });
 
@@ -38,6 +52,23 @@ const setupEvents = async () => {
 
       if (filePaths.length) await connectAndSaveDB(win, filePaths[0]);
     }
+  });
+};
+
+const setupDbEvents = async () => {
+  ipcMain.on(DB_NEW_ASSET, async (_: IpcMainEvent, asset: NewAssetType) => {
+    const newAsset = await AssetRepository.createAsset(asset);
+    win?.webContents.send(DB_NEW_ASSET_ACK, newAsset);
+  });
+
+  ipcMain.on(DB_NEW_ACCOUNT, async (_: IpcMainEvent, account: NewAccountType) => {
+    const newAccount = await AccountRepository.createAccount(account);
+    win?.webContents.send(DB_NEW_ACCOUNT_ACK, newAccount);
+  });
+
+  ipcMain.on(DB_GET_ACCOUNTS, async (_: IpcMainEvent) => {
+    const accounts = await AccountRepository.getAccounts();
+    win?.webContents.send(DB_GET_ACCOUNTS_ACK, accounts);
   });
 };
 
@@ -84,6 +115,7 @@ const createWindow = async () => {
   }
 
   await setupEvents();
+  await setupDbEvents();
 
   win.webContents.on(DID_FINISH_LOADING, async () => {
     const dbPath = (await settings.get(DATABASE_PATH)) as string;

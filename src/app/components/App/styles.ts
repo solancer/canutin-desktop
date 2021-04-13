@@ -12,4 +12,5 @@ export const container = css`
     'side-bar body'
     'side-bar status-bar';
   height: 100vh;
+  overflow-y: hidden;
 `;
