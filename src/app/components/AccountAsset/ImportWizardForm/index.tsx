@@ -113,7 +113,7 @@ const ImportWizardForm = () => {
 
         if (analyzeSource.status === StatusEnum.SUCCESS) {
           setCanutinJson(analyzeSource.sourceData);
-          setSourceMessage(`Found ${analyzeSource.metadata.countAccounts} accounts`);
+          setSourceMessage(analyzeSource.metadata && `Found ${analyzeSource.metadata.countAccounts} accounts`);
         }
 
         if (analyzeSource.status === StatusEnum.ERROR) {
@@ -135,6 +135,8 @@ const ImportWizardForm = () => {
   useEffect(() => {
     if (filePath) {
       analyzeSourceFile();
+    } else {
+      setFilePathStatus(undefined);
     }
   }, [filePath]);
 

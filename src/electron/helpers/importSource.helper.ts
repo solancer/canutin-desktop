@@ -10,6 +10,22 @@ import { mintCsvToJson } from './sourceHelpers/mint';
 
 const Papa = require('papaparse');
 
+export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | null) => {
+  const file = readFileSync(filePath, 'utf8');
+  try {
+    const canutinJson = JSON.parse(file);
+    win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
+      status: StatusEnum.SUCCESS,
+      sourceData: canutinJson,
+    });
+  } catch (error) {
+    win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
+      status: StatusEnum.ERROR,
+      sourceData: {},
+    });
+  }
+}
+
 export const analyzeMintFile = async (filePath: string, win: BrowserWindow | null) => {
   const file = readFileSync(filePath, 'utf8');
   const csv = Papa.parse(file, { header: true });
@@ -46,6 +62,11 @@ export const importSourceData = async (
   switch (source) {
     case enumImportTitleOptions.MINT_IMPORT_TYPE_TITLE: {
       await analyzeMintFile(filePath, win);
+      break;
+    }
+    case enumImportTitleOptions.CANUTIN_IMPORT_TYPE_TITLE: {
+      await analyzeCanutinFile(filePath, win);
+      break;
     }
   }
 };

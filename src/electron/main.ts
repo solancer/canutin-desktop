@@ -70,6 +70,8 @@ const setupEvents = async () => {
 
       if (filePaths.length) {
         win.webContents.send(IMPORT_SOURCE_FILE_ACK, { filePath: filePaths[0] });
+      } else {
+        win.webContents.send(IMPORT_SOURCE_FILE_ACK, { filePath: undefined });
       }
     }
   });
