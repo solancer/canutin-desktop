@@ -20,7 +20,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
         account => account.name === mintEntry['Account Name']
       );
 
-      if(!mintEntry['Transaction Type']) {
+      if (!mintEntry['Transaction Type']) {
         throw Error('Not supported');
       }
 
@@ -44,7 +44,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
           name: mintEntry['Account Name'],
           balanceGroup: 'Cash',
           accountType: 'Mint',
-          transactions: [transaction]
+          transactions: [transaction],
         });
       }
 
@@ -53,5 +53,5 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
     { accounts: [] }
   );
 
-  return { data: finalJson , metadata: { countAccounts }};
+  return { data: finalJson, metadata: { countAccounts } };
 };

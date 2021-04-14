@@ -6,9 +6,31 @@ import { ANALYZE_SOURCE_FILE_ACK, LOAD_FROM_CANUTIN_FILE_ACK } from '@constants/
 import { CanutinJsonType } from '@appTypes/canutin';
 import { importFromCanutinJson } from '@database/helpers/importSource';
 
-import { mintCsvToJson } from './sourceHelpers/mint';
+import { mintCsvToJson, MintCsvEntryType } from './sourceHelpers/mint';
+import {
+  personalCapitalCsvToJson,
+  PersonalCapitalCsvEntryType,
+} from './sourceHelpers/personalCapital';
 
 const Papa = require('papaparse');
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const readCsv = (filePath: string, win: BrowserWindow | null): object | null => {
+  const file = readFileSync(filePath, 'utf8');
+  const csv = Papa.parse(file, { header: true });
+
+  if (csv.errors.length > 0) {
+    win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
+      status: StatusEnum.ERROR,
+      sourceData: {},
+      metadata: { error: csv.error.type },
+    });
+
+    return null;
+  }
+
+  return csv.data;
+};
 
 export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | null) => {
   const file = readFileSync(filePath, 'utf8');
@@ -24,33 +46,47 @@ export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | 
       sourceData: {},
     });
   }
-}
+};
 
 export const analyzeMintFile = async (filePath: string, win: BrowserWindow | null) => {
-  const file = readFileSync(filePath, 'utf8');
-  const csv = Papa.parse(file, { header: true });
+  const csvData = readCsv(filePath, win);
 
-  if (csv.errors.length > 0) {
-    win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-      status: StatusEnum.ERROR,
-      sourceData: {},
-      metadata: { error: csv.error.type },
-    });
+  if (csvData) {
+    try {
+      const { data, metadata } = mintCsvToJson(csvData as MintCsvEntryType[]);
+
+      win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
+        status: StatusEnum.SUCCESS,
+        sourceData: data,
+        metadata,
+      });
+    } catch (error) {
+      win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
+        status: StatusEnum.ERROR,
+        sourceData: {},
+      });
+    }
   }
+};
 
-  try {
-    const { data, metadata } = mintCsvToJson(csv.data);
+export const analyzePersonalCapitalFile = async (filePath: string, win: BrowserWindow | null) => {
+  const csvData = readCsv(filePath, win);
 
-    win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-      status: StatusEnum.SUCCESS,
-      sourceData: data,
-      metadata,
-    });
-  } catch (error) {
-    win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-      status: StatusEnum.ERROR,
-      sourceData: {},
-    });
+  if (csvData) {
+    try {
+      const { data, metadata } = personalCapitalCsvToJson(csvData as PersonalCapitalCsvEntryType[]);
+
+      win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
+        status: StatusEnum.SUCCESS,
+        sourceData: data,
+        metadata,
+      });
+    } catch (error) {
+      win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
+        status: StatusEnum.ERROR,
+        sourceData: {},
+      });
+    }
   }
 };
 
@@ -68,6 +104,10 @@ export const importSourceData = async (
       await analyzeCanutinFile(filePath, win);
       break;
     }
+    case enumImportTitleOptions.PERSONAL_CAPITAL_IMPORT_TYPE_TITLE: {
+      await analyzePersonalCapitalFile(filePath, win);
+      break;
+    }
   }
 };
 
@@ -76,7 +116,7 @@ export const loadFromCanutinFile = async (
   canutinFile: CanutinJsonType
 ) => {
   try {
-    await importFromCanutinJson(canutinFile)
+    await importFromCanutinJson(canutinFile);
 
     win?.webContents.send(LOAD_FROM_CANUTIN_FILE_ACK, {
       status: StatusEnum.SUCCESS,
@@ -86,5 +126,4 @@ export const loadFromCanutinFile = async (
       status: StatusEnum.ERROR,
     });
   }
-
 };
