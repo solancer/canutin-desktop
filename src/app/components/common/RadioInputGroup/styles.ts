@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { borderGrey, grey80, grey70 } from '@appConstants/colors';
+import { borderGrey, grey80, grey70, whitePlain } from '@appConstants/colors';
 import { sansSerifBold } from '@appConstants/fonts';
 
 export const container = css`
@@ -18,6 +18,7 @@ export const label = css`
 `;
 
 export const valuesContainer = css`
+  background-color: ${whitePlain};
   border: 2px solid ${borderGrey};
   border-radius: 5px;
   display: grid;

@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, OneToOne } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 import { Base } from './base.entity';
 import { BalancegGroupEnum } from '../../enums/balancegGroup.enum';
 import { Account } from './account.entity';
@@ -17,6 +17,7 @@ export class Asset extends Base {
   cost: number;
 
   @OneToOne(() => AssetType, assetType => assetType.asset, { cascade: true })
+  @JoinColumn()
   assetType: AssetType;
 
   @Column()

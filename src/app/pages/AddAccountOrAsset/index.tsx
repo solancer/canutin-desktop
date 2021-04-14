@@ -34,9 +34,9 @@ const AddAccountOrAsset = () => {
           <BoxContainer>
             <PrimaryCard
               icon={<Sheet />}
-              title="Import wizzard"
+              title="Import wizard"
               subTitle="Import data from sites like Mint, Personal Capital, YNAB, etc..."
-              onClick={() => {}}
+              onClick={() => push(routesPaths.addAccountOrAssetByWizard)}
             />
             <PrimaryCard
               icon={<Keyboard />}

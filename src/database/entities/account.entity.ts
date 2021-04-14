@@ -1,4 +1,4 @@
-import { Entity, Column, OneToMany, OneToOne } from 'typeorm';
+import { Entity, Column, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 import { Base } from './base.entity';
 import { BalancegGroupEnum } from '../../enums/balancegGroup.enum';
 import { BalanceStatement } from './balanceStatement.entity';
@@ -34,6 +34,7 @@ export class Account extends Base {
   transactions?: Transaction[];
 
   @OneToOne(() => AccountType, accountType => accountType.account, { cascade: true })
+  @JoinColumn()
   accountType: AccountType;
 
   constructor(
@@ -41,7 +42,8 @@ export class Account extends Base {
     closed: boolean,
     accountType: AccountType,
     officialName?: string,
-    institution?: string
+    institution?: string,
+    transactions?: Transaction[]
   ) {
     super();
     this.name = name;
@@ -50,5 +52,6 @@ export class Account extends Base {
     this.closed = closed;
     this.balanceGroup = getBalanceGroupByAccountType(accountType?.name);
     this.accountType = accountType;
+    this.transactions = transactions
   }
 }

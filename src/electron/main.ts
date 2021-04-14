@@ -14,8 +14,14 @@ import {
   DB_NEW_ACCOUNT_ACK,
   DB_GET_ACCOUNTS,
   DB_GET_ACCOUNTS_ACK,
+  IMPORT_SOURCE_FILE,
+  IMPORT_SOURCE_FILE_ACK,
+  ANALYZE_SOURCE_FILE,
+  LOAD_FROM_CANUTIN_FILE
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
+import { CanutinJsonType } from '@appTypes/canutin';
+import { enumExtensionFiles, enumImportTitleOptions } from '@appConstants/misc';
 
 import {
   DID_FINISH_LOADING,
@@ -24,6 +30,7 @@ import {
   ELECTRON_WINDOW_CLOSED,
 } from './constants';
 import { connectAndSaveDB, findAndConnectDB } from './helpers/database.helper';
+import { importSourceData, loadFromCanutinFile } from './helpers/importSource.helper';
 import { AssetRepository } from '@database/repositories/asset.repository';
 import { AccountRepository } from '@database/repositories/account.repository';
 import { NewAssetType } from '../types/asset.type';
@@ -53,6 +60,39 @@ const setupEvents = async () => {
       if (filePaths.length) await connectAndSaveDB(win, filePaths[0]);
     }
   });
+
+  ipcMain.on(IMPORT_SOURCE_FILE, async (_: IpcMainEvent, extension: enumExtensionFiles) => {
+    if (win) {
+      const { filePaths } = await dialog.showOpenDialog(win, {
+        properties: ['openFile'],
+        filters: [{ name: 'Import Source file', extensions: [extension] }],
+      });
+
+      if (filePaths.length) {
+        win.webContents.send(IMPORT_SOURCE_FILE_ACK, { filePath: filePaths[0] });
+      }
+    }
+  });
+
+  ipcMain.on(
+    ANALYZE_SOURCE_FILE,
+    async (
+      _: IpcMainEvent,
+      { pathFile, source }: { pathFile: string; source: enumImportTitleOptions }
+    ) => {
+      await importSourceData(win, source, pathFile);
+    }
+  );
+
+  ipcMain.on(
+    LOAD_FROM_CANUTIN_FILE,
+    async (
+      _: IpcMainEvent,
+      canutinFile: CanutinJsonType
+    ) => {
+      await loadFromCanutinFile(win, canutinFile);
+    }
+  );
 };
 
 const setupDbEvents = async () => {

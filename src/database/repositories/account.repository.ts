@@ -16,6 +16,10 @@ export class AccountRepository {
     );
   }
 
+  static async createAccounts(accounts: Account[]): Promise<Account[]> {
+    return await getRepository(Account).save(accounts);
+  }
+
   static async getAccounts(): Promise<Account[]> {
     return await getRepository<Account>(Account).find({
       order: {

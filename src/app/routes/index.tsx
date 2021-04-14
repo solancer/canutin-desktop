@@ -8,6 +8,7 @@ import Transactions from '@pages/Transactions';
 import Trends from '@pages/Trends';
 import AddAccountOrAsset from '@pages/AddAccountOrAsset';
 import AddAccountAssetByHand from '@pages/AddAccountAssetByHand';
+import AddAccountAssetByWizard from '@pages/AddAccountAssetByWizard';
 
 export const routesPaths = {
   index: '/index.html',
@@ -18,6 +19,7 @@ export const routesPaths = {
   trends: '/trends',
   addAccountOrAsset: '/account/addAccountOrAsset',
   addAccountOrAssetByHand: '/account/addAccountOrAsset/byHand',
+  addAccountOrAssetByWizard: '/account/addAccountOrAsset/byWizard',
 };
 
 export interface RouteConfigProps {
@@ -67,5 +69,10 @@ export const routesConfig: RouteConfigProps[] = [
     path: [routesPaths.addAccountOrAssetByHand],
     exact: true,
     component: <AddAccountAssetByHand />,
+  },
+  {
+    path: [routesPaths.addAccountOrAssetByWizard],
+    exact: true,
+    component: <AddAccountAssetByWizard />,
   },
 ];

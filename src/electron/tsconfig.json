@@ -24,7 +24,7 @@
       "@assets/*": ["app/assets/*"],
       "@routes": ["app/routes"],
       "@database/*": ["database/*"],
-      "@types/*": ["types/*"],
+      "@appTypes/*": ["types/*"],
       "@enums/*": ["enums/*"]
     }
   }

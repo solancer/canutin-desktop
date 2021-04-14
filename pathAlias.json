@@ -13,7 +13,7 @@
       "@database/*": ["src/database/*"],
       "@tests/*": ["src/__tests__/*"],
       "@enums/*": ["src/enums/*"],
-      "@types/*": ["src/types/*"]
+      "@appTypes/*": ["src/types/*"]
     }
   }
 }

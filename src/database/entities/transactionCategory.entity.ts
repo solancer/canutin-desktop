@@ -12,15 +12,15 @@ export class TransactionCategory extends Base {
     () => TransactionSubCategory,
     transactionSubCategory => transactionSubCategory.transactionCategory
   )
-  transactionSubCategories: TransactionSubCategory[];
+  transactionSubCategories?: TransactionSubCategory[];
 
   @OneToOne(() => Transaction, transaction => transaction.category)
-  transaction: Transaction;
+  transaction?: Transaction;
 
   constructor(
     name: string,
-    transactionSubCategories: TransactionSubCategory[],
-    transaction: Transaction
+    transactionSubCategories?: TransactionSubCategory[],
+    transaction?: Transaction
   ) {
     super();
     this.name = name;
