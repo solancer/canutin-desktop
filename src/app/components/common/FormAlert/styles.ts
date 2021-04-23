@@ -1,11 +1,6 @@
 import { css } from 'styled-components';
 import { whitePlain, bluePlain, grey80 } from '@appConstants/colors';
 
-export const formAlertContainer = css`
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-`;
-
 export const container = css`
   background-color: ${whitePlain};
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.05);

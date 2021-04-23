@@ -7,14 +7,14 @@ export const section = css`
   background-color: ${grey5};
   display: grid;
   grid-auto-flow: column;
-  grid-gap: 65px;
+  grid-gap: 64px;
 `;
 
 export const subTitle = css`
   color: ${grey40};
   font-size: 12px;
   text-transform: uppercase;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   ${monospaceRegular};
 `;
 

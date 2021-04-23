@@ -14,11 +14,6 @@ import {
   greenPlain,
 } from '@appConstants/colors';
 
-export const container = css`
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-`;
-
 export const labelWrapper = css`
   padding-right: 20px;
   text-align: end;
@@ -62,7 +57,7 @@ export const filePathStatus = css<{ status: StatusEnum }>`
 export const filePathContainer = css<{ status?: StatusEnum }>`
   align-items: center;
   background-color: ${whitePlain};
-  border: 2px solid ${({ status }) => status ? getStatusColor(status): borderGrey};
+  border: 2px solid ${({ status }) => (status ? getStatusColor(status) : borderGrey)};
   border-radius: 5px;
   color: ${grey80};
   display: flex;

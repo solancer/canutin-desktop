@@ -28,7 +28,7 @@ export interface ScrollViewProps {
 const ScrollView = ({ title, subTitle, children }: ScrollViewProps) => (
   <Container>
     <Header>
-      <Title subTitle={!!subTitle}>{title}</Title>
+      <Title>{title}</Title>
       {subTitle && <SubTitle>{subTitle}</SubTitle>}
     </Header>
     <Main>{children}</Main>

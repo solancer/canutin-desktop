@@ -12,7 +12,7 @@ export const container = css<NavItemProps & { active: boolean | number }>`
   font-size: 13px;
   grid-gap: ${({ toggled }) => (toggled ? '16px' : 'none')};
   grid-template-columns: max-content auto;
-  padding: 12px 24px;
+  padding: 16px 24px;
   text-decoration: none;
   stroke: ${({ active }) => (active ? bluePlain : grey30)};
 

@@ -16,6 +16,6 @@ export const subTitle = css`
   color: ${grey40};
   font-size: 12px;
   text-transform: uppercase;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   ${monospaceRegular};
 `;

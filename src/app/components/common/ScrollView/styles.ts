@@ -30,11 +30,10 @@ export const header = css`
   box-sizing: border-box;
 `;
 
-export const title = css<{ subTitle: boolean }>`
+export const title = css`
   ${componentConstraints};
   ${sansSerifBold};
   font-size: 24px;
-  padding-bottom: ${({ subTitle }) => (subTitle ? '5px' : '25px')};
   padding-left: 64px;
   padding-right: 64px;
 `;

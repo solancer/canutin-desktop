@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { formAlertContainer, container, title, description } from './styles';
+import FieldContainer from '@components/common/Form/FieldContainer';
 
-const FormAlertContainer = styled.div`${formAlertContainer}`;
+import { container, title, description } from './styles';
+
 const Container = styled.div`${container}`;
 const Title = styled.div`${title}`;
 const Description = styled.div`${description}`;
@@ -15,12 +16,12 @@ interface FormAlertProps {
 
 const FormAlert = ({ title, description }: FormAlertProps) => {
   return (
-    <FormAlertContainer>
+    <FieldContainer>
       <Container>
         <Title>{title}</Title>
         <Description>{description}</Description>
       </Container>
-    </FormAlertContainer>
+    </FieldContainer>
   );
 };
 

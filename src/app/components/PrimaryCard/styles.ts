@@ -7,7 +7,7 @@ const componentPadding = css`
   padding: 20px;
 `;
 
-export const container = css`
+export const container = css<{ disabled?: boolean }>`
   display: grid;
   grid-gap: 8px;
   border: none;
@@ -28,15 +28,23 @@ export const container = css`
     transform: scale(1);
   }
 
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      filter: grayscale(1);
+      pointer-events: none;
+      opacity: 0.75;
+    `}
+
   -webkit-user-select: none;
 `;
 
-export const header = css<{ disabled?: boolean }>`
+export const header = css`
   align-items: center;
-  background-color: ${({ disabled }) => (disabled ? grey5 : blueLight)};
   display: flex;
   justify-content: flex-start;
   ${componentPadding}
+  background-color: ${blueLight};
 `;
 
 export const body = css`

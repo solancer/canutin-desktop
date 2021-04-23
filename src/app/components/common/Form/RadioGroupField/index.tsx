@@ -1,19 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { container, label, valuesContainer, inputGroup, valueLabel } from './styles';
+import Field from '@components/common/Form/Field';
 
-const Container = styled.div`
-  ${container}
+import { radioGroupContainer, inputContainer, inputRadio, valueLabel } from './styles';
+
+const RadioGroupContainer = styled.ul`
+  ${radioGroupContainer}
 `;
-const Label = styled.label`
-  ${label}
+const InputContainer = styled.li`
+  ${inputContainer}
 `;
-const ValuesContainer = styled.div`
-  ${valuesContainer}
-`;
-const InputGroup = styled.div`
-  ${inputGroup}
+const InputRadio = styled.input<any>`
+  ${inputRadio}
 `;
 const ValueLabel = styled.label`
   ${valueLabel}
@@ -26,7 +25,7 @@ type RefReturn =
   | null
   | undefined;
 
-export interface RadioInputGroupProps {
+export interface RadioGroupFieldProps {
   label: string;
   name: string;
   values: string[];
@@ -35,35 +34,34 @@ export interface RadioInputGroupProps {
   required?: boolean;
 }
 
-const RadioInputGroup = ({
+const RadioGroupField = ({
   label,
   name,
   values,
   onSelectOption,
   register,
   required = false,
-}: RadioInputGroupProps) => (
-  <Container>
-    <Label htmlFor={name}>{label}</Label>
-    <ValuesContainer>
+}: RadioGroupFieldProps) => (
+  <Field label={label} name={name}>
+    <RadioGroupContainer>
       {values.map((value, index) => {
         const inputId = `${value}-${index}`;
         return (
-          <InputGroup>
-            <input
+          <InputContainer key={index}>
+            <InputRadio
               type="radio"
               id={inputId}
-              onClick={onSelectOption ? () => onSelectOption(value) : undefined}
+              onClick={onSelectOption ? () => onSelectOption(value) : () => {}}
               name={name}
               value={value}
               ref={register ? register({ required }) : null}
             />
             <ValueLabel htmlFor={inputId}>{value}</ValueLabel>
-          </InputGroup>
+          </InputContainer>
         );
       })}
-    </ValuesContainer>
-  </Container>
+    </RadioGroupContainer>
+  </Field>
 );
 
-export default RadioInputGroup;
+export default RadioGroupField;

@@ -3,9 +3,13 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 
-import RadioInputGroup from '@components/common/RadioInputGroup';
-import SelectInput, { SelectInputValue } from '@components/common/SelectInput';
-import Input from '@components/common/Input';
+import Field from '@components/common/Form/Field';
+import RadioGroupField from '@components/common/Form/RadioGroupField';
+import SelectField, { SelectFieldValue } from '@components/common/Form/SelectField';
+import InputTextField from '@components/common/Form/InputTextField';
+import InputText from '@components/common/Form/InputText';
+import InlineCheckbox from '@components/common/Form/Checkbox';
+import FormFooter from '@components/common/Form/FormFooter';
 
 import { DB_GET_ACCOUNTS_ACK } from '@constants/events';
 import { ACCOUNT, ASSET } from '@appConstants/misc';
@@ -19,23 +23,16 @@ import AccountIpc from '@app/data/account.ipc';
 import {
   formContainer,
   form,
-  formFooter,
   formSubmitButton,
-  balanceContainer,
-  balanceSubContainer,
-  customInputContainer,
-  checkboxContainer,
-  checkbox,
-  checkboxLabel,
-  customInputLabel,
+  toggableInputContainer,
   hrDivider,
 } from './styles';
 import { AccountType } from '@database/entities';
 
 const accountTypesUnflattened = accountTypes.map(({ accountTypes }) => accountTypes);
-const accountTypesValues: SelectInputValue[] = accountTypesUnflattened.flat();
+const accountTypesValues: SelectFieldValue[] = accountTypesUnflattened.flat();
 
-const assetTypesValues: SelectInputValue[] = [];
+const assetTypesValues: SelectFieldValue[] = [];
 const assetTypes = Object.values(AssetTypeEnum);
 assetTypes.forEach(assetType => assetTypesValues.push({ name: assetType, label: assetType }));
 
@@ -45,34 +42,12 @@ const FormContainer = styled.div`
 const Form = styled.form`
   ${form}
 `;
-const FormFooter = styled.div`
-  ${formFooter}
-`;
 const FormSubmitButton = styled.button`
   ${formSubmitButton}
 `;
-const BalanceContainer = styled.div`
-  ${balanceContainer}
+const ToggableInputContainer = styled.div`
+  ${toggableInputContainer}
 `;
-const BalanceSubContainer = styled.div`
-  ${balanceSubContainer}
-`;
-const CustomInputLabel = styled.label`
-  ${customInputLabel}
-`;
-const CustomInputContainer = styled.div`
-  ${customInputContainer}
-`;
-const CheckboxContainer = styled.div`
-  ${checkboxContainer}
-`;
-const Checkbox = styled.input`
-  ${checkbox}
-`;
-const CheckboxLabel = styled.label`
-  ${checkboxLabel}
-`;
-
 const Hr = styled.hr`
   ${hrDivider}
 `;
@@ -83,7 +58,7 @@ export interface AddAccountAssetFormProps {
 
 const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) => {
   const [accountOrAsset, setAccountOrAsset] = useState('');
-  const [accounts, setAccounts] = useState<SelectInputValue[]>([]);
+  const [accounts, setAccounts] = useState<SelectFieldValue[]>([]);
   const {
     handleSubmit: handleAssetSubmit,
     register: registerAssetField,
@@ -97,7 +72,7 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
   } = useForm({ mode: 'onChange' });
 
   const onSubmitAsset = async (asset: NewAssetSubmitType) => {
-    const newAssetAccount = asset.account === "" ? undefined : asset.account;
+    const newAssetAccount = asset.account === '' ? undefined : asset.account;
     AssetIpc.createAsset({ ...asset, account: newAssetAccount });
   };
 
@@ -143,11 +118,11 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
   return (
     <FormContainer>
       <Form onSubmit={formSubmit}>
-        <RadioInputGroup
+        <RadioGroupField
           label="Add new"
           name="accountOrAsset"
           values={[ACCOUNT, ASSET]}
-          onSelectOption={value => {
+          onSelectOption={(value : string) => {
             setAccountOrAsset(value);
             onRadioButtonChange(value);
             assetValue = 0;
@@ -155,66 +130,58 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
         />
         {shouldDisplayAccount && (
           <>
-            <SelectInput
+            <SelectField
               label="Account Type"
               name="accountType"
               values={accountTypesValues}
               register={registerAccountField}
               required
             />
-            <Input label="Name" name="name" register={registerAccountField} />
-            <Input
+            <InputTextField label="Name" name="name" register={registerAccountField} />
+            <InputTextField
               label="Official name"
               name="officialName"
               optional
               register={registerAccountField}
             />
-            <Input
+            <InputTextField
               label="Institution"
               name="institution"
               optional
               register={registerAccountField}
             />
-            <BalanceContainer>
-              <CustomInputLabel htmlFor="balance">Balance</CustomInputLabel>
-              <BalanceSubContainer>
-                <CustomInputContainer disabled={autoCalculate}>
-                  <input
-                    readOnly={autoCalculate}
-                    name="balance"
-                    ref={registerAccountField({ validate: v => autoCalculate || v !== '' })}
-                  />
-                </CustomInputContainer>
-                <CheckboxContainer>
-                  <Checkbox
-                    type="checkbox"
-                    name="autoCalculate"
-                    id="autoCalculate"
-                    ref={registerAccountField}
-                  />
-                  <CheckboxLabel htmlFor="autoCalculate">
-                    Auto-calculate from transactions
-                  </CheckboxLabel>
-                </CheckboxContainer>
-              </BalanceSubContainer>
-            </BalanceContainer>
+            <Field label="Balance" name="balance">
+              <ToggableInputContainer>
+                <InputText
+                  name="balance"
+                  disabled={autoCalculate}
+                  setRef={registerAccountField({ validate: (v) => autoCalculate || (v !== '') })}
+                />
+                <InlineCheckbox
+                  name="autoCalculate"
+                  id="autoCalculate"
+                  label="Auto-calculate from transactions"
+                  register={registerAccountField}
+                />
+              </ToggableInputContainer>
+            </Field>
           </>
         )}
         {shouldDisplayAsset && (
           <>
-            <SelectInput
+            <SelectField
               label="Asset Type"
               name="assetType"
               values={assetTypesValues}
               register={registerAssetField}
               required
             />
-            <Input label="Name" name="name" register={registerAssetField} required />
-            <Input label="Quantity" name="quantity" register={registerAssetField} required />
-            <Input label="Cost" name="cost" register={registerAssetField} required />
-            <Input label="Value" name="value" value={`$ ${assetValue}`} disabled />
+            <InputTextField label="Name" name="name" register={registerAssetField} required />
+            <InputTextField label="Quantity" name="quantity" register={registerAssetField} required />
+            <InputTextField label="Cost" name="cost" register={registerAssetField} required />
+            <InputTextField label="Value" name="value" value={`$ ${assetValue}`} disabled />
             <Hr />
-            <SelectInput
+            <SelectField
               optional
               label="Account"
               name="account"

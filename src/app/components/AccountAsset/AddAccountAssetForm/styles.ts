@@ -11,13 +11,14 @@ import {
   whitePlain,
 } from '@appConstants/colors';
 import { sansSerifBold, sansSerifRegular } from '@appConstants/fonts';
+import { inputFocusColor } from '@appConstants/inputs';
 
 export const formContainer = css`
   border: 1px solid ${borderGrey};
   border-radius: 4px;
   display: grid;
   grid-row-gap: 8px;
-  padding-top: 10px;
+  padding-top: 12px;
 `;
 
 export const form = css`
@@ -31,30 +32,38 @@ export const formFooter = css`
   background-color: ${grey7};
   display: flex;
   justify-content: flex-end;
-  height: 55px;
   margin-top: 8px;
+  padding: 12px;
 `;
 
 export const formSubmitButton = css<{ disabled: boolean }>`
   ${sansSerifBold};
-  background-color: ${({ disabled }) => (disabled ? grey20 : bluePlain)};
+  background-color: ${bluePlain};
   border: none;
-  border-radius: 3px;
-  color: ${({ disabled }) => (disabled ? grey30 : whitePlain)};
+  border-radius: 4px;
+  color: ${whitePlain};
   cursor: pointer;
   height: 40px;
   margin-right: 10px;
-  padding: 12px 28px;
+  padding: 12px 32px;
 
   &:focus {
     outline: none;
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      background-color: ${grey20};
+      color: ${grey30};
+      cursor: default;
+    `}
 `;
 
-export const balanceContainer = css`
-  align-items: center;
+export const toggableInputContainer = css`
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: minmax(96px, 1fr) 2fr;
+  grid-gap: 8px;
 `;
 
 export const balanceSubContainer = css`
@@ -62,49 +71,28 @@ export const balanceSubContainer = css`
   display: flex;
 `;
 
-export const customInputLabel = css`
-  ${sansSerifBold};
-  font-size: 12px;
-  color: ${grey70};
-  padding-right: 20px;
-  text-align: end;
-`;
-
-export const customInputContainer = css<{ disabled: boolean }>`
-  align-items: center;
-
-  input {
-    background-color: ${({ disabled }) => (disabled ? grey10 : whitePlain)};
-    border: 2px solid ${borderGrey};
-    border-radius: 5px;
-    padding: 10px;
-
-    &:focus {
-      outline: none;
-    }
-  }
-`;
-
-export const checkboxContainer = css`
+export const checkboxContainerLabel = css`
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: max-content auto;
   align-items: center;
   border: 2px solid ${borderGrey};
-  border-radius: 5px;
-  margin-left: 12px;
-  padding: 8px;
+  border-radius: 4px;
+  padding: 12px 8px;
 `;
 
 export const checkbox = css`
   background-color: ${whitePlain};
-
-  &:focus {
-    outline: none;
-  }
+  margin: 0;
+  ${inputFocusColor};
 `;
 
 export const checkboxLabel = css`
   ${sansSerifRegular};
   font-size: 13px;
   color: ${grey90};
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const hrDivider = css`
