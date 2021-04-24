@@ -1,280 +1,287 @@
-import { BalancegGroupEnum } from '../enums/balancegGroup.enum';
+import { BalanceGroupEnum } from '../enums/balancegGroup.enum';
 
 export const accountTypes = [
   {
-    balanceGroup: BalancegGroupEnum.CASH,
+    balanceGroup: BalanceGroupEnum.CASH,
     accountTypes: [
       {
-        label: "Checking",
-        name: "checking",
+        label: 'Checking',
+        value: 'checking',
       },
       {
-        label: "Savings",
-        name: "savings"
+        label: 'Savings',
+        value: 'savings',
       },
       {
-        label: "Cash-only HSA (US)",
-        name: "cash hsa"
+        label: 'Cash-only HSA (US)',
+        value: 'cash hsa',
       },
       {
-        label: "Certificate of deposit",
-        name: "cd"
+        label: 'Certificate of deposit',
+        value: 'cd',
       },
       {
-        label: "Money market",
-        name: "money market"
+        label: 'Money market',
+        value: 'money market',
       },
       {
-        label: "PayPal",
-        name: "paypal"
+        label: 'PayPal',
+        value: 'paypal',
       },
       {
-        label: "Prepaid debit card",
-        name: "prepaid"
+        label: 'Prepaid debit card',
+        value: 'prepaid',
       },
       {
-        label: "Cash management",
-        name: "cash management"
+        label: 'Cash management',
+        value: 'cash management',
       },
       {
-        label: "EBT (US)",
-        name: "ebt"
-      }
-    ]
+        label: 'EBT (US)',
+        value: 'ebt',
+      },
+    ],
   },
   {
-    balanceGroup: BalancegGroupEnum.DEBT,
+    balanceGroup: BalanceGroupEnum.DEBT,
     accountTypes: [
       {
-        label: "Credit card",
-        name: "credit card",
+        label: 'Credit card',
+        value: 'credit card',
       },
       {
-        label: "Auto loan",
-        name: "auto"
+        label: 'Auto loan',
+        value: 'auto',
       },
       {
-        label: "Commercial loan",
-        name: "commercial"
+        label: 'Commercial loan',
+        value: 'commercial',
       },
       {
-        label: "Consumer loan",
-        name: "consumer"
+        label: 'Consumer loan',
+        value: 'consumer',
       },
       {
-        label: "HELOC",
-        name: "home equity"
+        label: 'HELOC',
+        value: 'home equity',
       },
       {
-        label: "General loan",
-        name: "loan"
+        label: 'General loan',
+        value: 'loan',
       },
       {
-        label: "Mortgage loan",
-        name: "mortgage"
+        label: 'Mortgage loan',
+        value: 'mortgage',
       },
       {
-        label: "Pre-approved overdraft",
-        name: "overdraft"
+        label: 'Pre-approved overdraft',
+        value: 'overdraft',
       },
       {
-        label: "Pre-approved line of credit",
-        name: "line of credit"
+        label: 'Pre-approved line of credit',
+        value: 'line of credit',
       },
       {
-        label: "Student loan",
-        name: "student"
+        label: 'Student loan',
+        value: 'student',
       },
       {
-        label: "Other loan",
-        name: "other"
-      }
-    ]
+        label: 'Other loan',
+        value: 'other',
+      },
+    ],
   },
   {
-    balanceGroup: BalancegGroupEnum.INVESTMENT,
+    balanceGroup: BalanceGroupEnum.INVESTMENT,
     accountTypes: [
       {
-        label: "529 (US)",
-        name: "529",
+        label: '529 (US)',
+        value: '529',
       },
       {
-        label: "401a (US)",
-        name: "401a"
+        label: '401a (US)',
+        value: '401a',
       },
       {
-        label: "401k (US)",
-        name: "401k"
+        label: '401k (US)',
+        value: '401k',
       },
       {
-        label: "403b (US)",
-        name: "403b"
+        label: '403b (US)',
+        value: '403b',
       },
       {
-        label: "457b (US)",
-        name: "457b"
+        label: '457b (US)',
+        value: '457b',
       },
       {
-        label: "Brokerage",
-        name: "brokerage"
+        label: 'Brokerage',
+        value: 'brokerage',
       },
       {
-        label: "ISA (UK)",
-        name: "cash isa"
+        label: 'ISA (UK)',
+        value: 'cash isa',
       },
       {
-        label: "ESA (US)",
-        name: "education savings account"
+        label: 'ESA (US)',
+        value: 'education savings account',
       },
       {
-        label: "Fixed annuity",
-        name: "fixed annuity"
+        label: 'Fixed annuity',
+        value: 'fixed annuity',
       },
       {
-        label: "GIC (Canada)",
-        name: "gic"
+        label: 'GIC (Canada)',
+        value: 'gic',
       },
       {
-        label: "HRA (US)",
-        name: "health reimbursement arrangement"
+        label: 'HRA (US)',
+        value: 'health reimbursement arrangement',
       },
       {
-        label: "HSA (US)",
-        name: "hsa"
+        label: 'HSA (US)',
+        value: 'hsa',
       },
       {
-        label: "IRA (US)",
-        name: "ira"
+        label: 'IRA (US)',
+        value: 'ira',
       },
       {
-        label: "ISA (UK)",
-        name: "isa"
+        label: 'ISA (UK)',
+        value: 'isa',
       },
       {
-        label: "Keogh self-employed retirement plan (US)",
-        name: "keogh"
+        label: 'Keogh self-employed retirement plan (US)',
+        value: 'keogh',
       },
       {
-        label: "LIF (Canada)",
-        name: "lif"
+        label: 'LIF (Canada)',
+        value: 'lif',
       },
       {
-        label: "LIRA (Canada)",
-        name: "lira"
+        label: 'LIRA (Canada)',
+        value: 'lira',
       },
       {
-        label: "LRIF (Canada)",
-        name: "lrif"
+        label: 'LRIF (Canada)',
+        value: 'lrif',
       },
       {
-        label: "LRSP (Canada)",
-        name: "lrsp"
+        label: 'LRSP (Canada)',
+        value: 'lrsp',
       },
       {
-        label: "Mutual fund",
-        name: "mutual fund"
+        label: 'Mutual fund',
+        value: 'mutual fund',
       },
       {
-        label: "Non-taxable brokerage account",
-        name: "non-taxable brokerage account"
+        label: 'Non-taxable brokerage account',
+        value: 'non-taxable brokerage account',
       },
       {
-        label: "Pension",
-        name: "pension"
+        label: 'Pension',
+        value: 'pension',
       },
       {
-        label: "PRIF (Canada)",
-        name: "prif"
+        label: 'PRIF (Canada)',
+        value: 'prif',
       },
       {
-        label: "Profit share plan",
-        name: "profit share plan"
+        label: 'Profit share plan',
+        value: 'profit share plan',
       },
       {
-        label: "Qualifying share account",
-        name: "qshr"
+        label: 'Qualifying share account',
+        value: 'qshr',
       },
       {
-        label: "RSDP (Canada)",
-        name: "rdsp"
+        label: 'RSDP (Canada)',
+        value: 'rdsp',
       },
       {
-        label: "RESP (Canada)",
-        name: "resp"
+        label: 'RESP (Canada)',
+        value: 'resp',
       },
       {
-        label: "Retirement",
-        name: "retirement"
+        label: 'Retirement',
+        value: 'retirement',
       },
       {
-        label: "RLIF (Canada)",
-        name: "rlif"
+        label: 'RLIF (Canada)',
+        value: 'rlif',
       },
       {
-        label: "Roth IRA (US)",
-        name: "roth"
+        label: 'Roth IRA (US)',
+        value: 'roth',
       },
       {
-        label: "Roth 401(k) (US)",
-        name: "roth 401k"
+        label: 'Roth 401(k) (US)',
+        value: 'roth 401k',
       },
       {
-        label: "RRIF (Canada)",
-        name: "rrif"
+        label: 'RRIF (Canada)',
+        value: 'rrif',
       },
       {
-        label: "RRSP (Canada)",
-        name: "rrsp"
+        label: 'RRSP (Canada)',
+        value: 'rrsp',
       },
       {
-        label: "SARSEP (US)",
-        name: "sarsep"
+        label: 'SARSEP (US)',
+        value: 'sarsep',
       },
       {
-        label: "SEP IRA (US)",
-        name: "sep ira"
+        label: 'SEP IRA (US)',
+        value: 'sep ira',
       },
       {
-        label: "Simple IRA (US)",
-        name: "simple ira"
+        label: 'Simple IRA (US)',
+        value: 'simple ira',
       },
       {
-        label: "SIPP (UK)",
-        name: "sipp"
+        label: 'SIPP (UK)',
+        value: 'sipp',
       },
       {
-        label: "Stock plan",
-        name: "stock plan"
+        label: 'Stock plan',
+        value: 'stock plan',
       },
       {
-        label: "TFSA (Canada)",
-        name: "tfsa"
+        label: 'TFSA (Canada)',
+        value: 'tfsa',
       },
       {
-        label: "Trust",
-        name: "trust"
+        label: 'Trust',
+        value: 'trust',
       },
       {
-        label: "UGMA (US)",
-        name: "ugma"
+        label: 'UGMA (US)',
+        value: 'ugma',
       },
       {
-        label: "UTMA (US)",
-        name: "utma"
+        label: 'UTMA (US)',
+        value: 'utma',
       },
       {
-        label: "Variable annuity",
-        name: "variable annuity"
-      }
-    ]
+        label: 'Variable annuity',
+        value: 'variable annuity',
+      },
+    ],
   },
   {
-    balanceGroup: BalancegGroupEnum.OTHER_ASSETS,
+    balanceGroup: BalanceGroupEnum.OTHER_ASSETS,
     accountTypes: [
       {
-        label: "Other",
-        name: "other",
-      }
-    ]
-  }
+        label: 'Other',
+        value: 'other',
+      },
+    ],
+  },
 ];
+
+export const balanceGroupLabels = {
+  [BalanceGroupEnum.CASH]: 'Cash',
+  [BalanceGroupEnum.DEBT]: 'Debt',
+  [BalanceGroupEnum.INVESTMENT]: 'Investment',
+  [BalanceGroupEnum.OTHER_ASSETS]: 'Other assets',
+};

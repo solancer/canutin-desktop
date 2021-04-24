@@ -1,6 +1,6 @@
 import { Entity, Column, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 import { Base } from './base.entity';
-import { BalancegGroupEnum } from '../../enums/balancegGroup.enum';
+import { BalanceGroupEnum } from '../../enums/balancegGroup.enum';
 import { BalanceStatement } from './balanceStatement.entity';
 import { Asset } from './asset.entity';
 import { Transaction } from './transaction.entity';
@@ -22,7 +22,7 @@ export class Account extends Base {
   closed: boolean;
 
   @Column()
-  balanceGroup: BalancegGroupEnum;
+  balanceGroup: BalanceGroupEnum;
 
   @OneToMany(() => BalanceStatement, balanceStatement => balanceStatement.account)
   balanceStatements?: BalanceStatement[];

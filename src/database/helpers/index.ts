@@ -1,9 +1,9 @@
-import { BalancegGroupEnum } from '../../enums/balancegGroup.enum';
+import { BalanceGroupEnum } from '../../enums/balancegGroup.enum';
 import { AssetTypeEnum } from '../../enums/assetType.enum';
 import { accountTypes } from '../../constants/accountTypes';
 
-export const getBalanceGroupByAssetType = (assetType: AssetTypeEnum): BalancegGroupEnum => {
-    let balanceGroup = BalancegGroupEnum.CASH;
+export const getBalanceGroupByAssetType = (assetType: AssetTypeEnum): BalanceGroupEnum => {
+    let balanceGroup = BalanceGroupEnum.CASH;
     const cashBalanceGroup = [AssetTypeEnum.CASH];
     const investmentBalanceGroup = [AssetTypeEnum.SECURITY, AssetTypeEnum.CRYPTOCURRENCY];
     const otherBalanceGroup = [
@@ -15,18 +15,18 @@ export const getBalanceGroupByAssetType = (assetType: AssetTypeEnum): BalancegGr
       AssetTypeEnum.OTHER,
     ];
 
-    if (cashBalanceGroup.includes(assetType)) balanceGroup = BalancegGroupEnum.CASH;
-    if (investmentBalanceGroup.includes(assetType)) balanceGroup = BalancegGroupEnum.INVESTMENT;
-    if (otherBalanceGroup.includes(assetType)) balanceGroup = BalancegGroupEnum.OTHER_ASSETS;
+    if (cashBalanceGroup.includes(assetType)) balanceGroup = BalanceGroupEnum.CASH;
+    if (investmentBalanceGroup.includes(assetType)) balanceGroup = BalanceGroupEnum.INVESTMENT;
+    if (otherBalanceGroup.includes(assetType)) balanceGroup = BalanceGroupEnum.OTHER_ASSETS;
 
     return balanceGroup;
 };
 
-export const getBalanceGroupByAccountType = (accountType: string): BalancegGroupEnum => {
-  let result: BalancegGroupEnum = BalancegGroupEnum.CASH;
+export const getBalanceGroupByAccountType = (accountType: string): BalanceGroupEnum => {
+  let result: BalanceGroupEnum = BalanceGroupEnum.CASH;
 
   accountTypes.find(({ balanceGroup, accountTypes }) => {
-    const found = accountTypes.find(({ name }) => name === accountType);
+    const found = accountTypes.find(({ value }) => value === accountType);
     if (found) result = balanceGroup;
   });
 

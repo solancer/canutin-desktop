@@ -1,4 +1,4 @@
-export enum BalancegGroupEnum {
+export enum BalanceGroupEnum {
   CASH,
   DEBT,
   INVESTMENT,

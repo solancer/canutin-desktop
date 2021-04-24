@@ -5,7 +5,7 @@ import { ipcRenderer, IpcRendererEvent } from 'electron';
 
 import Field from '@components/common/Form/Field';
 import RadioGroupField from '@components/common/Form/RadioGroupField';
-import SelectField, { SelectFieldValue } from '@components/common/Form/SelectField';
+import SelectField, { GroupedValue, SelectFieldValue } from '@components/common/Form/SelectField';
 import InputTextField from '@components/common/Form/InputTextField';
 import InputText from '@components/common/Form/InputText';
 import InlineCheckbox from '@components/common/Form/Checkbox';
@@ -14,27 +14,24 @@ import FormFooter from '@components/common/Form/FormFooter';
 import { DB_GET_ACCOUNTS_ACK } from '@constants/events';
 import { ACCOUNT, ASSET } from '@appConstants/misc';
 import { AssetTypeEnum } from '../../../../enums/assetType.enum';
-import { accountTypes } from '@constants/accountTypes';
+import { BalanceGroupEnum } from '../../../../enums/balancegGroup.enum';
+import { accountTypes, balanceGroupLabels } from '@constants/accountTypes';
 import { NewAssetSubmitType } from '../../../../types/asset.type';
 import { NewAccountType } from '../../../../types/account.type';
 import AssetIpc from '@app/data/asset.ipc';
 import AccountIpc from '@app/data/account.ipc';
 
-import {
-  formContainer,
-  form,
-  formSubmitButton,
-  toggableInputContainer,
-  hrDivider,
-} from './styles';
-import { AccountType } from '@database/entities';
+import { formContainer, form, formSubmitButton, toggableInputContainer, hrDivider } from './styles';
+import { Account } from '@database/entities';
 
-const accountTypesUnflattened = accountTypes.map(({ accountTypes }) => accountTypes);
-const accountTypesValues: SelectFieldValue[] = accountTypesUnflattened.flat();
+const accountGroupedValues = accountTypes.map(({ balanceGroup, accountTypes }) => ({
+  options: accountTypes,
+  label: balanceGroupLabels[balanceGroup],
+}));
 
 const assetTypesValues: SelectFieldValue[] = [];
 const assetTypes = Object.values(AssetTypeEnum);
-assetTypes.forEach(assetType => assetTypesValues.push({ name: assetType, label: assetType }));
+assetTypes.forEach(assetType => assetTypesValues.push({ value: assetType, label: assetType }));
 
 const FormContainer = styled.div`
   ${formContainer}
@@ -58,17 +55,19 @@ export interface AddAccountAssetFormProps {
 
 const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) => {
   const [accountOrAsset, setAccountOrAsset] = useState('');
-  const [accounts, setAccounts] = useState<SelectFieldValue[]>([]);
+  const [accounts, setAccounts] = useState<GroupedValue[]>([]);
   const {
     handleSubmit: handleAssetSubmit,
     register: registerAssetField,
     watch: watchAssetField,
     formState: assetFormState,
+    control: controlAssetField,
   } = useForm({ mode: 'onChange' });
   const {
     handleSubmit: handleAccountSubmit,
     register: registerAccountField,
     watch: watchAccountField,
+    control: controlAccountField,
   } = useForm({ mode: 'onChange' });
 
   const onSubmitAsset = async (asset: NewAssetSubmitType) => {
@@ -83,8 +82,17 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
   useEffect(() => {
     AccountIpc.getAccounts();
 
-    ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: AccountType[]) => {
-      const accountsValues = accounts.map(({ name, id }) => ({ name: id.toString(), label: name }));
+    ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
+      const accountsValues : GroupedValue[] = [];
+      
+      Object.keys(balanceGroupLabels).forEach(balanceGroup => {
+        accountsValues.push({
+          label: balanceGroupLabels[parseInt(balanceGroup) as BalanceGroupEnum],
+          options: accounts
+            .filter(account => account.balanceGroup === parseInt(balanceGroup))
+            .map(({ name, id }) => ({ value: id.toString(), label: name })),
+        });
+      });
       setAccounts(accountsValues);
     });
 
@@ -92,6 +100,10 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
       ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
     };
   }, []);
+
+  useEffect(() => {
+    AccountIpc.getAccounts();
+  }, [accountOrAsset])
 
   const shouldDisplay = accountOrAsset !== '';
   const shouldDisplayAccount = shouldDisplay && accountOrAsset === ACCOUNT;
@@ -122,7 +134,7 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
           label="Add new"
           name="accountOrAsset"
           values={[ACCOUNT, ASSET]}
-          onSelectOption={(value : string) => {
+          onSelectOption={(value: string) => {
             setAccountOrAsset(value);
             onRadioButtonChange(value);
             assetValue = 0;
@@ -133,9 +145,9 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
             <SelectField
               label="Account Type"
               name="accountType"
-              values={accountTypesValues}
-              register={registerAccountField}
+              groupedOptions={accountGroupedValues}
               required
+              control={controlAccountField}
             />
             <InputTextField label="Name" name="name" register={registerAccountField} />
             <InputTextField
@@ -155,7 +167,7 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
                 <InputText
                   name="balance"
                   disabled={autoCalculate}
-                  setRef={registerAccountField({ validate: (v) => autoCalculate || (v !== '') })}
+                  setRef={registerAccountField({ validate: v => autoCalculate || v !== '' })}
                 />
                 <InlineCheckbox
                   name="autoCalculate"
@@ -172,12 +184,17 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
             <SelectField
               label="Asset Type"
               name="assetType"
-              values={assetTypesValues}
-              register={registerAssetField}
+              options={assetTypesValues}
+              control={controlAssetField}
               required
             />
             <InputTextField label="Name" name="name" register={registerAssetField} required />
-            <InputTextField label="Quantity" name="quantity" register={registerAssetField} required />
+            <InputTextField
+              label="Quantity"
+              name="quantity"
+              register={registerAssetField}
+              required
+            />
             <InputTextField label="Cost" name="cost" register={registerAssetField} required />
             <InputTextField label="Value" name="value" value={`$ ${assetValue}`} disabled />
             <Hr />
@@ -185,8 +202,8 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
               optional
               label="Account"
               name="account"
-              values={accounts}
-              register={registerAssetField}
+              groupedOptions={accounts}
+              control={controlAccountField}
             />
           </>
         )}

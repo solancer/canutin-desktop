@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 import { Base } from './base.entity';
-import { BalancegGroupEnum } from '../../enums/balancegGroup.enum';
+import { BalanceGroupEnum } from '../../enums/balancegGroup.enum';
 import { Account } from './account.entity';
 import { AssetType } from './assetType.entity';
 import { getBalanceGroupByAssetType } from '../helpers';
@@ -21,7 +21,7 @@ export class Asset extends Base {
   assetType: AssetType;
 
   @Column()
-  balanceGroup: BalancegGroupEnum;
+  balanceGroup: BalanceGroupEnum;
 
   @Column({ nullable: true })
   sold?: Date;
