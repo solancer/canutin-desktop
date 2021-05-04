@@ -1,8 +1,8 @@
-import { Entity, Column, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { Base } from './base.entity';
 import { Account } from './account.entity';
 import { Budget } from './budget.entity';
-import { TransactionCategory } from './transactionCategory.entity';
+import { TransactionSubCategory } from './transactionSubCategory.entity';
 
 @Entity()
 export class Transaction extends Base {
@@ -24,11 +24,15 @@ export class Transaction extends Base {
   @ManyToOne(() => Budget, budget => budget.transactions)
   budget?: Budget;
 
-  @OneToOne(() => TransactionCategory, transactionCategory => transactionCategory.transaction, {
-    cascade: true,
-  })
+  @ManyToOne(
+    () => TransactionSubCategory,
+    transactionSubCategory => transactionSubCategory.transactions,
+    {
+      cascade: true,
+    }
+  )
   @JoinColumn()
-  category: TransactionCategory;
+  category: TransactionSubCategory;
 
   constructor(
     description: string,
@@ -36,7 +40,7 @@ export class Transaction extends Base {
     amount: number,
     excludeFromTotals: boolean,
     account: Account,
-    category: TransactionCategory,
+    category: TransactionSubCategory,
     budget?: Budget
   ) {
     super();

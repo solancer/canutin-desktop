@@ -32,6 +32,7 @@ import {
 import { connectAndSaveDB, findAndConnectDB } from './helpers/database.helper';
 import { importSourceData, loadFromCanutinFile } from './helpers/importSource.helper';
 import { AssetRepository } from '@database/repositories/asset.repository';
+import seedCategories from '@database/seed/seedCategories';
 import { AccountRepository } from '@database/repositories/account.repository';
 import { NewAssetType } from '../types/asset.type';
 import { NewAccountType } from '../types/account.type';
@@ -46,6 +47,7 @@ const setupEvents = async () => {
       });
 
       if (filePath) await connectAndSaveDB(win, filePath);
+      await seedCategories();
       win.webContents.send(NEW_DATABASE);
     }
   });

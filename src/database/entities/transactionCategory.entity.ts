@@ -1,11 +1,10 @@
-import { Entity, Column, OneToMany, OneToOne } from 'typeorm';
+import { Entity, Column, OneToMany, Unique } from 'typeorm';
 import { Base } from './base.entity';
 import { TransactionSubCategory } from './transactionSubCategory.entity';
-import { Transaction } from './transaction.entity';
 
 @Entity()
 export class TransactionCategory extends Base {
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @OneToMany(
@@ -14,17 +13,9 @@ export class TransactionCategory extends Base {
   )
   transactionSubCategories?: TransactionSubCategory[];
 
-  @OneToOne(() => Transaction, transaction => transaction.category)
-  transaction?: Transaction;
-
-  constructor(
-    name: string,
-    transactionSubCategories?: TransactionSubCategory[],
-    transaction?: Transaction
-  ) {
+  constructor(name: string, transactionSubCategories?: TransactionSubCategory[]) {
     super();
     this.name = name;
     this.transactionSubCategories = transactionSubCategories;
-    this.transaction = transaction;
   }
 }

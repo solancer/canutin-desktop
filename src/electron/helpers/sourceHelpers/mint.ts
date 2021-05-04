@@ -1,4 +1,5 @@
 import { CanutinJsonType } from '@appTypes/canutin';
+import mintCategories from '@database/helpers/importResources/mintCategories';
 
 export interface MintCsvEntryType {
   Date: string;
@@ -6,7 +7,7 @@ export interface MintCsvEntryType {
   'Original Description': string;
   Amount: number;
   'Transaction Type': 'credit' | 'debit';
-  Category: string;
+  Category: keyof typeof mintCategories;
   'Account Name': string;
   Labels: string;
   Notes: string;
@@ -29,7 +30,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
         date: mintEntry.Date,
         amount: mintEntry['Transaction Type'] === 'credit' ? mintEntry.Amount : -mintEntry.Amount,
         excludeFromTotals: false,
-        category: mintEntry.Category,
+        category: mintCategories[mintEntry.Category],
       };
 
       if (accountIndex > -1) {
