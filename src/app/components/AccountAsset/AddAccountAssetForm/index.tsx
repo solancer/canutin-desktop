@@ -5,7 +5,7 @@ import { ipcRenderer, IpcRendererEvent } from 'electron';
 
 import Field from '@components/common/Form/Field';
 import RadioGroupField from '@components/common/Form/RadioGroupField';
-import SelectField, { GroupedValue, SelectFieldValue } from '@components/common/Form/SelectField';
+import SelectField, { GroupedValue } from '@components/common/Form/SelectField';
 import InputTextField from '@components/common/Form/InputTextField';
 import InputText from '@components/common/Form/InputText';
 import InlineCheckbox from '@components/common/Form/Checkbox';
@@ -13,9 +13,9 @@ import FormFooter from '@components/common/Form/FormFooter';
 
 import { DB_GET_ACCOUNTS_ACK } from '@constants/events';
 import { ACCOUNT, ASSET } from '@appConstants/misc';
-import { AssetTypeEnum } from '../../../../enums/assetType.enum';
 import { BalanceGroupEnum } from '../../../../enums/balancegGroup.enum';
 import { accountTypes, balanceGroupLabels } from '@constants/accountTypes';
+import { assetTypes } from '@constants/assetTypes';
 import { NewAssetSubmitType } from '../../../../types/asset.type';
 import { NewAccountType } from '../../../../types/account.type';
 import AssetIpc from '@app/data/asset.ipc';
@@ -29,9 +29,10 @@ const accountGroupedValues = accountTypes.map(({ balanceGroup, accountTypes }) =
   label: balanceGroupLabels[balanceGroup],
 }));
 
-const assetTypesValues: SelectFieldValue[] = [];
-const assetTypes = Object.values(AssetTypeEnum);
-assetTypes.forEach(assetType => assetTypesValues.push({ value: assetType, label: assetType }));
+const assetTypesValues = assetTypes.map(({ balanceGroup, assetTypes }) => ({
+  options: assetTypes,
+  label: balanceGroupLabels[balanceGroup],
+}));
 
 const FormContainer = styled.div`
   ${formContainer}
@@ -184,7 +185,7 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
             <SelectField
               label="Asset Type"
               name="assetType"
-              options={assetTypesValues}
+              groupedOptions={assetTypesValues}
               control={controlAssetField}
               required
             />
