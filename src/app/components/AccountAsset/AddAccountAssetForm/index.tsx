@@ -5,7 +5,8 @@ import { ipcRenderer, IpcRendererEvent } from 'electron';
 
 import Field from '@components/common/Form/Field';
 import RadioGroupField from '@components/common/Form/RadioGroupField';
-import SelectField, { GroupedValue } from '@components/common/Form/SelectField';
+import SelectField from '@components/common/Form/SelectField';
+import { GroupedValue } from '@components/common/Select';
 import InputTextField from '@components/common/Form/InputTextField';
 import InputText from '@components/common/Form/InputText';
 import InlineCheckbox from '@components/common/Form/Checkbox';
@@ -24,7 +25,7 @@ import AccountIpc from '@app/data/account.ipc';
 import { formContainer, form, formSubmitButton, toggableInputContainer, hrDivider } from './styles';
 import { Account } from '@database/entities';
 
-const accountGroupedValues = accountTypes.map(({ balanceGroup, accountTypes }) => ({
+export const accountGroupedValues = accountTypes.map(({ balanceGroup, accountTypes }) => ({
   options: accountTypes,
   label: balanceGroupLabels[balanceGroup],
 }));

@@ -14,13 +14,16 @@ import {
   DB_NEW_ACCOUNT_ACK,
   DB_GET_ACCOUNTS,
   DB_GET_ACCOUNTS_ACK,
+  DB_GET_BALANCE_STATEMENTS,
+  DB_GET_BALANCE_STATEMENTS_ACK,
   IMPORT_SOURCE_FILE,
   IMPORT_SOURCE_FILE_ACK,
   ANALYZE_SOURCE_FILE,
-  LOAD_FROM_CANUTIN_FILE
+  LOAD_FROM_CANUTIN_FILE,
+  LOAD_FROM_OTHER_CSV,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
-import { CanutinJsonType } from '@appTypes/canutin';
+import { CanutinJsonType, UpdatedAccount } from '@appTypes/canutin';
 import { enumExtensionFiles, enumImportTitleOptions } from '@appConstants/misc';
 
 import {
@@ -30,8 +33,9 @@ import {
   ELECTRON_WINDOW_CLOSED,
 } from './constants';
 import { connectAndSaveDB, findAndConnectDB } from './helpers/database.helper';
-import { importSourceData, loadFromCanutinFile } from './helpers/importSource.helper';
+import { importSourceData, loadFromCanutinFile, importUpdatedAccounts } from './helpers/importSource.helper';
 import { AssetRepository } from '@database/repositories/asset.repository';
+import { BalanceStatementRepository } from '@database/repositories/balanceStatement.repository';
 import seedCategories from '@database/seed/seedCategories';
 import { AccountRepository } from '@database/repositories/account.repository';
 import { NewAssetType } from '../types/asset.type';
@@ -88,15 +92,14 @@ const setupEvents = async () => {
     }
   );
 
-  ipcMain.on(
-    LOAD_FROM_CANUTIN_FILE,
-    async (
-      _: IpcMainEvent,
-      canutinFile: CanutinJsonType
-    ) => {
-      await loadFromCanutinFile(win, canutinFile);
-    }
-  );
+  ipcMain.on(LOAD_FROM_CANUTIN_FILE, async (_: IpcMainEvent, canutinFile: CanutinJsonType) => {
+    await loadFromCanutinFile(win, canutinFile);
+  });
+
+  ipcMain.on(LOAD_FROM_OTHER_CSV, async (_: IpcMainEvent, otherCsvPayload: { canutinFile: CanutinJsonType , updatedAccounts: UpdatedAccount[] }) => {
+    await loadFromCanutinFile(win, otherCsvPayload.canutinFile);
+    await importUpdatedAccounts(win, otherCsvPayload.updatedAccounts);
+  });
 };
 
 const setupDbEvents = async () => {
@@ -108,6 +111,11 @@ const setupDbEvents = async () => {
   ipcMain.on(DB_NEW_ACCOUNT, async (_: IpcMainEvent, account: NewAccountType) => {
     const newAccount = await AccountRepository.createAccount(account);
     win?.webContents.send(DB_NEW_ACCOUNT_ACK, newAccount);
+  });
+
+  ipcMain.on(DB_GET_BALANCE_STATEMENTS, async (_: IpcMainEvent) => {
+    const balanceStatements = await BalanceStatementRepository.getBalanceStatements();
+    win?.webContents.send(DB_GET_BALANCE_STATEMENTS_ACK, balanceStatements);
   });
 
   ipcMain.on(DB_GET_ACCOUNTS, async (_: IpcMainEvent) => {

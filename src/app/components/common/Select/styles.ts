@@ -1,14 +1,19 @@
 import { css } from 'styled-components';
 
 import { inputShared } from '@appConstants/inputs';
-import { bluePlain, blueLight } from '@appConstants/colors';
+import { bluePlain, blueLight, redPlain } from '@appConstants/colors';
 
 const innerSpacing = '6px';
 
-export const selectInput = css`
+export const selectInput = css<{ error: string | undefined }>`
   .select {
     &__control {
       ${inputShared}
+      ${({ error }) =>
+        error &&
+        css`
+          border: 2px solid ${redPlain};
+        `}
       padding: 0;
       box-shadow: none;
 
@@ -53,4 +58,11 @@ export const selectInput = css`
       }
     }
   }
+`;
+
+export const errorMessage = css`
+  color: ${redPlain};
+  font-size: 12px;
+  max-width: 210px;
+  word-break: break-word;
 `;

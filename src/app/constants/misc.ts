@@ -12,6 +12,7 @@ export enum enumImportTitleOptions {
   CANUTIN_IMPORT_TYPE_TITLE = 'CanutinFile (JSON)',
   MINT_IMPORT_TYPE_TITLE = 'Mint.com (CSV)',
   PERSONAL_CAPITAL_IMPORT_TYPE_TITLE = 'Personal Capital (CSV)',
+  OTHER_CSV_IMPORT_TYPE_TITLE = 'Other CSV',
 }
 
 export enum enumExtensionFiles {
@@ -32,6 +33,8 @@ export const sourceExtensionFile = (sourceTitle: enumImportTitleOptions) => {
     case enumImportTitleOptions.MINT_IMPORT_TYPE_TITLE:
       return enumExtensionFiles.CSV;
     case enumImportTitleOptions.PERSONAL_CAPITAL_IMPORT_TYPE_TITLE:
+      return enumExtensionFiles.CSV;
+    case enumImportTitleOptions.OTHER_CSV_IMPORT_TYPE_TITLE:
       return enumExtensionFiles.CSV;
     default:
       return null;

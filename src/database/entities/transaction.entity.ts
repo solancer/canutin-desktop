@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Base } from './base.entity';
 import { Account } from './account.entity';
 import { Budget } from './budget.entity';
@@ -19,9 +19,11 @@ export class Transaction extends Base {
   excludeFromTotals: boolean;
 
   @ManyToOne(() => Account, account => account.transactions)
+  @JoinColumn()
   account: Account;
 
   @ManyToOne(() => Budget, budget => budget.transactions)
+  @JoinColumn()
   budget?: Budget;
 
   @ManyToOne(

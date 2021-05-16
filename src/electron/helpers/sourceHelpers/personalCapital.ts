@@ -1,6 +1,7 @@
 import { format, parse } from 'date-fns';
 
 import { CanutinJsonType } from '@appTypes/canutin';
+import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
 
 export interface PersonalCapitalCsvEntryType {
   Date: string;
@@ -41,7 +42,7 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
 
         acc.accounts.push({
           name: personalCapEntry.Account,
-          balanceGroup: 'Cash',
+          balanceGroup: BalanceGroupEnum.CASH,
           accountType: 'Personal Capital',
           transactions: [transaction],
         });

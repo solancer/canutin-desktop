@@ -1,5 +1,6 @@
 import { CanutinJsonType } from '@appTypes/canutin';
 import mintCategories from '@database/helpers/importResources/mintCategories';
+import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
 
 export interface MintCsvEntryType {
   Date: string;
@@ -43,7 +44,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
 
         acc.accounts.push({
           name: mintEntry['Account Name'],
-          balanceGroup: 'Cash',
+          balanceGroup: BalanceGroupEnum.CASH,
           accountType: 'Mint',
           transactions: [transaction],
         });

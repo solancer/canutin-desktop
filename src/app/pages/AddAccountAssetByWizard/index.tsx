@@ -6,7 +6,7 @@ import ScrollView from '@components/common/ScrollView';
 import ImportWizardForm from '@components/AccountAsset/ImportWizardForm';
 import StatusBar from '@components/common/StatusBar';
 
-import { LOAD_FROM_CANUTIN_FILE_ACK } from '@constants/events'
+import { LOAD_FROM_CANUTIN_FILE_ACK, LOAD_FROM_OTHER_CSV_ACK } from '@constants/events'
 import { StatusBarContext } from '@app/context';
 
 import { container, subTitle } from './styles';
@@ -25,6 +25,13 @@ const AddAccountAssetByWizard = () => {
 
   useEffect(() => {
     ipcRenderer.on(LOAD_FROM_CANUTIN_FILE_ACK, (_: IpcRendererEvent, { name }) => {
+      setSuccessMessage(`Data has been imported successfully`);
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, SUCCESS_MESSAGE_TIMEOUT);
+    });
+
+    ipcRenderer.on(LOAD_FROM_OTHER_CSV_ACK, (_: IpcRendererEvent, { name }) => {
       setSuccessMessage(`Data has been imported successfully`);
       setTimeout(() => {
         setSuccessMessage('');

@@ -7,7 +7,7 @@ const categoryList = {
     {
       subcategories: [
         {
-          name: 'Museums',
+          name: 'Entertainment & recreation',
         },
         {
           name: 'Museums',
@@ -36,6 +36,9 @@ const categoryList = {
     {
       subcategories: [
         {
+          name: 'Business & services'
+        },
+        {
           name: 'Contractors',
         },
         {
@@ -55,12 +58,18 @@ const categoryList = {
         {
           name: 'Books & supplies',
         },
+        {
+          name: 'Education',
+        },
         { name: 'Studen loan' },
       ],
       name: 'Education',
     },
     {
       subcategories: [
+        {
+          name: 'Financial & banking',
+        },
         {
           name: 'Cash',
         },
@@ -88,6 +97,9 @@ const categoryList = {
     {
       subcategories: [
         {
+          name: 'Food & drink',
+        },
+        {
           name: 'Bars',
         },
         {
@@ -105,6 +117,9 @@ const categoryList = {
     {
       subcategories: [
         {
+          name: 'Health',
+        },
+        {
           name: 'Fitness',
         },
         {
@@ -118,6 +133,9 @@ const categoryList = {
     },
     {
       subcategories: [
+        {
+          name: 'Housing',
+        },
         {
           name: 'Furnishings',
         },
@@ -140,6 +158,9 @@ const categoryList = {
     {
       subcategories: [
         {
+          name: 'Institutional',
+        },
+        {
           name: 'Insurance',
         },
         {
@@ -160,6 +181,9 @@ const categoryList = {
     {
       subcategories: [
         {
+          name: 'Kids',
+        },
+        {
           name: 'Allowance',
         },
         {
@@ -176,6 +200,9 @@ const categoryList = {
     },
     {
       subcategories: [
+        {
+          name: 'Personal',
+        },
         {
           name: 'Charity',
         },
@@ -194,6 +221,9 @@ const categoryList = {
     {
       subcategories: [
         {
+          name: 'Pets',
+        },
+        {
           name: 'Pet services',
         },
         {
@@ -204,6 +234,9 @@ const categoryList = {
     },
     {
       subcategories: [
+        {
+          name: 'Shops',
+        },
         {
           name: 'Arts & crafts',
         },
@@ -221,6 +254,9 @@ const categoryList = {
     },
     {
       subcategories: [
+        {
+          name: 'Transportation',
+        },
         {
           name: 'Automotive',
         },
@@ -245,6 +281,9 @@ const categoryList = {
     {
       subcategories: [
         {
+          name: 'Travel',
+        },
+        {
           name: 'Air travel',
         },
         {
@@ -267,6 +306,9 @@ const categoryList = {
     },
     {
       subcategories: [
+        {
+          name: 'Utilities',
+        },
         {
           name: 'Electricity',
         },

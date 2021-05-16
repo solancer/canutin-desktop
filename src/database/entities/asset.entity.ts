@@ -27,6 +27,7 @@ export class Asset extends Base {
   sold?: Date;
 
   @ManyToOne(() => Account, account => account.assets, { nullable: true })
+  @JoinColumn()
   account?: Account;
 
   constructor(
