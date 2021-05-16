@@ -3,7 +3,7 @@ import { Base } from './base.entity';
 import { TransactionCategory } from './transactionCategory.entity';
 import { Transaction } from './transaction.entity';
 
-@Entity()
+@Entity({ name: 'transaction_category' })
 export class TransactionSubCategory extends Base {
   @Column()
   name: string;
@@ -19,7 +19,11 @@ export class TransactionSubCategory extends Base {
   @OneToMany(() => Transaction, transaction => transaction)
   transactions?: Transaction[];
 
-  constructor(name: string, transactionCategory: TransactionCategory, transactions?: Transaction[]) {
+  constructor(
+    name: string,
+    transactionCategory: TransactionCategory,
+    transactions?: Transaction[]
+  ) {
     super();
     this.name = name;
     this.transactions = transactions;
