@@ -15,7 +15,7 @@ const mapCategories = (category: string) => {
       return 'Parking';
 
     case 'Public Transportation':
-      return 'Public Transportation';
+      return 'Public transportation';
 
     case 'Service & parts':
       return 'Service & parts';
