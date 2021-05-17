@@ -2,12 +2,13 @@ import { format, parse } from 'date-fns';
 
 import { CanutinJsonType } from '@appTypes/canutin';
 import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
+import mapCategories from '@database/helpers/importResources/mapCategories';
 
 export interface PersonalCapitalCsvEntryType {
   Date: string;
   Description: string;
   Amount: number;
-  Category: string;
+  Category: keyof typeof mapCategories;
   Account: string;
   Tags: string;
 }
@@ -29,7 +30,7 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
         date: format(parse(personalCapEntry.Date, 'yyyy-dd-MM', new Date()), 'MM/dd/yyyy'),
         amount: personalCapEntry.Amount,
         excludeFromTotals: false,
-        category: personalCapEntry.Category,
+        category: mapCategories(personalCapEntry.Category),
       };
 
       if (accountIndex > -1) {

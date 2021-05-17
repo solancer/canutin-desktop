@@ -1,5 +1,5 @@
 import { CanutinJsonType } from '@appTypes/canutin';
-import mintCategories from '@database/helpers/importResources/mintCategories';
+import mapCategories from '@database/helpers/importResources/mapCategories';
 import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
 
 export interface MintCsvEntryType {
@@ -8,7 +8,7 @@ export interface MintCsvEntryType {
   'Original Description': string;
   Amount: number;
   'Transaction Type': 'credit' | 'debit';
-  Category: keyof typeof mintCategories;
+  Category: keyof typeof mapCategories;
   'Account Name': string;
   Labels: string;
   Notes: string;
@@ -31,7 +31,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
         date: mintEntry.Date,
         amount: mintEntry['Transaction Type'] === 'credit' ? mintEntry.Amount : -mintEntry.Amount,
         excludeFromTotals: false,
-        category: mintCategories[mintEntry.Category],
+        category: mapCategories(mintEntry.Category),
       };
 
       if (accountIndex > -1) {
