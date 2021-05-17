@@ -258,7 +258,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           optional
         />
       </Container>
-      {accountColumn && accountOptions && (
+      {accountColumn && accountOptions && accountColumnOptions.length > 0 && (
         <Container>
           <Field name="Choose types for new accounts" label="Choose types for new accounts">
             <OptionList>
