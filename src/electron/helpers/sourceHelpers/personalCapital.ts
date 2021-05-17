@@ -44,7 +44,7 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
         acc.accounts.push({
           name: personalCapEntry.Account,
           balanceGroup: BalanceGroupEnum.CASH,
-          accountType: 'Personal Capital',
+          accountType: 'checking',
           transactions: [transaction],
         });
       }

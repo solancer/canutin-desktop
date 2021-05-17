@@ -12,7 +12,7 @@ export class AccountType extends Base {
 
   constructor(name: string, account?: Account) {
     super();
-    this.name = name;
+    this.name = name ? name : 'checking';
     this.account = account;
   }
 }

@@ -49,7 +49,7 @@ export class Transaction extends Base {
     this.description = description;
     this.date = date;
     this.amount = amount;
-    this.excludeFromTotals = excludeFromTotals;
+    this.excludeFromTotals = excludeFromTotals ? excludeFromTotals : false;
     this.account = account;
     this.budget = budget;
     this.category = category;

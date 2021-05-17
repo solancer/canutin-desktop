@@ -45,7 +45,7 @@ export const importFromCanutinJson = async (canutinFile: CanutinJsonType) => {
             transactionInfo.description,
             transactionDate,
             transactionInfo.amount,
-            false,
+            transactionInfo.excludeFromTotals,
             account,
             category,
             budget

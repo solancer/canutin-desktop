@@ -75,7 +75,7 @@ const ImportWizardForm = () => {
         setFilePathStatus(analyzeSource.status);
 
         if (analyzeSource.status === StatusEnum.SUCCESS) {
-          if (analyzeSource.metadata.fields) {
+          if (analyzeSource.metadata?.fields) {
             setOtherCsvData(analyzeSource.sourceData);
             setOtherCsvMetadata(analyzeSource.metadata);
           } else {
@@ -90,7 +90,7 @@ const ImportWizardForm = () => {
           setCanutinJson(null);
           setOtherCsvData(null);
 
-          if (analyzeSource.metadata) {
+          if (analyzeSource.metadata?.error) {
             setSourceMessage(analyzeSource.metadata.error);
           }
         }

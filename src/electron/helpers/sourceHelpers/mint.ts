@@ -45,7 +45,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
         acc.accounts.push({
           name: mintEntry['Account Name'],
           balanceGroup: BalanceGroupEnum.CASH,
-          accountType: 'Mint',
+          accountType: 'checking',
           transactions: [transaction],
         });
       }
