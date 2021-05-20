@@ -8,6 +8,7 @@ import StatusBar from '@components/common/StatusBar';
 
 import { LOAD_FROM_CANUTIN_FILE_ACK, LOAD_FROM_OTHER_CSV_ACK } from '@constants/events'
 import { StatusBarContext } from '@app/context';
+import AccountIpc from '@app/data/account.ipc';
 
 import { container, subTitle } from './styles';
 
@@ -33,6 +34,8 @@ const AddAccountAssetByWizard = () => {
 
     ipcRenderer.on(LOAD_FROM_OTHER_CSV_ACK, (_: IpcRendererEvent, { name }) => {
       setSuccessMessage(`Data has been imported successfully`);
+      // Reload accounts on other CSV form
+      AccountIpc.getAccounts();
       setTimeout(() => {
         setSuccessMessage('');
       }, SUCCESS_MESSAGE_TIMEOUT);

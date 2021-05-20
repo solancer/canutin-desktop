@@ -1,4 +1,4 @@
-import { parse, format } from 'date-fns';
+import { parse, format, isEqual } from 'date-fns';
 
 import { CanutinJsonTransactionType } from '@appTypes/canutin';
 import { Account } from '@database/entities';
@@ -73,6 +73,19 @@ export const getTransactionsForAccountColumn = (
   return cFile;
 };
 
+export const isNewTransactionAlreadyOnTheAccount = (
+  account: Account,
+  newTransaction: CanutinJsonTransactionType,
+  rowDate: string,
+  dateFormat: SupportedDateFormatType
+) =>
+  account.transactions?.some(
+    transaction =>
+      transaction.description === newTransaction.description &&
+      isEqual(transaction.date, parse(rowDate, dateFormat, new Date())) &&
+      transaction.amount === newTransaction.amount
+  );
+
 export const getUpdatedTransactionsForExistingAccounts = (
   canutinAccounts: Account[] | null,
   accountColumn: string,
@@ -93,33 +106,33 @@ export const getUpdatedTransactionsForExistingAccounts = (
         account => account.id === updateAccount.id
       );
 
-      if (!accountAlreadyCreated) {
-        const transactions: CanutinJsonTransactionType[] = [
-          {
-            description: rowData[descriptionColumn],
-            date: format(parse(rowData[dateColumn], dateFormat, new Date()), 'MM/dd/yyyy'),
-            amount: Number(rowData[amountColumn]),
-            excludeFromTotals: true,
-            category:
-              categoryColumn && categoryValues
-                ? categoryValues[rowData[categoryColumn]]
-                : 'Uncategorized',
-          },
-        ];
-        updatedAccounts.push({ id: updateAccount.id, transactions });
-      }
+      const newTransaction = {
+        description: rowData[descriptionColumn],
+        date: format(parse(rowData[dateColumn], dateFormat, new Date()), 'MM/dd/yyyy'),
+        amount: Number(rowData[amountColumn]),
+        excludeFromTotals: true,
+        category:
+          categoryColumn && categoryValues
+            ? categoryValues[rowData[categoryColumn]]
+            : 'Uncategorized',
+      };
 
-      if (accountAlreadyCreated) {
-        accountAlreadyCreated.transactions.push({
-          description: rowData[descriptionColumn],
-          date: format(parse(rowData[dateColumn], dateFormat, new Date()), 'MM/dd/yyyy'),
-          amount: Number(rowData[amountColumn]),
-          excludeFromTotals: true,
-          category:
-            categoryColumn && categoryValues
-              ? categoryValues[rowData[categoryColumn]]
-              : 'Uncategorized',
-        });
+      if (
+        !isNewTransactionAlreadyOnTheAccount(
+          updateAccount,
+          newTransaction,
+          rowData[dateColumn],
+          dateFormat
+        )
+      ) {
+        if (!accountAlreadyCreated) {
+          const transactions: CanutinJsonTransactionType[] = [newTransaction];
+          updatedAccounts.push({ id: updateAccount.id, transactions });
+        }
+
+        if (accountAlreadyCreated) {
+          accountAlreadyCreated.transactions.push(newTransaction);
+        }
       }
     }
   });
