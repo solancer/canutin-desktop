@@ -15,6 +15,8 @@ export interface PersonalCapitalCsvEntryType {
 
 export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvEntryType[]) => {
   let countAccounts = 0;
+  let countTransactions = 0;
+
   const finalJson = personalCapitalCsv.reduce<CanutinJsonType>(
     (acc, personalCapEntry) => {
       const accountIndex = acc.accounts.findIndex(
@@ -32,6 +34,7 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
         excludeFromTotals: false,
         category: mapCategories(personalCapEntry.Category),
       };
+      countTransactions++;
 
       if (accountIndex > -1) {
         acc.accounts[accountIndex].transactions.push(transaction);
@@ -54,5 +57,5 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
     { accounts: [] }
   );
 
-  return { data: finalJson, metadata: { countAccounts } };
+  return { data: finalJson, metadata: { countAccounts, countTransactions } };
 };

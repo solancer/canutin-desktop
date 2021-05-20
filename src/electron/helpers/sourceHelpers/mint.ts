@@ -16,6 +16,8 @@ export interface MintCsvEntryType {
 
 export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
   let countAccounts = 0;
+  let countTransactions = 0;
+
   const finalJson = mintCsv.reduce<CanutinJsonType>(
     (acc, mintEntry) => {
       const accountIndex = acc.accounts.findIndex(
@@ -33,6 +35,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
         excludeFromTotals: false,
         category: mapCategories(mintEntry.Category),
       };
+      countTransactions++;
 
       if (accountIndex > -1) {
         acc.accounts[accountIndex].transactions.push(transaction);
@@ -55,5 +58,5 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
     { accounts: [] }
   );
 
-  return { data: finalJson, metadata: { countAccounts } };
+  return { data: finalJson, metadata: { countAccounts, countTransactions } };
 };

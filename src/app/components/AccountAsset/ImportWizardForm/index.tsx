@@ -46,6 +46,7 @@ const filePathStatusMessage = (status: StatusEnum, message?: string) => {
 
 export interface AnalyzeSourceMetadataType extends ParseMeta {
   countAccounts?: number;
+  countTransactions?: number;
   error?: string;
 }
 
@@ -83,7 +84,10 @@ const ImportWizardForm = () => {
           }
 
           analyzeSource.metadata?.countAccounts &&
-            setSourceMessage(`Found ${analyzeSource.metadata.countAccounts} accounts`);
+            analyzeSource.metadata?.countTransactions &&
+            setSourceMessage(
+              `Found ${analyzeSource.metadata.countAccounts} accounts and ${analyzeSource.metadata.countTransactions} transactions in the file`
+            );
         }
 
         if (analyzeSource.status === StatusEnum.ERROR) {
