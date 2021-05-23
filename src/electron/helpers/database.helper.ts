@@ -12,7 +12,7 @@ import {
 } from '@constants';
 
 export const connectAndSaveDB = async (win: BrowserWindow | null, filePath: string) => {
-  const databaseConnection: ConnectionOptions = { ...dbConfig, database: filePath, type: 'sqlite' };
+  const databaseConnection: ConnectionOptions = { ...dbConfig, database: filePath, type: 'better-sqlite3', };
   await connection.create(databaseConnection);
   await settings.set(DATABASE_PATH, filePath);
   win?.webContents.send(DATABASE_CONNECTED);

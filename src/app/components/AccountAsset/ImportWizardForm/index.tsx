@@ -12,6 +12,8 @@ import {
   ANALYZE_SOURCE_FILE,
   ANALYZE_SOURCE_FILE_ACK,
   LOAD_FROM_CANUTIN_FILE,
+  LOAD_FROM_CANUTIN_FILE_ACK,
+  LOAD_FROM_OTHER_CSV_ACK,
 } from '@constants/events';
 import { sourceExtensionFile, enumImportTitleOptions, StatusEnum } from '@appConstants/misc';
 import { CanutinJsonType } from '@appTypes/canutin';
@@ -36,7 +38,7 @@ const filePathStatusMessage = (status: StatusEnum, message?: string) => {
 
   switch (status) {
     case StatusEnum.LOADING:
-      return undefined;
+      return 'Analyzing file...';
     case StatusEnum.ERROR:
       return "Couldn't interpret the chosen file";
     case StatusEnum.SUCCESS:
@@ -56,7 +58,12 @@ export interface AnalyzeSourceFileType {
   metadata: AnalyzeSourceMetadataType;
 }
 
-const ImportWizardForm = () => {
+interface ImportWizardFormProps {
+  isLoading: boolean;
+  setIsLoading: (isLoading :boolean) => void;
+}
+
+const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) => {
   const [source, setSource] = useState<enumImportTitleOptions | null>(null);
   const [filePath, setFilePath] = useState<string | null>(null);
   const [filePathStatus, setFilePathStatus] = useState<StatusEnum>();
@@ -101,9 +108,22 @@ const ImportWizardForm = () => {
       }
     );
 
+    ipcRenderer.on(
+      LOAD_FROM_CANUTIN_FILE_ACK,
+      (_: IpcRendererEvent, { filePath: sourceFilePath }) => {
+        setIsLoading(false);
+      }
+    );
+
+    ipcRenderer.on(LOAD_FROM_OTHER_CSV_ACK, (_: IpcRendererEvent, { filePath: sourceFilePath }) => {
+      setIsLoading(false);
+    });
+
     return () => {
       ipcRenderer.removeAllListeners(IMPORT_SOURCE_FILE_ACK);
       ipcRenderer.removeAllListeners(ANALYZE_SOURCE_FILE_ACK);
+      ipcRenderer.removeAllListeners(LOAD_FROM_CANUTIN_FILE_ACK);
+      ipcRenderer.removeAllListeners(LOAD_FROM_OTHER_CSV_ACK);
     };
   }, []);
 
@@ -117,20 +137,23 @@ const ImportWizardForm = () => {
 
   const onSubmit = () => {
     canutinJson && ipcRenderer.send(LOAD_FROM_CANUTIN_FILE, canutinJson);
+    setIsLoading(true);
   };
 
   const analyzeSourceFile = () => {
     ipcRenderer.send(ANALYZE_SOURCE_FILE, { pathFile: filePath, source });
+    setFilePathStatus(StatusEnum.LOADING);
   };
 
   const onChooseFileInput = () => {
     source && ipcRenderer.send(IMPORT_SOURCE_FILE, sourceExtensionFile(source));
     setSourceMessage(undefined);
-    setFilePathStatus(StatusEnum.LOADING);
   };
 
   const isSubmitDisabled =
-    source === enumImportTitleOptions.OTHER_CSV_IMPORT_TYPE_TITLE || canutinJson === null;
+    source === enumImportTitleOptions.OTHER_CSV_IMPORT_TYPE_TITLE ||
+    canutinJson === null ||
+    isLoading;
 
   return (
     <FormContainer>

@@ -16,7 +16,7 @@ export class TransactionSubCategory extends Base {
   @JoinColumn()
   transactionCategory: TransactionCategory;
 
-  @OneToMany(() => Transaction, transaction => transaction)
+  @OneToMany(() => Transaction, transaction => transaction.category)
   transactions?: Transaction[];
 
   constructor(

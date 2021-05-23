@@ -144,7 +144,7 @@ export const loadFromCanutinFile = async (
   canutinFile: CanutinJsonType
 ) => {
   try {
-    await importFromCanutinJson(canutinFile);
+    await importFromCanutinJson(canutinFile, win);
 
     win?.webContents.send(LOAD_FROM_CANUTIN_FILE_ACK, {
       status: StatusEnum.SUCCESS,

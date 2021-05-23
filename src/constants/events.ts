@@ -22,3 +22,4 @@ export const LOAD_FROM_CANUTIN_FILE = 'loadFromCanutinFile';
 export const LOAD_FROM_CANUTIN_FILE_ACK = 'loadFromCanutinFileAck';
 export const LOAD_FROM_OTHER_CSV = 'loadFromOtherCsv';
 export const LOAD_FROM_OTHER_CSV_ACK = 'loadFromOtherCsvAck';
+export const LOADING_CSV = 'loadingCsv';

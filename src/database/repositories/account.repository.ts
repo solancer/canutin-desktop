@@ -1,20 +1,18 @@
-import { getRepository } from 'typeorm';
+import { getRepository, getConnection } from 'typeorm';
 
 import { BalanceStatementRepository } from '@database/repositories/balanceStatement.repository';
+import { AccountTypeRepository } from '@database/repositories/accountType.repository';
 
-import { Account, AccountType } from '../entities';
+import { Account } from '../entities';
 import { NewAccountType } from '../../types/account.type';
 
 export class AccountRepository {
   static async createAccount(account: NewAccountType): Promise<Account> {
+    const accountType = await AccountTypeRepository.createOrGetAccountType({
+      name: account.accountType,
+    });
     const accountSaved = await getRepository<Account>(Account).save(
-      new Account(
-        account.name,
-        false,
-        new AccountType(account.accountType),
-        account.officialName,
-        account.institution
-      )
+      new Account(account.name, false, accountType, account.officialName, account.institution)
     );
 
     await BalanceStatementRepository.createBalanceStatement({
@@ -27,7 +25,11 @@ export class AccountRepository {
   }
 
   static async createAccounts(accounts: Account[]): Promise<Account[]> {
-    return await getRepository(Account).save(accounts);
+    const q = getRepository(Account).createQueryBuilder().insert().values(accounts);
+    const [sql, args] = q.getQueryAndParameters();
+    const nsql = sql.replace('INSERT INTO', 'INSERT OR IGNORE INTO');
+
+    return await getConnection().manager.query(nsql, args);
   }
 
   static async getAccounts(): Promise<Account[]> {
@@ -42,5 +44,17 @@ export class AccountRepository {
 
   static async getAccountById(accountId: number): Promise<Account | undefined> {
     return await getRepository<Account>(Account).findOne(accountId);
+  }
+
+  static async getOrCreateAccount(account: NewAccountType): Promise<Account> {
+    const accountDb = await getRepository<Account>(Account).findOne({
+      where: { name: account.name },
+    });
+
+    if (!accountDb) {
+      return AccountRepository.createAccount(account);
+    }
+
+    return accountDb;
   }
 }

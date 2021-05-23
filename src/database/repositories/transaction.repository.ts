@@ -1,9 +1,13 @@
-import { getRepository } from 'typeorm';
+import { getRepository, getConnection } from 'typeorm';
 
 import { Transaction } from '../entities';
 
 export class TransactionRepository {
   static async createTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-    return await getRepository(Transaction).save(transactions);
+    const q = getRepository(Transaction).createQueryBuilder().insert().values(transactions);
+    const [sql, args] = q.getQueryAndParameters()
+    const nsql = sql.replace('INSERT INTO', 'INSERT OR IGNORE INTO')
+    
+    return await getConnection().manager.query(nsql, args);
   }
 }
