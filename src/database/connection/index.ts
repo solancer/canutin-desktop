@@ -20,7 +20,7 @@ import {
 export const dbConfig = {
   type: 'better-sqlite3',
   synchronize: true,
-  logging: false,
+  logging: true,
   entities: [
     Account,
     BalanceStatement,
