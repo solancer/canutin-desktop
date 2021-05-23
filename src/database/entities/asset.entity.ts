@@ -16,7 +16,7 @@ export class Asset extends Base {
   @Column()
   cost: number;
 
-  @OneToOne(() => AssetType, assetType => assetType.asset, { cascade: true })
+  @ManyToOne(() => AssetType, assetType => assetType.asset, { cascade: true })
   @JoinColumn()
   assetType: AssetType;
 
@@ -35,14 +35,14 @@ export class Asset extends Base {
     quantity: number,
     cost: number,
     assetType: AssetType,
-    account?: Account,
+    account?: Account | null,
     sold?: Date
   ) {
     super();
     this.name = name;
     this.quantity = quantity;
     this.cost = cost;
-    this.account = account;
+    this.account = account ? account : undefined;
     this.assetType = assetType;
     this.sold = sold;
     this.balanceGroup = getBalanceGroupByAssetType(assetType?.name);

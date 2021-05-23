@@ -17,7 +17,7 @@ import { ACCOUNT, ASSET } from '@appConstants/misc';
 import { BalanceGroupEnum } from '../../../../enums/balancegGroup.enum';
 import { accountTypes, balanceGroupLabels } from '@constants/accountTypes';
 import { assetTypes } from '@constants/assetTypes';
-import { NewAssetSubmitType } from '../../../../types/asset.type';
+import { NewAssetType } from '../../../../types/asset.type';
 import { NewAccountType } from '../../../../types/account.type';
 import AssetIpc from '@app/data/asset.ipc';
 import AccountIpc from '@app/data/account.ipc';
@@ -72,9 +72,8 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
     control: controlAccountField,
   } = useForm({ mode: 'onChange' });
 
-  const onSubmitAsset = async (asset: NewAssetSubmitType) => {
-    const newAssetAccount = asset.account === '' ? undefined : asset.account;
-    AssetIpc.createAsset({ ...asset, account: newAssetAccount });
+  const onSubmitAsset = async (asset: NewAssetType) => {
+    AssetIpc.createAsset(asset);
   };
 
   const onSubmitAccount = async (account: NewAccountType) => {
@@ -203,9 +202,9 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
             <SelectField
               optional
               label="Account"
-              name="account"
+              name="accountId"
               groupedOptions={accounts}
-              control={controlAccountField}
+              control={controlAssetField}
             />
           </>
         )}
