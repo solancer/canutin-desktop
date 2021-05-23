@@ -42,10 +42,12 @@ export const getTransactionsForAccountColumn = (
 ) => {
   const cFile: CanutinJsonType = { accounts: [] };
   Object.keys(accounts).forEach(accountColumnName => {
+    let accountName = accountColumnName;
     const transactions: CanutinJsonTransactionType[] = [];
 
     csvData.forEach((rowData: { [x: string]: any }) => {
-      if (rowData[accountColumn] === accountColumnName) {
+      if (rowData[accountColumn].replace("'", "") === accountColumnName) {
+        accountName = rowData[accountColumn];
         transactions.push({
           description: rowData[descriptionColumn],
           date: format(parse(rowData[dateColumn], dateFormat, new Date()), 'MM/dd/yyyy'),
@@ -60,7 +62,7 @@ export const getTransactionsForAccountColumn = (
     });
 
     const account = {
-      name: accountColumnName,
+      name: accountName,
       balanceGroup: getBalanceGroupByAccountType(accounts[accountColumnName]),
       accountType: accounts[accountColumnName],
       autoCalculate: true,

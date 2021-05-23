@@ -15,10 +15,7 @@ import InputTextField from '@components/common/Form/InputTextField';
 import { AnalyzeSourceMetadataType } from '@components/AccountAsset/ImportWizardForm';
 import { accountGroupedValues } from '@components/AccountAsset/AddAccountAssetForm/index';
 
-import {
-  DB_GET_ACCOUNTS_ACK,
-  LOAD_FROM_OTHER_CSV,
-} from '@constants/events';
+import { DB_GET_ACCOUNTS_ACK, LOAD_FROM_OTHER_CSV } from '@constants/events';
 import AccountIpc from '@app/data/account.ipc';
 import { Account } from '@database/entities';
 import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
@@ -31,7 +28,7 @@ import {
   NEW_ACCOUNT_GROUPED_OPTION,
   NEW_ACCOUNT_VALUE,
 } from './otherCsvConstants';
-import {formToCantuinJsonFile } from './utils';
+import { formToCantuinJsonFile } from './utils';
 import { FormSubmitButton } from '../';
 
 const Container = styled.div`
@@ -212,6 +209,8 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
         <SelectField
           label="Date column"
           name="dateColumn"
+          defaultFormValue={null}
+          placeholder=""
           options={columnsOptions}
           required
           control={control}
@@ -230,6 +229,8 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
         <SelectField
           label="Description column"
           name="descriptionColumn"
+          defaultFormValue={null}
+          placeholder=""
           options={columnsOptions}
           required
           control={control}
@@ -237,6 +238,8 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
         <SelectField
           label="Amount column"
           name="amountColumn"
+          defaultFormValue={null}
+          placeholder=""
           options={columnsOptions}
           required
           control={control}
@@ -248,6 +251,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           control={control}
           placeholder={''}
           optional
+          isClearable
         />
         <SelectField
           label="Category column"
@@ -256,6 +260,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           control={control}
           placeholder={''}
           optional
+          isClearable
         />
       </Container>
       {accountColumn && accountOptions && accountColumnOptions.length > 0 && (
@@ -289,7 +294,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
                     groupedOptions={CATEGORY_GROUPED_OPTIONS}
                     control={control}
                     defaultFormValue={'Uncategorized'}
-                    placeholder={''}
+                    placeholder={'Uncategorized'}
                   />
                 </Option>
               ))}

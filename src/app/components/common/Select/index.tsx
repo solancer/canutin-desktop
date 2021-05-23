@@ -19,7 +19,7 @@ export type GroupedValue = {
 };
 
 export type SelectFieldValue = {
-  value: string;
+  value: string | undefined;
   label: string;
 };
 
@@ -34,6 +34,7 @@ export interface SelectProps {
   placeholder?: string;
   error?: FieldError;
   cta?: () => void;
+  isClearable?: boolean;
 }
 
 const Select = ({
@@ -47,6 +48,7 @@ const Select = ({
   placeholder,
   error,
   cta,
+  isClearable = false,
 }: SelectProps) => {
   const defaultValue = groupedOptions
     ? groupedOptions[0]?.options[0]?.value
@@ -77,7 +79,7 @@ const Select = ({
               onChange(e?.value);
               cta && cta();
             }}
-            isClearable={false}
+            isClearable={isClearable}
             value={groupedOptions ? groupedValue(value) : optionValue(value)}
             error={error}
           />

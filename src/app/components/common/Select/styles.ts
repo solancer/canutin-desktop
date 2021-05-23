@@ -5,7 +5,7 @@ import { bluePlain, blueLight, redPlain } from '@appConstants/colors';
 
 const innerSpacing = '6px';
 
-export const selectInput = css<{ error: string | undefined }>`
+export const selectInput = css<{ error: string | undefined; isClearable: boolean }>`
   .select {
     &__control {
       ${inputShared}
@@ -27,9 +27,13 @@ export const selectInput = css<{ error: string | undefined }>`
       }
     }
 
-    &__indicator-separator {
-      display: none;
-    }
+    ${({ isClearable }) =>
+      !isClearable &&
+      css`
+        &__indicator-separator {
+          display: none;
+        }
+      `}
 
     &__dropdown-indicator {
       padding-left: ${innerSpacing};
