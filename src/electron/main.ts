@@ -37,6 +37,7 @@ import { importSourceData, loadFromCanutinFile, importUpdatedAccounts } from './
 import { AssetRepository } from '@database/repositories/asset.repository';
 import { BalanceStatementRepository } from '@database/repositories/balanceStatement.repository';
 import seedCategories from '@database/seed/seedCategories';
+import seedAssetTypes from '@database/seed/seedAssetTypes';
 import seedAccountTypes from '@database/seed/seedAccountTypes';
 import { AccountRepository } from '@database/repositories/account.repository';
 import { NewAssetType } from '../types/asset.type';
@@ -53,6 +54,7 @@ const setupEvents = async () => {
 
       if (filePath) await connectAndSaveDB(win, filePath);
       await seedCategories();
+      await seedAssetTypes();
       await seedAccountTypes();
       win.webContents.send(NEW_DATABASE);
     }
