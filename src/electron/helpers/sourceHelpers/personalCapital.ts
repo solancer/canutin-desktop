@@ -1,6 +1,6 @@
 import { format, parse } from 'date-fns';
 
-import { CanutinJsonType } from '@appTypes/canutin';
+import { CanutinFileType } from '@appTypes/canutin';
 import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
 import mapCategories from '@database/helpers/importResources/mapCategories';
 
@@ -17,7 +17,7 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
   let countAccounts = 0;
   let countTransactions = 0;
 
-  const finalJson = personalCapitalCsv.reduce<CanutinJsonType>(
+  const finalJson = personalCapitalCsv.reduce<CanutinFileType>(
     (acc, personalCapEntry) => {
       const accountIndex = acc.accounts.findIndex(
         account => account.name === personalCapEntry.Account

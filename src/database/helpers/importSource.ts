@@ -6,12 +6,12 @@ import { Budget } from '@database/entities/budget.entity';
 import { AccountRepository } from '@database/repositories/account.repository';
 import { CategoryRepository } from '@database/repositories/category.repository';
 import { TransactionRepository } from '@database/repositories/transaction.repository';
-import { CanutinJsonType, UpdatedAccount } from '@appTypes/canutin';
+import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
 import { LOADING_CSV } from '@constants/events';
 import { CANUTIN_FILE_DATE_FORMAT } from '@constants';
 
-export const importFromCanutinJson = async (
-  canutinFile: CanutinJsonType,
+export const importFromCanutinFile = async (
+  canutinFile: CanutinFileType,
   win: BrowserWindow | null
 ) => {
   const countAccounts = canutinFile.accounts.length;

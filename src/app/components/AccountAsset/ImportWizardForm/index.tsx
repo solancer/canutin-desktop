@@ -16,7 +16,7 @@ import {
   LOAD_FROM_OTHER_CSV_ACK,
 } from '@constants/events';
 import { sourceExtensionFile, enumImportTitleOptions, StatusEnum } from '@appConstants/misc';
-import { CanutinJsonType } from '@appTypes/canutin';
+import { CanutinFileType } from '@appTypes/canutin';
 import { ParseMeta } from '@appTypes/parseCsv';
 
 import OtherCSVForm from './OtherCSVForm';
@@ -54,7 +54,7 @@ export interface AnalyzeSourceMetadataType extends ParseMeta {
 
 export interface AnalyzeSourceFileType {
   status: StatusEnum;
-  sourceData: CanutinJsonType;
+  sourceData: CanutinFileType;
   metadata: AnalyzeSourceMetadataType;
 }
 
@@ -68,7 +68,7 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
   const [filePath, setFilePath] = useState<string | null>(null);
   const [filePathStatus, setFilePathStatus] = useState<StatusEnum>();
   const [sourceMessage, setSourceMessage] = useState<string>();
-  const [canutinJson, setCanutinJson] = useState<CanutinJsonType | null>(null);
+  const [canutinJson, setCanutinJson] = useState<CanutinFileType | null>(null);
   const [otherCsvData, setOtherCsvData] = useState<unknown | null>(null);
   const [otherCsvMetadata, setOtherCsvMetadata] = useState<AnalyzeSourceMetadataType | null>(null);
 

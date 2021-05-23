@@ -1,22 +1,22 @@
 import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
 
-export interface CanutinJsonBudgetType {
+export interface CanutinFileBudgetType {
   name: string;
   targetAmount: number;
   type: string;
   date: string;
 }
 
-export interface CanutinJsonTransactionType {
+export interface CanutinFileTransactionType {
   description: string;
   date: string;
   amount: number;
   excludeFromTotals: boolean;
   category: string;
-  budget?: CanutinJsonBudgetType;
+  budget?: CanutinFileBudgetType;
 }
 
-export interface CanutinJsonAccountType {
+export interface CanutinFileAccountType {
   name: string;
   autoCalculate?: boolean;
   balance?: number;
@@ -24,14 +24,14 @@ export interface CanutinJsonAccountType {
   institution?: string;
   balanceGroup: BalanceGroupEnum;
   accountType: string;
-  transactions: CanutinJsonTransactionType[];
+  transactions: CanutinFileTransactionType[];
 }
 
-export interface CanutinJsonType {
-  accounts: CanutinJsonAccountType[];
+export interface CanutinFileType {
+  accounts: CanutinFileAccountType[];
 }
 
 export interface UpdatedAccount {
   id: number;
-  transactions: CanutinJsonTransactionType[];
+  transactions: CanutinFileTransactionType[];
 }

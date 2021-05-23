@@ -1,4 +1,4 @@
-import { CanutinJsonType } from '@appTypes/canutin';
+import { CanutinFileType } from '@appTypes/canutin';
 import mapCategories from '@database/helpers/importResources/mapCategories';
 import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
 
@@ -18,7 +18,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
   let countAccounts = 0;
   let countTransactions = 0;
 
-  const finalJson = mintCsv.reduce<CanutinJsonType>(
+  const finalJson = mintCsv.reduce<CanutinFileType>(
     (acc, mintEntry) => {
       const accountIndex = acc.accounts.findIndex(
         account => account.name === mintEntry['Account Name']

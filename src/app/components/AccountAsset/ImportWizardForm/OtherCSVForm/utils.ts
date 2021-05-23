@@ -1,9 +1,8 @@
 import { parse, format, isEqual } from 'date-fns';
 
-import { CanutinJsonTransactionType } from '@appTypes/canutin';
 import { Account } from '@database/entities';
 import { getBalanceGroupByAccountType } from '@database/helpers';
-import { CanutinJsonType, UpdatedAccount } from '@appTypes/canutin';
+import { CanutinFileType, CanutinFileTransactionType, UpdatedAccount } from '@appTypes/canutin';
 
 import { SupportedDateFormatType } from './otherCsvConstants';
 import { OtherCSVFormSubmit } from './index';
@@ -40,10 +39,10 @@ export const getTransactionsForAccountColumn = (
   categoryColumn: string | null,
   categoryValues?: { [categoryColumnValue: string]: string }
 ) => {
-  const cFile: CanutinJsonType = { accounts: [] };
+  const cFile: CanutinFileType = { accounts: [] };
   Object.keys(accounts).forEach(accountColumnName => {
     let accountName = accountColumnName;
-    const transactions: CanutinJsonTransactionType[] = [];
+    const transactions: CanutinFileTransactionType[] = [];
 
     csvData.forEach((rowData: { [x: string]: any }) => {
       if (rowData[accountColumn].replace("'", "") === accountColumnName) {
@@ -77,7 +76,7 @@ export const getTransactionsForAccountColumn = (
 
 export const isNewTransactionAlreadyOnTheAccount = (
   account: Account,
-  newTransaction: CanutinJsonTransactionType,
+  newTransaction: CanutinFileTransactionType,
   rowDate: string,
   dateFormat: SupportedDateFormatType
 ) =>
@@ -128,7 +127,7 @@ export const getUpdatedTransactionsForExistingAccounts = (
         )
       ) {
         if (!accountAlreadyCreated) {
-          const transactions: CanutinJsonTransactionType[] = [newTransaction];
+          const transactions: CanutinFileTransactionType[] = [newTransaction];
           updatedAccounts.push({ id: updateAccount.id, transactions });
         }
 
@@ -157,7 +156,7 @@ export const formToCantuinJsonFile = (
     categories,
     accounts,
   } = formData;
-  let canutinFile: CanutinJsonType = { accounts: [] };
+  let canutinFile: CanutinFileType = { accounts: [] };
 
   // New account or update account
   if (formData.account) {

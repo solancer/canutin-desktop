@@ -2,10 +2,14 @@ import { readFileSync } from 'fs';
 import { BrowserWindow } from 'electron';
 
 import { enumImportTitleOptions, StatusEnum } from '@appConstants/misc';
-import { ANALYZE_SOURCE_FILE_ACK, LOAD_FROM_CANUTIN_FILE_ACK, LOAD_FROM_OTHER_CSV_ACK } from '@constants/events';
-import { CanutinJsonType, UpdatedAccount } from '@appTypes/canutin';
+import {
+  ANALYZE_SOURCE_FILE_ACK,
+  LOAD_FROM_CANUTIN_FILE_ACK,
+  LOAD_FROM_OTHER_CSV_ACK,
+} from '@constants/events';
+import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
 import { ParseResult } from '@appTypes/parseCsv';
-import { importFromCanutinJson, updateAccounts } from '@database/helpers/importSource';
+import { importFromCanutinFile, updateAccounts } from '@database/helpers/importSource';
 
 import { mintCsvToJson, MintCsvEntryType } from './sourceHelpers/mint';
 import {
@@ -38,10 +42,10 @@ export const readCsv = (
 export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | null) => {
   const file = readFileSync(filePath, 'utf8');
   try {
-    const canutinJson = JSON.parse(file);
+    const canutinFile = JSON.parse(file);
     win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
       status: StatusEnum.SUCCESS,
-      sourceData: canutinJson,
+      sourceData: canutinFile,
     });
   } catch (error) {
     win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
@@ -141,10 +145,10 @@ export const importSourceData = async (
 
 export const loadFromCanutinFile = async (
   win: BrowserWindow | null,
-  canutinFile: CanutinJsonType
+  canutinFile: CanutinFileType
 ) => {
   try {
-    await importFromCanutinJson(canutinFile, win);
+    await importFromCanutinFile(canutinFile, win);
 
     win?.webContents.send(LOAD_FROM_CANUTIN_FILE_ACK, {
       status: StatusEnum.SUCCESS,
