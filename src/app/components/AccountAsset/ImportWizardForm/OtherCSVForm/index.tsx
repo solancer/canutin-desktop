@@ -106,6 +106,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
   const accountColumn = watch('accountColumn');
   const selectedCategoryColumn = watch('categoryColumn');
   const dateColumn = watch('dateColumn');
+  const amountColumn = watch('amountColumn');
   const dateFormat = watch('dateFormat');
 
   // Custom register's
@@ -183,11 +184,26 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
     return isValidDateColumn;
   };
 
-  const onSubmit = (form: OtherCSVFormSubmit) => {
-    // TODO: Validations for amount field
-    const isValidDateColumn = checkDateColumnFormat();
+  const checkAmountColumn = () => {
+    const isValidAmountColumn = data
+      .map((value: { [x: string]: any }) => Number(value[amountColumn]))
+      .every((value: number) => !isNaN(value));
 
-    if (isValidDateColumn) {
+    if (!isValidAmountColumn) {
+      setError('amountColumn', {
+        type: 'manual',
+        message: 'The values in the chosen column can only be numbers',
+      });
+    }
+
+    return isValidAmountColumn;
+  };
+
+  const onSubmit = (form: OtherCSVFormSubmit) => {
+    const isValidDateColumn = checkDateColumnFormat();
+    const isValidAmountColumn = checkAmountColumn();
+
+    if (isValidDateColumn && isValidAmountColumn) {
       const result = formToCantuinJsonFile(form, data, accounts);
       ipcRenderer.send(LOAD_FROM_OTHER_CSV, result);
     }
@@ -240,6 +256,10 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           name="amountColumn"
           defaultFormValue={null}
           placeholder=""
+          error={errors?.amountColumn}
+          cta={() => {
+            clearErrors('amountColumn');
+          }}
           options={columnsOptions}
           required
           control={control}
