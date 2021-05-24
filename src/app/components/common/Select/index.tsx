@@ -73,6 +73,7 @@ const Select = ({
             {...field}
             placeholder={placeholder}
             inputRef={ref}
+            inputId={name}
             classNamePrefix="select"
             options={groupedOptions ? groupedOptions : options}
             onChange={(e: SelectFieldValue) => {

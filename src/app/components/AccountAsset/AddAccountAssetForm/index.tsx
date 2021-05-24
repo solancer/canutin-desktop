@@ -81,11 +81,9 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
   };
 
   useEffect(() => {
-    AccountIpc.getAccounts();
-
     ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
-      const accountsValues : GroupedValue[] = [];
-      
+      const accountsValues: GroupedValue[] = [];
+
       Object.keys(balanceGroupLabels).forEach(balanceGroup => {
         accountsValues.push({
           label: balanceGroupLabels[parseInt(balanceGroup) as BalanceGroupEnum],
@@ -103,8 +101,8 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
   }, []);
 
   useEffect(() => {
-    AccountIpc.getAccounts();
-  }, [accountOrAsset])
+    accountOrAsset === ASSET && AccountIpc.getAccounts();
+  }, [accountOrAsset]);
 
   const shouldDisplay = accountOrAsset !== '';
   const shouldDisplayAccount = shouldDisplay && accountOrAsset === ACCOUNT;
@@ -130,7 +128,7 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
 
   return (
     <FormContainer>
-      <Form onSubmit={formSubmit}>
+      <Form onSubmit={formSubmit} role="form">
         <RadioGroupField
           label="Add new"
           name="accountOrAsset"
@@ -167,6 +165,7 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
               <ToggableInputContainer>
                 <InputText
                   name="balance"
+                  type="number"
                   disabled={autoCalculate}
                   setRef={registerAccountField({ validate: v => autoCalculate || v !== '' })}
                 />
