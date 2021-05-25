@@ -1,4 +1,4 @@
-import { BalanceGroupEnum } from '../../enums/balancegGroup.enum';
+import { BalanceGroupEnum } from '../../enums/balanceGroup.enum';
 import { AssetTypeEnum } from '../../enums/assetType.enum';
 import { accountTypes } from '../../constants/accountTypes';
 

@@ -34,6 +34,7 @@
     "typescript": "4.1.5"
   },
   "devDependencies": {
+    "@jackfranklin/test-data-bot": "^1.3.0",
     "@storybook/addon-actions": "^6.1.21",
     "@storybook/addon-essentials": "^6.1.21",
     "@storybook/addon-links": "^6.1.21",
@@ -142,6 +143,7 @@
       "<rootDir>/src/__tests__/__mocks__",
       "<rootDir>/src/__tests__/utils",
       "<rootDir>/src/__tests__/setup",
+      "<rootDir>/src/__tests__/factories",
       "<rootDir>/src/__tests__/fixtures"
     ],
     "setupFilesAfterEnv": [

@@ -1,4 +1,4 @@
-import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
+import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 
 export interface CanutinFileBudgetType {
   name: string;

@@ -1,6 +1,6 @@
 import { CanutinFileType } from '@appTypes/canutin';
 import mapCategories from '@database/helpers/importResources/mapCategories';
-import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
+import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 
 export interface MintCsvEntryType {
   Date: string;

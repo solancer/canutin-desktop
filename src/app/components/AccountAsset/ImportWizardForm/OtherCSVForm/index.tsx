@@ -18,7 +18,7 @@ import { accountGroupedValues } from '@components/AccountAsset/AddAccountAssetFo
 import { DB_GET_ACCOUNTS_ACK, LOAD_FROM_OTHER_CSV } from '@constants/events';
 import AccountIpc from '@app/data/account.ipc';
 import { Account } from '@database/entities';
-import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
+import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 
 import { container, optionList, option, toggleInputContainer } from './styles';
 import {

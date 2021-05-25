@@ -1,7 +1,7 @@
 import { format, parse } from 'date-fns';
 
 import { CanutinFileType } from '@appTypes/canutin';
-import { BalanceGroupEnum } from '@enums/balancegGroup.enum';
+import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import mapCategories from '@database/helpers/importResources/mapCategories';
 
 export interface PersonalCapitalCsvEntryType {

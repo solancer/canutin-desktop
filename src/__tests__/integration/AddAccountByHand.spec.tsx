@@ -45,7 +45,7 @@ describe('Add account by Hand tests', () => {
     
     const continueButton = screen.getByRole('button', { name: /Continue/i });
     expect(continueButton).toBeDisabled();
-    expect(continueButton).not.toBeChecked();
+
     userEvent.type(nameInput, 'Test account');
     userEvent.click(autoCalculateInput);
     await waitFor(() => {

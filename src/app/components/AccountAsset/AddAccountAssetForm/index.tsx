@@ -14,7 +14,7 @@ import FormFooter from '@components/common/Form/FormFooter';
 
 import { DB_GET_ACCOUNTS_ACK } from '@constants/events';
 import { ACCOUNT, ASSET } from '@appConstants/misc';
-import { BalanceGroupEnum } from '../../../../enums/balancegGroup.enum';
+import { BalanceGroupEnum } from '../../../../enums/balanceGroup.enum';
 import { accountTypes, balanceGroupLabels } from '@constants/accountTypes';
 import { assetTypes } from '@constants/assetTypes';
 import { NewAssetType } from '../../../../types/asset.type';
@@ -191,11 +191,18 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
             <InputTextField label="Name" name="name" register={registerAssetField} required />
             <InputTextField
               label="Quantity"
+              type="number"
               name="quantity"
               register={registerAssetField}
               required
             />
-            <InputTextField label="Cost" name="cost" register={registerAssetField} required />
+            <InputTextField
+              label="Cost"
+              name="cost"
+              type="number"
+              register={registerAssetField}
+              required
+            />
             <InputTextField label="Value" name="value" value={`$ ${assetValue}`} disabled />
             <Hr />
             <SelectField
