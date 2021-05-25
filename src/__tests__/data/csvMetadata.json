@@ -1,0 +1,18 @@
+{
+  "delimiter": ",",
+  "linebreak": "\n",
+  "aborted": false,
+  "truncated": false,
+  "cursor": 1070,
+  "fields": [
+    "Date",
+    "Description",
+    "Original Description",
+    "Amount",
+    "Transaction Type",
+    "Category",
+    "Account Name",
+    "Labels",
+    "Notes"
+  ]
+}

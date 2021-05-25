@@ -144,7 +144,8 @@
       "<rootDir>/src/__tests__/utils",
       "<rootDir>/src/__tests__/setup",
       "<rootDir>/src/__tests__/factories",
-      "<rootDir>/src/__tests__/fixtures"
+      "<rootDir>/src/__tests__/fixtures",
+      "<rootDir>/src/__tests__/data"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/src/__tests__/setup/setUpTests.tsx"

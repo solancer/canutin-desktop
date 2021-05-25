@@ -30,7 +30,7 @@ export interface CheckboxProps {
 const InlineCheckbox = ({ label, name, id, register }: CheckboxProps) => (
   <InputContainer>
     <InputCheckbox type="checkbox" name={name} id={id} ref={register ? register : null} />
-    <ValueLabel htmlFor={name}>{label}</ValueLabel>
+    <ValueLabel htmlFor={id}>{label}</ValueLabel>
   </InputContainer>
 );
 

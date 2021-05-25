@@ -139,7 +139,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
   }, [accounts, selectedAccount, setValue]);
 
   useEffect(() => {
-    trigger(['account.autoCalculate', 'account.balance']);
+    autoCalculate && trigger(['account.autoCalculate', 'account.balance']);
   }, [autoCalculate]);
 
   // Calculated Options
@@ -304,7 +304,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
       )}
       {selectedCategoryColumn && (
         <Container>
-          <Field name="Match Categories" label="Match Categories">
+          <Field name="Match categories" label="Match categories">
             <OptionList>
               {columnOptions(selectedCategoryColumn).map((categoryName: string) => (
                 <Option key={categoryName}>
@@ -355,7 +355,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
               />
             </>
           )}
-          <Field label="Account balance" name="balance">
+          <Field label="Account balance" name="account.balance">
             <ToggleInputContainer>
               <InputText
                 name="account.balance"
