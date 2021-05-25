@@ -179,6 +179,7 @@ describe('Import Wizard tests', () => {
   });
 
   test('Other CSV Form', async () => {
+    const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation((message) => {})
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === DATABASE_CONNECTED) {
         callback((event as unknown) as IpcRendererEvent);
@@ -263,5 +264,7 @@ describe('Import Wizard tests', () => {
     userEvent.click(autoCalculate);
     expect(autoCalculate).not.toBeChecked();
     userEvent.type(accountBalance, '123');
+
+    consoleSpy.mockRestore();
   });
 });
