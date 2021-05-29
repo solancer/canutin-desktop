@@ -227,15 +227,15 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           options={columnsOptions}
           required
           control={control}
-          error={errors?.dateFormat}
-          cta={() => {
-            clearErrors('dateFormat');
-          }}
         />
         <SelectField
           label="Date format"
           name="dateFormat"
           options={SUPPORTED_DATE_FORMAT_OPTIONS}
+          error={errors?.dateFormat}
+          cta={() => {
+            clearErrors('dateFormat');
+          }}
           required
           control={control}
         />
