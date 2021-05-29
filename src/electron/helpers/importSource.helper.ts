@@ -43,9 +43,20 @@ export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | 
   const file = readFileSync(filePath, 'utf8');
   try {
     const canutinFile = JSON.parse(file);
+    const countAccounts = canutinFile?.accounts.length;
+    const countTransactions = canutinFile?.accounts.reduce(
+      (countTransactions: number, account: { transactions: string | any[] }) =>
+        countTransactions + account?.transactions.length,
+      0
+    );
+
     win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
       status: StatusEnum.SUCCESS,
       sourceData: canutinFile,
+      metadata: {
+        countAccounts,
+        countTransactions,
+      },
     });
   } catch (error) {
     win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {

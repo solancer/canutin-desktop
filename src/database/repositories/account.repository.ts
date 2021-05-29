@@ -9,7 +9,7 @@ import { NewAccountType } from '../../types/account.type';
 export class AccountRepository {
   static async createAccount(account: NewAccountType): Promise<Account> {
     const accountType = await AccountTypeRepository.createOrGetAccountType({
-      name: account.accountType,
+      name: account.accountType.toLowerCase(),
     });
     const accountSaved = await getRepository<Account>(Account).save(
       new Account(account.name, false, accountType, account.officialName, account.institution)
