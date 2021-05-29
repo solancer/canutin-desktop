@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-import { sansSerifRegular } from '@appConstants/fonts';
+import { sansSerifRegular, monospaceRegular } from '@appConstants/fonts';
 import { bluePlain, blueLight } from '@appConstants/colors';
 
 export const container = css<{ loadingPercentage: number }>`
@@ -12,6 +12,8 @@ export const container = css<{ loadingPercentage: number }>`
   height: 100%;
   min-width: ${({ loadingPercentage }) => `${loadingPercentage}%`};
   padding: 0 16px;
+  transition: min-width 250ms;
+  box-sizing: border-box;
 `;
 
 export const message = css`
@@ -22,7 +24,7 @@ export const message = css`
 `;
 
 export const percentage = css`
-  ${sansSerifRegular};
+  ${monospaceRegular};
   color: ${bluePlain};
   font-size: 11px;
 `;

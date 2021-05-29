@@ -1,64 +1,7 @@
 import { css } from 'styled-components';
-import {
-  bluePlain,
-  borderGrey,
-  grey10,
-  grey20,
-  grey30,
-  grey7,
-  grey70,
-  grey90,
-  whitePlain,
-} from '@appConstants/colors';
-import { sansSerifBold, sansSerifRegular } from '@appConstants/fonts';
+import { borderGrey, grey10, grey90, whitePlain } from '@appConstants/colors';
+import { sansSerifRegular } from '@appConstants/fonts';
 import { inputFocusColor } from '@appConstants/inputs';
-
-export const formContainer = css`
-  border: 1px solid ${borderGrey};
-  border-radius: 4px;
-  display: grid;
-  grid-row-gap: 8px;
-  padding-top: 12px;
-`;
-
-export const form = css`
-  align-items: center;
-  display: grid;
-  grid-row-gap: 8px;
-`;
-
-export const formFooter = css`
-  align-items: center;
-  background-color: ${grey7};
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
-  padding: 12px;
-`;
-
-export const formSubmitButton = css<{ disabled: boolean }>`
-  ${sansSerifBold};
-  background-color: ${bluePlain};
-  border: none;
-  border-radius: 4px;
-  color: ${whitePlain};
-  cursor: pointer;
-  height: 40px;
-  margin-right: 10px;
-  padding: 12px 32px;
-
-  &:focus {
-    outline: none;
-  }
-
-  ${({ disabled }) =>
-    disabled &&
-    css`
-      background-color: ${grey20};
-      color: ${grey30};
-      cursor: default;
-    `}
-`;
 
 export const toggableInputContainer = css`
   display: grid;

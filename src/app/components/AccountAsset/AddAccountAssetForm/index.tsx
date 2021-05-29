@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 
+import Form from '@components/common/Form/Form';
+import Fieldset from '@components/common/Form/Fieldset';
 import Field from '@components/common/Form/Field';
 import RadioGroupField from '@components/common/Form/RadioGroupField';
 import SelectField from '@components/common/Form/SelectField';
@@ -11,6 +13,7 @@ import InputTextField from '@components/common/Form/InputTextField';
 import InputText from '@components/common/Form/InputText';
 import InlineCheckbox from '@components/common/Form/Checkbox';
 import FormFooter from '@components/common/Form/FormFooter';
+import ButtonSubmit from '@components/common/Form/ButtonSubmit';
 
 import { DB_GET_ACCOUNTS_ACK } from '@constants/events';
 import { ACCOUNT, ASSET } from '@appConstants/misc';
@@ -22,7 +25,7 @@ import { NewAccountType } from '../../../../types/account.type';
 import AssetIpc from '@app/data/asset.ipc';
 import AccountIpc from '@app/data/account.ipc';
 
-import { formContainer, form, formSubmitButton, toggableInputContainer, hrDivider } from './styles';
+import { toggableInputContainer } from './styles';
 import { Account } from '@database/entities';
 
 export const accountGroupedValues = accountTypes.map(({ balanceGroup, accountTypes }) => ({
@@ -35,20 +38,8 @@ const assetTypesValues = assetTypes.map(({ balanceGroup, assetTypes }) => ({
   label: balanceGroupLabels[balanceGroup],
 }));
 
-const FormContainer = styled.div`
-  ${formContainer}
-`;
-const Form = styled.form`
-  ${form}
-`;
-const FormSubmitButton = styled.button`
-  ${formSubmitButton}
-`;
 const ToggableInputContainer = styled.div`
   ${toggableInputContainer}
-`;
-const Hr = styled.hr`
-  ${hrDivider}
 `;
 
 export interface AddAccountAssetFormProps {
@@ -127,8 +118,8 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
   const submitDisabled = shouldDisplayAccount ? !submitAccountEnabled : submitAssetDisabled;
 
   return (
-    <FormContainer>
-      <Form onSubmit={formSubmit} role="form">
+    <Form onSubmit={formSubmit} role="form">
+      <Fieldset>
         <RadioGroupField
           label="Add new"
           name="accountOrAsset"
@@ -139,50 +130,52 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
             assetValue = 0;
           }}
         />
-        {shouldDisplayAccount && (
-          <>
+      </Fieldset>
+      {shouldDisplayAccount && (
+        <Fieldset>
+          <SelectField
+            label="Account type"
+            name="accountType"
+            groupedOptions={accountGroupedValues}
+            required
+            control={controlAccountField}
+          />
+          <InputTextField label="Name" name="name" register={registerAccountField} />
+          <InputTextField
+            label="Official name"
+            name="officialName"
+            optional
+            register={registerAccountField}
+          />
+          <InputTextField
+            label="Institution"
+            name="institution"
+            optional
+            register={registerAccountField}
+          />
+          <Field label="Balance" name="balance">
+            <ToggableInputContainer>
+              <InputText
+                name="balance"
+                type="number"
+                disabled={autoCalculate}
+                setRef={registerAccountField({ validate: v => autoCalculate || v !== '' })}
+              />
+              <InlineCheckbox
+                name="autoCalculate"
+                id="autoCalculate"
+                label="Auto-calculate from transactions"
+                register={registerAccountField}
+              />
+            </ToggableInputContainer>
+          </Field>
+        </Fieldset>
+      )}
+      {shouldDisplayAsset && (
+        <>
+          <Fieldset>
             <SelectField
-              label="Account Type"
-              name="accountType"
-              groupedOptions={accountGroupedValues}
-              required
-              control={controlAccountField}
-            />
-            <InputTextField label="Name" name="name" register={registerAccountField} />
-            <InputTextField
-              label="Official name"
-              name="officialName"
-              optional
-              register={registerAccountField}
-            />
-            <InputTextField
-              label="Institution"
-              name="institution"
-              optional
-              register={registerAccountField}
-            />
-            <Field label="Balance" name="balance">
-              <ToggableInputContainer>
-                <InputText
-                  name="balance"
-                  type="number"
-                  disabled={autoCalculate}
-                  setRef={registerAccountField({ validate: v => autoCalculate || v !== '' })}
-                />
-                <InlineCheckbox
-                  name="autoCalculate"
-                  id="autoCalculate"
-                  label="Auto-calculate from transactions"
-                  register={registerAccountField}
-                />
-              </ToggableInputContainer>
-            </Field>
-          </>
-        )}
-        {shouldDisplayAsset && (
-          <>
-            <SelectField
-              label="Asset Type"
+              label="Asset type"
               name="assetType"
               groupedOptions={assetTypesValues}
               control={controlAssetField}
@@ -198,29 +191,29 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
             />
             <InputTextField
               label="Cost"
-              name="cost"
               type="number"
+              name="cost"
               register={registerAssetField}
               required
             />
             <InputTextField label="Value" name="value" value={`$ ${assetValue}`} disabled />
-            <Hr />
+          </Fieldset>
+          <Fieldset>
             <SelectField
               optional
               label="Account"
               name="accountId"
               groupedOptions={accounts}
               control={controlAssetField}
+              placeholder={''}
             />
-          </>
-        )}
-      </Form>
+          </Fieldset>
+        </>
+      )}
       <FormFooter>
-        <FormSubmitButton disabled={submitDisabled} onClick={formSubmit}>
-          Continue
-        </FormSubmitButton>
+        <ButtonSubmit disabled={submitDisabled}>Continue</ButtonSubmit>
       </FormFooter>
-    </FormContainer>
+    </Form>
   );
 };
 

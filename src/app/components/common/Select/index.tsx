@@ -3,14 +3,14 @@ import { Controller, Control, FieldError } from 'react-hook-form';
 import styled from 'styled-components';
 import ReactSelect from 'react-select';
 
-import { selectInput, errorMessage } from './styles';
+import FieldStatus from '@components/common/Form/FieldStatus';
+
+import { StatusEnum } from '@appConstants/misc';
+
+import { selectInput } from './styles';
 
 const CustomSelect = styled(ReactSelect)`
   ${selectInput}
-`;
-
-const ErrorMessage = styled.span`
-  ${errorMessage}
 `;
 
 export type GroupedValue = {
@@ -88,7 +88,7 @@ const Select = ({
         defaultValue={defaultFormValue !== undefined ? defaultFormValue : optional ? null : defaultValue}
         rules={{ required }}
       />
-      {error && <ErrorMessage>{error.message}</ErrorMessage>}
+      {error && <FieldStatus status={StatusEnum.ERROR}>{error.message}</FieldStatus>}
     </div>
   );
 };

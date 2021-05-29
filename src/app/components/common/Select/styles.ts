@@ -64,9 +64,3 @@ export const selectInput = css<{ error: string | undefined; isClearable: boolean
   }
 `;
 
-export const errorMessage = css`
-  color: ${redPlain};
-  font-size: 12px;
-  max-width: 210px;
-  word-break: break-word;
-`;

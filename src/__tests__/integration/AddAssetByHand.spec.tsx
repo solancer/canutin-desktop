@@ -46,7 +46,7 @@ describe('Add asset by Hand tests', () => {
     expect(screen.getByRole('form')).toHaveFormValues({});
     expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/account/addAccountOrAsset');
 
-    await selectEvent.select(screen.getByLabelText('Asset Type'), 'Vehicle');
+    await selectEvent.select(screen.getByLabelText('Asset type'), 'Vehicle');
 
     // Required fields
     const nameInput = screen.getByLabelText('Name');

@@ -1,13 +1,6 @@
 import { css } from 'styled-components';
 import { borderGrey, grey10, grey80 } from '@appConstants/colors';
 
-export const container = css`
-  border-top: 1px solid ${grey10};
-  padding-top: 16px;
-  display: grid;
-  grid-row-gap: 8px;
-`;
-
 export const option = css`
   display: grid;
   grid-column-gap: 8px;

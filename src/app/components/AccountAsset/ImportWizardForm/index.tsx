@@ -1,10 +1,12 @@
 import React, { useState, useEffect, memo } from 'react';
-import styled from 'styled-components';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 
+import Form from '@components/common/Form/Form/formImportWizard';
+import Fieldset from '@components/common/Form/Fieldset';
 import RadioGroupField from '@components/common/Form/RadioGroupField';
 import ChooseFileInput from '@components/common/ChooseFileInput';
 import FormFooter from '@components/common/Form/FormFooter';
+import ButtonSubmit from '@components/common/Form/ButtonSubmit';
 
 import {
   IMPORT_SOURCE_FILE,
@@ -21,15 +23,7 @@ import { ParseMeta } from '@appTypes/parseCsv';
 
 import OtherCSVForm from './OtherCSVForm';
 
-import { formContainer, formSubmitButton } from './styles';
 import sourceAlertsLookup from './dataSourceAlerts';
-
-export const FormContainer = styled.div`
-  ${formContainer}
-`;
-export const FormSubmitButton = styled.button`
-  ${formSubmitButton}
-`;
 
 const filePathStatusMessage = (status: StatusEnum, message?: string) => {
   if (message) {
@@ -163,40 +157,42 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
     isLoading;
 
   return (
-    <FormContainer>
-      <RadioGroupField
-        label="Import from"
-        name="importSource"
-        values={Object.values(enumImportTitleOptions)}
-        onSelectOption={value => {
-          setSource(value as enumImportTitleOptions);
-          setFilePath(null);
-          setOtherCsvData(null);
-          setOtherCsvMetadata(null);
-        }}
-      />
-      {sourceAlertsLookup(source)}
-      {source && (
-        <ChooseFileInput
-          label="Choose source file"
-          extensionType={sourceExtensionFile(source)}
-          onSelect={onChooseFileInput}
-          filePath={filePath}
-          status={filePathStatus}
-          statusMessage={filePathStatus && filePathStatusMessage(filePathStatus, sourceMessage)}
+    <Form>
+      <Fieldset>
+        <RadioGroupField
+          label="Import from"
+          name="importSource"
+          values={Object.values(enumImportTitleOptions)}
+          onSelectOption={value => {
+            setSource(value as enumImportTitleOptions);
+            setFilePath(null);
+            setOtherCsvData(null);
+            setOtherCsvMetadata(null);
+          }}
         />
-      )}
+        {sourceAlertsLookup(source)}
+        {source && (
+          <ChooseFileInput
+            label="Choose source file"
+            extensionType={sourceExtensionFile(source)}
+            onSelect={onChooseFileInput}
+            filePath={filePath}
+            status={filePathStatus}
+            statusMessage={filePathStatus && filePathStatusMessage(filePathStatus, sourceMessage)}
+          />
+        )}
+      </Fieldset>
       {source === enumImportTitleOptions.OTHER_CSV_IMPORT_TYPE_TITLE &&
         otherCsvData &&
         otherCsvMetadata && <OtherCSVForm data={otherCsvData} metadata={otherCsvMetadata} />}
       {(source !== enumImportTitleOptions.OTHER_CSV_IMPORT_TYPE_TITLE || !otherCsvData) && (
         <FormFooter>
-          <FormSubmitButton disabled={isSubmitDisabled} onClick={onSubmit}>
+          <ButtonSubmit disabled={isSubmitDisabled} onClick={onSubmit}>
             Continue
-          </FormSubmitButton>
+          </ButtonSubmit>
         </FormFooter>
       )}
-    </FormContainer>
+    </Form>
   );
 };
 

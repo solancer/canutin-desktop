@@ -7,6 +7,5 @@ export const container = css`
   background-color: ${grey7};
   display: flex;
   justify-content: flex-end;
-  height: 55px;
-  margin-top: 8px;
+  height: 56px;
 `;

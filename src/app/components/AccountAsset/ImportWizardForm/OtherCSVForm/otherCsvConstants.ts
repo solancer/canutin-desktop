@@ -1,6 +1,6 @@
 import categoryList from '@database/seed/categories';
 
-export type SupportedDateFormatType =  'dd/MM/yyyy' | 'MM/dd/yyyy';
+export type SupportedDateFormatType = 'dd/MM/yyyy' | 'MM/dd/yyyy';
 
 export const SUPPORTED_DATE_FORMAT = ['dd/MM/yyyy', 'MM/dd/yyyy'];
 

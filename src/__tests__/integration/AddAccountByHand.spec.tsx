@@ -37,12 +37,12 @@ describe('Add account by Hand tests', () => {
     expect(screen.getByRole('form')).toHaveFormValues({});
     expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/account/addAccountOrAsset');
 
-    await selectEvent.select(screen.getByLabelText('Account Type'), 'Checking');
+    await selectEvent.select(screen.getByLabelText('Account type'), 'Checking');
 
     // Required fields
     const nameInput = screen.getByLabelText('Name');
     const autoCalculateInput = screen.getByLabelText('Auto-calculate from transactions');
-    
+
     const continueButton = screen.getByRole('button', { name: /Continue/i });
     expect(continueButton).toBeDisabled();
 
@@ -81,15 +81,15 @@ describe('Add account by Hand tests', () => {
     expect(screen.getByRole('form')).toHaveFormValues({});
     expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/account/addAccountOrAsset');
 
-    await selectEvent.select(screen.getByLabelText('Account Type'), 'PayPal');
+    await selectEvent.select(screen.getByLabelText('Account type'), 'PayPal');
     const nameInput = screen.getByLabelText('Name');
     const officialNameInput = screen.getByLabelText('Official name / Optional');
     const institutionInput = screen.getByLabelText('Institution / Optional');
     const balanceInput = screen.getByLabelText('Balance');
     const continueButton = screen.getByRole('button', { name: /Continue/i });
-    
+
     expect(continueButton).toBeDisabled();
-    
+
     // Fill inputs
     userEvent.type(nameInput, 'Test Account');
     userEvent.type(officialNameInput, 'Test Official Name');
@@ -110,7 +110,7 @@ describe('Add account by Hand tests', () => {
       expect(spySendIpcRenderer).toBeCalledWith(DB_NEW_ACCOUNT, {
         accountType: 'paypal',
         autoCalculate: false,
-        balance: "123",
+        balance: '123',
         institution: 'Test Institution',
         name: 'Test Account',
         officialName: 'Test Official Name',

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 import { isValid, parse } from 'date-fns';
 
-import FormFooter from '@components/common/Form/FormFooter';
+import Fieldset from '@components/common/Form/Fieldset';
 import FormAlert from '@components/common/FormAlert';
 import SelectField from '@components/common/Form/SelectField';
 import Select from '@components/common/Select';
@@ -14,13 +14,15 @@ import InputText from '@components/common/Form/InputText';
 import InputTextField from '@components/common/Form/InputTextField';
 import { AnalyzeSourceMetadataType } from '@components/AccountAsset/ImportWizardForm';
 import { accountGroupedValues } from '@components/AccountAsset/AddAccountAssetForm/index';
+import FormFooter from '@components/common/Form/FormFooter';
+import ButtonSubmit from '@components/common/Form/ButtonSubmit';
 
 import { DB_GET_ACCOUNTS_ACK, LOAD_FROM_OTHER_CSV } from '@constants/events';
 import AccountIpc from '@app/data/account.ipc';
 import { Account } from '@database/entities';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 
-import { container, optionList, option, toggleInputContainer } from './styles';
+import { optionList, option, toggleInputContainer } from './styles';
 import {
   CATEGORY_GROUPED_OPTIONS,
   SUPPORTED_DATE_FORMAT_OPTIONS,
@@ -29,11 +31,6 @@ import {
   NEW_ACCOUNT_VALUE,
 } from './otherCsvConstants';
 import { formToCantuinJsonFile } from './utils';
-import { FormSubmitButton } from '../';
-
-const Container = styled.div`
-  ${container}
-`;
 
 const OptionList = styled.div`
   ${optionList}
@@ -211,7 +208,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
 
   return (
     <>
-      <Container>
+      <Fieldset>
         <FormAlert
           title="Interpreting your CSV file"
           description={
@@ -282,9 +279,9 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           optional
           isClearable
         />
-      </Container>
+      </Fieldset>
       {accountColumn && accountOptions && accountColumnOptions.length > 0 && (
-        <Container>
+        <Fieldset>
           <Field name="Choose types for new accounts" label="Choose types for new accounts">
             <OptionList>
               {accountColumnOptions.map((accountName: string) => (
@@ -300,10 +297,10 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
               ))}
             </OptionList>
           </Field>
-        </Container>
+        </Fieldset>
       )}
       {selectedCategoryColumn && (
-        <Container>
+        <Fieldset>
           <Field name="Match categories" label="Match categories">
             <OptionList>
               {columnOptions(selectedCategoryColumn).map((categoryName: string) => (
@@ -320,10 +317,10 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
               ))}
             </OptionList>
           </Field>
-        </Container>
+        </Fieldset>
       )}
       {!accountColumn && (
-        <Container>
+        <Fieldset>
           <SelectField
             label="Import to account"
             name="account.importAccount"
@@ -345,6 +342,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
                 groupedOptions={accountGroupedValues}
                 control={control}
                 defaultFormValue={null}
+                placeholder={''}
                 required
               />
               <InputTextField
@@ -382,12 +380,12 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
               }
             />
           )}
-        </Container>
+        </Fieldset>
       )}
       <FormFooter>
-        <FormSubmitButton disabled={!formState.isValid} onClick={handleSubmit(onSubmit)}>
+        <ButtonSubmit disabled={!formState.isValid} onClick={handleSubmit(onSubmit)}>
           Continue
-        </FormSubmitButton>
+        </ButtonSubmit>
       </FormFooter>
     </>
   );

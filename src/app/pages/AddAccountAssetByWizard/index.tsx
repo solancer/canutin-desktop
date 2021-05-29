@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 
 import ScrollView from '@components/common/ScrollView';
+import Section from '@components/common/Section';
 import ImportWizardForm from '@components/AccountAsset/ImportWizardForm';
 import StatusBar from '@components/common/StatusBar';
 
@@ -13,15 +13,6 @@ import {
 } from '@constants/events';
 import { StatusBarContext } from '@app/context';
 import AccountIpc from '@app/data/account.ipc';
-
-import { container, subTitle } from './styles';
-
-const Container = styled.div`
-  ${container}
-`;
-const SubTitle = styled.div`
-  ${subTitle}
-`;
 
 const SUCCESS_MESSAGE_TIMEOUT = 5000;
 
@@ -80,10 +71,9 @@ const AddAccountAssetByWizard = () => {
         title="Import wizard"
         subTitle="Add or update accounts, assets, balances and transactions"
       >
-        <Container>
-          <SubTitle>Data Source</SubTitle>
+        <Section title="Data Source">
           <ImportWizardForm isLoading={isLoading} setIsLoading={setIsLoading} />
-        </Container>
+        </Section>
       </ScrollView>
       <StatusBar
         loadingMessage="Importing transactions from CSV"

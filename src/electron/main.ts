@@ -156,8 +156,8 @@ const setupDbEvents = async () => {
 
 const createWindow = async () => {
   win = new BrowserWindow({
-    minWidth: 800,
-    minHeight: 600,
+    minWidth: 1200,
+    minHeight: 768,
     width: 1280,
     height: 880,
     titleBarStyle: 'hidden',
