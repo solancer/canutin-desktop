@@ -29,7 +29,7 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
 
       const transaction = {
         description: personalCapEntry.Description,
-        date: format(parse(personalCapEntry.Date, 'yyyy-dd-MM', new Date()), 'MM/dd/yyyy'),
+        date: format(parse(personalCapEntry.Date, 'yyyy-MM-dd', new Date()), 'MM/dd/yyyy'),
         amount: personalCapEntry.Amount,
         excludeFromTotals: false,
         category: mapCategories(personalCapEntry.Category),
