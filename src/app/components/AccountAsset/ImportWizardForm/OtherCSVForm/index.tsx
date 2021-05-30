@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
@@ -70,6 +70,8 @@ export interface OtherCSVFormSubmit {
 
 const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
   const [accounts, setAccounts] = useState<null | Account[]>(null);
+  const dateFormatRef = useRef<HTMLInputElement>(null);
+  const amountRef = useRef<HTMLInputElement>(null);
   const {
     handleSubmit,
     register,
@@ -200,6 +202,16 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
     const isValidDateColumn = checkDateColumnFormat();
     const isValidAmountColumn = checkAmountColumn();
 
+    if (!isValidDateColumn) { 
+      dateFormatRef.current?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    if (!isValidAmountColumn) {
+      amountRef.current?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
     if (isValidDateColumn && isValidAmountColumn) {
       const result = formToCantuinJsonFile(form, data, accounts);
       ipcRenderer.send(LOAD_FROM_OTHER_CSV, result);
@@ -231,6 +243,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
         <SelectField
           label="Date format"
           name="dateFormat"
+          innerRef={dateFormatRef}
           options={SUPPORTED_DATE_FORMAT_OPTIONS}
           error={errors?.dateFormat}
           cta={() => {
@@ -252,6 +265,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           label="Amount column"
           name="amountColumn"
           defaultFormValue={null}
+          innerRef={amountRef}
           placeholder=""
           error={errors?.amountColumn}
           cta={() => {

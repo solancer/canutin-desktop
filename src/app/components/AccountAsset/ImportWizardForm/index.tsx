@@ -102,8 +102,6 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
             setCanutinJson(analyzeSource.sourceData);
           }
 
-          console.log(analyzeSource.metadata?.countTransactions);
-
           analyzeSource.metadata?.countAccounts &&
             analyzeSource.metadata?.countTransactions !== undefined &&
             setSourceMessage(

@@ -16,10 +16,11 @@ export interface FieldProps {
   name: string;
   optional?: boolean;
   children?: ReactNode;
+  innerRef?: React.RefObject<HTMLInputElement>
 }
 
-const Field = ({ label, name, optional = false, children }: FieldProps) => (
-  <FieldContainer>
+const Field = ({ label, name, optional = false, children, innerRef }: FieldProps) => (
+  <FieldContainer innerRef={innerRef}>
     {label && (
       <Label htmlFor={name}>
         {label}
