@@ -10,6 +10,7 @@ import {
 import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
 import { ParseResult } from '@appTypes/parseCsv';
 import { importFromCanutinFile, updateAccounts } from '@database/helpers/importSource';
+import { CanutinFileTransactionType } from '@appTypes/canutin';
 
 import { mintCsvToJson, MintCsvEntryType } from './sourceHelpers/mint';
 import {
@@ -43,21 +44,33 @@ export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | 
   const file = readFileSync(filePath, 'utf8');
   try {
     const canutinFile = JSON.parse(file);
-    const countAccounts = canutinFile?.accounts.length;
-    const countTransactions = canutinFile?.accounts.reduce(
-      (countTransactions: number, account: { transactions: string | any[] }) =>
-        countTransactions + account?.transactions.length,
-      0
-    );
+    const hasCanutinFileAccounts = canutinFile?.accounts?.length > 0;
 
-    win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-      status: StatusEnum.SUCCESS,
-      sourceData: canutinFile,
-      metadata: {
-        countAccounts,
-        countTransactions,
-      },
-    });
+    if (hasCanutinFileAccounts) {
+      const countAccounts = canutinFile.accounts.length;
+      const countTransactions = canutinFile.accounts.reduce(
+        (countTransactions: number, account: { transactions: CanutinFileTransactionType[] }) => {
+          if (account?.transactions) {
+            return countTransactions + account.transactions.length;
+          }
+
+          return countTransactions;
+        },
+        0
+      );
+
+      win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
+        status: StatusEnum.SUCCESS,
+        sourceData: canutinFile,
+        metadata: {
+          countAccounts,
+          countTransactions,
+        },
+      });
+    } else {
+      // Json file is not supported
+      throw Error;
+    }
   } catch (error) {
     win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
       status: StatusEnum.ERROR,
