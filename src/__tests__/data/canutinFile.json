@@ -3,20 +3,14 @@
     {
       "name": "Example",
       "balanceGroup": "Cash",
-      "accountType": "Mint",
+      "accountType": "Checking",
       "transactions": [
         {
           "description": "description",
           "date": "10/15/2019",
           "amount": 50,
           "excludeFromTotals": false,
-          "category":  "Payment",
-          "budget": {
-            "name": "Food",
-            "targetAmount": 500,
-            "type": "Food",
-            "date": "1/15/2019"
-          }
+          "category":  "Payment"
         }
       ]
     }

@@ -205,7 +205,6 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
               name="accountId"
               groupedOptions={accounts}
               control={controlAssetField}
-              placeholder={''}
             />
           </Fieldset>
         </>

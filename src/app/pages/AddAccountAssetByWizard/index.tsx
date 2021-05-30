@@ -56,7 +56,7 @@ const AddAccountAssetByWizard = () => {
   }, [setSuccessMessage]);
 
   useEffect(() => {
-    if (loadingPercentage === 100) {
+    if (loadingPercentage && loadingPercentage >= 100) {
       setLoadingPercentage(undefined);
     }
   }, [loadingPercentage]);
@@ -77,7 +77,7 @@ const AddAccountAssetByWizard = () => {
       </ScrollView>
       <StatusBar
         loadingMessage="Importing transactions from CSV"
-        loadingPercentage={loadingPercentage}
+        loadingPercentage={loadingPercentage && Math.floor(loadingPercentage)}
         successMessage={successMessage}
         onClickButton={onCloseMessage}
       />

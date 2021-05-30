@@ -45,7 +45,7 @@ const Select = ({
   required = false,
   optional = false,
   defaultFormValue,
-  placeholder,
+  placeholder = '',
   error,
   cta,
   isClearable = false,

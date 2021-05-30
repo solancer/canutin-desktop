@@ -235,7 +235,6 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           label="Date column"
           name="dateColumn"
           defaultFormValue={null}
-          placeholder=""
           options={columnsOptions}
           required
           control={control}
@@ -256,7 +255,6 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           label="Description column"
           name="descriptionColumn"
           defaultFormValue={null}
-          placeholder=""
           options={columnsOptions}
           required
           control={control}
@@ -266,7 +264,6 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           name="amountColumn"
           defaultFormValue={null}
           innerRef={amountRef}
-          placeholder=""
           error={errors?.amountColumn}
           cta={() => {
             clearErrors('amountColumn');
@@ -280,7 +277,6 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           name="accountColumn"
           options={columnsOptions}
           control={control}
-          placeholder={''}
           optional
           isClearable
         />
@@ -289,7 +285,6 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           name="categoryColumn"
           options={columnsOptions}
           control={control}
-          placeholder={''}
           optional
           isClearable
         />
@@ -304,7 +299,6 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
                   <Select
                     name={`accounts.${accountName.toString()}`}
                     groupedOptions={accountGroupedValues}
-                    placeholder={''}
                     control={control}
                   />
                 </Option>
@@ -356,7 +350,6 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
                 groupedOptions={accountGroupedValues}
                 control={control}
                 defaultFormValue={null}
-                placeholder={''}
                 required
               />
               <InputTextField
