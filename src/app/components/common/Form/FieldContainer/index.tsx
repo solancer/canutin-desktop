@@ -9,8 +9,9 @@ const Container = styled.div`
 
 export interface FieldContainerProps {
   children: ReactNode;
+  innerRef?: React.RefObject<HTMLInputElement>
 }
 
-const FieldContainer = ({ children }: FieldContainerProps) => <Container>{children}</Container>;
+const FieldContainer = ({ children, innerRef }: FieldContainerProps) => <Container ref={innerRef}>{children}</Container>;
 
 export default FieldContainer;

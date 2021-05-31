@@ -1,6 +1,13 @@
 import { css } from 'styled-components';
 
-import { whitePlain, grey5, blueLight, grey50, grey80, blackOpacity10 } from '@appConstants/colors';
+import {
+  whitePlain,
+  bluePlain,
+  blueLight,
+  grey50,
+  grey80,
+  blackOpacity10,
+} from '@appConstants/colors';
 import { sansSerifBold, sansSerifRegular } from '@appConstants/fonts';
 
 const componentPadding = css`
@@ -18,6 +25,7 @@ export const container = css<{ disabled?: boolean }>`
   box-shadow: 0 4px 16px 0 ${blackOpacity10};
   transition: transform 100ms;
   width: 100%;
+  outline-color: ${bluePlain};
 
   &:hover {
     cursor: pointer;

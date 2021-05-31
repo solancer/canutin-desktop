@@ -1,21 +1,16 @@
 import { css } from 'styled-components';
-import { grey40, grey5 } from '@appConstants/colors';
 import { monospaceRegular } from '@appConstants/fonts';
+import { grey40 } from '@appConstants/colors';
 
 export const container = css`
-  background-color: ${grey5};
-  display: flex;
-  flex-direction: column;
   height: 100%;
-  padding-left: 64px;
-  padding-right: 64px;
   width: 100%;
 `;
 
-export const subTitle = css`
+export const sectionTitle = css`
   color: ${grey40};
   font-size: 12px;
   text-transform: uppercase;
-  margin-bottom: 15px;
+  line-height: 1em;
   ${monospaceRegular};
 `;

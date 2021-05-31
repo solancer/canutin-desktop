@@ -1,4 +1,3 @@
-import { Account } from '@database/entities';
 import { AssetTypeEnum } from '../enums/assetType.enum';
 
 export type NewAssetType = {
@@ -6,14 +5,5 @@ export type NewAssetType = {
   quantity: number;
   cost: number;
   assetType: AssetTypeEnum;
-  account?: Account;
+  accountId: number | null;
 };
-
-
-export type NewAssetSubmitType = {
-  name: string;
-  quantity: number;
-  cost: number;
-  assetType: AssetTypeEnum;
-  account?: string;
-}

@@ -1,10 +1,11 @@
-import { Entity, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, Unique } from 'typeorm';
 import { Base } from './base.entity';
 import { Account } from './account.entity';
 import { Budget } from './budget.entity';
 import { TransactionSubCategory } from './transactionSubCategory.entity';
 
 @Entity()
+@Unique('UQ_COLUMNS', ['account', 'date', 'description', 'amount'])
 export class Transaction extends Base {
   @Column()
   description: string;
@@ -18,10 +19,16 @@ export class Transaction extends Base {
   @Column()
   excludeFromTotals: boolean;
 
-  @ManyToOne(() => Account, account => account.transactions)
+  @ManyToOne(() => Account, account => account.transactions, {
+    cascade: true,
+  })
+  @JoinColumn()
   account: Account;
 
-  @ManyToOne(() => Budget, budget => budget.transactions)
+  @ManyToOne(() => Budget, budget => budget.transactions, {
+    cascade: true,
+  })
+  @JoinColumn()
   budget?: Budget;
 
   @ManyToOne(
@@ -47,7 +54,7 @@ export class Transaction extends Base {
     this.description = description;
     this.date = date;
     this.amount = amount;
-    this.excludeFromTotals = excludeFromTotals;
+    this.excludeFromTotals = excludeFromTotals ? excludeFromTotals : false;
     this.account = account;
     this.budget = budget;
     this.category = category;

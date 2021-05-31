@@ -18,7 +18,7 @@ import {
 } from '../entities';
 
 export const dbConfig = {
-  type: 'sqlite',
+  type: 'better-sqlite3',
   synchronize: true,
   logging: true,
   entities: [

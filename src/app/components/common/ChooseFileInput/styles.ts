@@ -2,17 +2,8 @@ import { css } from 'styled-components';
 
 import { StatusEnum } from '@appConstants/misc';
 import { sansSerifBold } from '@appConstants/fonts';
-import {
-  grey20,
-  grey40,
-  grey70,
-  grey80,
-  whitePlain,
-  borderGrey,
-  redPlain,
-  bluePlain,
-  greenPlain,
-} from '@appConstants/colors';
+import { grey20, grey40, grey70, grey80, whitePlain, borderGrey } from '@appConstants/colors';
+import { getStatusColor } from '@app/components/common/Form/FieldStatus/styles';
 
 export const labelWrapper = css`
   padding-right: 20px;
@@ -36,22 +27,6 @@ export const fileExtensionLabel = css`
 export const fileContainer = css`
   display: flex;
   flex-direction: column;
-`;
-
-const getStatusColor = (status: StatusEnum) => {
-  switch (status) {
-    case StatusEnum.ERROR:
-      return redPlain;
-    case StatusEnum.LOADING:
-      return bluePlain;
-    case StatusEnum.SUCCESS:
-      return greenPlain;
-  }
-};
-
-export const filePathStatus = css<{ status: StatusEnum }>`
-  font-size: 12px;
-  color: ${({ status }) => getStatusColor(status)};
 `;
 
 export const filePathContainer = css<{ status?: StatusEnum }>`

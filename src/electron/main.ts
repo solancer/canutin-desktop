@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import settings from 'electron-settings';
+import { QueryFailedError } from 'typeorm';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import { app, BrowserWindow, dialog, ipcMain, IpcMainEvent } from 'electron';
 import isDev from 'electron-is-dev';
@@ -14,13 +15,17 @@ import {
   DB_NEW_ACCOUNT_ACK,
   DB_GET_ACCOUNTS,
   DB_GET_ACCOUNTS_ACK,
+  DB_GET_BALANCE_STATEMENTS,
+  DB_GET_BALANCE_STATEMENTS_ACK,
   IMPORT_SOURCE_FILE,
   IMPORT_SOURCE_FILE_ACK,
   ANALYZE_SOURCE_FILE,
-  LOAD_FROM_CANUTIN_FILE
+  LOAD_FROM_CANUTIN_FILE,
+  LOAD_FROM_OTHER_CSV,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
-import { CanutinJsonType } from '@appTypes/canutin';
+import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
+import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
 import { enumExtensionFiles, enumImportTitleOptions } from '@appConstants/misc';
 
 import {
@@ -30,9 +35,16 @@ import {
   ELECTRON_WINDOW_CLOSED,
 } from './constants';
 import { connectAndSaveDB, findAndConnectDB } from './helpers/database.helper';
-import { importSourceData, loadFromCanutinFile } from './helpers/importSource.helper';
+import {
+  importSourceData,
+  loadFromCanutinFile,
+  importUpdatedAccounts,
+} from './helpers/importSource.helper';
 import { AssetRepository } from '@database/repositories/asset.repository';
+import { BalanceStatementRepository } from '@database/repositories/balanceStatement.repository';
 import seedCategories from '@database/seed/seedCategories';
+import seedAssetTypes from '@database/seed/seedAssetTypes';
+import seedAccountTypes from '@database/seed/seedAccountTypes';
 import { AccountRepository } from '@database/repositories/account.repository';
 import { NewAssetType } from '../types/asset.type';
 import { NewAccountType } from '../types/account.type';
@@ -48,6 +60,8 @@ const setupEvents = async () => {
 
       if (filePath) await connectAndSaveDB(win, filePath);
       await seedCategories();
+      await seedAssetTypes();
+      await seedAccountTypes();
       win.webContents.send(NEW_DATABASE);
     }
   });
@@ -88,13 +102,18 @@ const setupEvents = async () => {
     }
   );
 
+  ipcMain.on(LOAD_FROM_CANUTIN_FILE, async (_: IpcMainEvent, canutinFile: CanutinFileType) => {
+    await loadFromCanutinFile(win, canutinFile);
+  });
+
   ipcMain.on(
-    LOAD_FROM_CANUTIN_FILE,
+    LOAD_FROM_OTHER_CSV,
     async (
       _: IpcMainEvent,
-      canutinFile: CanutinJsonType
+      otherCsvPayload: { canutinFile: CanutinFileType; updatedAccounts: UpdatedAccount[] }
     ) => {
-      await loadFromCanutinFile(win, canutinFile);
+      await loadFromCanutinFile(win, otherCsvPayload.canutinFile);
+      await importUpdatedAccounts(win, otherCsvPayload.updatedAccounts);
     }
   );
 };
@@ -106,8 +125,27 @@ const setupDbEvents = async () => {
   });
 
   ipcMain.on(DB_NEW_ACCOUNT, async (_: IpcMainEvent, account: NewAccountType) => {
-    const newAccount = await AccountRepository.createAccount(account);
-    win?.webContents.send(DB_NEW_ACCOUNT_ACK, newAccount);
+    try {
+      const newAccount = await AccountRepository.createAccount(account);
+      win?.webContents.send(DB_NEW_ACCOUNT_ACK, { ...newAccount, status: EVENT_SUCCESS });
+    } catch (e) {
+      if (e instanceof QueryFailedError) {
+        win?.webContents.send(DB_NEW_ACCOUNT_ACK, {
+          status: EVENT_ERROR,
+          message: 'There is already an account with this name, please try a different one',
+        });
+      } else {
+        win?.webContents.send(DB_NEW_ACCOUNT_ACK, {
+          status: EVENT_ERROR,
+          message: 'An error occurred, please try again',
+        });
+      }
+    }
+  });
+
+  ipcMain.on(DB_GET_BALANCE_STATEMENTS, async (_: IpcMainEvent) => {
+    const balanceStatements = await BalanceStatementRepository.getBalanceStatements();
+    win?.webContents.send(DB_GET_BALANCE_STATEMENTS_ACK, balanceStatements);
   });
 
   ipcMain.on(DB_GET_ACCOUNTS, async (_: IpcMainEvent) => {
@@ -118,8 +156,8 @@ const setupDbEvents = async () => {
 
 const createWindow = async () => {
   win = new BrowserWindow({
-    minWidth: 800,
-    minHeight: 600,
+    minWidth: 1200,
+    minHeight: 768,
     width: 1280,
     height: 880,
     titleBarStyle: 'hidden',

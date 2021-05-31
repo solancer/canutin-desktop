@@ -1,0 +1,18 @@
+{
+  "accounts": [
+    {
+      "name": "Example",
+      "balanceGroup": "Cash",
+      "accountType": "Checking",
+      "transactions": [
+        {
+          "description": "description",
+          "date": "10/15/2019",
+          "amount": 50,
+          "excludeFromTotals": false,
+          "category":  "Payment"
+        }
+      ]
+    }
+  ]
+}

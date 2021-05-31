@@ -1,0 +1,112 @@
+[
+  {
+    "Date": "9/02/2019",
+    "Description": "Apple",
+    "Original Description": "Apple",
+    "Amount": "2300.00",
+    "Transaction Type": "debit",
+    "Category": "Electronics & Software",
+    "Account Name": "Jerry's Visa",
+    "Labels": "",
+    "Notes": ""
+  },
+  {
+    "Date": "9/01/2019",
+    "Description": "Ralphs",
+    "Original Description": "Auth : Ralphs #0279",
+    "Amount": "29.74",
+    "Transaction Type": "debit",
+    "Category": "Groceries",
+    "Account Name": "Jerry's Visa",
+    "Labels": "",
+    "Notes": ""
+  },
+  {
+    "Date": "8/31/2019",
+    "Description": "GrubHub",
+    "Original Description": "YELP-GRUBHUB*TANDOORAI",
+    "Amount": "48.80",
+    "Transaction Type": "debit",
+    "Category": "Restaurants",
+    "Account Name": "Jerry's Visa",
+    "Labels": "",
+    "Notes": ""
+  },
+  {
+    "Date": "8/30/2019",
+    "Description": "Holy Guacamole",
+    "Original Description": "Holy Guacamole",
+    "Amount": "10.78",
+    "Transaction Type": "debit",
+    "Category": "Restaurants",
+    "Account Name": "Jerry's Amex",
+    "Labels": "",
+    "Notes": ""
+  },
+  {
+    "Date": "9/01/2019",
+    "Description": "Gelson's",
+    "Original Description": "Gelson's",
+    "Amount": "115.41",
+    "Transaction Type": "debit",
+    "Category": "Groceries",
+    "Account Name": "Jerry's Amex",
+    "Labels": "",
+    "Notes": ""
+  },
+  {
+    "Date": "9/01/2019",
+    "Description": "In-N-Out Burger",
+    "Original Description": "IN N OUT BURGER 140",
+    "Amount": "13.89",
+    "Transaction Type": "debit",
+    "Category": "Fast Food",
+    "Account Name": "Jerry's Amex",
+    "Labels": "",
+    "Notes": ""
+  },
+  {
+    "Date": "9/01/2019",
+    "Description": "Home Depot",
+    "Original Description": "THE HOME DEPOT 6611",
+    "Amount": "21.87",
+    "Transaction Type": "debit",
+    "Category": "Home Improvement",
+    "Account Name": "Jerry's Amex",
+    "Labels": "",
+    "Notes": ""
+  },
+  {
+    "Date": "9/01/2019",
+    "Description": "Whole Foods",
+    "Original Description": "WHOLEFDS PCH 10225",
+    "Amount": "50.56",
+    "Transaction Type": "debit",
+    "Category": "Groceries",
+    "Account Name": "Jerry's Amex",
+    "Labels": "",
+    "Notes": ""
+  },
+  {
+    "Date": "8/30/2019",
+    "Description": "Chevron",
+    "Original Description": "CHEVRON 0372023",
+    "Amount": "63.02",
+    "Transaction Type": "debit",
+    "Category": "Gas & Fuel",
+    "Account Name": "Jerry's Amex",
+    "Labels": "",
+    "Notes": ""
+  },
+  {
+    "Date": "8/30/2019",
+    "Description": "Initech Payroll",
+    "Original Description": "Initech Payroll",
+    "Amount": "3500.00",
+    "Transaction Type": "credit",
+    "Category": "Paycheck",
+    "Account Name": "Jerry's Checking",
+    "Labels": "",
+    "Notes": ""
+  }
+]

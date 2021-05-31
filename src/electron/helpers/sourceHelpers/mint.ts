@@ -1,5 +1,6 @@
-import { CanutinJsonType } from '@appTypes/canutin';
-import mintCategories from '@database/helpers/importResources/mintCategories';
+import { CanutinFileType } from '@appTypes/canutin';
+import mapCategories from '@database/helpers/importResources/mapCategories';
+import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 
 export interface MintCsvEntryType {
   Date: string;
@@ -7,7 +8,7 @@ export interface MintCsvEntryType {
   'Original Description': string;
   Amount: number;
   'Transaction Type': 'credit' | 'debit';
-  Category: keyof typeof mintCategories;
+  Category: keyof typeof mapCategories;
   'Account Name': string;
   Labels: string;
   Notes: string;
@@ -15,7 +16,9 @@ export interface MintCsvEntryType {
 
 export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
   let countAccounts = 0;
-  const finalJson = mintCsv.reduce<CanutinJsonType>(
+  let countTransactions = 0;
+
+  const finalJson = mintCsv.reduce<CanutinFileType>(
     (acc, mintEntry) => {
       const accountIndex = acc.accounts.findIndex(
         account => account.name === mintEntry['Account Name']
@@ -30,8 +33,9 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
         date: mintEntry.Date,
         amount: mintEntry['Transaction Type'] === 'credit' ? mintEntry.Amount : -mintEntry.Amount,
         excludeFromTotals: false,
-        category: mintCategories[mintEntry.Category],
+        category: mapCategories(mintEntry.Category),
       };
+      countTransactions++;
 
       if (accountIndex > -1) {
         acc.accounts[accountIndex].transactions.push(transaction);
@@ -43,8 +47,8 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
 
         acc.accounts.push({
           name: mintEntry['Account Name'],
-          balanceGroup: 'Cash',
-          accountType: 'Mint',
+          balanceGroup: BalanceGroupEnum.CASH,
+          accountType: 'checking',
           transactions: [transaction],
         });
       }
@@ -54,5 +58,5 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
     { accounts: [] }
   );
 
-  return { data: finalJson, metadata: { countAccounts } };
+  return { data: finalJson, metadata: { countAccounts, countTransactions } };
 };

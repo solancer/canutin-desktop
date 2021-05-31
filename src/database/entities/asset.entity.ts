@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 import { Base } from './base.entity';
-import { BalanceGroupEnum } from '../../enums/balancegGroup.enum';
+import { BalanceGroupEnum } from '../../enums/balanceGroup.enum';
 import { Account } from './account.entity';
 import { AssetType } from './assetType.entity';
 import { getBalanceGroupByAssetType } from '../helpers';
@@ -16,7 +16,7 @@ export class Asset extends Base {
   @Column()
   cost: number;
 
-  @OneToOne(() => AssetType, assetType => assetType.asset, { cascade: true })
+  @ManyToOne(() => AssetType, assetType => assetType.asset, { cascade: true })
   @JoinColumn()
   assetType: AssetType;
 
@@ -27,6 +27,7 @@ export class Asset extends Base {
   sold?: Date;
 
   @ManyToOne(() => Account, account => account.assets, { nullable: true })
+  @JoinColumn()
   account?: Account;
 
   constructor(
@@ -34,14 +35,14 @@ export class Asset extends Base {
     quantity: number,
     cost: number,
     assetType: AssetType,
-    account?: Account,
+    account?: Account | null,
     sold?: Date
   ) {
     super();
     this.name = name;
     this.quantity = quantity;
     this.cost = cost;
-    this.account = account;
+    this.account = account ? account : undefined;
     this.assetType = assetType;
     this.sold = sold;
     this.balanceGroup = getBalanceGroupByAssetType(assetType?.name);

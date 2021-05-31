@@ -19,8 +19,6 @@ export const container = css<{ error: boolean; success: boolean }>`
   box-shadow: inset 0 1px 0 ${grey10};
   display: flex;
   justify-content: space-between;
-  padding-left: 16px;
-  padding-right: 16px;
   line-height: 1em;
 
   -webkit-user-select: none;
@@ -29,12 +27,14 @@ export const container = css<{ error: boolean; success: boolean }>`
 export const error = css`
   color: ${redPlain};
   font-size: 11px;
+  padding: 0 16px;
   width: 100%;
 `;
 
 export const success = css`
   color: ${greenPlain};
   font-size: 11px;
+  padding: 0 16px;
   width: 100%;
 `;
 
@@ -42,6 +42,7 @@ export const closeError = css`
   ${sansSerifBold};
   cursor: pointer;
   padding: 8px 16px;
+  margin-right: 16px; 
   font-size: 12px;
   border-radius: 3px;
   color: ${grey70};

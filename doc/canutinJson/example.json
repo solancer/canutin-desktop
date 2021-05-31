@@ -1,22 +1,37 @@
 {
   "accounts": [
     {
-      "name": "Example",
+      "name": "My visa account",
       "balanceGroup": "Cash",
-      "accountType": "Mint",
+      "accountType": "Checking",
       "transactions": [
         {
-          "description": "description",
+          "description": "Card payment",
           "date": "10/15/2019",
           "amount": 50,
           "excludeFromTotals": false,
-          "category":  "Payment",
-          "budget": {
-            "name": "Food",
-            "targetAmount": 500,
-            "type": "Food",
-            "date": "1/15/2019"
-          }
+          "category":  "Payments"
+        },
+        {
+          "description": "Fix Car",
+          "date": "10/16/2019",
+          "amount": 75.5,
+          "excludeFromTotals": false,
+          "category":  "Automotive"
+        }
+      ]
+    },
+    {
+      "name": "Mastercard account",
+      "balanceGroup": "Cash",
+      "accountType": "Checking",
+      "transactions": [
+        {
+          "description": "Card payment",
+          "date": "10/15/2019",
+          "amount": 95.55,
+          "excludeFromTotals": false,
+          "category":  "Payments"
         }
       ]
     }

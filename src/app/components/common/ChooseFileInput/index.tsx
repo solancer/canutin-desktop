@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import FieldContainer from "@components/common/Form/FieldContainer";
+import FieldContainer from '@components/common/Form/FieldContainer';
+import FieldStatus from '@components/common/Form/FieldStatus';
 
 import { StatusEnum } from '@appConstants/misc';
 
@@ -13,7 +14,6 @@ import {
   chooseBtn,
   filePathText,
   fileContainer,
-  filePathStatus,
 } from './styles';
 
 const LabelWrapper = styled.div`
@@ -23,12 +23,10 @@ const Label = styled.label`
   ${label}
 `;
 const FileContainer = styled.div`
-${fileContainer}`
+  ${fileContainer}
+`;
 const FileExtensionLabel = styled.div`
   ${fileExtensionLabel}
-`;
-const FilePathStatus = styled.div`
-  ${filePathStatus}
 `;
 const FilePathText = styled.div`
   ${filePathText}
@@ -75,7 +73,7 @@ const ChooseFileInput = ({
           </FilePathText>
           <ChooseButton>Choose</ChooseButton>
         </FilePathContainer>
-        {status && <FilePathStatus status={status}>{statusMessage}</FilePathStatus>}
+        {status && <FieldStatus status={status}>{statusMessage}</FieldStatus>}
       </FileContainer>
     </FieldContainer>
   );

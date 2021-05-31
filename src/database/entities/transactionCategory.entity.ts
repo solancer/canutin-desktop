@@ -1,8 +1,8 @@
-import { Entity, Column, OneToMany, Unique } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { Base } from './base.entity';
 import { TransactionSubCategory } from './transactionSubCategory.entity';
 
-@Entity()
+@Entity({ name: 'transaction_category_group' })
 export class TransactionCategory extends Base {
   @Column({ unique: true })
   name: string;
