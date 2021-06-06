@@ -3,6 +3,7 @@ import { format, parse } from 'date-fns';
 import { CanutinFileType } from '@appTypes/canutin';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import mapCategories from '@database/helpers/importResources/mapCategories';
+import { CANUTIN_FILE_DATE_FORMAT } from '@constants';
 
 export interface PersonalCapitalCsvEntryType {
   Date: string;
@@ -29,7 +30,10 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
 
       const transaction = {
         description: personalCapEntry.Description,
-        date: format(parse(personalCapEntry.Date, 'yyyy-MM-dd', new Date()), 'MM/dd/yyyy'),
+        date: format(
+          parse(personalCapEntry.Date, 'yyyy-MM-dd', new Date()),
+          CANUTIN_FILE_DATE_FORMAT
+        ),
         amount: personalCapEntry.Amount,
         excludeFromTotals: false,
         category: mapCategories(personalCapEntry.Category),

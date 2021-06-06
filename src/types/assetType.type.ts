@@ -1,5 +1,5 @@
 import { AssetTypeEnum } from '@enums/assetType.enum';
 
-export type NewAssetTType = {
+export type NewAssetTypeType = {
   name: AssetTypeEnum;
 };

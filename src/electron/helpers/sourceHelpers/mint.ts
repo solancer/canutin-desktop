@@ -1,6 +1,9 @@
+import { format, parse } from 'date-fns';
+
 import { CanutinFileType } from '@appTypes/canutin';
 import mapCategories from '@database/helpers/importResources/mapCategories';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
+import { CANUTIN_FILE_DATE_FORMAT } from '@constants';
 
 export interface MintCsvEntryType {
   Date: string;
@@ -30,11 +33,13 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
 
       const transaction = {
         description: mintEntry.Description,
-        date: mintEntry.Date,
+        date: format(parse(mintEntry.Date, 'M/dd/yyyy', new Date()), CANUTIN_FILE_DATE_FORMAT),
         amount: mintEntry['Transaction Type'] === 'credit' ? mintEntry.Amount : -mintEntry.Amount,
         excludeFromTotals: false,
         category: mapCategories(mintEntry.Category),
       };
+      countTransactions++;
+
       countTransactions++;
 
       if (accountIndex > -1) {
