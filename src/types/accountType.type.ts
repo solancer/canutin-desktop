@@ -1,3 +1,3 @@
-export type NewAccountTType = {
+export type NewAccountTypeType = {
   name: string;
 };

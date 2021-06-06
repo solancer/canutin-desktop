@@ -1,14 +1,14 @@
 import { getRepository } from 'typeorm';
 
 import { AccountType } from '../entities';
-import { NewAccountTType } from '../../types/accountType.type';
+import { NewAccountTypeType } from '../../types/accountType.type';
 
 export class AccountTypeRepository {
-  static async createAccountType(accountType: NewAccountTType): Promise<AccountType> {
+  static async createAccountType(accountType: NewAccountTypeType): Promise<AccountType> {
     return await getRepository<AccountType>(AccountType).save(new AccountType(accountType.name));
   }
 
-  static async createOrGetAccountType(accountType: NewAccountTType): Promise<AccountType> {
+  static async createOrGetAccountType(accountType: NewAccountTypeType): Promise<AccountType> {
     const accountTypeDb = await getRepository<AccountType>(AccountType).findOne({
       where: { name: accountType.name },
     });
