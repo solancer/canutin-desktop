@@ -6,6 +6,7 @@ import { CanutinFileType, CanutinFileTransactionType, UpdatedAccount } from '@ap
 
 import { SupportedDateFormatType } from './otherCsvConstants';
 import { OtherCSVFormSubmit } from './index';
+import { CANUTIN_FILE_DATE_FORMAT } from '@constants';
 
 export const getTransactionsForOneAccount = (
   csvData: { [columnName: string]: string }[],
@@ -18,7 +19,7 @@ export const getTransactionsForOneAccount = (
 ) => {
   const transactions = csvData.map((rowData: { [x: string]: any }) => ({
     description: rowData[descriptionColumn],
-    date: format(parse(rowData[dateColumn], dateFormat, new Date()), 'MM/dd/yyyy'),
+    date: format(parse(rowData[dateColumn], dateFormat, new Date()), CANUTIN_FILE_DATE_FORMAT),
     amount: Number(rowData[amountColumn]),
     excludeFromTotals: true,
     category:
@@ -45,11 +46,14 @@ export const getTransactionsForAccountColumn = (
     const transactions: CanutinFileTransactionType[] = [];
 
     csvData.forEach((rowData: { [x: string]: any }) => {
-      if (rowData[accountColumn].replace("'", "") === accountColumnName) {
+      if (rowData[accountColumn].replace("'", '') === accountColumnName) {
         accountName = rowData[accountColumn];
         transactions.push({
           description: rowData[descriptionColumn],
-          date: format(parse(rowData[dateColumn], dateFormat, new Date()), 'MM/dd/yyyy'),
+          date: format(
+            parse(rowData[dateColumn], dateFormat, new Date()),
+            CANUTIN_FILE_DATE_FORMAT
+          ),
           amount: Number(rowData[amountColumn]),
           excludeFromTotals: true,
           category:
@@ -109,7 +113,7 @@ export const getUpdatedTransactionsForExistingAccounts = (
 
       const newTransaction = {
         description: rowData[descriptionColumn],
-        date: format(parse(rowData[dateColumn], dateFormat, new Date()), 'MM/dd/yyyy'),
+        date: format(parse(rowData[dateColumn], dateFormat, new Date()), CANUTIN_FILE_DATE_FORMAT),
         amount: Number(rowData[amountColumn]),
         excludeFromTotals: true,
         category:

@@ -156,7 +156,7 @@ describe('Import Wizard tests', () => {
         callback((event as unknown) as IpcRendererEvent, {
           status: 'success',
           sourceData: canutinFile,
-          metadata: { countAccounts: 1, countTransactions: 1 },
+          metadata: { countAccounts: 2, countTransactions: 5 },
         });
       }
 
@@ -167,7 +167,7 @@ describe('Import Wizard tests', () => {
     const personalCapitalOption = screen.getByLabelText('Personal Capital (CSV)');
     userEvent.click(personalCapitalOption);
     expect(screen.getByText(/testpath/i)).not.toBeNull();
-    expect(screen.getByText(/Found 1 accounts and 1 transactions in the file/i)).not.toBeNull();
+    expect(screen.getByText(/Found 2 accounts and 5 transactions in the file/i)).not.toBeNull();
 
     const chooseButton = screen.getByRole('button', { name: /Choose/i });
     expect(chooseButton).toBeEnabled();
@@ -179,7 +179,7 @@ describe('Import Wizard tests', () => {
   });
 
   test('Other CSV Form', async () => {
-    const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation((message) => {})
+    const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation(message => {});
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === DATABASE_CONNECTED) {
         callback((event as unknown) as IpcRendererEvent);
