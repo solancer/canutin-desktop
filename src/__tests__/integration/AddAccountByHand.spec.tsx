@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import selectEvent from 'react-select-event';
 
 import App from '@components/App';
+import { AppCtxProvider } from '@app/context/appContext';
 import { DATABASE_CONNECTED } from '@constants';
 import { DB_NEW_ACCOUNT } from '@constants/events';
 
@@ -14,12 +15,16 @@ describe('Add account by Hand tests', () => {
   beforeEach(() => {
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent);
+        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
       }
 
       return ipcRenderer;
     });
-    render(<App />);
+    render(
+      <AppCtxProvider>
+        <App />
+      </AppCtxProvider>
+    );
 
     const addAccountsOrAssetsButton = screen.getByText('Add accounts or assets').closest('a');
 

@@ -1,19 +1,24 @@
-import React, { ReactNode, useEffect, useState } from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import React, { ReactNode, useEffect, useState, useContext } from 'react';
+import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, IpcRendererEvent } from 'electron';
 
 import TitleBar from '@components/common/TitleBar';
 import StatusBar from '@components/common/StatusBar';
 import SideBar from '@components/common/SideBar';
 import Breadcrumbs, { BreadcrumbType } from '@components/common/Breadcrumbs';
-import { StatusBarProvider } from '@app/context';
+import { StatusBarProvider } from '@app/context/statusBarContext';
+import { AppContext } from '@app/context/appContext';
 
 import Setup from '@pages/Setup';
 
-import { routesConfig, RouteConfigProps } from '@routes';
+import { routesConfig, RouteConfigProps, routesPaths } from '@routes';
 import { DatabaseDoesNotExistsMessage } from '@constants/messages';
 import { DATABASE_CONNECTED, DATABASE_DOES_NOT_EXIST, DATABASE_NOT_DETECTED } from '@constants';
+import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK } from '@constants/events';
+import AssetIpc from '@app/data/asset.ipc';
+import AccountIpc from '@app/data/account.ipc';
+import { Account, Asset } from '@database/entities';
 
 import GlobalStyle from '@app/styles/global';
 import { container } from './styles';
@@ -23,16 +28,38 @@ const Container = styled.div`
 `;
 
 const App = () => {
-  const [isAppInitialized, setIsAppInitialized] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    isLoading,
+    setIsLoading,
+    isAppInitialized,
+    setIsAppInitialized,
+    setFilePath,
+    isDbEmpty,
+    setIsDbEmpty,
+  } = useContext(AppContext);
   const [dbError, setDbError] = useState<ReactNode>(null);
+  const [accounts, setAccounts] = useState<Account[] | null>(null);
+  const [assets, setAssets] = useState<Asset[] | null>(null);
 
   const noVaultBreadcrumbs: BreadcrumbType[] = [{ text: 'Canutin setup', href: '' }];
 
   useEffect(() => {
-    ipcRenderer.on(DATABASE_CONNECTED, () => {
+    ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
+      setAccounts(accounts);
+    });
+
+    ipcRenderer.on(DB_GET_ASSETS_ACK, (_: IpcRendererEvent, assets: Asset[]) => {
+      setAssets(assets);
+    });
+
+    ipcRenderer.on(DATABASE_CONNECTED, (_, filePath) => {
       setIsLoading(false);
       setIsAppInitialized(true);
+      setFilePath(filePath?.filePath);
+      if (filePath) {
+        AssetIpc.getAssets();
+        AccountIpc.getAccounts();
+      }
     });
 
     ipcRenderer.on(DATABASE_DOES_NOT_EXIST, (_, { dbPath }: DatabaseDoesNotExistsMessage) => {
@@ -57,6 +84,17 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (
+      Array.isArray(assets) &&
+      assets.length === 0 &&
+      Array.isArray(accounts) &&
+      accounts.length === 0
+    ) {
+      setIsDbEmpty(true);
+    }
+  }, [assets, accounts]);
+
   return (
     <>
       <GlobalStyle />
@@ -68,6 +106,13 @@ const App = () => {
                 <TitleBar />
                 <SideBar />
                 <Switch>
+                  {isDbEmpty && (
+                    <Redirect
+                      exact
+                      from={routesPaths.bigpicture}
+                      to={routesPaths.addAccountOrAsset}
+                    />
+                  )}
                   {routesConfig.map(({ path, component, exact }: RouteConfigProps, index) => (
                     <Route key={index} exact={exact} path={path}>
                       {component}

@@ -15,6 +15,8 @@ import {
   DB_NEW_ACCOUNT_ACK,
   DB_GET_ACCOUNTS,
   DB_GET_ACCOUNTS_ACK,
+  DB_GET_ASSETS,
+  DB_GET_ASSETS_ACK,
   DB_GET_BALANCE_STATEMENTS,
   DB_GET_BALANCE_STATEMENTS_ACK,
   IMPORT_SOURCE_FILE,
@@ -151,6 +153,11 @@ const setupDbEvents = async () => {
   ipcMain.on(DB_GET_ACCOUNTS, async (_: IpcMainEvent) => {
     const accounts = await AccountRepository.getAccounts();
     win?.webContents.send(DB_GET_ACCOUNTS_ACK, accounts);
+  });
+
+  ipcMain.on(DB_GET_ASSETS, async (_: IpcMainEvent) => {
+    const assets = await AssetRepository.getAssets();
+    win?.webContents.send(DB_GET_ASSETS_ACK, assets);
   });
 };
 

@@ -11,19 +11,22 @@ import {
   LOAD_FROM_OTHER_CSV_ACK,
   LOADING_CSV,
 } from '@constants/events';
-import { StatusBarContext } from '@app/context';
+import { StatusBarContext } from '@app/context/statusBarContext';
+import { AppContext } from '@app/context/appContext';
 import AccountIpc from '@app/data/account.ipc';
 
 const SUCCESS_MESSAGE_TIMEOUT = 5000;
 
 const AddAccountAssetByWizard = () => {
   const { successMessage, setSuccessMessage } = useContext(StatusBarContext);
+  const { setIsDbEmpty } = useContext(AppContext);
   const [loadingPercentage, setLoadingPercentage] = useState<undefined | number>();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     ipcRenderer.on(LOAD_FROM_CANUTIN_FILE_ACK, (_: IpcRendererEvent, { name }) => {
       setSuccessMessage(`Data has been imported successfully`);
+      setIsDbEmpty(false);
       setIsLoading(false);
       setTimeout(() => {
         setSuccessMessage('');
@@ -33,6 +36,7 @@ const AddAccountAssetByWizard = () => {
 
     ipcRenderer.on(LOAD_FROM_OTHER_CSV_ACK, (_: IpcRendererEvent, { name }) => {
       setSuccessMessage(`Data has been imported successfully`);
+      setIsDbEmpty(false);
       // Reload accounts on other CSV form
       AccountIpc.getAccounts();
       setLoadingPercentage(undefined);

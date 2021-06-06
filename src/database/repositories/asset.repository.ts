@@ -21,4 +21,14 @@ export class AssetRepository {
       new Asset(asset.name, asset.quantity, asset.cost, assetType, account)
     );
   }
+
+  static async getAssets(): Promise<Asset[]> {
+    return await getRepository<Asset>(Asset).find({
+      relations: ['assetType', 'account'],
+      order: {
+        name: 'ASC',
+        id: 'DESC',
+      },
+    });
+  }
 }

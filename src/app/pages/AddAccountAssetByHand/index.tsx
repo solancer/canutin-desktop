@@ -9,7 +9,8 @@ import StatusBar from '@components/common/StatusBar';
 import { DB_NEW_ACCOUNT_ACK, DB_NEW_ASSET_ACK } from '@constants/events';
 import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
 import { ACCOUNT } from '@appConstants/misc';
-import { StatusBarContext } from '@app/context';
+import { StatusBarContext } from '@app/context/statusBarContext';
+import { AppContext } from '@app/context/appContext';
 
 const SUCCESS_MESSAGE_TIMEOUT = 5000;
 
@@ -18,10 +19,12 @@ const AddAccountAssetByHand = () => {
   const { successMessage, setSuccessMessage, errorMessage, setErrorMessage } = useContext(
     StatusBarContext
   );
+  const { setIsDbEmpty } = useContext(AppContext);
 
   useEffect(() => {
     ipcRenderer.on(DB_NEW_ASSET_ACK, (_: IpcRendererEvent, { name }) => {
       setSuccessMessage(`${name} asset was successfully created`);
+      setIsDbEmpty(false);
       setTimeout(() => {
         setSuccessMessage('');
       }, SUCCESS_MESSAGE_TIMEOUT);
@@ -30,6 +33,7 @@ const AddAccountAssetByHand = () => {
     ipcRenderer.on(DB_NEW_ACCOUNT_ACK, (_: IpcRendererEvent, { name, status, message }) => {
       if (status === EVENT_SUCCESS) {
         setSuccessMessage(`${name} account was successfully created`);
+        setIsDbEmpty(false);
         setTimeout(() => {
           setSuccessMessage('');
         }, SUCCESS_MESSAGE_TIMEOUT);

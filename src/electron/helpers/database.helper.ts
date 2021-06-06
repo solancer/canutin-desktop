@@ -15,7 +15,7 @@ export const connectAndSaveDB = async (win: BrowserWindow | null, filePath: stri
   const databaseConnection: ConnectionOptions = { ...dbConfig, database: filePath, type: 'better-sqlite3', };
   await connection.create(databaseConnection);
   await settings.set(DATABASE_PATH, filePath);
-  win?.webContents.send(DATABASE_CONNECTED);
+  win?.webContents.send(DATABASE_CONNECTED, { filePath });
 };
 
 export const findAndConnectDB = async (win: BrowserWindow | null, filePath: string) => {
