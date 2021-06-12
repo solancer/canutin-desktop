@@ -6,15 +6,15 @@ export interface NavItemProps {
 }
 
 export const container = css<NavItemProps & { active: boolean | number }>`
-  color: ${({ active }) => (active ? bluePlain : grey80)};
+  color: ${grey80};
   cursor: default;
   display: flex;
   font-size: 13px;
-  grid-gap: ${({ toggled }) => (toggled ? '16px' : 'none')};
+  grid-gap: 16px;
   grid-template-columns: max-content auto;
   padding: 16px 24px;
   text-decoration: none;
-  stroke: ${({ active }) => (active ? bluePlain : grey30)};
+  stroke: ${grey30};
 
   &:hover {
     background-color: ${grey5};
@@ -23,6 +23,21 @@ export const container = css<NavItemProps & { active: boolean | number }>`
   &:hover {
     background-color: ${grey5};
   }
+
+  ${({ active }) =>
+    active &&
+    css`
+      color: ${bluePlain};
+      stroke: ${bluePlain};
+
+      svg path {
+        stroke: ${bluePlain};
+      }
+    `}
+  
+  ${({ toggled }) => toggled && css`
+      grid-gap: none;
+  `}
 `;
 
 export const text = css<NavItemProps>`

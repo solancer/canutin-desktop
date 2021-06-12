@@ -6,6 +6,7 @@ import { routesPaths } from '@routes';
 import { ReactComponent as BurgerIcon } from '@assets/icons/Burger.svg';
 import { ReactComponent as BigPicture } from '@assets/icons/BigPicture.svg';
 import { ReactComponent as BalanceSheet } from '@assets/icons/BalanceSheet.svg';
+import { ReactComponent as Settings } from '@assets/icons/Settings.svg';
 import { ReactComponent as Budget } from '@assets/icons/Budget.svg';
 import { ReactComponent as Transactions } from '@assets/icons/Transactions.svg';
 import { ReactComponent as Trends } from '@assets/icons/Trends.svg';
@@ -65,6 +66,7 @@ const SideBar = () => {
         </NavItems>
       </Nav>
 
+      <NavItem icon={<Settings />} text="Settings" toggled={toggled} to={routesPaths.settings} />
       <NavItem
         icon={<AddIcon />}
         text="Add accounts or assets"

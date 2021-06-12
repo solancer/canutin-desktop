@@ -50,6 +50,7 @@ export const subTitle = css`
 export const main = css`
   ${componentConstraints};
   display: flex;
+  flex-direction: column;
   align-items: center;
   padding: 64px;
 `;

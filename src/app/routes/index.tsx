@@ -9,6 +9,7 @@ import Trends from '@pages/Trends';
 import AddAccountOrAsset from '@pages/AddAccountOrAsset';
 import AddAccountAssetByHand from '@pages/AddAccountAssetByHand';
 import AddAccountAssetByWizard from '@pages/AddAccountAssetByWizard';
+import Settings from '@pages/Settings';
 
 export const routesPaths = {
   index: '/index.html',
@@ -17,6 +18,7 @@ export const routesPaths = {
   budget: '/budget',
   transactions: '/transactions',
   trends: '/trends',
+  settings: '/settings',
   addAccountOrAsset: '/account/addAccountOrAsset',
   addAccountOrAssetByHand: '/account/addAccountOrAsset/byHand',
   addAccountOrAssetByWizard: '/account/addAccountOrAsset/byWizard',
@@ -59,6 +61,11 @@ export const routesConfig: RouteConfigProps[] = [
     path: [routesPaths.trends],
     exact: true,
     component: <Trends />,
+  },
+  {
+    path: [routesPaths.settings],
+    exact: true,
+    component: <Settings />,
   },
   {
     path: [routesPaths.addAccountOrAsset],
