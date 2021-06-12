@@ -6,25 +6,31 @@ import Field from '@components/common/Form/Field';
 
 import { container, title, description } from './styles';
 
-const Container = styled.div`${container}`;
-const Title = styled.div`${title}`;
-const Description = styled.div`${description}`;
+const Container = styled.div`
+  ${container}
+`;
+const Title = styled.div`
+  ${title}
+`;
+const Description = styled.div`
+  ${description}
+`;
 
-interface FormAlertProps {
+interface FieldNoticeProps {
   title: string;
   description: JSX.Element;
   label?: string;
 }
 
-const FormAlert = ({ title, description, label }: FormAlertProps) => {
+const FieldNotice = ({ title, description, label }: FieldNoticeProps) => {
   return (
     <Field name={title} label={label}>
       <Container>
-      <Title>{title}</Title>
+        <Title>{title}</Title>
         <Description>{description}</Description>
       </Container>
     </Field>
   );
 };
 
-export default FormAlert;
+export default FieldNotice;
