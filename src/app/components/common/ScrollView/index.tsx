@@ -1,7 +1,12 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
-import { container, header, title, main, subTitle } from './styles';
+import { ReactComponent as BackIcon } from '@assets/icons/Back.svg';
+
+import { rootRoutesPaths } from '@routes';
+
+import { container, header, title, main, subTitle, back } from './styles';
 
 export const Container = styled.div`
   ${container}
@@ -18,21 +23,34 @@ export const SubTitle = styled.div`
 export const Main = styled.main`
   ${main}
 `;
-
+export const Back = styled(BackIcon)`
+  ${back}
+`;
 export interface ScrollViewProps {
   title: string;
   subTitle?: string;
   children?: ReactNode;
 }
 
-const ScrollView = ({ title, subTitle, children }: ScrollViewProps) => (
-  <Container>
-    <Header>
-      <Title>{title}</Title>
-      {subTitle && <SubTitle>{subTitle}</SubTitle>}
-    </Header>
-    <Main>{children}</Main>
-  </Container>
-);
+const ScrollView = ({ title, subTitle, children }: ScrollViewProps) => {
+  const history = useHistory();
+
+  return (
+    <Container>
+      <Header>
+        {history.length > 1 && !Object.values(rootRoutesPaths).includes(history.location.pathname) && (
+          <Back
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        )}
+        <Title>{title}</Title>
+        {subTitle && <SubTitle>{subTitle}</SubTitle>}
+      </Header>
+      <Main>{children}</Main>
+    </Container>
+  );
+};
 
 export default ScrollView;

@@ -1,6 +1,7 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { ipcRenderer } from 'electron';
+import { useHistory } from 'react-router-dom';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 
 import ScrollView from '@components/common/ScrollView';
@@ -31,11 +32,19 @@ const BoxContainer = styled.div`
 const noVaultBreadcrumbs = [{ breadcrumb: 'Canutin setup', path: '/' }];
 
 const Setup = () => {
-  const { setIsLoading, setIsAppInitialized, isLoading } = useContext(AppContext);
+  const { setIsLoading, setIsAppInitialized, isLoading, filePath } = useContext(AppContext);
   const { setErrorMessage, setOnClickButton, setBreadcrumbs } = useContext(StatusBarContext);
+  const history = useHistory();
   const breadcrumbItems = useBreadcrumbs(noVaultBreadcrumbs, {
     excludePaths: Object.values(routesPaths),
   });
+  const [oldFilePath] = useState(filePath);
+
+  useEffect(() => {
+    if (oldFilePath !== undefined && oldFilePath !== filePath) {
+      history.push(routesPaths.account);
+    }
+  }, [filePath, oldFilePath]);
 
   useEffect(() => {
     ipcRenderer.on(DATABASE_DOES_NOT_EXIST, (_, { dbPath }: DatabaseDoesNotExistsMessage) => {

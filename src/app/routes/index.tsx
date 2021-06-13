@@ -9,10 +9,10 @@ import Trends from '@pages/Trends';
 import AddAccountOrAsset from '@pages/AddAccountOrAsset';
 import AddAccountAssetByHand from '@pages/AddAccountAssetByHand';
 import AddAccountAssetByWizard from '@pages/AddAccountAssetByWizard';
+import Setup from '@pages/Setup';
 import Settings from '@pages/Settings';
 
-export const routesPaths = {
-  index: '/index.html',
+export const rootRoutesPaths = {
   bigpicture: '/bigpicture',
   balance: '/balance',
   budget: '/budget',
@@ -21,8 +21,14 @@ export const routesPaths = {
   settings: '/settings',
   account: '/account',
   addAccountOrAsset: '/account/addAccountOrAsset',
+};
+
+export const routesPaths = {
+  index: '/index.html',
+  ...rootRoutesPaths,
   addAccountOrAssetByHand: '/account/addAccountOrAsset/byHand',
   addAccountOrAssetByWizard: '/account/addAccountOrAsset/byWizard',
+  canutinSetup: '/canutinSetup',
 };
 
 export interface RouteConfigProps {
@@ -97,5 +103,11 @@ export const routesConfig: RouteConfigProps[] = [
     exact: true,
     component: <AddAccountAssetByWizard />,
     breadcrumb: 'Import wizard',
+  },
+  {
+    path: routesPaths.canutinSetup,
+    exact: true,
+    component: <Setup />,
+    breadcrumb: 'Canutin Setup',
   },
 ];

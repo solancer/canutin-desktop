@@ -54,3 +54,9 @@ export const main = css`
   align-items: center;
   padding: 64px;
 `;
+
+export const back = css`
+  cursor: pointer;
+  margin-left: 22.5px;
+  margin-bottom: auto;
+`;

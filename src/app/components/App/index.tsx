@@ -75,6 +75,8 @@ const App = () => {
       accounts.length === 0
     ) {
       setIsDbEmpty(true);
+    } else {
+      setIsDbEmpty(false);
     }
   }, [assets, accounts]);
 
