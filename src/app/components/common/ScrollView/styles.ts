@@ -60,3 +60,12 @@ export const back = css`
   margin-left: 22.5px;
   margin-bottom: auto;
 `;
+
+export const information = css`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const rightInformation = css`
+  margin-right: 119px;
+`;

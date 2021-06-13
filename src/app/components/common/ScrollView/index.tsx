@@ -6,7 +6,16 @@ import { ReactComponent as BackIcon } from '@assets/icons/Back.svg';
 
 import { rootRoutesPaths } from '@routes';
 
-import { container, header, title, main, subTitle, back } from './styles';
+import {
+  container,
+  header,
+  title,
+  main,
+  subTitle,
+  back,
+  information,
+  rightInformation,
+} from './styles';
 
 export const Container = styled.div`
   ${container}
@@ -26,13 +35,20 @@ export const Main = styled.main`
 export const Back = styled(BackIcon)`
   ${back}
 `;
+export const Information = styled.div`
+  ${information}
+`;
+export const RightInformation = styled.div`
+  ${rightInformation}
+`;
 export interface ScrollViewProps {
   title: string;
   subTitle?: string;
+  rightInformationComponent?: ReactNode;
   children?: ReactNode;
 }
 
-const ScrollView = ({ title, subTitle, children }: ScrollViewProps) => {
+const ScrollView = ({ title, subTitle, rightInformationComponent, children }: ScrollViewProps) => {
   const history = useHistory();
 
   return (
@@ -45,8 +61,13 @@ const ScrollView = ({ title, subTitle, children }: ScrollViewProps) => {
             }}
           />
         )}
-        <Title>{title}</Title>
-        {subTitle && <SubTitle>{subTitle}</SubTitle>}
+        <Information>
+          <div>
+            <Title>{title}</Title>
+            {subTitle && <SubTitle>{subTitle}</SubTitle>}
+          </div>
+          {rightInformationComponent && <RightInformation>{rightInformationComponent}</RightInformation>}
+        </Information>
       </Header>
       <Main>{children}</Main>
     </Container>
