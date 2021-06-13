@@ -31,7 +31,8 @@
     "reflect-metadata": "^0.1.13",
     "styled-components": "^5.2.1",
     "typeorm": "^0.2.31",
-    "typescript": "4.1.5"
+    "typescript": "4.1.5",
+    "use-react-router-breadcrumbs": "^2.0.2"
   },
   "devDependencies": {
     "@jackfranklin/test-data-bot": "^1.3.0",

@@ -21,7 +21,7 @@ export interface LoadingStatusBarProps {
 const LoadingStatusBar = ({ loadingMessage, loadingPercentage }: LoadingStatusBarProps) => (
   <Container loadingPercentage={loadingPercentage}>
     {loadingPercentage >= 10 && <Message>{loadingMessage}</Message>}
-    <Percentage>{loadingPercentage}%</Percentage>
+    <Percentage>{Math.floor(loadingPercentage)}%</Percentage>
   </Container>
 );
 

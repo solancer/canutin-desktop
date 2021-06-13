@@ -16,14 +16,15 @@ export interface NavItemProps {
   text: string;
   toggled: boolean;
   to: string;
+  disabled?: boolean;
 }
 
-const NavItem = ({ icon, text, toggled, to }: NavItemProps) => {
+const NavItem = ({ icon, text, toggled, to, disabled = false }: NavItemProps) => {
   const { pathname } = useLocation();
   const isActive = pathname === to ? 1 : 0;
 
   return (
-    <Container active={isActive} toggled={toggled ? 1 : 0} to={to}>
+    <Container active={isActive} toggled={toggled ? 1 : 0} to={to} disabled={disabled}>
       {icon}
       <Text toggled={toggled}>{text}</Text>
     </Container>

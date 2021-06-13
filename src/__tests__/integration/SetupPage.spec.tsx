@@ -27,7 +27,7 @@ test('Setup Page in case there is not a database set', async () => {
   expect(await screen.getByText('New vault')).toBeInTheDocument();
   expect(screen.getByText(/Choose Vault/i)).toBeInTheDocument();
   expect(screen.getByText('Existing vault')).toBeInTheDocument();
-  expect(screen.getAllByText(/Canutin setup/i)).toHaveLength(2);
+  expect(screen.getAllByText(/Canutin setup/i)).toHaveLength(1);
 
   const spyOnIpcRenderer = jest.spyOn(ipcRenderer, 'send');
   const onCreateNewVault = screen.getByRole('button', { name: /Create a brand new vault/i });

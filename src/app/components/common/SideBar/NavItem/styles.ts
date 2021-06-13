@@ -1,8 +1,9 @@
 import { css } from 'styled-components';
-import { grey5, grey80, grey30, bluePlain } from '@appConstants/colors';
+import { grey5, grey80, grey30, bluePlain, grey10 } from '@appConstants/colors';
 
 export interface NavItemProps {
   toggled: boolean | number;
+  disabled?: boolean;
 }
 
 export const container = css<NavItemProps & { active: boolean | number }>`
@@ -34,10 +35,19 @@ export const container = css<NavItemProps & { active: boolean | number }>`
         stroke: ${bluePlain};
       }
     `}
-  
-  ${({ toggled }) => toggled && css`
+
+  ${({ toggled }) =>
+    toggled &&
+    css`
       grid-gap: none;
-  `}
+    `}
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      color: ${grey10};
+      pointer-events: none;
+    `};
 `;
 
 export const text = css<NavItemProps>`
