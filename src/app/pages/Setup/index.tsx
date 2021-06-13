@@ -11,7 +11,7 @@ import Breadcrumbs from '@components/common/Breadcrumbs';
 import { ReactComponent as Vault } from '@assets/icons/Vault.svg';
 import { ReactComponent as Browse } from '@assets/icons/Browse.svg';
 import { OPEN_CREATE_VAULT, OPEN_EXISTING_VAULT } from '@constants/events';
-import { DATABASE_DOES_NOT_EXIST } from '@constants';
+import { DATABASE_DOES_NOT_EXIST, DATABASE_NOT_VALID } from '@constants';
 import { DatabaseDoesNotExistsMessage } from '@constants/messages';
 import { routesPaths } from '@routes';
 import { AppContext } from '@app/context/appContext';
@@ -56,6 +56,15 @@ const Setup = () => {
         </span>
       );
     });
+
+    ipcRenderer.on(DATABASE_NOT_VALID, () => {
+      setIsLoading(false);
+      setErrorMessage(
+        <span>
+          The chosen file is not a valid Canutin database
+        </span>
+      );
+    })
 
     setOnClickButton(() => () => setErrorMessage(''));
     setBreadcrumbs(<Breadcrumbs items={breadcrumbItems} />);
