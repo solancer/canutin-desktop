@@ -34,5 +34,11 @@ export const balanceSheetTabs = css`
 `;
 
 export const balanceSheetViewer = css`
+  display: flex;
+  justify-content: space-between;
   margin-top: 11px;
+
+  * {
+    flex: 1;
+  }
 `;

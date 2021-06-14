@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import BalanceSheetTab from '@components/BalanceSheet/BalanceSheetTab';
+import SummaryChip from '@app/components/common/SummaryChip';
+import { SummaryChipTypeEnum }  from '@app/components/common/SummaryChip/constants';
 
 import {
   container,
@@ -71,6 +73,10 @@ const BalanceSheetTabViewer = () => {
         {selectedTab === BalanceSheetTabsEnum.ALL && allBalanceSheet}
         {selectedTab === BalanceSheetTabsEnum.ACCOUNTS && accountsBalanceSheet}
         {selectedTab === BalanceSheetTabsEnum.ASSETS && assetsBalanceSheet}
+        <SummaryChip type={SummaryChipTypeEnum.CASH} amount={10153} />
+        <SummaryChip type={SummaryChipTypeEnum.DEBT} amount={-468} />
+        <SummaryChip type={SummaryChipTypeEnum.INVESTMENTS} amount={14000} />
+        <SummaryChip type={SummaryChipTypeEnum.OTHER_ASSETS} amount={9069.4} />
       </BalanceSheetViewer>
     </Container>
   );

@@ -25,6 +25,7 @@
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-hook-form": "^6.15.3",
+    "react-number-format": "^4.6.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
     "react-select": "^4.3.0",
