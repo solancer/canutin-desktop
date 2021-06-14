@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import BalanceSheetTab from '@components/BalanceSheet/BalanceSheetTab';
-import SummaryChip from '@app/components/common/SummaryChip';
-import { SummaryChipTypeEnum }  from '@app/components/common/SummaryChip/constants';
+import BalanceList from '@components/BalanceSheet/BalanceList';
+import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 
 import {
   container,
@@ -50,8 +50,26 @@ const BalanceSheetTabViewer = () => {
     ACCOUNTS: countAccounts,
     ASSETS: countAssets,
   };
+  const balanceList = {
+    ALL: {
+      [BalanceGroupEnum.CASH]: {
+        Checking: [
+          { name: 'Personal Checking', type: 'Account', amount: 250 },
+          { name: 'My Checking', type: 'Account', amount: 250 },
+          { name: 'Advantage Plus Checking Total', type: 'Account', amount: 250 },
+        ],
+        Checking2: [
+          { name: 'Personal Checking', type: 'Account', amount: 250 },
+          { name: 'My Checking', type: 'Account', amount: 250 },
+          { name: 'Advantage Plus Checking Total', type: 'Account', amount: 250 },
+        ],
+      },
+    },
+    ACCOUNTS: { [BalanceGroupEnum.CASH]: {}, totalCount: 10 },
+    ASSETS: { [BalanceGroupEnum.CASH]: {}, totalCount: 9 },
+  };
 
-  const allBalanceSheet = <div>All</div>;
+  const allBalanceSheet = <BalanceList balanceListData={balanceList.ALL} />;
   const accountsBalanceSheet = <div>Accounts</div>;
   const assetsBalanceSheet = <div>Assets</div>;
 
@@ -73,10 +91,6 @@ const BalanceSheetTabViewer = () => {
         {selectedTab === BalanceSheetTabsEnum.ALL && allBalanceSheet}
         {selectedTab === BalanceSheetTabsEnum.ACCOUNTS && accountsBalanceSheet}
         {selectedTab === BalanceSheetTabsEnum.ASSETS && assetsBalanceSheet}
-        <SummaryChip type={SummaryChipTypeEnum.CASH} amount={10153} />
-        <SummaryChip type={SummaryChipTypeEnum.DEBT} amount={-468} />
-        <SummaryChip type={SummaryChipTypeEnum.INVESTMENTS} amount={14000} />
-        <SummaryChip type={SummaryChipTypeEnum.OTHER_ASSETS} amount={9069.4} />
       </BalanceSheetViewer>
     </Container>
   );
