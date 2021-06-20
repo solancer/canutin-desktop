@@ -55,6 +55,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
           balanceGroup: BalanceGroupEnum.CASH,
           accountType: 'checking',
           transactions: [transaction],
+          autoCalculate: true,
         });
       }
 

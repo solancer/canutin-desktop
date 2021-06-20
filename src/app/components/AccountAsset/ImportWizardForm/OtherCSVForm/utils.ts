@@ -175,12 +175,8 @@ export const formToCantuinJsonFile = (
     if (canutinAccount) {
       name = canutinAccount.name;
       accountType = canutinAccount.accountType.name;
-      balance = canutinAccount.balanceGroup;
-      if (canutinAccount?.balanceStatements?.[canutinAccount.balanceStatements?.length - 1]) {
-        autoCalculate =
-          canutinAccount?.balanceStatements?.[canutinAccount.balanceStatements?.length - 1]
-            .autoCalculate;
-      }
+      balance = formData.account.balance;
+      autoCalculate = formData.account.autoCalculate;
       if (canutinAccount.institution) {
         institution = canutinAccount.institution;
       }
@@ -209,6 +205,7 @@ export const formToCantuinJsonFile = (
       ],
     };
 
+    console.log(canutinFile);
     return { canutinFile };
   }
 

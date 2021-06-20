@@ -126,12 +126,16 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
       const account = accounts.find(account => account.id === Number.parseInt(selectedAccount));
       setValue(
         'account.autoCalculate',
-        account?.balanceStatements ? account.balanceStatements[0].autoCalculate : false,
+        account?.balanceStatements
+          ? account.balanceStatements[account.balanceStatements.length - 1].autoCalculate
+          : false,
         { shouldValidate: true }
       );
       setValue(
         'account.balance',
-        account?.balanceStatements ? account.balanceStatements[0].value : false,
+        account?.balanceStatements
+          ? account.balanceStatements[account.balanceStatements.length - 1].value
+          : false,
         { shouldValidate: true }
       );
     }

@@ -18,7 +18,7 @@ export interface CanutinFileTransactionType {
 
 export interface CanutinFileAccountType {
   name: string;
-  autoCalculate?: boolean;
+  autoCalculate: boolean;
   balance?: number;
   officialName?: string;
   institution?: string;
