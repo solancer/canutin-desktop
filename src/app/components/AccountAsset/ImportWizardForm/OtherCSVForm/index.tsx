@@ -5,9 +5,9 @@ import { ipcRenderer, IpcRendererEvent } from 'electron';
 import { isValid, parse } from 'date-fns';
 
 import Fieldset from '@components/common/Form/Fieldset';
-import FormAlert from '@components/common/FormAlert';
+import FieldNotice from '@components/common/Form/FieldNotice';
 import SelectField from '@components/common/Form/SelectField';
-import Select from '@components/common/Select';
+import Select from '@components/common/Form/Select';
 import InlineCheckbox from '@components/common/Form/Checkbox';
 import Field from '@components/common/Form/Field';
 import InputText from '@components/common/Form/InputText';
@@ -126,12 +126,16 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
       const account = accounts.find(account => account.id === Number.parseInt(selectedAccount));
       setValue(
         'account.autoCalculate',
-        account?.balanceStatements ? account.balanceStatements[0].autoCalculate : false,
+        account?.balanceStatements
+          ? account.balanceStatements[account.balanceStatements.length - 1].autoCalculate
+          : false,
         { shouldValidate: true }
       );
       setValue(
         'account.balance',
-        account?.balanceStatements ? account.balanceStatements[0].value : false,
+        account?.balanceStatements
+          ? account.balanceStatements[account.balanceStatements.length - 1].value
+          : false,
         { shouldValidate: true }
       );
     }
@@ -202,7 +206,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
     const isValidDateColumn = checkDateColumnFormat();
     const isValidAmountColumn = checkAmountColumn();
 
-    if (!isValidDateColumn) { 
+    if (!isValidDateColumn) {
       dateFormatRef.current?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
@@ -221,7 +225,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
   return (
     <>
       <Fieldset>
-        <FormAlert
+        <FieldNotice
           title="Interpreting your CSV file"
           description={
             <div>
@@ -376,7 +380,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
             </ToggleInputContainer>
           </Field>
           {!autoCalculate && (
-            <FormAlert
+            <FieldNotice
               title="Balance history"
               description={
                 <div>

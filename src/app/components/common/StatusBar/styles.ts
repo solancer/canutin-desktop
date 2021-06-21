@@ -9,6 +9,8 @@ import {
   redPlain,
   greenPlain,
   greenLight,
+  grey7,
+  grey50,
 } from '@appConstants/colors';
 
 export const container = css<{ error: boolean; success: boolean }>`
@@ -42,7 +44,7 @@ export const closeError = css`
   ${sansSerifBold};
   cursor: pointer;
   padding: 8px 16px;
-  margin-right: 16px; 
+  margin-right: 16px;
   font-size: 12px;
   border-radius: 3px;
   color: ${grey70};
@@ -60,4 +62,22 @@ export const closeError = css`
   }
 `;
 
-export const configurationInfo = css``;
+export const configurationInfo = css`
+  display: flex;
+  margin-right: 16px;
+`;
+
+export const configurationLabel = css`
+  align-items: center;
+  background-color: ${grey7};
+  border-radius: 4px;
+  color: ${grey50};
+  font-size: 11px;
+  font-family: 'Decima Mono Pro';
+  letter-spacing: -0.025em;
+  display: flex;
+  margin-left: 4px;
+  justify-content: center;
+  height: 23px;
+  width: 61px;
+`;

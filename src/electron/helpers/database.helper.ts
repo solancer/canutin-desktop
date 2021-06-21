@@ -9,13 +9,25 @@ import {
   DATABASE_DOES_NOT_EXIST,
   DATABASE_NOT_DETECTED,
   DATABASE_PATH,
+  DATABASE_NOT_VALID,
 } from '@constants';
 
 export const connectAndSaveDB = async (win: BrowserWindow | null, filePath: string) => {
-  const databaseConnection: ConnectionOptions = { ...dbConfig, database: filePath, type: 'better-sqlite3', };
-  await connection.create(databaseConnection);
-  await settings.set(DATABASE_PATH, filePath);
-  win?.webContents.send(DATABASE_CONNECTED);
+  try {
+    const databaseConnection: ConnectionOptions = {
+      ...dbConfig,
+      database: filePath,
+      type: 'better-sqlite3',
+    };
+    const isConnected = await connection.isConnected();
+    if (isConnected) await connection.close();
+  
+    await connection.create(databaseConnection);
+    await settings.set(DATABASE_PATH, filePath);
+    win?.webContents.send(DATABASE_CONNECTED, { filePath });
+  } catch(error) {
+    win?.webContents.send(DATABASE_NOT_VALID);
+  }
 };
 
 export const findAndConnectDB = async (win: BrowserWindow | null, filePath: string) => {

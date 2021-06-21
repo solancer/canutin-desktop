@@ -10,6 +10,9 @@ export const DB_NEW_ACCOUNT_ACK = 'dbNewAccountAck';
 export const DB_GET_ACCOUNTS = 'dbGetAccounts';
 export const DB_GET_ACCOUNTS_ACK = 'dbGetAccountsAck';
 
+export const DB_GET_ASSETS = 'dbGetAssets';
+export const DB_GET_ASSETS_ACK = 'dbGetAssetsAck';
+
 export const DB_GET_BALANCE_STATEMENTS = 'dbGetStatements';
 export const DB_GET_BALANCE_STATEMENTS_ACK = 'dbGetStatementsAck';
 

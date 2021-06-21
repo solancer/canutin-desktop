@@ -17,10 +17,7 @@ export const importFromCanutinFile = async (
   const countAccounts = canutinFile.accounts.length;
 
   canutinFile.accounts.forEach(async (accountInfo, index) => {
-    const account = await AccountRepository.getOrCreateAccount({
-      ...accountInfo,
-      autoCalculate: true,
-    }).then(res => {
+    const account = await AccountRepository.getOrCreateAccount(accountInfo).then(res => {
       win?.webContents.send(LOADING_CSV, { total: countAccounts });
       return res;
     });

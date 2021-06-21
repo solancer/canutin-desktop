@@ -1,20 +1,21 @@
 import { css } from 'styled-components';
-import { grey5, grey80, grey30, bluePlain } from '@appConstants/colors';
+import { grey5, grey80, grey30, bluePlain, grey10 } from '@appConstants/colors';
 
 export interface NavItemProps {
   toggled: boolean | number;
+  disabled?: boolean;
 }
 
 export const container = css<NavItemProps & { active: boolean | number }>`
-  color: ${({ active }) => (active ? bluePlain : grey80)};
+  color: ${grey80};
   cursor: default;
   display: flex;
   font-size: 13px;
-  grid-gap: ${({ toggled }) => (toggled ? '16px' : 'none')};
+  grid-gap: 16px;
   grid-template-columns: max-content auto;
   padding: 16px 24px;
   text-decoration: none;
-  stroke: ${({ active }) => (active ? bluePlain : grey30)};
+  stroke: ${grey30};
 
   &:hover {
     background-color: ${grey5};
@@ -23,6 +24,30 @@ export const container = css<NavItemProps & { active: boolean | number }>`
   &:hover {
     background-color: ${grey5};
   }
+
+  ${({ active }) =>
+    active &&
+    css`
+      color: ${bluePlain};
+      stroke: ${bluePlain};
+
+      svg path {
+        stroke: ${bluePlain};
+      }
+    `}
+
+  ${({ toggled }) =>
+    toggled &&
+    css`
+      grid-gap: none;
+    `}
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      color: ${grey10};
+      pointer-events: none;
+    `};
 `;
 
 export const text = css<NavItemProps>`

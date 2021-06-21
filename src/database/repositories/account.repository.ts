@@ -55,6 +55,12 @@ export class AccountRepository {
       return AccountRepository.createAccount(account);
     }
 
+    await BalanceStatementRepository.createBalanceStatement({
+      value: account.balance,
+      autoCalculate: account.autoCalculate,
+      account: accountDb,
+    });
+
     return accountDb;
   }
 }

@@ -164,7 +164,24 @@ export const formToCantuinJsonFile = (
 
   // New account or update account
   if (formData.account) {
-    const { name, accountType, autoCalculate, balance, institution } = formData.account;
+    let canutinAccount;
+    if (formData.account.importAccount) {
+      canutinAccount = canutinAccounts?.find(
+        ({ id }) => id === Number(formData?.account?.importAccount)
+      );
+    }
+    let { name, accountType, autoCalculate, balance, institution } = formData.account;
+
+    if (canutinAccount) {
+      name = canutinAccount.name;
+      accountType = canutinAccount.accountType.name;
+      balance = formData.account.balance;
+      autoCalculate = formData.account.autoCalculate;
+      if (canutinAccount.institution) {
+        institution = canutinAccount.institution;
+      }
+    }
+
     const transactions = getTransactionsForOneAccount(
       csvData,
       descriptionColumn,
@@ -188,6 +205,7 @@ export const formToCantuinJsonFile = (
       ],
     };
 
+    console.log(canutinFile);
     return { canutinFile };
   }
 

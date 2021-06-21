@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import selectEvent from 'react-select-event';
 
 import App from '@components/App';
+import { AppCtxProvider } from '@app/context/appContext';
 import { DATABASE_CONNECTED } from '@constants';
 import {
   IMPORT_SOURCE_FILE,
@@ -20,7 +21,11 @@ import csvMetadata from '../data/csvMetadata.json';
 import csvSourceData from '../data/csvSourceData.json';
 
 const initImportWizard = () => {
-  render(<App />);
+  render(
+    <AppCtxProvider>
+      <App />
+    </AppCtxProvider>
+  );
 
   const addAccountsOrAssetsButton = screen.getByText('Add accounts or assets').closest('a');
 
@@ -35,7 +40,7 @@ describe('Import Wizard tests', () => {
   test('Check import wizard options', async () => {
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent);
+        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
       }
 
       return ipcRenderer;
@@ -76,7 +81,7 @@ describe('Import Wizard tests', () => {
   test('Import canutin file', async () => {
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent);
+        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
       }
 
       return ipcRenderer;
@@ -99,7 +104,7 @@ describe('Import Wizard tests', () => {
   test('Import Mint file', async () => {
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent);
+        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
       }
 
       return ipcRenderer;
@@ -122,7 +127,7 @@ describe('Import Wizard tests', () => {
   test('Import Personal capital file', async () => {
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent);
+        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
       }
 
       return ipcRenderer;
@@ -145,7 +150,7 @@ describe('Import Wizard tests', () => {
   test('Import option with data source', async () => {
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent);
+        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
       }
 
       if (event === IMPORT_SOURCE_FILE_ACK) {
@@ -182,7 +187,7 @@ describe('Import Wizard tests', () => {
     const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation(message => {});
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent);
+        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
       }
 
       if (event === IMPORT_SOURCE_FILE_ACK) {

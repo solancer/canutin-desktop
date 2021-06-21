@@ -1,13 +1,11 @@
 import React from 'react';
 
-import {
-  enumImportTitleOptions,
-} from '@appConstants/misc';
+import { enumImportTitleOptions } from '@appConstants/misc';
 
-import FormAlert from '@components/common/FormAlert';
+import FieldNotice from '@components/common/Form/FieldNotice';
 
 const MintAlert = (
-  <FormAlert
+  <FieldNotice
     title="Mint.com"
     description={
       <div>
@@ -18,7 +16,7 @@ const MintAlert = (
 );
 
 const CanutinFileAlert = (
-  <FormAlert
+  <FieldNotice
     title="CanutinFile"
     description={
       <div>
@@ -30,7 +28,7 @@ const CanutinFileAlert = (
 );
 
 const PersonalCapitalAlert = (
-  <FormAlert
+  <FieldNotice
     title="Personal Capital"
     description={
       <div>
@@ -41,7 +39,7 @@ const PersonalCapitalAlert = (
 );
 
 const OtherCSVAlert = (
-  <FormAlert
+  <FieldNotice
     title="Importing a different CSV"
     description={
       <div>
@@ -59,8 +57,8 @@ const sourceAlertsLookup = (importTypeTitle: enumImportTitleOptions | null) => {
       return MintAlert;
     case enumImportTitleOptions.PERSONAL_CAPITAL_IMPORT_TYPE_TITLE:
       return PersonalCapitalAlert;
-      case enumImportTitleOptions.OTHER_CSV_IMPORT_TYPE_TITLE:
-        return OtherCSVAlert;
+    case enumImportTitleOptions.OTHER_CSV_IMPORT_TYPE_TITLE:
+      return OtherCSVAlert;
     default:
       return null;
   }

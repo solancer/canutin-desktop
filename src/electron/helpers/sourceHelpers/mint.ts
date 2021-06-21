@@ -38,6 +38,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
         excludeFromTotals: false,
         category: mapCategories(mintEntry.Category),
       };
+      countTransactions++;
 
       countTransactions++;
 
@@ -54,6 +55,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
           balanceGroup: BalanceGroupEnum.CASH,
           accountType: 'checking',
           transactions: [transaction],
+          autoCalculate: true,
         });
       }
 

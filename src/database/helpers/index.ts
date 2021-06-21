@@ -15,9 +15,9 @@ export const getBalanceGroupByAssetType = (assetType: AssetTypeEnum): BalanceGro
       AssetTypeEnum.OTHER,
     ];
 
-    if (cashBalanceGroup.includes(assetType)) balanceGroup = BalanceGroupEnum.CASH;
-    if (investmentBalanceGroup.includes(assetType)) balanceGroup = BalanceGroupEnum.INVESTMENT;
-    if (otherBalanceGroup.includes(assetType)) balanceGroup = BalanceGroupEnum.OTHER_ASSETS;
+    if (cashBalanceGroup.map(values => values.toLowerCase()).includes(assetType)) balanceGroup = BalanceGroupEnum.CASH;
+    if (investmentBalanceGroup.map(values => values.toLowerCase()).includes(assetType)) balanceGroup = BalanceGroupEnum.INVESTMENT;
+    if (otherBalanceGroup.map(values => values.toLowerCase()).includes(assetType)) balanceGroup = BalanceGroupEnum.OTHER_ASSETS;
 
     return balanceGroup;
 };

@@ -42,6 +42,7 @@ const InputText = ({
     value={value}
     disabled={disabled}
     readOnly={disabled}
+    step={type === 'number' ? 'any' : undefined}
   />
 );
 

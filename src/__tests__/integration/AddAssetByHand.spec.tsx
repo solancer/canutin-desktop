@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import selectEvent from 'react-select-event';
 
 import App from '@components/App';
+import { AppCtxProvider } from '@app/context/appContext';
 import { DATABASE_CONNECTED } from '@constants';
 import { DB_GET_ACCOUNTS_ACK, DB_GET_ACCOUNTS, DB_NEW_ASSET } from '@constants/events';
 import { accountBuilder } from '@tests/factories/accountFactory';
@@ -17,7 +18,7 @@ describe('Add asset by Hand tests', () => {
   beforeEach(() => {
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent);
+        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
       }
 
       if (event === DB_GET_ACCOUNTS_ACK) {
@@ -26,7 +27,7 @@ describe('Add asset by Hand tests', () => {
 
       return ipcRenderer;
     });
-    render(<App />);
+    render(<AppCtxProvider><App /></AppCtxProvider>);
 
     const addAccountsOrAssetsButton = screen.getByText('Add accounts or assets').closest('a');
 

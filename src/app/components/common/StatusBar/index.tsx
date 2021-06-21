@@ -1,9 +1,22 @@
-import React, { ReactNode } from 'react';
+import React, { useContext } from 'react';
+import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import styled from 'styled-components';
 
 import LoadingStatusBar from '@components/common/LoadingStatusBar';
+import Breadcrumbs from '@components/common/Breadcrumbs';
 
-import { container, closeError, error, success, configurationInfo } from './styles';
+import { StatusBarContext } from '@app/context/statusBarContext';
+import { AppContext } from '@app/context/appContext';
+import { routesConfig } from '@routes';
+
+import {
+  container,
+  closeError,
+  error,
+  success,
+  configurationInfo,
+  configurationLabel,
+} from './styles';
 
 const Container = styled.div`
   ${container}
@@ -20,32 +33,30 @@ const Success = styled.p`
 const ConfigurationInfo = styled.div`
   ${configurationInfo}
 `;
+const ConfigurationLabel = styled.div`
+  ${configurationLabel}
+`;
 
-export interface StatusBarProps {
-  loadingMessage?: string;
-  loadingPercentage?: number;
-  errorMessage?: string | ReactNode;
-  successMessage?: string | ReactNode;
-  onClickButton?: () => void;
-  breadcrumbs?: ReactNode;
-}
+const StatusBar = () => {
+  const {
+    loadingMessage,
+    loadingPercentage,
+    errorMessage,
+    successMessage,
+    onClickButton,
+    breadcrumbs,
+  } = useContext(StatusBarContext);
+  const { isAppInitialized } = useContext(AppContext);
+  const breadcrumbItems = useBreadcrumbs(routesConfig, { excludePaths: ['/'] });
 
-const StatusBar = ({
-  loadingMessage,
-  loadingPercentage,
-  errorMessage,
-  successMessage,
-  onClickButton,
-  breadcrumbs,
-}: StatusBarProps) => {
   const error = errorMessage
     ? (typeof errorMessage === 'string' && errorMessage !== '') || errorMessage !== null
     : false;
   const success = successMessage
-    ? ((typeof successMessage === 'string' && successMessage !== '') || successMessage !== null)
+    ? (typeof successMessage === 'string' && successMessage !== '') || successMessage !== null
     : false;
 
-  let content = breadcrumbs;
+  let content = breadcrumbs || <Breadcrumbs items={breadcrumbItems} />;
 
   if (error) {
     content = <Error>{errorMessage}</Error>;
@@ -55,15 +66,22 @@ const StatusBar = ({
     content = <Success>{successMessage}</Success>;
   }
 
-  if(loadingMessage && loadingPercentage) {
-    content = <LoadingStatusBar loadingMessage={loadingMessage} loadingPercentage={loadingPercentage} />;
+  if (loadingMessage && loadingPercentage) {
+    content = (
+      <LoadingStatusBar loadingMessage={loadingMessage} loadingPercentage={loadingPercentage} />
+    );
   }
 
   return (
     <Container error={error} success={success && !loadingPercentage}>
       {content}
       {(error || success) && !loadingPercentage && <Button onClick={onClickButton}>Dismiss</Button>}
-      <ConfigurationInfo />
+      {!(error || success) && !loadingPercentage && isAppInitialized && (
+        <ConfigurationInfo>
+          <ConfigurationLabel>ENGLISH</ConfigurationLabel>
+          <ConfigurationLabel>USD $</ConfigurationLabel>
+        </ConfigurationInfo>
+      )}
     </Container>
   );
 };

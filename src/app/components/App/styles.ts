@@ -1,9 +1,6 @@
 import { css } from 'styled-components';
 
-import { grey5 } from '@appConstants/colors';
-
 export const container = css`
-  background-color: ${grey5};
   display: grid;
   grid-template-columns: max-content auto;
   grid-template-rows: 48px auto 48px;

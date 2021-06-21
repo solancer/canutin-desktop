@@ -7,5 +7,5 @@ export const container = css`
   background-color: ${grey7};
   display: flex;
   justify-content: flex-end;
-  height: 56px;
+  padding: 8px 12px;
 `;

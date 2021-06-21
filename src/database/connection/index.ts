@@ -4,6 +4,7 @@ import {
   Connection,
   ConnectionOptions,
   AlreadyHasActiveConnectionError,
+  ConnectionNotFoundError,
 } from 'typeorm';
 import {
   Account,
@@ -68,6 +69,18 @@ const connection = {
     });
 
     return Promise.all(reposToClear).then();
+  },
+
+  async isConnected(): Promise<boolean> {
+    try {
+      return await getConnection().isConnected;
+    } catch (error) {
+      if (error instanceof ConnectionNotFoundError) {
+        return false;
+      }
+    }
+
+    return false;
   },
 };
 
