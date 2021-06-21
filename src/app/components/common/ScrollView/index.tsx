@@ -6,16 +6,7 @@ import { ReactComponent as BackIcon } from '@assets/icons/Back.svg';
 
 import { rootRoutesPaths } from '@routes';
 
-import {
-  container,
-  header,
-  title,
-  main,
-  subTitle,
-  back,
-  information,
-  rightInformation,
-} from './styles';
+import { container, header, title, main, subTitle, backButton, headerContainer } from './styles';
 
 export const Container = styled.div`
   ${container}
@@ -23,53 +14,55 @@ export const Container = styled.div`
 export const Header = styled.header`
   ${header}
 `;
+export const TitleContainer = styled.div`
+  overflow: hidden;
+`;
 export const Title = styled.h1`
   ${title}
 `;
-export const SubTitle = styled.div`
+export const SubTitle = styled.h3`
   ${subTitle}
 `;
 export const Main = styled.main`
   ${main}
 `;
-export const Back = styled(BackIcon)`
-  ${back}
+export const BackButton = styled(BackIcon)`
+  ${backButton}
 `;
-export const Information = styled.div`
-  ${information}
+export const HeaderContainer = styled.div`
+  ${headerContainer}
 `;
-export const RightInformation = styled.div`
-  ${rightInformation}
-`;
+
 export interface ScrollViewProps {
   title: string;
   subTitle?: string;
-  rightInformationComponent?: ReactNode;
+  headerNav?: ReactNode;
   children?: ReactNode;
+  wizard?: boolean;
 }
 
-const ScrollView = ({ title, subTitle, rightInformationComponent, children }: ScrollViewProps) => {
+const ScrollView = ({ title, subTitle, headerNav, wizard, children }: ScrollViewProps) => {
   const history = useHistory();
 
   return (
     <Container>
       <Header>
         {history.length > 1 && !Object.values(rootRoutesPaths).includes(history.location.pathname) && (
-          <Back
+          <BackButton
             onClick={() => {
               history.goBack();
             }}
           />
         )}
-        <Information>
-          <div>
-            <Title>{title}</Title>
-            {subTitle && <SubTitle>{subTitle}</SubTitle>}
-          </div>
-          {rightInformationComponent && <RightInformation>{rightInformationComponent}</RightInformation>}
-        </Information>
+        <HeaderContainer>
+          <TitleContainer>
+            <Title title={title}>{title}</Title>
+            {subTitle && <SubTitle title={subTitle}>{subTitle}</SubTitle>}
+          </TitleContainer>
+          {headerNav && <nav>{headerNav}</nav>}
+        </HeaderContainer>
       </Header>
-      <Main>{children}</Main>
+      <Main wizard={wizard}>{children}</Main>
     </Container>
   );
 };

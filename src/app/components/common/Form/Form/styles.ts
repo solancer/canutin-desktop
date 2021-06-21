@@ -5,5 +5,4 @@ export const container = css`
   border: 1px solid ${borderGrey};
   border-radius: 4px;
   display: grid;
-  margin-top: 12px;
 `;

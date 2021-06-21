@@ -1,6 +1,7 @@
 import { css, createGlobalStyle } from 'styled-components';
 
 import { sansSerifRegular } from '@appConstants/fonts';
+import { grey5 } from '@appConstants/colors';
 
 import InterRegularWoff from '@assets/fonts/Inter-Regular.woff';
 import InterRegularWoff2 from '@assets/fonts/Inter-Regular.woff2';
@@ -56,7 +57,8 @@ const globalStyle = css`
   }
 
   body {
-    ${sansSerifRegular}
+    ${sansSerifRegular};
+    background-color: ${grey5};
   }
 
   input[type='number']::-webkit-inner-spin-button,

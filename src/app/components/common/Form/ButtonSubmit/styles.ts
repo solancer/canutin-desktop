@@ -1,20 +1,9 @@
 import { css } from 'styled-components';
 
 import { sansSerifBold } from '@appConstants/fonts';
-import { grey20, grey30, bluePlain, whitePlain, grey80 } from '@appConstants/colors';
+import { grey20, grey30, grey40, grey80, bluePlain, whitePlain } from '@appConstants/colors';
 
-export const defaultContainer = css<{ disabled: boolean }>`
-  ${sansSerifBold};
-  background-color: ${bluePlain};
-  border: none;
-  border-radius: 4px;
-  color: ${whitePlain};
-  cursor: pointer;
-  height: 40px;
-  margin-right: 10px;
-  padding: 12px 32px;
-  transition: transform 100ms;
-
+const scaleOnClick = css`
   &:focus {
     outline: none;
   }
@@ -22,6 +11,19 @@ export const defaultContainer = css<{ disabled: boolean }>`
   &:active {
     transform: scale(0.98);
   }
+`;
+
+export const defaultContainer = css<{ disabled: boolean }>`
+  ${scaleOnClick};
+  ${sansSerifBold};
+  background-color: ${bluePlain};
+  border: none;
+  border-radius: 4px;
+  color: ${whitePlain};
+  cursor: pointer;
+  height: 40px;
+  padding: 0 32px;
+  transition: transform 100ms;
 
   ${({ disabled }) =>
     disabled &&
@@ -33,6 +35,7 @@ export const defaultContainer = css<{ disabled: boolean }>`
 `;
 
 export const secondaryContainer = css<{ disabled: boolean }>`
+  ${scaleOnClick};
   border: 1px solid ${grey20};
   border-radius: 4px;
   background-color: transparent;
@@ -41,5 +44,9 @@ export const secondaryContainer = css<{ disabled: boolean }>`
   color: ${grey80};
   font-size: 11px;
   height: 28px;
-  padding: 8px 16px;
+  padding: 0 16px;
+
+  &:hover {
+    border-color: ${grey40};
+  }
 `;

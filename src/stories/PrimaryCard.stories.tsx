@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 
-import PrimaryCard, { PrimaryCardProps } from '@components/PrimaryCard';
+import PrimaryCard, { PrimaryCardProps } from '@components/common/PrimaryCard';
 
 import { ReactComponent as Vault } from '@assets/icons/Vault.svg';
 import { ReactComponent as Browse } from '@assets/icons/Browse.svg';

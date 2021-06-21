@@ -16,7 +16,7 @@ const componentPadding = css`
 
 export const container = css<{ disabled?: boolean }>`
   display: grid;
-  grid-gap: 8px;
+  grid-template-rows: max-content auto;
   border: none;
   text-align: left;
   padding: 0;

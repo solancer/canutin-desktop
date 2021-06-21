@@ -1,10 +1,9 @@
 import { css } from 'styled-components';
-import { grey40, grey5 } from '@appConstants/colors';
+import { grey40 } from '@appConstants/colors';
 import { monospaceRegular } from '@appConstants/fonts';
 
 export const section = css`
   align-items: center;
-  background-color: ${grey5};
   display: grid;
   grid-auto-flow: column;
   grid-gap: 64px;

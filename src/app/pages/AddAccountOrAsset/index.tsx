@@ -1,9 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import ScrollView from '@components/common/ScrollView';
-import PrimaryCard from '@components/PrimaryCard';
+import Section from '@components/common/Section';
+import SectionRow from '@components/common/SectionRow';
+import PrimaryCard from '@components/common/PrimaryCard';
+import PrimaryCardRow from '@components/common/PrimaryCardRow';
 
 import { routesPaths } from '@routes';
 import { ReactComponent as Sheet } from '@assets/icons/Sheet.svg';
@@ -11,27 +13,14 @@ import { ReactComponent as Keyboard } from '@assets/icons/Keyboard.svg';
 import { ReactComponent as Bot } from '@assets/icons/Bot.svg';
 import { ReactComponent as Lightning } from '@assets/icons/Lightning.svg';
 
-import { section, subTitle, boxContainer } from './styles';
-
-const Section = styled.div`
-  ${section}
-`;
-const SubTitle = styled.div`
-  ${subTitle}
-`;
-const BoxContainer = styled.div`
-  ${boxContainer}
-`;
-
 const AddAccountOrAsset = () => {
   const { push } = useHistory();
 
   return (
-    <ScrollView title="Add accounts or assets">
-      <Section>
-        <div>
-          <SubTitle>Add New</SubTitle>
-          <BoxContainer>
+    <ScrollView title="Add accounts or assets" wizard={true}>
+      <SectionRow>
+        <Section title="Add new">
+          <PrimaryCardRow>
             <PrimaryCard
               icon={<Sheet />}
               title="Import wizard"
@@ -44,14 +33,13 @@ const AddAccountOrAsset = () => {
               subTitle="Create a new account by entering data manually."
               onClick={() => push(routesPaths.addAccountOrAssetByHand)}
             />
-          </BoxContainer>
-        </div>
-        <div>
-          <SubTitle>Coming Soon</SubTitle>
-          <BoxContainer>
+          </PrimaryCardRow>
+        </Section>
+        <Section title="Coming soon">
+          <PrimaryCardRow>
             <PrimaryCard
               icon={<Bot />}
-              title="Unleash a Bot"
+              title="Unleash a bot"
               subTitle="Attemp to grab accounts and transactions from your financial institution’s website."
               onClick={() => {}}
               disabled
@@ -63,9 +51,9 @@ const AddAccountOrAsset = () => {
               onClick={() => {}}
               disabled
             />
-          </BoxContainer>
-        </div>
-      </Section>
+          </PrimaryCardRow>
+        </Section>
+      </SectionRow>
     </ScrollView>
   );
 };
