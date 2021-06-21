@@ -25,7 +25,7 @@ const mapCategories = (category: string) => {
     case 'other expenses':
       return 'Business & services';
 
-    case 'book & suppies':
+    case 'book & supplies':
       return 'Books & supplies';
 
     case 'charity':
@@ -187,7 +187,7 @@ const mapCategories = (category: string) => {
       return 'Music';
 
     case 'office supplies':
-      return 'Office suppies';
+      return 'Office supplies';
 
     case 'amusement':
       return 'Outdoors & parks';
