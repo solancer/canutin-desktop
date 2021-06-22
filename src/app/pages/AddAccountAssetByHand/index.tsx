@@ -24,7 +24,7 @@ const AddAccountAssetByHand = () => {
 
   useEffect(() => {
     ipcRenderer.on(DB_NEW_ASSET_ACK, (_: IpcRendererEvent, { name }) => {
-      setSuccessMessage(`${name} asset was successfully created`);
+      setSuccessMessage(<>The asset <b>{name}</b> was created successfully</>);
       setIsDbEmpty(false);
       setTimeout(() => {
         setSuccessMessage('');
@@ -33,7 +33,7 @@ const AddAccountAssetByHand = () => {
 
     ipcRenderer.on(DB_NEW_ACCOUNT_ACK, (_: IpcRendererEvent, { name, status, message }) => {
       if (status === EVENT_SUCCESS) {
-        setSuccessMessage(`${name} account was successfully created`);
+        setSuccessMessage(<>The account <b>{name}</b> was created successfully</>);
         setIsDbEmpty(false);
         setTimeout(() => {
           setSuccessMessage('');

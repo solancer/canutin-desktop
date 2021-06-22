@@ -9,13 +9,13 @@ import {
 
 interface StatusBarContextValue {
   errorMessage: string | ReactNode;
-  successMessage: string;
+  successMessage: string | ReactNode;
   loadingMessage: string;
   loadingPercentage: number | undefined;
   breadcrumbs: string | ReactNode;
   onClickButton: (() => void) | undefined;
   setErrorMessage: Dispatch<SetStateAction<string | ReactNode>>;
-  setSuccessMessage: (_: string) => void;
+  setSuccessMessage: Dispatch<SetStateAction<string | ReactNode>>;
   setLoadingMessage: (_: string) => void;
   setLoadingPercentage: Dispatch<SetStateAction<number | undefined>>;
   setBreadcrumbs: (_: string[] | ReactNode) => void;
@@ -39,7 +39,7 @@ export const StatusBarContext = createContext<StatusBarContextValue>({
 
 export const StatusBarProvider = ({ children }: PropsWithChildren<Record<string, unknown>>) => {
   const [errorMessage, setErrorMessage] = useState<string | ReactNode>('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState<string | ReactNode>('');
   const [loadingMessage, setLoadingMessage] = useState('');
   const [loadingPercentage, setLoadingPercentage] = useState<undefined | number>();
   const [breadcrumbs, setBreadcrumbs] = useState<string[] | ReactNode>();
