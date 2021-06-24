@@ -5,5 +5,4 @@ export type NewAssetType = {
   quantity: number;
   cost: number;
   assetType: AssetTypeEnum;
-  accountId: number | null;
 };

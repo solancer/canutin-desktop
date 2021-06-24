@@ -205,7 +205,6 @@ export const formToCantuinJsonFile = (
       ],
     };
 
-    console.log(canutinFile);
     return { canutinFile };
   }
 

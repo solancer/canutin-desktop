@@ -198,15 +198,6 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
             />
             <InputTextField label="Value" name="value" value={`$ ${assetValue}`} disabled />
           </Fieldset>
-          <Fieldset>
-            <SelectField
-              optional
-              label="Account"
-              name="accountId"
-              groupedOptions={accounts}
-              control={controlAssetField}
-            />
-          </Fieldset>
         </>
       )}
       <FormFooter>

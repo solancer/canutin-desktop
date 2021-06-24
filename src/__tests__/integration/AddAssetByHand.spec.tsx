@@ -70,15 +70,9 @@ describe('Add asset by Hand tests', () => {
       expect(continueButton).not.toBeDisabled();
     });
 
-    const accountInput = screen.getByLabelText('Account / Optional');
-    selectEvent.openMenu(accountInput);
-    expect(screen.getByText(accountMock.name as string)).toBeInTheDocument();
-    await selectEvent.select(accountInput, accountMock.name as string);
-
     userEvent.click(continueButton);
     await waitFor(() => {
       expect(spySendIpcRenderer).toHaveBeenLastCalledWith(DB_NEW_ASSET, {
-        accountId: (accountMock.id as number).toString(),
         assetType: 'vehicle',
         cost: "25",
         quantity: "2",

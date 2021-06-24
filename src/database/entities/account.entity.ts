@@ -2,7 +2,6 @@ import { Entity, Column, OneToMany, ManyToOne, JoinColumn, Unique } from 'typeor
 import { Base } from './base.entity';
 import { BalanceGroupEnum } from '../../enums/balanceGroup.enum';
 import { BalanceStatement } from './balanceStatement.entity';
-import { Asset } from './asset.entity';
 import { Transaction } from './transaction.entity';
 import { AccountType } from './accountType.entity';
 import { getBalanceGroupByAccountType } from '../helpers';
@@ -28,9 +27,6 @@ export class Account extends Base {
   @OneToMany(() => BalanceStatement, balanceStatement => balanceStatement.account)
   balanceStatements?: BalanceStatement[];
 
-  @OneToMany(() => Asset, asset => asset.account)
-  assets?: Asset[];
-
   @OneToMany(() => Transaction, transaction => transaction.account)
   transactions?: Transaction[];
 
@@ -45,8 +41,7 @@ export class Account extends Base {
     officialName?: string,
     institution?: string,
     transactions?: Transaction[],
-    balanceStatements?: BalanceStatement[],
-    assets?: Asset[]
+    balanceStatements?: BalanceStatement[]
   ) {
     super();
     this.name = name;
@@ -57,6 +52,5 @@ export class Account extends Base {
     this.accountType = accountType;
     this.transactions = transactions;
     this.balanceStatements = balanceStatements;
-    this.assets = assets;
   }
 }

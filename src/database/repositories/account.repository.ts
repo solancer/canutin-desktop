@@ -34,7 +34,7 @@ export class AccountRepository {
 
   static async getAccounts(): Promise<Account[]> {
     return await getRepository<Account>(Account).find({
-      relations: ['transactions', 'assets', 'balanceStatements', 'accountType'],
+      relations: ['transactions', 'balanceStatements', 'accountType'],
       order: {
         name: 'ASC',
         id: 'DESC',

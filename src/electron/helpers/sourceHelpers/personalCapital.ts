@@ -31,7 +31,7 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
       const transaction = {
         description: personalCapEntry.Description,
         date: format(
-          parse(personalCapEntry.Date, 'yyyy-MM-dd', new Date()),
+          parse(personalCapEntry.Date, 'yyyy-dd-MM', new Date()),
           CANUTIN_FILE_DATE_FORMAT
         ),
         amount: personalCapEntry.Amount,

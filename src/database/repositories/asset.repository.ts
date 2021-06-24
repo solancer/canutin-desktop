@@ -8,23 +8,18 @@ import { AccountRepository } from './account.repository';
 
 export class AssetRepository {
   static async createAsset(asset: NewAssetType): Promise<Asset> {
-    const account =
-      asset.accountId !== null
-        ? await AccountRepository.getAccountById(asset.accountId)
-        : asset.accountId;
-
     const assetType = await AssetTypeRepository.createOrGetAssetType({
       name: asset.assetType,
     });
 
     return await getRepository<Asset>(Asset).save(
-      new Asset(asset.name, asset.quantity, asset.cost, assetType, account)
+      new Asset(asset.name, asset.quantity, asset.cost, assetType)
     );
   }
 
   static async getAssets(): Promise<Asset[]> {
     return await getRepository<Asset>(Asset).find({
-      relations: ['assetType', 'account'],
+      relations: ['assetType'],
       order: {
         name: 'ASC',
         id: 'DESC',
