@@ -4,6 +4,8 @@ import { sansSerifRegular, monospaceRegular } from '@appConstants/fonts';
 import { bluePlain, blueLight } from '@appConstants/colors';
 
 export const container = css<{ loadingPercentage: number }>`
+  position: absolute;
+  left: 0;
   align-items: center;
   background-color: ${blueLight};
   border-right: 3px solid ${bluePlain};

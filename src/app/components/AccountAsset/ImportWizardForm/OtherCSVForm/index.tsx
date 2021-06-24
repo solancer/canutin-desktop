@@ -15,7 +15,7 @@ import InputTextField from '@components/common/Form/InputTextField';
 import { AnalyzeSourceMetadataType } from '@components/AccountAsset/ImportWizardForm';
 import { accountGroupedValues } from '@components/AccountAsset/AddAccountAssetForm/index';
 import FormFooter from '@components/common/Form/FormFooter';
-import ButtonSubmit from '@components/common/Form/ButtonSubmit';
+import SubmitButton from '@app/components/common/Form/SubmitButton';
 
 import { DB_GET_ACCOUNTS_ACK, LOAD_FROM_OTHER_CSV } from '@constants/events';
 import AccountIpc from '@app/data/account.ipc';
@@ -394,9 +394,9 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
         </Fieldset>
       )}
       <FormFooter>
-        <ButtonSubmit disabled={!formState.isValid} onClick={handleSubmit(onSubmit)}>
+        <SubmitButton disabled={!formState.isValid} onClick={handleSubmit(onSubmit)}>
           Continue
-        </ButtonSubmit>
+        </SubmitButton>
       </FormFooter>
     </>
   );

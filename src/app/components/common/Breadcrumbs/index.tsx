@@ -4,13 +4,16 @@ import styled from 'styled-components';
 import { BreadcrumbData } from 'use-react-router-breadcrumbs';
 
 import { ReactComponent as Chevron } from '@assets/icons/Chevron.svg';
-import { text, container } from './styles';
+import { container, breadcrumb, breadcrumbLabel } from './styles';
 
 const Container = styled.div`
   ${container}
 `;
-const Text = styled(NavLink)`
-  ${text}
+const Breadcrumb = styled.div`
+  ${breadcrumb}
+`;
+const BreadcrumbLabel = styled(NavLink)`
+  ${breadcrumbLabel}
 `;
 export interface BreadcrumbsProps {
   items: BreadcrumbData[];
@@ -19,10 +22,10 @@ export interface BreadcrumbsProps {
 const Breadcrumbs = ({ items }: BreadcrumbsProps) => (
   <Container>
     {items.map(({ breadcrumb, match }, index) => (
-      <div key={`${index}-${text}`}>
-        <Text to={match.url}>{breadcrumb}</Text>
+      <Breadcrumb key={`${index}-${breadcrumb}`}>
+        <BreadcrumbLabel to={match.url}>{breadcrumb}</BreadcrumbLabel>
         {index !== items.length - 1 && <Chevron />}
-      </div>
+      </Breadcrumb>
     ))}
   </Container>
 );

@@ -2,11 +2,11 @@ import { css } from 'styled-components';
 
 import {
   whitePlain,
-  bluePlain,
   blueLight,
   grey50,
   grey80,
   blackOpacity10,
+  blackOpacity25,
 } from '@appConstants/colors';
 import { sansSerifBold, sansSerifRegular } from '@appConstants/fonts';
 
@@ -23,17 +23,22 @@ export const container = css<{ disabled?: boolean }>`
   background-color: ${whitePlain};
   border-radius: 4px;
   box-shadow: 0 4px 16px 0 ${blackOpacity10};
-  transition: transform 100ms;
+  transition: transform 100ms, box-shadow 100ms;
   width: 100%;
-  outline-color: ${bluePlain};
+  outline: none;
 
   &:hover {
     cursor: pointer;
     transform: scale(1.02);
   }
 
+  &:focus,
   &:active {
     transform: scale(1);
+    box-shadow: 0 8px 24px 0 ${blackOpacity25};
+  }
+
+  &:focus {
   }
 
   ${({ disabled }) =>

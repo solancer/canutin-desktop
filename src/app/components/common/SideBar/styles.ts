@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { grey10, grey5, whitePlain, grey80 } from '@appConstants/colors';
+import { grey3, grey5, grey10, whitePlain, grey80 } from '@appConstants/colors';
 
 export const container = css`
   grid-area: side-bar;
@@ -18,12 +18,12 @@ export const burgerButton = css`
   background-color: transparent;
   outline: none;
 
-  &:hover {
-    background-color: ${grey5};
+  &:focus {
+    background-color: ${grey3};
   }
 
-  &:focus {
-    outline: none;
+  &:hover {
+    background-color: ${grey5};
   }
 `;
 

@@ -6,7 +6,7 @@ import Fieldset from '@components/common/Form/Fieldset';
 import RadioGroupField from '@components/common/Form/RadioGroupField';
 import ChooseFileInput from '@components/common/ChooseFileInput';
 import FormFooter from '@components/common/Form/FormFooter';
-import ButtonSubmit from '@components/common/Form/ButtonSubmit';
+import SubmitButton from '@app/components/common/Form/SubmitButton';
 
 import {
   IMPORT_SOURCE_FILE,
@@ -187,9 +187,9 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
         otherCsvMetadata && <OtherCSVForm data={otherCsvData} metadata={otherCsvMetadata} />}
       {(source !== enumImportTitleOptions.OTHER_CSV_IMPORT_TYPE_TITLE || !otherCsvData) && (
         <FormFooter>
-          <ButtonSubmit disabled={isSubmitDisabled} onClick={onSubmit}>
+          <SubmitButton disabled={isSubmitDisabled} onClick={onSubmit}>
             Continue
-          </ButtonSubmit>
+          </SubmitButton>
         </FormFooter>
       )}
     </Form>

@@ -43,8 +43,6 @@ export const title = css`
   ${componentConstraints};
   ${sansSerifBold};
   font-size: 24px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 `;
 
 export const subTitle = css`
@@ -67,7 +65,13 @@ export const main = css<{ wizard?: boolean }>`
       position: relative;
       place-items: center;
       height: 100%;
-      background: radial-gradient(50% 50% at 50% 50%, ${grey5} 31.77%, rgba(242, 242, 242, 0) 100%);
+      background: linear-gradient(
+        270deg,
+        ${grey5} 0%,
+        rgba(0, 0, 0, 0) 25%,
+        rgba(0, 0, 0, 0) 75%,
+        ${grey5} 100%
+      );
 
       &:before {
         position: absolute;
@@ -79,7 +83,7 @@ export const main = css<{ wizard?: boolean }>`
         background-image: url(${backgroundPattern});
         background-size: 256px;
         background-color: ${grey5};
-        animation: 10s linear 0s infinite background-loop;
+        animation: 15s linear 0s infinite background-loop;
         z-index: -1;
       }
 
@@ -89,6 +93,12 @@ export const main = css<{ wizard?: boolean }>`
         }
         to {
           background-position: 256px 0;
+        }
+      }
+
+      @media (prefers-reduced-motion) {
+        &:before {
+          animation: none;
         }
       }
     `}

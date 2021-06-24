@@ -11,8 +11,6 @@ import { ACCOUNT } from '@appConstants/misc';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { AppContext } from '@app/context/appContext';
 
-const SUCCESS_MESSAGE_TIMEOUT = 5000;
-
 const AddAccountAssetByHand = () => {
   const [formSubtitle, setFormSubtitle] = useState('Choose Type');
   const { setSuccessMessage, setErrorMessage, setOnClickButton } = useContext(StatusBarContext);
@@ -24,27 +22,26 @@ const AddAccountAssetByHand = () => {
 
   useEffect(() => {
     ipcRenderer.on(DB_NEW_ASSET_ACK, (_: IpcRendererEvent, { name }) => {
-      setSuccessMessage(`${name} asset was successfully created`);
+      setSuccessMessage(
+        <>
+          The asset <b>{name}</b> was created successfully
+        </>
+      );
       setIsDbEmpty(false);
-      setTimeout(() => {
-        setSuccessMessage('');
-      }, SUCCESS_MESSAGE_TIMEOUT);
     });
 
     ipcRenderer.on(DB_NEW_ACCOUNT_ACK, (_: IpcRendererEvent, { name, status, message }) => {
       if (status === EVENT_SUCCESS) {
-        setSuccessMessage(`${name} account was successfully created`);
+        setSuccessMessage(
+          <>
+            The account <b>{name}</b> was created successfully
+          </>
+        );
         setIsDbEmpty(false);
-        setTimeout(() => {
-          setSuccessMessage('');
-        }, SUCCESS_MESSAGE_TIMEOUT);
       }
 
       if (status === EVENT_ERROR) {
         setErrorMessage(message);
-        setTimeout(() => {
-          setErrorMessage('');
-        }, SUCCESS_MESSAGE_TIMEOUT);
       }
     });
 

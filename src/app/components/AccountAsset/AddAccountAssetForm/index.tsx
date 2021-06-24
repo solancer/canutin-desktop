@@ -13,7 +13,7 @@ import InputTextField from '@components/common/Form/InputTextField';
 import InputText from '@components/common/Form/InputText';
 import InlineCheckbox from '@components/common/Form/Checkbox';
 import FormFooter from '@components/common/Form/FormFooter';
-import ButtonSubmit from '@components/common/Form/ButtonSubmit';
+import SubmitButton from '@app/components/common/Form/SubmitButton';
 
 import { DB_GET_ACCOUNTS_ACK } from '@constants/events';
 import { ACCOUNT, ASSET } from '@appConstants/misc';
@@ -201,7 +201,7 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
         </>
       )}
       <FormFooter>
-        <ButtonSubmit disabled={submitDisabled}>Continue</ButtonSubmit>
+        <SubmitButton disabled={submitDisabled}>Continue</SubmitButton>
       </FormFooter>
     </Form>
   );

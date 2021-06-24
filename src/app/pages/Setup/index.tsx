@@ -41,15 +41,15 @@ const Setup = () => {
       setIsLoading(false);
       setIsAppInitialized(false);
       setErrorMessage(
-        <span>
+        <>
           The vault located at <b>{dbPath}</b> was moved or deleted
-        </span>
+        </>
       );
     });
 
     ipcRenderer.on(DATABASE_NOT_VALID, () => {
       setIsLoading(false);
-      setErrorMessage(<span>The chosen file is not a valid Canutin database</span>);
+      setErrorMessage(<>The chosen file is not a valid Canutin vault</>);
     });
 
     setOnClickButton(() => () => setErrorMessage(''));

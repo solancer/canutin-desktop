@@ -14,8 +14,6 @@ import { StatusBarContext } from '@app/context/statusBarContext';
 import { AppContext } from '@app/context/appContext';
 import AccountIpc from '@app/data/account.ipc';
 
-const SUCCESS_MESSAGE_TIMEOUT = 5000;
-
 const AddAccountAssetByWizard = () => {
   const {
     setSuccessMessage,
@@ -33,25 +31,19 @@ const AddAccountAssetByWizard = () => {
 
   useEffect(() => {
     ipcRenderer.on(LOAD_FROM_CANUTIN_FILE_ACK, (_: IpcRendererEvent, { name }) => {
-      setSuccessMessage(`Data has been imported successfully`);
+      setLoadingPercentage(undefined);
       setIsDbEmpty(false);
       setIsLoading(false);
-      setTimeout(() => {
-        setSuccessMessage('');
-      }, SUCCESS_MESSAGE_TIMEOUT);
-      setLoadingPercentage(undefined);
+      setSuccessMessage(`The file was imported successfully`);
     });
 
     ipcRenderer.on(LOAD_FROM_OTHER_CSV_ACK, (_: IpcRendererEvent, { name }) => {
-      setSuccessMessage(`Data has been imported successfully`);
+      setSuccessMessage(`The CSV was imported successfully`);
       setIsDbEmpty(false);
       // Reload accounts on other CSV form
       AccountIpc.getAccounts();
       setLoadingPercentage(undefined);
       setIsLoading(false);
-      setTimeout(() => {
-        setSuccessMessage('');
-      }, SUCCESS_MESSAGE_TIMEOUT);
     });
 
     ipcRenderer.on(LOADING_CSV, (_: IpcRendererEvent, { total }) => {
@@ -83,7 +75,7 @@ const AddAccountAssetByWizard = () => {
       title="Import wizard"
       subTitle="Add or update accounts, assets, balances and transactions"
     >
-      <Section title="Data Source">
+      <Section title="Data source">
         <ImportWizardForm isLoading={isLoading} setIsLoading={setIsLoading} />
       </Section>
     </ScrollView>

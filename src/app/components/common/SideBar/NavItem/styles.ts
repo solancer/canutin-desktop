@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { grey5, grey80, grey30, bluePlain, grey10 } from '@appConstants/colors';
+import { grey3, grey5, grey10, grey30, grey80, bluePlain } from '@appConstants/colors';
 
 export interface NavItemProps {
   toggled: boolean | number;
@@ -16,9 +16,10 @@ export const container = css<NavItemProps & { active: boolean | number }>`
   padding: 16px 24px;
   text-decoration: none;
   stroke: ${grey30};
+  outline: none;
 
-  &:hover {
-    background-color: ${grey5};
+  &:focus {
+    background-color: ${grey3};
   }
 
   &:hover {

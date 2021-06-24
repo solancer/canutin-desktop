@@ -1,28 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import styled from 'styled-components';
 
 import LoadingStatusBar from '@components/common/LoadingStatusBar';
 import Breadcrumbs from '@components/common/Breadcrumbs';
+import Button from '@components/common/Button';
 
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { AppContext } from '@app/context/appContext';
 import { routesConfig } from '@routes';
 
-import {
-  container,
-  closeError,
-  error,
-  success,
-  configurationInfo,
-  configurationLabel,
-} from './styles';
+import { container, error, success, currentSettings, currentSettingsLabel } from './styles';
 
 const Container = styled.div`
   ${container}
-`;
-const Button = styled.button`
-  ${closeError}
 `;
 const Error = styled.p`
   ${error}
@@ -30,12 +21,14 @@ const Error = styled.p`
 const Success = styled.p`
   ${success}
 `;
-const ConfigurationInfo = styled.div`
-  ${configurationInfo}
+const CurrentSettings = styled.div`
+  ${currentSettings}
 `;
-const ConfigurationLabel = styled.div`
-  ${configurationLabel}
+const CurrentSettingsLabel = styled.div`
+  ${currentSettingsLabel}
 `;
+
+export const SUCCESS_MESSAGE_TIMEOUT = 5000;
 
 const StatusBar = () => {
   const {
@@ -43,6 +36,7 @@ const StatusBar = () => {
     loadingPercentage,
     errorMessage,
     successMessage,
+    setSuccessMessage,
     onClickButton,
     breadcrumbs,
   } = useContext(StatusBarContext);
@@ -72,15 +66,24 @@ const StatusBar = () => {
     );
   }
 
+  // Auto-dismiss success messages
+  useEffect(() => {
+    if (successMessage !== '') {
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, SUCCESS_MESSAGE_TIMEOUT);
+    }
+  }, [successMessage]);
+
   return (
     <Container error={error} success={success && !loadingPercentage}>
       {content}
       {(error || success) && !loadingPercentage && <Button onClick={onClickButton}>Dismiss</Button>}
       {!(error || success) && !loadingPercentage && isAppInitialized && (
-        <ConfigurationInfo>
-          <ConfigurationLabel>ENGLISH</ConfigurationLabel>
-          <ConfigurationLabel>USD $</ConfigurationLabel>
-        </ConfigurationInfo>
+        <CurrentSettings>
+          <CurrentSettingsLabel>ENGLISH</CurrentSettingsLabel>
+          <CurrentSettingsLabel>USD $</CurrentSettingsLabel>
+        </CurrentSettings>
       )}
     </Container>
   );
