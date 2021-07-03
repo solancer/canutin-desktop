@@ -1,24 +1,30 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
-import { container, sectionTitle } from './styles';
+import { container, header, title } from './styles';
 
-export const Container = styled.div`
+const Container = styled.div`
   ${container}
 `;
-
-export const SectionTitle = styled.h2`
-  ${sectionTitle}
+const Header = styled.header`
+  ${header}
+`;
+const Title = styled.h2`
+  ${title}
 `;
 
 export interface SectionProps {
   title: string;
+  scope?: ReactNode;
   children?: ReactNode;
 }
 
-const Section = ({ title, children }: SectionProps) => (
+const Section = ({ title, scope, children }: SectionProps) => (
   <Container>
-    <SectionTitle>{title}</SectionTitle>
+    <Header>
+      <Title>{title}</Title>
+      <div>{scope}</div>
+    </Header>
     {children}
   </Container>
 );

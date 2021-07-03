@@ -10,10 +10,19 @@ export const container = css`
   grid-gap: 12px;
 `;
 
-export const sectionTitle = css`
+export const header = css`
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 32px;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const title = css`
+  ${monospaceRegular};
   color: ${grey40};
   font-size: 12px;
   text-transform: uppercase;
   line-height: 1em;
-  ${monospaceRegular};
+  letter-spacing: 0.1em;
 `;

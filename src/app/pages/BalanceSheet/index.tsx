@@ -2,12 +2,12 @@ import React from 'react';
 
 import ScrollView from '@components/common/ScrollView';
 import HeaderButtons from '@app/components/BalanceSheet/HeaderButtons';
-import BalanceSheetTabViewer from '@components/BalanceSheet/BalanceSheetTabViewer';
+import BalanceSheetSection from '@app/components/BalanceSheet/BalanceSheetSection';
 
 const BalanceSheet = () => (
   <>
     <ScrollView title="Balance sheet" headerNav={<HeaderButtons />}>
-      <BalanceSheetTabViewer />
+      <BalanceSheetSection />
     </ScrollView>
   </>
 );

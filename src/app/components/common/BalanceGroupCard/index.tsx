@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import NumberFormat from 'react-number-format';
 
 import { container, title, amount } from './styles';
-import { SummaryChipTypeEnum, getSummaryChipTitle } from './constants';
+import { BalanceGroupCardTypeEnum, getBalanceGroupCardTitle } from './constants';
 
-const Container = styled.div<{ balanceType: SummaryChipTypeEnum }>`
+const Container = styled.div<{ balanceType: BalanceGroupCardTypeEnum }>`
   ${container}
 `;
 
@@ -17,16 +17,16 @@ const Amount = styled(NumberFormat)`
   ${amount}
 `;
 
-interface SummaryChipProps {
+interface BalanceGroupCardProps {
   amount: number;
-  type: SummaryChipTypeEnum;
+  type: BalanceGroupCardTypeEnum;
 }
 
-const SummaryChip = ({ amount, type }: SummaryChipProps) => (
+const BalanceGroupCard = ({ amount, type }: BalanceGroupCardProps) => (
   <Container balanceType={type}>
-    <Title>{getSummaryChipTitle[type]}</Title>
+    <Title>{getBalanceGroupCardTitle[type]}</Title>
     <Amount thousandSeparator={true} displayType={'text'} prefix={'$'} value={amount} />
   </Container>
 );
 
-export default SummaryChip;
+export default BalanceGroupCard;
