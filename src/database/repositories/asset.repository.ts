@@ -4,7 +4,6 @@ import { AssetTypeRepository } from '@database/repositories/assetTypes.repositor
 
 import { Asset } from '../entities';
 import { NewAssetType } from '../../types/asset.type';
-import { AccountRepository } from './account.repository';
 
 export class AssetRepository {
   static async createAsset(asset: NewAssetType): Promise<Asset> {
@@ -13,7 +12,7 @@ export class AssetRepository {
     });
 
     return await getRepository<Asset>(Asset).save(
-      new Asset(asset.name, asset.quantity, asset.cost, assetType)
+      new Asset(asset.name, assetType, undefined, asset.quantity, asset.cost)
     );
   }
 

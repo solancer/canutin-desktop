@@ -1,56 +1,56 @@
 {
   "accounts": [
     {
-      "name": "Personal Checking",
-      "balanceGroup": "Cash",
-      "accountType": "Checking",
-      "autoCalculate": true,
+      "name": "My Visa Rewards",
+      "balanceGroup": "debt",
+      "accountType": "credit card",
+      "balance": 1000,
       "transactions": [
+        {
+          "description": "Trader Joes",
+          "date": "2021-02-01",
+          "amount": 65.99,
+          "excludeFromTotals": false,
+          "category": "Groceries"
+        },
         {
           "description": "Credit card payment",
           "date": "2021-02-01",
-          "amount": -50,
+          "amount": -1500,
           "excludeFromTotals": true,
-          "category":  "Payments"
-        },
-        {
-          "description": "Bob's Car Repair & Body Shop",
-          "date": "2021-04-25",
-          "amount": 975.5,
-          "excludeFromTotals": false,
-          "category":  "Automotive"
+          "category": "Transfer"
         }
       ]
+    }
+  ],
+  "assets": [
+    {
+      "type": "cyrptocurrency",
+      "balanceGroup": "investment",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "quantity": 0.5,
+      "cost": 250
     },
     {
-      "name": "Visa Signature Rewards",
-      "balanceGroup": "Debt",
-      "accountType": "Credit card",
-      "autoCalculate": false,
-      "balance": 234,
-      "transactions": [
-        {
-          "description": "Card payment",
-          "date": "2021-02-02",
-          "amount": 50,
-          "excludeFromTotals": true,
-          "category":  "Payments"
-        },
-        {
-          "description": "The Candy Store",
-          "date": "2021-02-15",
-          "amount": 12.5,
-          "excludeFromTotals": false,
-          "category":  "Food & drink"
-        },
-        {
-          "description": "Alice's Electronics",
-          "date": "2021-03-27",
-          "amount": 256.32,
-          "excludeFromTotals": false,
-          "category":  "Electronics & software"
-        }
-      ]
+      "type": "precious metals",
+      "balanceGroup": "other asset",
+      "name": "Gold",
+      "symbol": "XAU",
+      "quantity": 10,
+      "cost": 145
+    },
+    {
+      "type": "vehicle",
+      "balanceGroup": "other asset",
+      "name": "2020 Honda Civic",
+      "value": 19500
+    },
+    {
+      "type": "real state",
+      "balanceGroup": "other asset",
+      "name": "7500 Main St",
+      "value": 145000
     }
   ]
 }

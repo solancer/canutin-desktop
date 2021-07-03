@@ -1,4 +1,5 @@
 import { Entity, Column, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
+
 import { Base } from './base.entity';
 import { BalanceGroupEnum } from '../../enums/balanceGroup.enum';
 import { AssetType } from './assetType.entity';
@@ -9,11 +10,8 @@ export class Asset extends Base {
   @Column()
   name: string;
 
-  @Column()
-  quantity: number;
-
-  @Column()
-  cost: number;
+  @Column({ default: 0 })
+  value?: number;
 
   @ManyToOne(() => AssetType, assetType => assetType.asset, { cascade: true })
   @JoinColumn()
@@ -22,22 +20,36 @@ export class Asset extends Base {
   @Column()
   balanceGroup: BalanceGroupEnum;
 
+  @Column({ default: 0 })
+  quantity?: number;
+
+  @Column({ default: 0 })
+  cost?: number;
+
   @Column({ nullable: true })
-  sold?: Date;
+  symbol?: string;
 
   constructor(
     name: string,
-    quantity: number,
-    cost: number,
     assetType: AssetType,
-    sold?: Date
+    value = 0,
+    quantity = 0,
+    cost = 0,
+    symbol?: string
   ) {
     super();
     this.name = name;
+
+    if (quantity !== undefined && cost !== undefined) {
+      this.value = quantity * cost;
+    } else {
+      this.value = value;
+    }
+
+    this.assetType = assetType;
+    this.balanceGroup = getBalanceGroupByAssetType(assetType?.name);
     this.quantity = quantity;
     this.cost = cost;
-    this.assetType = assetType;
-    this.sold = sold;
-    this.balanceGroup = getBalanceGroupByAssetType(assetType?.name);
+    this.symbol = symbol;
   }
 }
