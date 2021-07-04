@@ -9,49 +9,68 @@ import { TransactionRepository } from '@database/repositories/transaction.reposi
 import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
 import { LOADING_CSV } from '@constants/events';
 import { CANUTIN_FILE_DATE_FORMAT } from '@constants';
+import { AssetRepository } from '@database/repositories/asset.repository';
+import { AssetTypeEnum } from '@enums/assetType.enum';
 
 export const importFromCanutinFile = async (
   canutinFile: CanutinFileType,
   win: BrowserWindow | null
 ) => {
-  const countAccounts = canutinFile.accounts.length;
+  try {
+    const countAccounts = canutinFile.accounts.length;
 
-  canutinFile.accounts.forEach(async (accountInfo, index) => {
-    const account = await AccountRepository.getOrCreateAccount(accountInfo).then(res => {
-      win?.webContents.send(LOADING_CSV, { total: countAccounts });
-      return res;
+    canutinFile.accounts?.forEach(async accountInfo => {
+      const account = await AccountRepository.getOrCreateAccount(accountInfo).then(res => {
+        win?.webContents.send(LOADING_CSV, { total: countAccounts });
+        return res;
+      });
+
+      // Process transactions
+      const transactions = await Promise.all(
+        accountInfo.transactions.map(async transactionInfo => {
+          const transactionDate = parse(transactionInfo.date, CANUTIN_FILE_DATE_FORMAT, new Date());
+          const budget =
+            transactionInfo.budget &&
+            new Budget(
+              transactionInfo.budget.name,
+              transactionInfo.budget.targetAmount,
+              transactionInfo.budget.type,
+              parse(transactionInfo.budget.date, CANUTIN_FILE_DATE_FORMAT, new Date())
+            );
+          const category = await CategoryRepository.getOrCreateSubCategory(
+            transactionInfo.category
+          );
+          return new Transaction(
+            transactionInfo.description,
+            transactionDate,
+            transactionInfo.amount,
+            transactionInfo.excludeFromTotals,
+            account,
+            category,
+            budget
+          );
+        })
+      );
+
+      await TransactionRepository.createTransactions(transactions);
+
+      return account;
     });
 
-    // Process transactions
-    const transactions = await Promise.all(
-      accountInfo.transactions.map(async transactionInfo => {
-        const transactionDate = parse(transactionInfo.date, CANUTIN_FILE_DATE_FORMAT, new Date());
-        const budget =
-          transactionInfo.budget &&
-          new Budget(
-            transactionInfo.budget.name,
-            transactionInfo.budget.targetAmount,
-            transactionInfo.budget.type,
-            parse(transactionInfo.budget.date, CANUTIN_FILE_DATE_FORMAT, new Date())
-          );
+    canutinFile.assets &&
+      (await Promise.all(
+        canutinFile.assets.map(async assetInfo =>
+          AssetRepository.createAsset({
+            ...assetInfo,
+            assetType: assetInfo.type as AssetTypeEnum,
+          })
+        )
+      ));
 
-        const category = await CategoryRepository.getOrCreateSubCategory(transactionInfo.category);
-        return new Transaction(
-          transactionInfo.description,
-          transactionDate,
-          transactionInfo.amount,
-          transactionInfo.excludeFromTotals,
-          account,
-          category,
-          budget
-        );
-      })
-    );
-
-    await TransactionRepository.createTransactions(transactions);
-
-    return account;
-  });
+    return true;
+  } catch (error) {
+    return false;
+  }
 };
 
 export const updateAccounts = async (updatedAccounts: UpdatedAccount[]) => {

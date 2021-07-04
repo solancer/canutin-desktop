@@ -7,7 +7,7 @@ export class BalanceStatement extends Base {
   @Column({ nullable: true })
   value?: number;
 
-  @Column()
+  @Column({ default: true })
   autoCalculate: boolean;
 
   @ManyToOne(() => Account, account => account.balanceStatements, { eager: false })

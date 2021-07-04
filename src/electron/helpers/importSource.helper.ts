@@ -45,10 +45,11 @@ export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | 
   try {
     const canutinFile = JSON.parse(file);
     const hasCanutinFileAccounts = canutinFile?.accounts?.length > 0;
+    const countAssets = canutinFile?.assets?.length;
 
-    if (hasCanutinFileAccounts) {
-      const countAccounts = canutinFile.accounts.length;
-      const countTransactions = canutinFile.accounts.reduce(
+    if (hasCanutinFileAccounts || countAssets) {
+      const countAccounts = canutinFile?.accounts?.length;
+      const countTransactions = canutinFile?.accounts?.reduce(
         (countTransactions: number, account: { transactions: CanutinFileTransactionType[] }) => {
           if (account?.transactions) {
             return countTransactions + account.transactions.length;
@@ -65,6 +66,7 @@ export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | 
         metadata: {
           countAccounts,
           countTransactions,
+          countAssets,
         },
       });
     } else {
@@ -171,13 +173,13 @@ export const loadFromCanutinFile = async (
   win: BrowserWindow | null,
   canutinFile: CanutinFileType
 ) => {
-  try {
-    await importFromCanutinFile(canutinFile, win);
+  const isSuccess = await importFromCanutinFile(canutinFile, win);
 
+  if (isSuccess) {
     win?.webContents.send(LOAD_FROM_CANUTIN_FILE_ACK, {
       status: StatusEnum.SUCCESS,
     });
-  } catch (error) {
+  } else {
     win?.webContents.send(LOAD_FROM_CANUTIN_FILE_ACK, {
       status: StatusEnum.ERROR,
     });

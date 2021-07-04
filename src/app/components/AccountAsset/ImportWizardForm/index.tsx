@@ -22,6 +22,7 @@ import { CanutinFileType } from '@appTypes/canutin';
 import { ParseMeta } from '@appTypes/parseCsv';
 
 import OtherCSVForm from './OtherCSVForm';
+import { generateSourceMessage } from './importWizardUtils';
 
 import sourceAlertsLookup from './dataSourceAlerts';
 
@@ -43,6 +44,7 @@ const filePathStatusMessage = (status: StatusEnum, message?: string) => {
 export interface AnalyzeSourceMetadataType extends ParseMeta {
   countAccounts?: number;
   countTransactions?: number;
+  countAssets?: number;
   error?: string;
 }
 
@@ -102,11 +104,7 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
             setCanutinJson(analyzeSource.sourceData);
           }
 
-          analyzeSource.metadata?.countAccounts &&
-            analyzeSource.metadata?.countTransactions !== undefined &&
-            setSourceMessage(
-              `Found ${analyzeSource.metadata.countAccounts} accounts and ${analyzeSource.metadata.countTransactions} transactions in the file`
-            );
+          analyzeSource.metadata && setSourceMessage(generateSourceMessage(analyzeSource.metadata));
         }
 
         if (analyzeSource.status === StatusEnum.ERROR) {

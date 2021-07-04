@@ -27,8 +27,19 @@ export interface CanutinFileAccountType {
   transactions: CanutinFileTransactionType[];
 }
 
+export interface CanutinFileAssetType {
+  type: string;
+  balanceGroup: BalanceGroupEnum;
+  name: string;
+  symbol?: string;
+  quantity?: number;
+  cost?: number;
+  vale?: number; 
+}
+
 export interface CanutinFileType {
   accounts: CanutinFileAccountType[];
+  assets?: CanutinFileAssetType[];
 }
 
 export interface UpdatedAccount {
