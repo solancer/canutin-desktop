@@ -53,3 +53,5 @@ export const assetTypes = [
     ],
   },
 ];
+
+export const assetTypesWithSymbol = ['cryptocurrency', 'precious metal', 'security'];

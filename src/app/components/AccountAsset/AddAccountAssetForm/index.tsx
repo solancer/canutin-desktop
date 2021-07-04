@@ -1,32 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { ipcRenderer, IpcRendererEvent } from 'electron';
 
 import Form from '@components/common/Form/Form';
 import Fieldset from '@components/common/Form/Fieldset';
 import Field from '@components/common/Form/Field';
 import RadioGroupField from '@components/common/Form/RadioGroupField';
 import SelectField from '@components/common/Form/SelectField';
-import { GroupedValue } from '@components/common/Form/Select';
 import InputTextField from '@components/common/Form/InputTextField';
 import InputText from '@components/common/Form/InputText';
 import InlineCheckbox from '@components/common/Form/Checkbox';
 import FormFooter from '@components/common/Form/FormFooter';
 import SubmitButton from '@app/components/common/Form/SubmitButton';
 
-import { DB_GET_ACCOUNTS_ACK } from '@constants/events';
 import { ACCOUNT, ASSET } from '@appConstants/misc';
-import { BalanceGroupEnum } from '../../../../enums/balanceGroup.enum';
 import { accountTypes, balanceGroupLabels } from '@constants/accountTypes';
-import { assetTypes } from '@constants/assetTypes';
+import { assetTypes, assetTypesWithSymbol } from '@constants/assetTypes';
 import { NewAssetType } from '../../../../types/asset.type';
 import { NewAccountType } from '../../../../types/account.type';
 import AssetIpc from '@app/data/asset.ipc';
 import AccountIpc from '@app/data/account.ipc';
 
 import { toggableInputContainer } from './styles';
-import { Account } from '@database/entities';
 
 export const accountGroupedValues = accountTypes.map(({ balanceGroup, accountTypes }) => ({
   options: accountTypes,
@@ -48,13 +43,13 @@ export interface AddAccountAssetFormProps {
 
 const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) => {
   const [accountOrAsset, setAccountOrAsset] = useState('');
-  const [accounts, setAccounts] = useState<GroupedValue[]>([]);
   const {
     handleSubmit: handleAssetSubmit,
     register: registerAssetField,
     watch: watchAssetField,
     formState: assetFormState,
     control: controlAssetField,
+    setValue: setValueAssetForm,
   } = useForm({ mode: 'onChange' });
   const {
     handleSubmit: handleAccountSubmit,
@@ -71,30 +66,6 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
     AccountIpc.createAccount(account);
   };
 
-  useEffect(() => {
-    ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
-      const accountsValues: GroupedValue[] = [];
-
-      Object.keys(balanceGroupLabels).forEach(balanceGroup => {
-        accountsValues.push({
-          label: balanceGroupLabels[parseInt(balanceGroup) as BalanceGroupEnum],
-          options: accounts
-            .filter(account => account.balanceGroup === parseInt(balanceGroup))
-            .map(({ name, id }) => ({ value: id.toString(), label: name })),
-        });
-      });
-      setAccounts(accountsValues);
-    });
-
-    return () => {
-      ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
-    };
-  }, []);
-
-  useEffect(() => {
-    accountOrAsset === ASSET && AccountIpc.getAccounts();
-  }, [accountOrAsset]);
-
   const shouldDisplay = accountOrAsset !== '';
   const shouldDisplayAccount = shouldDisplay && accountOrAsset === ACCOUNT;
   const shouldDisplayAsset = shouldDisplay && accountOrAsset === ASSET;
@@ -103,9 +74,23 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
   const submitAssetDisabled = !shouldDisplay || !isValidAsset;
   const cost = watchAssetField('cost');
   const quantity = watchAssetField('quantity');
-  let assetValue = 0;
+  const assetTypeSelected = watchAssetField('assetType');
+  const symbol: string = watchAssetField('symbol');
+  const shouldDisplayAssetWithSymbolFields = assetTypesWithSymbol.includes(assetTypeSelected);
 
-  if (cost && quantity) assetValue = cost * quantity;
+  useEffect(() => {
+    if (cost && quantity) {
+      setValueAssetForm('value', cost * quantity, { shouldValidate: true });
+    } else {
+      setValueAssetForm('value', 0, { shouldValidate: true });
+    }
+  }, [cost, quantity]);
+
+  useEffect(() => {
+    if (symbol) {
+      setValueAssetForm('symbol', symbol.toUpperCase());
+    }
+  }, [symbol]);
 
   const autoCalculate = watchAccountField('autoCalculate');
   const accountName = watchAccountField('name');
@@ -127,9 +112,24 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
           onSelectOption={(value: string) => {
             setAccountOrAsset(value);
             onRadioButtonChange(value);
-            assetValue = 0;
+            setValueAssetForm('value', 0, { shouldValidate: true });
           }}
         />
+        {shouldDisplayAsset && (
+          <>
+            <SelectField
+              label="Asset type"
+              name="assetType"
+              groupedOptions={assetTypesValues}
+              control={controlAssetField}
+              required
+            />
+            <InputTextField label="Name" name="name" register={registerAssetField} required />
+            {shouldDisplayAssetWithSymbolFields && (
+              <InputTextField optional label="Symbol" name="symbol" register={registerAssetField} />
+            )}
+          </>
+        )}
       </Fieldset>
       {shouldDisplayAccount && (
         <Fieldset>
@@ -172,33 +172,34 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
         </Fieldset>
       )}
       {shouldDisplayAsset && (
-        <>
-          <Fieldset>
-            <SelectField
-              label="Asset type"
-              name="assetType"
-              groupedOptions={assetTypesValues}
-              control={controlAssetField}
-              required
-            />
-            <InputTextField label="Name" name="name" register={registerAssetField} required />
-            <InputTextField
-              label="Quantity"
-              type="number"
-              name="quantity"
-              register={registerAssetField}
-              required
-            />
-            <InputTextField
-              label="Cost"
-              type="number"
-              name="cost"
-              register={registerAssetField}
-              required
-            />
-            <InputTextField label="Value" name="value" value={`$ ${assetValue}`} disabled />
-          </Fieldset>
-        </>
+        <Fieldset>
+          {shouldDisplayAssetWithSymbolFields && (
+            <>
+              <InputTextField
+                label="Quantity"
+                type="number"
+                name="quantity"
+                register={registerAssetField}
+                required
+              />
+              <InputTextField
+                label="Cost"
+                type="number"
+                name="cost"
+                register={registerAssetField}
+                required
+              />
+            </>
+          )}
+          <InputTextField
+            label="Value"
+            name="value"
+            type="number"
+            register={registerAssetField}
+            disabled={shouldDisplayAssetWithSymbolFields}
+            required={!shouldDisplayAssetWithSymbolFields}
+          />
+        </Fieldset>
       )}
       <FormFooter>
         <SubmitButton disabled={submitDisabled}>Continue</SubmitButton>

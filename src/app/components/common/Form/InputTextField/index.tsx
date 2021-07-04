@@ -19,6 +19,7 @@ export interface InputTextFieldProps {
   required?: boolean;
   disabled?: boolean;
   optional?: boolean;
+  upperCase?: boolean;
   setRef?: any;
 }
 

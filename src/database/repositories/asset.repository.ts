@@ -12,7 +12,7 @@ export class AssetRepository {
     });
 
     return await getRepository<Asset>(Asset).save(
-      new Asset(asset.name, assetType, undefined, asset.quantity, asset.cost)
+      new Asset(asset.name, assetType, asset.value, asset.quantity, asset.cost, asset.symbol)
     );
   }
 

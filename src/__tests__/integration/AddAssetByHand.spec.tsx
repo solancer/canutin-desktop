@@ -38,11 +38,10 @@ describe('Add asset by Hand tests', () => {
     userEvent.click(onCreateNewAccountByHand);
   });
 
-  test('Create new asset with required fields and with account', async () => {
+  test('Create new asset with Vehicle category', async () => {
     const addAssetByHandOptions = screen.getByLabelText('Asset');
     userEvent.click(addAssetByHandOptions);
     const spySendIpcRenderer = jest.spyOn(ipcRenderer, 'send');
-    expect(spySendIpcRenderer).toBeCalledWith(DB_GET_ACCOUNTS);
     const addAccountsOrAssetsButton = screen.getByText('Add accounts or assets').closest('a');
     expect(screen.getByRole('form')).toHaveFormValues({});
     expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/account/addAccountOrAsset');
@@ -51,22 +50,17 @@ describe('Add asset by Hand tests', () => {
 
     // Required fields
     const nameInput = screen.getByLabelText('Name');
-    const quantityInput = screen.getByLabelText('Quantity');
-    const costInput = screen.getByLabelText('Cost');
     const valueInput = screen.getByLabelText('Value');
     
     const continueButton = screen.getByRole('button', { name: /Continue/i });
     expect(continueButton).toBeDisabled();
 
     userEvent.type(nameInput, 'Test asset');
-    userEvent.type(quantityInput, '2');
-    userEvent.type(costInput, '25');
+    userEvent.type(valueInput, '200');
 
     await waitFor(() => {
       expect(nameInput).toHaveValue('Test asset');
-      expect(quantityInput).toHaveValue(2);
-      expect(costInput).toHaveValue(25);
-      expect(valueInput).toHaveValue('$ 50');
+      expect(valueInput).toHaveValue(200);
       expect(continueButton).not.toBeDisabled();
     });
 
@@ -74,10 +68,56 @@ describe('Add asset by Hand tests', () => {
     await waitFor(() => {
       expect(spySendIpcRenderer).toHaveBeenLastCalledWith(DB_NEW_ASSET, {
         assetType: 'vehicle',
-        cost: "25",
-        quantity: "2",
-        name: "Test asset"
+        name: "Test asset",
+        value: "200"
       });
     });
   });
+
+
+  test('Create new asset with Cryptocurrency category', async () => {
+    const addAssetByHandOptions = screen.getByLabelText('Asset');
+    userEvent.click(addAssetByHandOptions);
+    const spySendIpcRenderer = jest.spyOn(ipcRenderer, 'send');
+    expect(screen.getByRole('form')).toHaveFormValues({});
+
+    await selectEvent.select(screen.getByLabelText('Asset type'), 'Cryptocurrency');
+
+    // Required fields
+    const nameInput = screen.getByLabelText('Name');
+    const quantityInput = screen.getByLabelText('Quantity');
+    const costInput = screen.getByLabelText('Cost');
+    const valueInput = screen.getByLabelText('Value');
+
+    // Optional fields
+    const symbolInput = screen.getByLabelText('Symbol / Optional');
+    
+    const continueButton = screen.getByRole('button', { name: /Continue/i });
+    expect(continueButton).toBeDisabled();
+    expect(valueInput).toBeDisabled();
+
+    userEvent.type(nameInput, 'Test Cryptocurrency');
+    userEvent.type(quantityInput, '2');
+    userEvent.type(costInput, '200');
+
+    await waitFor(() => {
+      expect(nameInput).toHaveValue('Test Cryptocurrency');
+      expect(valueInput).toHaveValue(400);
+      expect(continueButton).not.toBeDisabled();
+    });
+
+    userEvent.type(symbolInput, 'USD');
+
+    userEvent.click(continueButton);
+    await waitFor(() => {
+      expect(spySendIpcRenderer).toHaveBeenLastCalledWith(DB_NEW_ASSET, {
+        assetType: 'cryptocurrency',
+        name: "Test Cryptocurrency",
+        value: undefined,
+        quantity: "2",
+        cost: "200",
+        symbol: "USD",
+      });
+    });
+  })
 });

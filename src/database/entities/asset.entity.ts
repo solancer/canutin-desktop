@@ -11,7 +11,7 @@ export class Asset extends Base {
   name: string;
 
   @Column({ default: 0 })
-  value?: number;
+  value: number;
 
   @ManyToOne(() => AssetType, assetType => assetType.asset, { cascade: true })
   @JoinColumn()
@@ -20,10 +20,10 @@ export class Asset extends Base {
   @Column()
   balanceGroup: BalanceGroupEnum;
 
-  @Column({ default: 0 })
+  @Column({ nullable: true })
   quantity?: number;
 
-  @Column({ default: 0 })
+  @Column({ nullable: true })
   cost?: number;
 
   @Column({ nullable: true })
@@ -33,14 +33,14 @@ export class Asset extends Base {
     name: string,
     assetType: AssetType,
     value = 0,
-    quantity = 0,
-    cost = 0,
+    quantity?: number,
+    cost?: number,
     symbol?: string
   ) {
     super();
     this.name = name;
 
-    if (quantity !== undefined && cost !== undefined) {
+    if (quantity && cost) {
       this.value = quantity * cost;
     } else {
       this.value = value;
