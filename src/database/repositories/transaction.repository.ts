@@ -10,4 +10,13 @@ export class TransactionRepository {
     
     return await getConnection().manager.query(nsql, args);
   }
+
+  static async getTransactions(): Promise<Transaction[]> {
+    return await getRepository<Transaction>(Transaction).find({
+      relations: ['account', 'account.accountType'],
+      order: {
+        id: 'DESC',
+      },
+    });
+  }
 }

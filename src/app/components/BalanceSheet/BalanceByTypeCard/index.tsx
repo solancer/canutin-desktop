@@ -30,7 +30,7 @@ const BalanceTypeTitle = styled.div`
 const BalanceTypeAmount = styled(NumberFormat)`
   ${balanceTypeAmount}
 `;
-const BalaceItemAmount = styled(NumberFormat)`
+const BalanceItemAmount = styled(NumberFormat)`
   ${balanceItemAmount}
 `;
 const BalanceName = styled.div`
@@ -59,7 +59,7 @@ const BalanceTypeCard = ({ assetTypeName, balanceData }: BalancesByTypeCardProps
         thousandSeparator={true}
         displayType={'text'}
         prefix={'$'}
-        value={balanceAmount}
+        value={Math.round(balanceAmount)}
       />
     </BalanceTypeCardContainer>
   );
@@ -71,11 +71,11 @@ const BalanceItem = ({ balance }: BalanceItemProps) => (
       <BalanceName>{balance.name}</BalanceName>
       <BalanceType>{balance.type}</BalanceType>
     </div>
-    <BalaceItemAmount
+    <BalanceItemAmount
       thousandSeparator={true}
       displayType={'text'}
       prefix={'$'}
-      value={balance.amount}
+      value={Math.round(balance.amount)}
     />
   </BalanceItemContainer>
 );
@@ -83,9 +83,9 @@ const BalanceItem = ({ balance }: BalanceItemProps) => (
 const BalancesByTypeCard = ({ assetTypeName, balanceData }: BalancesByTypeCardProps) => (
   <Container>
     <BalanceTypeCard balanceData={balanceData} assetTypeName={assetTypeName} />
-    {balanceData.map((balance, key) => (
-      <BalanceItem balance={balance} key={key} />
-    ))}
+    {balanceData.map(
+      (balance, key) => balance.amount !== 0 && <BalanceItem balance={balance} key={`${key}-${balance.name}`} />
+    )}
   </Container>
 );
 

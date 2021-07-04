@@ -24,6 +24,8 @@ import {
   ANALYZE_SOURCE_FILE,
   LOAD_FROM_CANUTIN_FILE,
   LOAD_FROM_OTHER_CSV,
+  DB_GET_TRANSACTIONS,
+  DB_GET_TRANSACTIONS_ACK,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
@@ -44,6 +46,7 @@ import {
 } from './helpers/importSource.helper';
 import { AssetRepository } from '@database/repositories/asset.repository';
 import { BalanceStatementRepository } from '@database/repositories/balanceStatement.repository';
+import { TransactionRepository } from '@database/repositories/transaction.repository';
 import seedCategories from '@database/seed/seedCategories';
 import seedAssetTypes from '@database/seed/seedAssetTypes';
 import seedAccountTypes from '@database/seed/seedAccountTypes';
@@ -158,6 +161,11 @@ const setupDbEvents = async () => {
   ipcMain.on(DB_GET_ASSETS, async (_: IpcMainEvent) => {
     const assets = await AssetRepository.getAssets();
     win?.webContents.send(DB_GET_ASSETS_ACK, assets);
+  });
+
+  ipcMain.on(DB_GET_TRANSACTIONS, async (_: IpcMainEvent) => {
+    const transactions = await TransactionRepository.getTransactions();
+    win?.webContents.send(DB_GET_TRANSACTIONS_ACK, transactions);
   });
 };
 

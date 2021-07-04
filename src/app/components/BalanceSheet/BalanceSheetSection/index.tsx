@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ipcRenderer, IpcRendererEvent } from 'electron';
 
 import Section from '@components/common/Section';
 import { SegmentedControl, Segment } from '@components/common/SegmentedControl';
 import BalancesByGroup from '@app/components/BalanceSheet/BalancesByGroup';
+
+import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK, DB_GET_TRANSACTIONS_ACK } from '@constants/events';
+import AssetIpc from '@app/data/asset.ipc';
+import TransactionIpc from '@app/data/transaction.ipc';
+import AccountIpc from '@app/data/account.ipc';
+import { Account, Asset, Transaction } from '@database/entities';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
+
+import { getBalanceForAccounts, getBalanceForAllAccountsAssets, getBalanceForAssets } from './balanceSheetUtils';
 
 export enum BalanceSheetSegmentsEnum {
   ALL = 'all',
@@ -13,32 +22,39 @@ export enum BalanceSheetSegmentsEnum {
 
 const BalanceSheetSection = () => {
   const [selectedSegment, setSelectedSegment] = useState(BalanceSheetSegmentsEnum.ALL);
+  const [accounts, setAccounts] = useState<Account[]>();
+  const [assets, setAssets] = useState<Asset[]>();
+  const [transactions, setTransactions] = useState<Transaction[]>();
+
+  useEffect(() => {
+    AccountIpc.getAccounts();
+    AssetIpc.getAssets();
+    TransactionIpc.getTransactions();
+
+    ipcRenderer.on(DB_GET_ASSETS_ACK, (_: IpcRendererEvent, assets: Asset[]) => {
+      setAssets(assets);
+    });
+
+    ipcRenderer.on(DB_GET_TRANSACTIONS_ACK, (_: IpcRendererEvent, transactions: Transaction[]) => {
+      setTransactions(transactions);
+    });
+
+    ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
+      setAccounts(accounts);
+    });
+
+    return () => {
+      ipcRenderer.removeAllListeners(DB_GET_ASSETS_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_TRANSACTIONS_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
+    };
+  }, []);
 
   // Segment count
-  const countAccounts = 10;
-  const countAssets = 9;
   const countList = {
     all: '',
-    accounts: countAccounts,
-    assets: countAssets,
-  };
-  const balanceList = {
-    all: {
-      [BalanceGroupEnum.CASH]: {
-        Checking: [
-          { name: 'Personal Checking', type: 'Account', amount: 750 },
-          { name: 'My Checking', type: 'Account', amount: 1283 },
-          { name: 'Advantage Plus Checking Total', type: 'Account', amount: 33.23 },
-        ],
-        Savings: [
-          { name: 'Personal Checking', type: 'Account', amount: 506.23 },
-          { name: 'My Checking', type: 'Asset', amount: 99.1 },
-          { name: 'Advantage Plus Checking Total', type: 'Account', amount: 0 },
-        ],
-      },
-    },
-    accounts: { [BalanceGroupEnum.CASH]: {}, totalCount: 10 },
-    assets: { [BalanceGroupEnum.CASH]: {}, totalCount: 9 },
+    accounts: accounts?.length,
+    assets: assets?.length,
   };
 
   const balanceSheetSegments = (
@@ -54,9 +70,14 @@ const BalanceSheetSection = () => {
     </SegmentedControl>
   );
 
-  const allBalanceSheet = <BalancesByGroup balancesByGroupData={balanceList.all} />;
-  const accountsBalanceSheet = <div>Accounts</div>;
-  const assetsBalanceSheet = <div>Assets</div>;
+  const allBalancesListData =
+    assets && transactions && getBalanceForAllAccountsAssets(assets, transactions);
+  const assetsBalancesListData = assets && getBalanceForAssets(assets);
+  const accountBalancesListData = transactions && getBalanceForAccounts(transactions);
+
+  const allBalanceSheet = <BalancesByGroup balancesByGroupData={allBalancesListData || {}} />;
+  const accountsBalanceSheet = <BalancesByGroup balancesByGroupData={accountBalancesListData || {}} />;
+  const assetsBalanceSheet = <BalancesByGroup balancesByGroupData={assetsBalancesListData || {}} />;
 
   return (
     <Section title="Balances" scope={balanceSheetSegments}>
