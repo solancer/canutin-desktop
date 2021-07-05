@@ -13,15 +13,12 @@ export const container = css<{ disabled: boolean }>`
   height: 40px;
   padding: 0 32px;
   transition: transform 100ms;
-
   &:focus {
     outline-color: ${bluePlain};
   }
-
   &:active {
     transform: scale(0.98);
   }
-
   ${({ disabled }) =>
     disabled &&
     css`
