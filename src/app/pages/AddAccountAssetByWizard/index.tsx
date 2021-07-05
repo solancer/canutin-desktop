@@ -33,7 +33,7 @@ const AddAccountAssetByWizard = () => {
 
   useEffect(() => {
     ipcRenderer.on(LOAD_FROM_CANUTIN_FILE_ACK, (_: IpcRendererEvent, { name }) => {
-      setSuccessMessage(`The CanutinFile has been imported successfully`);
+      setSuccessMessage(`Data has been imported successfully`);
       setIsDbEmpty(false);
       setIsLoading(false);
       setTimeout(() => {
@@ -43,7 +43,7 @@ const AddAccountAssetByWizard = () => {
     });
 
     ipcRenderer.on(LOAD_FROM_OTHER_CSV_ACK, (_: IpcRendererEvent, { name }) => {
-      setSuccessMessage(`The CSV has been imported successfully`);
+      setSuccessMessage(`Data has been imported successfully`);
       setIsDbEmpty(false);
       // Reload accounts on other CSV form
       AccountIpc.getAccounts();
@@ -83,7 +83,7 @@ const AddAccountAssetByWizard = () => {
       title="Import wizard"
       subTitle="Add or update accounts, assets, balances and transactions"
     >
-      <Section title="Data source">
+      <Section title="Data Source">
         <ImportWizardForm isLoading={isLoading} setIsLoading={setIsLoading} />
       </Section>
     </ScrollView>
