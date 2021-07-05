@@ -14,7 +14,11 @@ export class AssetTypeRepository {
     });
 
     if (!accountTypeDb) {
-      return AssetTypeRepository.createAssetType(assetType);
+      const otherAssetsType = await getRepository<AssetType>(AssetType).findOne({
+        where: { name: 'other' },
+      });
+
+      return otherAssetsType as AssetType;
     }
 
     return accountTypeDb;

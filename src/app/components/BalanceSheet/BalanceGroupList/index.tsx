@@ -31,10 +31,14 @@ const BalanceGroupList = ({ type, balanceData }: BalanceGroupListProps) => {
       }, 0)
     : 0;
 
+
   return (
     <Container>
       <BalanceGroupCard type={type} amount={Math.round(totalAmount)} />
-      {!balanceData && <EmptyCard message="No balances are available in this group." />}
+      {!balanceData ||
+        (Object.keys(balanceData).length === 0 && (
+          <EmptyCard message="No balances are available in this group." />
+        ))}
       {balanceData &&
         Object.keys(balanceData).map(assetTypeName => (
           <BalancesByTypeCard

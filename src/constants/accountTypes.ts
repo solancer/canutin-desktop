@@ -87,7 +87,7 @@ export const accountTypes = [
       },
       {
         label: 'Other loan',
-        value: 'other',
+        value: 'other loan',
       },
     ],
   },
