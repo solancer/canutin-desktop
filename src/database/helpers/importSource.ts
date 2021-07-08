@@ -17,7 +17,7 @@ export const importFromCanutinFile = async (
   win: BrowserWindow | null
 ) => {
   try {
-    const countAccounts = canutinFile.accounts.length;
+    const countAccounts = canutinFile.accounts?.length;
 
     canutinFile.accounts?.forEach(async accountInfo => {
       const account = await AccountRepository.getOrCreateAccount(accountInfo).then(res => {
@@ -26,33 +26,35 @@ export const importFromCanutinFile = async (
       });
 
       // Process transactions
-      const transactions = await Promise.all(
-        accountInfo.transactions.map(async transactionInfo => {
-          const transactionDate = parse(transactionInfo.date, CANUTIN_FILE_DATE_FORMAT, new Date());
-          const budget =
-            transactionInfo.budget &&
-            new Budget(
-              transactionInfo.budget.name,
-              transactionInfo.budget.targetAmount,
-              transactionInfo.budget.type,
-              parse(transactionInfo.budget.date, CANUTIN_FILE_DATE_FORMAT, new Date())
+      if (accountInfo.transactions) {
+        const transactions = await Promise.all(
+          accountInfo.transactions.map(async transactionInfo => {
+            const transactionDate = parse(transactionInfo.date, CANUTIN_FILE_DATE_FORMAT, new Date());
+            const budget =
+              transactionInfo.budget &&
+              new Budget(
+                transactionInfo.budget.name,
+                transactionInfo.budget.targetAmount,
+                transactionInfo.budget.type,
+                parse(transactionInfo.budget.date, CANUTIN_FILE_DATE_FORMAT, new Date())
+              );
+            const category = await CategoryRepository.getOrCreateSubCategory(
+              transactionInfo.category
             );
-          const category = await CategoryRepository.getOrCreateSubCategory(
-            transactionInfo.category
-          );
-          return new Transaction(
-            transactionInfo.description,
-            transactionDate,
-            transactionInfo.amount,
-            transactionInfo.excludeFromTotals,
-            account,
-            category,
-            budget
-          );
-        })
-      );
-
-      await TransactionRepository.createTransactions(transactions);
+            return new Transaction(
+              transactionInfo.description,
+              transactionDate,
+              transactionInfo.amount,
+              transactionInfo.excludeFromTotals,
+              account,
+              category,
+              budget
+            );
+          })
+        );
+  
+        await TransactionRepository.createTransactions(transactions);
+      }
 
       return account;
     });
@@ -79,7 +81,7 @@ export const updateAccounts = async (updatedAccounts: UpdatedAccount[]) => {
 
     if (account !== undefined) {
       const updatedTransactions = await Promise.all(
-        transactions.map(async transactionInfo => {
+        transactions?.map(async transactionInfo => {
           const transactionDate = parse(transactionInfo.date, CANUTIN_FILE_DATE_FORMAT, new Date());
           const budget =
             transactionInfo.budget &&
@@ -105,7 +107,7 @@ export const updateAccounts = async (updatedAccounts: UpdatedAccount[]) => {
           );
         })
       );
-      await TransactionRepository.createTransactions(updatedTransactions);
+      await updatedTransactions && TransactionRepository.createTransactions(updatedTransactions);
     }
   });
 };

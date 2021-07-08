@@ -1,23 +1,37 @@
 import { AnalyzeSourceMetadataType } from '.';
 
 export const generateSourceMessage = (metadata: AnalyzeSourceMetadataType) => {
+  const hasAssets = metadata.countAssets && metadata.countAssets > 0;
+  const hasAccounts = metadata.countAccounts && metadata.countAccounts > 0;
+  const hasTransactions = metadata.countTransactions && metadata.countTransactions > 0;
+
   let sourceMessage = 'Found ';
 
-  if (metadata.countAssets) {
-    sourceMessage = sourceMessage.concat(`${metadata.countAssets} assets, `);
+  if (hasAssets) {
+
+    if (hasAccounts) {
+      sourceMessage = sourceMessage.concat(`${metadata.countAssets} assets, `);
+    } else {
+      sourceMessage = sourceMessage.concat(`${metadata.countAssets} assets`);
+    }
   }
 
-  if (metadata.countAccounts) {
-    sourceMessage = sourceMessage.concat(`${metadata.countAccounts} accounts, `);
+  if (hasAccounts) {
+
+    if (hasTransactions) {
+      sourceMessage = sourceMessage.concat(`${metadata.countAccounts} accounts, `);
+    } else {
+      sourceMessage = sourceMessage.concat(`and ${metadata.countAccounts} accounts`);
+    }
   }
 
-  if (metadata.countTransactions) {
+  if (hasTransactions) {
     sourceMessage = sourceMessage.concat(
       `and ${metadata.countTransactions} transactions in the file`
     );
   }
 
-  if (sourceMessage === 'Found ') {
+  if (!hasAccounts && !hasAccounts && !hasAssets) {
     sourceMessage = "Empty file" // TODO: Double-check this message with @fmaclen
   }
 
