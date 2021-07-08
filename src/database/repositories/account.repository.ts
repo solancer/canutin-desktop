@@ -48,7 +48,7 @@ export class AccountRepository {
 
   static async getOrCreateAccount(account: NewAccountType): Promise<Account> {
     const accountDb = await getRepository<Account>(Account).findOne({
-      where: { name: account.name },
+      where: { name: account.name.toLowerCase() },
       relations: ['balanceStatements'],
     });
 
