@@ -49,15 +49,19 @@ export class AccountRepository {
   static async getOrCreateAccount(account: NewAccountType): Promise<Account> {
     const accountDb = await getRepository<Account>(Account).findOne({
       where: { name: account.name },
+      relations: ['balanceStatements'],
     });
 
     if (!accountDb) {
       return AccountRepository.createAccount(account);
     }
 
+    const isAutoCalculate =
+      accountDb.balanceStatements?.[accountDb.balanceStatements.length - 1].autoCalculate;
+
     await BalanceStatementRepository.createBalanceStatement({
       value: account.balance,
-      autoCalculate: account.autoCalculate,
+      autoCalculate: isAutoCalculate !== undefined ? isAutoCalculate : true,
       account: accountDb,
     });
 
