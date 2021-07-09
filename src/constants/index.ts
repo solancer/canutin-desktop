@@ -7,3 +7,4 @@ export const NEW_DATABASE = 'newDatabase';
 
 // Canutin file
 export const CANUTIN_FILE_DATE_FORMAT = 'yyyy-MM-dd';
+export const PREVIOUS_AUTO_CALCULATED = 'previousAutoCalculated';

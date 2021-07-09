@@ -2,6 +2,7 @@ import { getRepository, getConnection } from 'typeorm';
 
 import { BalanceStatementRepository } from '@database/repositories/balanceStatement.repository';
 import { AccountTypeRepository } from '@database/repositories/accountType.repository';
+import { PREVIOUS_AUTO_CALCULATED } from '@constants';
 
 import { Account } from '../entities';
 import { NewAccountType } from '../../types/account.type';
@@ -12,12 +13,18 @@ export class AccountRepository {
       name: account.accountType.toLowerCase(),
     });
     const accountSaved = await getRepository<Account>(Account).save(
-      new Account(account.name, false, accountType, account.officialName, account.institution)
+      new Account(
+        account.name.toLowerCase(),
+        false,
+        accountType,
+        account.officialName,
+        account.institution
+      )
     );
 
     await BalanceStatementRepository.createBalanceStatement({
       value: account.balance,
-      autoCalculate: account.autoCalculate,
+      autoCalculate: account.autoCalculate as boolean,
       account: accountSaved,
     });
 
@@ -25,7 +32,11 @@ export class AccountRepository {
   }
 
   static async createAccounts(accounts: Account[]): Promise<Account[]> {
-    const q = getRepository(Account).createQueryBuilder().insert().values(accounts);
+    const accountsLowerCase = accounts.map(account => ({
+      ...account,
+      name: account.name.toLowerCase(),
+    }));
+    const q = getRepository(Account).createQueryBuilder().insert().values(accountsLowerCase);
     const [sql, args] = q.getQueryAndParameters();
     const nsql = sql.replace('INSERT INTO', 'INSERT OR IGNORE INTO');
 
@@ -56,14 +67,25 @@ export class AccountRepository {
       return AccountRepository.createAccount(account);
     }
 
-    const isAutoCalculate =
+    const previousAutoCalculate =
       accountDb.balanceStatements?.[accountDb.balanceStatements.length - 1].autoCalculate;
 
-    await BalanceStatementRepository.createBalanceStatement({
-      value: account.balance,
-      autoCalculate: isAutoCalculate !== undefined ? isAutoCalculate : true,
-      account: accountDb,
-    });
+
+    if (account.autoCalculate === PREVIOUS_AUTO_CALCULATED as unknown as boolean && previousAutoCalculate) {
+      await BalanceStatementRepository.createBalanceStatement({
+        value: account.balance,
+        autoCalculate: previousAutoCalculate,
+        account: accountDb,
+      });
+    }
+
+    if (!(account.autoCalculate === PREVIOUS_AUTO_CALCULATED as unknown as boolean)) {
+      await BalanceStatementRepository.createBalanceStatement({
+        value: account.balance,
+        autoCalculate: account.autoCalculate as boolean,
+        account: accountDb,
+      });
+    }
 
     return accountDb;
   }

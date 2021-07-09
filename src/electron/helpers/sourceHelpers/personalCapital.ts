@@ -3,7 +3,7 @@ import { format, parse } from 'date-fns';
 import { CanutinFileType } from '@appTypes/canutin';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import mapCategories from '@database/helpers/importResources/mapCategories';
-import { CANUTIN_FILE_DATE_FORMAT } from '@constants';
+import { CANUTIN_FILE_DATE_FORMAT, PREVIOUS_AUTO_CALCULATED } from '@constants';
 
 export interface PersonalCapitalCsvEntryType {
   Date: string;
@@ -53,7 +53,7 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
           balanceGroup: BalanceGroupEnum.CASH,
           accountType: 'checking',
           transactions: [transaction],
-          autoCalculate: true,
+          autoCalculate: PREVIOUS_AUTO_CALCULATED,
         });
       }
 

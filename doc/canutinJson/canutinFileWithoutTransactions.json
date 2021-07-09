@@ -4,7 +4,8 @@
       "name": "My Visa Rewards 2",
       "balanceGroup": "debt",
       "accountType": "credit card",
-      "balance": 2500
+      "balance": 2500,
+      "autoCalculate": true
     }
   ]
 }
