@@ -1,10 +1,57 @@
 {
   "accounts": [
     {
+      "name": "Alice's Checking",
+      "balanceGroup": "cash",
+      "accountType": "checking",
+      "autoCalculate": false,
+      "balance": 5450.75,
+      "transactions": [
+        {
+          "description": "Paid Credit Card",
+          "date": "2021-02-01",
+          "amount": -1500,
+          "excludeFromTotals": true,
+          "category": "Payment"
+        },
+        {
+          "description": "Initech Payroll",
+          "date": "2021-02-01",
+          "amount": 2750,
+          "excludeFromTotals": false,
+          "category": "Payroll & benefits"
+        },
+        {
+          "description": "Transfer to Savings Account",
+          "date": "2021-02-01",
+          "amount": -250,
+          "excludeFromTotals": true,
+          "category": "Transfer"
+        }
+      ]
+    },
+    {
+      "name": "Alices's Emergency Fund",
+      "balanceGroup": "cash",
+      "accountType": "savings",
+      "autoCalculate": true,
+      "balance": 999999,
+      "transactions": [
+        {
+          "description": "Transfer from Savings Account",
+          "date": "2021-02-01",
+          "amount": 250,
+          "excludeFromTotals": true,
+          "category": "Transfer"
+        }
+      ]
+    },
+    {
       "name": "My Visa Rewards",
       "balanceGroup": "debt",
       "accountType": "credit card",
-      "balance": 1000,
+      "balance": 1782.32,
+      "autoCalculate": false,
       "transactions": [
         {
           "description": "Trader Joes",
@@ -14,13 +61,41 @@
           "category": "Groceries"
         },
         {
-          "description": "Credit card payment",
+          "description": "Crossroads Gas & Car Wash",
           "date": "2021-02-01",
-          "amount": -1500,
+          "amount": 25.43,
+          "excludeFromTotals": false,
+          "category": "Gas stations"
+        },
+        {
+          "description": "Credit Card Payment",
+          "date": "2021-02-01",
+          "amount": 1500,
           "excludeFromTotals": true,
           "category": "Transfer"
         }
       ]
+    },
+    {
+      "name": "Bob's Stocks",
+      "balanceGroup": "investment",
+      "accountType": "brokerage",
+      "autoCalculate": true,
+      "balance": 9999999
+    },
+    {
+      "name": "Alice's Roth IRA",
+      "balanceGroup": "investment",
+      "accountType": "roth",
+      "autoCalculate": false,
+      "balance": 16500
+    },
+    {
+      "name": "Initech 401k Plan",
+      "balanceGroup": "investment",
+      "autoCalculate": false,
+      "accountType": "401k",
+      "balance": 0
     }
   ],
   "assets": [
@@ -55,8 +130,7 @@
     {
       "type": "invalid category",
       "balanceGroup": "other asset",
-      "name": "Other Asset",
-      "value": 600
+      "name": "Other Asset"
     }
   ]
 }
