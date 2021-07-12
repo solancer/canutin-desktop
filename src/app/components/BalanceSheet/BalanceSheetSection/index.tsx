@@ -5,12 +5,11 @@ import Section from '@components/common/Section';
 import { SegmentedControl, Segment } from '@components/common/SegmentedControl';
 import BalancesByGroup from '@app/components/BalanceSheet/BalancesByGroup';
 
-import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK, DB_GET_TRANSACTIONS_ACK } from '@constants/events';
+import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK } from '@constants/events';
 import AssetIpc from '@app/data/asset.ipc';
 import TransactionIpc from '@app/data/transaction.ipc';
 import AccountIpc from '@app/data/account.ipc';
-import { Account, Asset, Transaction } from '@database/entities';
-import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
+import { Account, Asset } from '@database/entities';
 
 import { getBalanceForAccounts, getBalanceForAllAccountsAssets, getBalanceForAssets } from './balanceSheetUtils';
 

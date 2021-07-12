@@ -20,6 +20,14 @@ interface BalanceGroupListProps {
   };
 }
 
+const getTotal = (balance: AccountAssetBalance[]) =>
+  balance.reduce((acc, currentBalance) => acc + currentBalance.amount, 0);
+
+const sortBalanceDataByTotalAmount = (balanceData: { [x: string]: AccountAssetBalance[] }) =>
+  Object.entries(balanceData).sort(
+    (balanceB, balanceA) => getTotal(balanceA[1]) - getTotal(balanceB[1])
+  );
+
 const BalanceGroupList = ({ type, balanceData }: BalanceGroupListProps) => {
   const totalAmount = balanceData
     ? Object.keys(balanceData).reduce((acc, assetTypeKey) => {
@@ -31,7 +39,6 @@ const BalanceGroupList = ({ type, balanceData }: BalanceGroupListProps) => {
       }, 0)
     : 0;
 
-
   return (
     <Container>
       <BalanceGroupCard type={type} amount={Math.round(totalAmount)} />
@@ -40,11 +47,11 @@ const BalanceGroupList = ({ type, balanceData }: BalanceGroupListProps) => {
           <EmptyCard message="No balances are available in this group." />
         ))}
       {balanceData &&
-        Object.keys(balanceData).map(assetTypeName => (
+        sortBalanceDataByTotalAmount(balanceData).map(assetTypeName => (
           <BalancesByTypeCard
-            key={assetTypeName}
-            assetTypeName={assetTypeName}
-            balanceData={balanceData[assetTypeName]}
+            key={assetTypeName[0]}
+            assetTypeName={assetTypeName[0]}
+            balanceData={assetTypeName[1]}
           />
         ))}
     </Container>

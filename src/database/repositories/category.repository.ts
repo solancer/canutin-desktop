@@ -22,22 +22,22 @@ export class CategoryRepository {
     let subCategory;
 
     if (!name) {
-      subCategory = await getRepository<TransactionSubCategory>(
+      subCategory = await getRepository<TransactionSubCategory>(TransactionSubCategory).findOne({
+        where: { name: 'Uncategorized' },
+      });
+    } else {
+      subCategory = await getRepository<TransactionSubCategory>(TransactionSubCategory).findOne({
+        where: { name },
+      });
+    }
+
+    if (!subCategory) {
+      const rootCategory = await getRepository<TransactionSubCategory>(
         TransactionSubCategory
       ).findOne({
         where: { name: 'Uncategorized' },
       });
-    } else {
-      subCategory = await getRepository<TransactionSubCategory>(TransactionSubCategory).findOne(
-        {
-          where: { name },
-        }
-      );
-    }
-
-    if (!subCategory) {
-      const rootCategory = await this.createRootCategory(name ? name : 'Uncategorized');
-      return await this.addSubCategories(name ? name : 'Uncategorized', rootCategory);
+      return rootCategory as TransactionSubCategory;
     }
 
     return subCategory;

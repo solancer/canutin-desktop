@@ -1,5 +1,5 @@
-import { Asset, Transaction, Account } from '@database/entities';
-import { BalanceData } from '@components/BalanceSheet/BalancesByGroup';
+import { Asset, Account } from '@database/entities';
+import { BalanceData, AccountAssetBalance } from '@components/BalanceSheet/BalancesByGroup';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import { accountTypes } from '@constants/accountTypes';
 import { assetTypes } from '@constants/assetTypes';
@@ -15,9 +15,9 @@ export const getBalanceForAllAccountsAssets = (
       }
 
       const types = getTypesByBalanceGroup(Number(balanceGroup));
-      const typeList: Record<string, unknown> = {};
-      let accountTransactions: Record<string, unknown>[] = [];
-      let assetTransactions: Record<string, unknown>[] = [];
+      const typeList: Record<string, any> = {};
+      let accountTransactions: AccountAssetBalance[] = [];
+      let assetTransactions: AccountAssetBalance[] = [];
       types.forEach(type => {
         accountTransactions = [];
         assetTransactions = [];
@@ -26,12 +26,13 @@ export const getBalanceForAllAccountsAssets = (
           ...getAssetByType(type, assets).map(asset => generateAssetBalanceInfo(asset)),
         ];
 
-        accountTransactions = generateAccountsBalanceInfo(
-          getAccountsByType(type, accounts)
-        );
+        accountTransactions = generateAccountsBalanceInfo(getAccountsByType(type, accounts));
 
         if (accountTransactions.length > 0 || assetTransactions.length > 0) {
-          typeList[type] = [...accountTransactions, ...assetTransactions];
+          typeList[type] = [...accountTransactions, ...assetTransactions].sort(
+            (balanceSheetA: AccountAssetBalance, balanceSheetB: AccountAssetBalance) =>
+              balanceSheetB.amount - balanceSheetA.amount
+          );
         }
       });
 
@@ -54,8 +55,8 @@ export const getBalanceForAssets = (assets: Asset[]) => {
       }
 
       const types = getTypesByBalanceGroup(Number(balanceGroup));
-      const typeList: Record<string, unknown> = {};
-      let assetTransactions: Record<string, unknown>[] = [];
+      const typeList: Record<string, any> = {};
+      let assetTransactions: AccountAssetBalance[] = [];
       types.forEach(type => {
         assetTransactions = [];
 
@@ -64,7 +65,10 @@ export const getBalanceForAssets = (assets: Asset[]) => {
         ];
 
         if (assetTransactions.length > 0) {
-          typeList[type] = [...assetTransactions];
+          typeList[type] = [...assetTransactions].sort(
+            (balanceSheetA: AccountAssetBalance, balanceSheetB: AccountAssetBalance) =>
+              balanceSheetB.amount - balanceSheetA.amount
+          );
         }
       });
 
@@ -87,15 +91,18 @@ export const getBalanceForAccounts = (accounts: Account[]) => {
       }
 
       const types = getTypesByBalanceGroup(Number(balanceGroup));
-      const typeList: Record<string, unknown> = {};
-      let accountTransactions: Record<string, unknown>[] = [];
+      const typeList: Record<string, any> = {};
+      let accountTransactions: AccountAssetBalance[] = [];
       types.forEach(type => {
         accountTransactions = [];
 
         accountTransactions = generateAccountsBalanceInfo(getAccountsByType(type, accounts));
 
         if (accountTransactions.length > 0) {
-          typeList[type] = accountTransactions;
+          typeList[type] = accountTransactions.sort(
+            (balanceSheetA: AccountAssetBalance, balanceSheetB: AccountAssetBalance) =>
+              balanceSheetB.amount - balanceSheetA.amount
+          );
         }
       });
 
@@ -114,13 +121,16 @@ export const generateAccountsBalanceInfo = (accounts: Account[]) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let accountsBalances: any = [];
   accounts.forEach(account => {
-    accountsBalances = [...accountsBalances, {
-      amount: account.balanceStatements?.[account.balanceStatements?.length - 1].autoCalculate
-        ? account.transactions?.reduce((sum, transaction) => transaction.amount + sum, 0)
-        : account.balanceStatements?.[account.balanceStatements?.length - 1].value,
-      type: 'Account',
-      name: account.name
-    }];
+    accountsBalances = [
+      ...accountsBalances,
+      {
+        amount: account.balanceStatements?.[account.balanceStatements?.length - 1].autoCalculate
+          ? account.transactions?.reduce((sum, transaction) => transaction.amount + sum, 0)
+          : account.balanceStatements?.[account.balanceStatements?.length - 1].value,
+        type: 'Account',
+        name: account.name,
+      },
+    ];
   });
 
   return accountsBalances;
