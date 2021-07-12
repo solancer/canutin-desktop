@@ -50,7 +50,10 @@ export const balanceTypeTitle = css`
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.02em;
-  text-transform: capitalize;
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
 `;
 
 export const balanceTypeAmount = css`

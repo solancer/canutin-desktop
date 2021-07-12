@@ -1,12 +1,12 @@
-import { Asset, Transaction, Account } from '@database/entities';
-import { BalanceData } from '@components/BalanceSheet/BalancesByGroup';
+import { Asset, Account } from '@database/entities';
+import { BalanceData, AccountAssetBalance } from '@components/BalanceSheet/BalancesByGroup';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import { accountTypes } from '@constants/accountTypes';
 import { assetTypes } from '@constants/assetTypes';
 
 export const getBalanceForAllAccountsAssets = (
   assets: Asset[],
-  transactions: Transaction[]
+  accounts: Account[]
 ): BalanceData | undefined => {
   const listOfBalancesByGroup = Object.keys(BalanceGroupEnum).reduce(
     (listOfBalancesByGroup, balanceGroup) => {
@@ -15,9 +15,9 @@ export const getBalanceForAllAccountsAssets = (
       }
 
       const types = getTypesByBalanceGroup(Number(balanceGroup));
-      const typeList: Record<string, unknown> = {};
-      let accountTransactions: Record<string, unknown>[] = [];
-      let assetTransactions: Record<string, unknown>[] = [];
+      const typeList: Record<string, any> = {};
+      let accountTransactions: AccountAssetBalance[] = [];
+      let assetTransactions: AccountAssetBalance[] = [];
       types.forEach(type => {
         accountTransactions = [];
         assetTransactions = [];
@@ -26,12 +26,13 @@ export const getBalanceForAllAccountsAssets = (
           ...getAssetByType(type, assets).map(asset => generateAssetBalanceInfo(asset)),
         ];
 
-        accountTransactions = generateAccountsBalanceInfo(
-          getTransactionsByType(type, transactions)
-        );
+        accountTransactions = generateAccountsBalanceInfo(getAccountsByType(type, accounts));
 
         if (accountTransactions.length > 0 || assetTransactions.length > 0) {
-          typeList[type] = [...accountTransactions, ...assetTransactions];
+          typeList[type] = [...accountTransactions, ...assetTransactions].sort(
+            (balanceSheetA: AccountAssetBalance, balanceSheetB: AccountAssetBalance) =>
+              balanceSheetB.amount - balanceSheetA.amount
+          );
         }
       });
 
@@ -54,8 +55,8 @@ export const getBalanceForAssets = (assets: Asset[]) => {
       }
 
       const types = getTypesByBalanceGroup(Number(balanceGroup));
-      const typeList: Record<string, unknown> = {};
-      let assetTransactions: Record<string, unknown>[] = [];
+      const typeList: Record<string, any> = {};
+      let assetTransactions: AccountAssetBalance[] = [];
       types.forEach(type => {
         assetTransactions = [];
 
@@ -64,7 +65,10 @@ export const getBalanceForAssets = (assets: Asset[]) => {
         ];
 
         if (assetTransactions.length > 0) {
-          typeList[type] = [...assetTransactions];
+          typeList[type] = [...assetTransactions].sort(
+            (balanceSheetA: AccountAssetBalance, balanceSheetB: AccountAssetBalance) =>
+              balanceSheetB.amount - balanceSheetA.amount
+          );
         }
       });
 
@@ -79,7 +83,7 @@ export const getBalanceForAssets = (assets: Asset[]) => {
   return listOfBalancesByGroup;
 };
 
-export const getBalanceForAccounts = (transactions: Transaction[]) => {
+export const getBalanceForAccounts = (accounts: Account[]) => {
   const listOfBalancesByGroup = Object.keys(BalanceGroupEnum).reduce(
     (listOfBalancesByGroup, balanceGroup) => {
       if (isNaN(Number(balanceGroup))) {
@@ -87,17 +91,18 @@ export const getBalanceForAccounts = (transactions: Transaction[]) => {
       }
 
       const types = getTypesByBalanceGroup(Number(balanceGroup));
-      const typeList: Record<string, unknown> = {};
-      let accountTransactions: Record<string, unknown>[] = [];
+      const typeList: Record<string, any> = {};
+      let accountTransactions: AccountAssetBalance[] = [];
       types.forEach(type => {
         accountTransactions = [];
 
-        accountTransactions = generateAccountsBalanceInfo(
-          getTransactionsByType(type, transactions)
-        );
+        accountTransactions = generateAccountsBalanceInfo(getAccountsByType(type, accounts));
 
         if (accountTransactions.length > 0) {
-          typeList[type] = accountTransactions;
+          typeList[type] = accountTransactions.sort(
+            (balanceSheetA: AccountAssetBalance, balanceSheetB: AccountAssetBalance) =>
+              balanceSheetB.amount - balanceSheetA.amount
+          );
         }
       });
 
@@ -112,29 +117,23 @@ export const getBalanceForAccounts = (transactions: Transaction[]) => {
   return listOfBalancesByGroup;
 };
 
-export const generateAccountsBalanceInfo = (transactions: Transaction[]) => {
+export const generateAccountsBalanceInfo = (accounts: Account[]) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let accountsBalances: any;
-  transactions.forEach(transaction => {
-    if (accountsBalances && accountsBalances[transaction.account.name]) {
-      accountsBalances[transaction.account.name].amount =
-        accountsBalances[transaction.account.name].amount + transaction.amount;
-    } else {
-      if (accountsBalances) {
-        accountsBalances[transaction.account.name] = { amount: transaction.amount };
-      } else {
-        accountsBalances = { [transaction.account.name]: { amount: transaction.amount } };
-      }
-    }
+  let accountsBalances: any = [];
+  accounts.forEach(account => {
+    accountsBalances = [
+      ...accountsBalances,
+      {
+        amount: account.balanceStatements?.[account.balanceStatements?.length - 1].autoCalculate
+          ? account.transactions?.reduce((sum, transaction) => transaction.amount + sum, 0)
+          : account.balanceStatements?.[account.balanceStatements?.length - 1].value,
+        type: 'Account',
+        name: account.name,
+      },
+    ];
   });
 
-  return accountsBalances
-    ? Object.keys(accountsBalances).map(accountName => ({
-        name: accountName,
-        type: 'Account',
-        amount: accountsBalances[accountName].amount,
-      }))
-    : [];
+  return accountsBalances;
 };
 
 export const generateAssetBalanceInfo = (asset: Asset) => ({
@@ -143,8 +142,8 @@ export const generateAssetBalanceInfo = (asset: Asset) => ({
   amount: asset.value,
 });
 
-export const getTransactionsByType = (type: string, transactions: Transaction[]) =>
-  transactions.filter(transaction => transaction.account.accountType.name === type);
+export const getAccountsByType = (type: string, accounts: Account[]) =>
+  accounts.filter(account => account.accountType.name === type);
 
 export const getAssetByType = (type: string, assets: Asset[]) =>
   assets.filter(asset => asset.assetType.name === type);

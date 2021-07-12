@@ -3,7 +3,7 @@ import { format, parse } from 'date-fns';
 import { CanutinFileType } from '@appTypes/canutin';
 import mapCategories from '@database/helpers/importResources/mapCategories';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
-import { CANUTIN_FILE_DATE_FORMAT } from '@constants';
+import { CANUTIN_FILE_DATE_FORMAT, PREVIOUS_AUTO_CALCULATED } from '@constants';
 
 export interface MintCsvEntryType {
   Date: string;
@@ -55,7 +55,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
           balanceGroup: BalanceGroupEnum.CASH,
           accountType: 'checking',
           transactions: [transaction],
-          autoCalculate: true,
+          autoCalculate: PREVIOUS_AUTO_CALCULATED,
         });
       }
 

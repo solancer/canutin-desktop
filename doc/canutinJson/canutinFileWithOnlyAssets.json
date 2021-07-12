@@ -1,0 +1,20 @@
+{
+  "assets": [
+    {
+      "type": "cryptocurrency",
+      "balanceGroup": "investment",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "quantity": 0.75,
+      "cost": 500
+    },
+    {
+      "type": "cryptocurrency",
+      "balanceGroup": "investment",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "quantity": 15,
+      "cost": 250
+    }
+  ]
+}

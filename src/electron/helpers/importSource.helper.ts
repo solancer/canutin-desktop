@@ -7,7 +7,7 @@ import {
   LOAD_FROM_CANUTIN_FILE_ACK,
   LOAD_FROM_OTHER_CSV_ACK,
 } from '@constants/events';
-import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
+import { CanutinFileType, UpdatedAccount, CanutinFileAccountType } from '@appTypes/canutin';
 import { ParseResult } from '@appTypes/parseCsv';
 import { importFromCanutinFile, updateAccounts } from '@database/helpers/importSource';
 import { CanutinFileTransactionType } from '@appTypes/canutin';
@@ -46,8 +46,11 @@ export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | 
     const canutinFile = JSON.parse(file);
     const hasCanutinFileAccounts = canutinFile?.accounts?.length > 0;
     const countAssets = canutinFile?.assets?.length;
+    const hasAllAccountsAutoCalculatedField = canutinFile?.accounts?.every(
+      (account: CanutinFileAccountType) => account.autoCalculate !== undefined
+    );
 
-    if (hasCanutinFileAccounts || countAssets) {
+    if ((hasCanutinFileAccounts && hasAllAccountsAutoCalculatedField) || countAssets) {
       const countAccounts = canutinFile?.accounts?.length;
       const countTransactions = canutinFile?.accounts?.reduce(
         (countTransactions: number, account: { transactions: CanutinFileTransactionType[] }) => {

@@ -5,12 +5,11 @@ import Section from '@components/common/Section';
 import { SegmentedControl, Segment } from '@components/common/SegmentedControl';
 import BalancesByGroup from '@app/components/BalanceSheet/BalancesByGroup';
 
-import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK, DB_GET_TRANSACTIONS_ACK } from '@constants/events';
+import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK } from '@constants/events';
 import AssetIpc from '@app/data/asset.ipc';
 import TransactionIpc from '@app/data/transaction.ipc';
 import AccountIpc from '@app/data/account.ipc';
-import { Account, Asset, Transaction } from '@database/entities';
-import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
+import { Account, Asset } from '@database/entities';
 
 import { getBalanceForAccounts, getBalanceForAllAccountsAssets, getBalanceForAssets } from './balanceSheetUtils';
 
@@ -24,7 +23,6 @@ const BalanceSheetSection = () => {
   const [selectedSegment, setSelectedSegment] = useState(BalanceSheetSegmentsEnum.ALL);
   const [accounts, setAccounts] = useState<Account[]>();
   const [assets, setAssets] = useState<Asset[]>();
-  const [transactions, setTransactions] = useState<Transaction[]>();
 
   useEffect(() => {
     AccountIpc.getAccounts();
@@ -35,17 +33,12 @@ const BalanceSheetSection = () => {
       setAssets(assets);
     });
 
-    ipcRenderer.on(DB_GET_TRANSACTIONS_ACK, (_: IpcRendererEvent, transactions: Transaction[]) => {
-      setTransactions(transactions);
-    });
-
     ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
       setAccounts(accounts);
     });
 
     return () => {
       ipcRenderer.removeAllListeners(DB_GET_ASSETS_ACK);
-      ipcRenderer.removeAllListeners(DB_GET_TRANSACTIONS_ACK);
       ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
     };
   }, []);
@@ -71,9 +64,9 @@ const BalanceSheetSection = () => {
   );
 
   const allBalancesListData =
-    assets && transactions && getBalanceForAllAccountsAssets(assets, transactions);
+    assets && accounts && getBalanceForAllAccountsAssets(assets, accounts);
   const assetsBalancesListData = assets && getBalanceForAssets(assets);
-  const accountBalancesListData = transactions && getBalanceForAccounts(transactions);
+  const accountBalancesListData = accounts && getBalanceForAccounts(accounts);
 
   const allBalanceSheet = <BalancesByGroup balancesByGroupData={allBalancesListData || {}} />;
   const accountsBalanceSheet = <BalancesByGroup balancesByGroupData={accountBalancesListData || {}} />;

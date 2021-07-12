@@ -2,6 +2,7 @@ import { getRepository, getConnection } from 'typeorm';
 
 import { BalanceStatementRepository } from '@database/repositories/balanceStatement.repository';
 import { AccountTypeRepository } from '@database/repositories/accountType.repository';
+import { PREVIOUS_AUTO_CALCULATED } from '@constants';
 
 import { Account } from '../entities';
 import { NewAccountType } from '../../types/account.type';
@@ -17,7 +18,10 @@ export class AccountRepository {
 
     await BalanceStatementRepository.createBalanceStatement({
       value: account.balance,
-      autoCalculate: account.autoCalculate,
+      autoCalculate:
+        account.autoCalculate === PREVIOUS_AUTO_CALCULATED
+          ? true
+          : (account.autoCalculate as boolean),
       account: accountSaved,
     });
 
@@ -25,7 +29,10 @@ export class AccountRepository {
   }
 
   static async createAccounts(accounts: Account[]): Promise<Account[]> {
-    const q = getRepository(Account).createQueryBuilder().insert().values(accounts);
+    const accountsLowerCase = accounts.map(account => ({
+      ...account,
+    }));
+    const q = getRepository(Account).createQueryBuilder().insert().values(accountsLowerCase);
     const [sql, args] = q.getQueryAndParameters();
     const nsql = sql.replace('INSERT INTO', 'INSERT OR IGNORE INTO');
 
@@ -47,19 +54,54 @@ export class AccountRepository {
   }
 
   static async getOrCreateAccount(account: NewAccountType): Promise<Account> {
-    const accountDb = await getRepository<Account>(Account).findOne({
-      where: { name: account.name },
-    });
+    const accountDb = await getRepository<Account>(Account)
+      .createQueryBuilder('account')
+      .leftJoinAndSelect('account.balanceStatements', 'balanceStatements')
+      .where('account.name like :name', { name: `%${account.name}%` })
+      .getOne();
 
     if (!accountDb) {
       return AccountRepository.createAccount(account);
     }
 
-    await BalanceStatementRepository.createBalanceStatement({
-      value: account.balance,
-      autoCalculate: account.autoCalculate,
-      account: accountDb,
-    });
+    const previousAutoCalculate =
+      accountDb.balanceStatements?.[accountDb.balanceStatements.length - 1].autoCalculate;
+
+    if (
+      account.autoCalculate === ((PREVIOUS_AUTO_CALCULATED as unknown) as boolean) &&
+      previousAutoCalculate
+    ) {
+      await BalanceStatementRepository.createBalanceStatement({
+        value: account.balance,
+        autoCalculate: previousAutoCalculate,
+        account: accountDb,
+      });
+
+      return accountDb;
+    }
+
+    if (
+      account.autoCalculate === ((PREVIOUS_AUTO_CALCULATED as unknown) as boolean) &&
+      !previousAutoCalculate
+    ) {
+      await BalanceStatementRepository.createBalanceStatement({
+        value: account.balance,
+        autoCalculate: true,
+        account: accountDb,
+      });
+
+      return accountDb;
+    }
+
+    if (!(account.autoCalculate === ((PREVIOUS_AUTO_CALCULATED as unknown) as boolean))) {
+      await BalanceStatementRepository.createBalanceStatement({
+        value: account.balance,
+        autoCalculate: account.autoCalculate as boolean,
+        account: accountDb,
+      });
+
+      return accountDb;
+    }
 
     return accountDb;
   }

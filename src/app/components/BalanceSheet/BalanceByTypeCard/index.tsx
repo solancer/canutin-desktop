@@ -84,7 +84,7 @@ const BalancesByTypeCard = ({ assetTypeName, balanceData }: BalancesByTypeCardPr
   <Container>
     <BalanceTypeCard balanceData={balanceData} assetTypeName={assetTypeName} />
     {balanceData.map(
-      (balance, key) => balance.amount !== 0 && <BalanceItem balance={balance} key={`${key}-${balance.name}`} />
+      (balance, key) => <BalanceItem balance={balance} key={`${key}-${balance.name}`} />
     )}
   </Container>
 );

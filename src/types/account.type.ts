@@ -4,5 +4,5 @@ export type NewAccountType = {
   officialName?: string;
   institution?: string;
   balance?: number;
-  autoCalculate: boolean;
+  autoCalculate: boolean | string;
 };
