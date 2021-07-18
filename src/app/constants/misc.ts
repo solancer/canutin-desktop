@@ -3,9 +3,7 @@ export const ASSET = 'Asset';
 
 // Sources types
 export const CANUTIN_IMPORT_TYPE = 'CANUTIN_IMPORT';
-
 export const MINT_IMPORT_TYPE = 'MINT';
-
 export const PERSONAL_CAPITAL_IMPORT_TYPE = 'PERSONAL_CAPITAL';
 
 export enum enumImportTitleOptions {
@@ -43,7 +41,8 @@ export const sourceExtensionFile = (sourceTitle: enumImportTitleOptions) => {
 
 // General
 export enum StatusEnum {
-  LOADING = 'loading',
-  SUCCESS = 'success',
-  ERROR = 'error',
+  NEUTRAL = 'neutral',
+  POSITIVE = 'positive',
+  NEGATIVE = 'negative',
+  WARNING = 'warning',
 }

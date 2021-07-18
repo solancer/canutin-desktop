@@ -85,10 +85,12 @@ const Select = ({
             error={error}
           />
         )}
-        defaultValue={defaultFormValue !== undefined ? defaultFormValue : optional ? null : defaultValue}
+        defaultValue={
+          defaultFormValue !== undefined ? defaultFormValue : optional ? null : defaultValue
+        }
         rules={{ required }}
       />
-      {error && <FieldStatus status={StatusEnum.ERROR}>{error.message}</FieldStatus>}
+      {error && <FieldStatus status={StatusEnum.NEGATIVE}>{error.message}</FieldStatus>}
     </div>
   );
 };

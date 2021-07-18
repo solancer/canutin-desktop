@@ -2,8 +2,15 @@ import { css } from 'styled-components';
 
 import { StatusEnum } from '@appConstants/misc';
 import { sansSerifBold } from '@appConstants/fonts';
-import { grey20, grey40, grey70, grey80, whitePlain, borderGrey } from '@appConstants/colors';
-import { getStatusColor } from '@app/components/common/Form/FieldStatus/styles';
+import {
+  grey20,
+  grey40,
+  grey70,
+  grey80,
+  whitePlain,
+  borderGrey,
+  getStatusColor,
+} from '@appConstants/colors';
 
 export const labelWrapper = css`
   padding-right: 20px;
