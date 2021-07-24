@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import NumberFormat from 'react-number-format';
+
+import NumberFormat from '@components/common/NumberFormat';
 
 import { AccountAssetBalance } from '@app/components/BalanceSheet/BalancesByGroup';
 
@@ -55,12 +56,7 @@ const BalanceTypeCard = ({ assetTypeName, balanceData }: BalancesByTypeCardProps
   return (
     <BalanceTypeCardContainer>
       <BalanceTypeTitle>{assetTypeName}</BalanceTypeTitle>
-      <BalanceTypeAmount
-        thousandSeparator={true}
-        displayType={'text'}
-        prefix={'$'}
-        value={Math.round(balanceAmount)}
-      />
+      <BalanceTypeAmount displayType={'text'} value={Math.round(balanceAmount)} />
     </BalanceTypeCardContainer>
   );
 };
@@ -71,21 +67,16 @@ const BalanceItem = ({ balance }: BalanceItemProps) => (
       <BalanceName>{balance.name}</BalanceName>
       <BalanceType>{balance.type}</BalanceType>
     </div>
-    <BalanceItemAmount
-      thousandSeparator={true}
-      displayType={'text'}
-      prefix={'$'}
-      value={Math.round(balance.amount)}
-    />
+    <BalanceItemAmount displayType={'text'} value={Math.round(balance.amount)} />
   </BalanceItemContainer>
 );
 
 const BalancesByTypeCard = ({ assetTypeName, balanceData }: BalancesByTypeCardProps) => (
   <Container>
     <BalanceTypeCard balanceData={balanceData} assetTypeName={assetTypeName} />
-    {balanceData.map(
-      (balance, key) => <BalanceItem balance={balance} key={`${key}-${balance.name}`} />
-    )}
+    {balanceData.map((balance, key) => (
+      <BalanceItem balance={balance} key={`${key}-${balance.name}`} />
+    ))}
   </Container>
 );
 

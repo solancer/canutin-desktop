@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import NumberFormat from 'react-number-format';
+
+import NumberFormat from '@components/common/NumberFormat';
 
 import { container, title, amount } from './styles';
 import { BalanceGroupCardTypeEnum, getBalanceGroupCardTitle } from './constants';
@@ -25,7 +26,7 @@ interface BalanceGroupCardProps {
 const BalanceGroupCard = ({ amount, type }: BalanceGroupCardProps) => (
   <Container balanceType={type}>
     <Title>{getBalanceGroupCardTitle[type]}</Title>
-    <Amount thousandSeparator={true} displayType={'text'} prefix={'$'} value={amount} />
+    <Amount displayType={'text'} value={amount} />
   </Container>
 );
 

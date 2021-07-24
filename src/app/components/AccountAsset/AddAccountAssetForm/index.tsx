@@ -8,10 +8,11 @@ import Field from '@components/common/Form/Field';
 import RadioGroupField from '@components/common/Form/RadioGroupField';
 import SelectField from '@components/common/Form/SelectField';
 import InputTextField from '@components/common/Form/InputTextField';
-import InputText from '@components/common/Form/InputText';
 import InlineCheckbox from '@components/common/Form/Checkbox';
 import FormFooter from '@components/common/Form/FormFooter';
-import SubmitButton from '@app/components/common/Form/SubmitButton';
+import SubmitButton from '@components/common/Form/SubmitButton';
+import InputCurrency from '@components/common/Form/InputCurrency';
+import InputCurrencyField from '@components/common/Form/InputCurrencyField';
 
 import { ACCOUNT, ASSET } from '@appConstants/misc';
 import { accountTypes, balanceGroupLabels } from '@constants/accountTypes';
@@ -155,11 +156,11 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
           />
           <Field label="Balance" name="balance">
             <ToggableInputContainer>
-              <InputText
+              <InputCurrency
                 name="balance"
-                type="number"
+                control={controlAccountField}
                 disabled={autoCalculate}
-                setRef={registerAccountField({ validate: v => autoCalculate || v !== '' })}
+                rules={{ validate: v => autoCalculate || v !== '' }}
               />
               <InlineCheckbox
                 name="autoCalculate"
@@ -182,22 +183,20 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
                 register={registerAssetField}
                 required
               />
-              <InputTextField
+              <InputCurrencyField
                 label="Cost"
-                type="number"
                 name="cost"
-                register={registerAssetField}
-                required
+                control={controlAssetField}
+                rules={{ required: true }}
               />
             </>
           )}
-          <InputTextField
+          <InputCurrencyField
             label="Value"
             name="value"
-            type="number"
-            register={registerAssetField}
+            control={controlAssetField}
             disabled={shouldDisplayAssetWithSymbolFields}
-            required={!shouldDisplayAssetWithSymbolFields}
+            rules={{ required: !shouldDisplayAssetWithSymbolFields }}
           />
         </Fieldset>
       )}

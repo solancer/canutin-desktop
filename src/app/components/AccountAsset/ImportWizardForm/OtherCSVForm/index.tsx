@@ -10,8 +10,8 @@ import SelectField from '@components/common/Form/SelectField';
 import Select from '@components/common/Form/Select';
 import InlineCheckbox from '@components/common/Form/Checkbox';
 import Field from '@components/common/Form/Field';
-import InputText from '@components/common/Form/InputText';
 import InputTextField from '@components/common/Form/InputTextField';
+import InputCurrency from '@components/common/Form/InputCurrency';
 import { AnalyzeSourceMetadataType } from '@components/AccountAsset/ImportWizardForm';
 import { accountGroupedValues } from '@components/AccountAsset/AddAccountAssetForm/index';
 import FormFooter from '@components/common/Form/FormFooter';
@@ -113,6 +113,12 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
     return register({
       validate: v => autoCalculate || v !== '',
     });
+  }, [autoCalculate, register]);
+
+  const autoCalculateValidation = useMemo(() => {
+    return {
+      validate: (v: string) => autoCalculate || v !== '',
+    };
   }, [autoCalculate, register]);
 
   // Set values
@@ -366,10 +372,11 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           )}
           <Field label="Account balance" name="account.balance">
             <ToggleInputContainer>
-              <InputText
+              <InputCurrency
                 name="account.balance"
+                control={control}
                 disabled={autoCalculate}
-                setRef={autoCalculateRegister}
+                rules={autoCalculateValidation}
               />
               <InlineCheckbox
                 name="account.autoCalculate"

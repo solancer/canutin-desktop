@@ -60,7 +60,7 @@ describe('Add asset by Hand tests', () => {
 
     await waitFor(() => {
       expect(nameInput).toHaveValue('Test asset');
-      expect(valueInput).toHaveValue(200);
+      expect(valueInput).toHaveValue('$200');
       expect(continueButton).not.toBeDisabled();
     });
 
@@ -102,7 +102,7 @@ describe('Add asset by Hand tests', () => {
 
     await waitFor(() => {
       expect(nameInput).toHaveValue('Test Cryptocurrency');
-      expect(valueInput).toHaveValue(400);
+      expect(valueInput).toHaveValue('$400');
       expect(continueButton).not.toBeDisabled();
     });
 
@@ -113,7 +113,7 @@ describe('Add asset by Hand tests', () => {
       expect(spySendIpcRenderer).toHaveBeenLastCalledWith(DB_NEW_ASSET, {
         assetType: 'cryptocurrency',
         name: "Test Cryptocurrency",
-        value: undefined,
+        value: "400",
         quantity: "2",
         cost: "200",
         symbol: "USD",
