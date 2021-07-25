@@ -9,7 +9,7 @@ import { StatusEnum } from '@appConstants/misc';
 
 import { selectInput } from './styles';
 
-const CustomSelect = styled(ReactSelect)`
+export const CustomSelect = styled(ReactSelect)`
   ${selectInput}
 `;
 
@@ -19,7 +19,7 @@ export type GroupedValue = {
 };
 
 export type SelectFieldValue = {
-  value: string | undefined;
+  value: any;
   label: string;
 };
 

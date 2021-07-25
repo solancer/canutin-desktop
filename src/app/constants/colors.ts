@@ -11,6 +11,7 @@ export const yellowPlain = '#FBA500';
 export const yellowLight = '#FFF8E4';
 export const borderGrey = '#E2E2E2';
 export const whitePlain = '#FFFFFF';
+export const blackPlain = '#000';
 export const grey3 = '#FAFAFA';
 export const grey5 = '#F2F2F2';
 export const grey7 = '#EDEDED';
@@ -23,8 +24,11 @@ export const grey70 = '#4C4C4C';
 export const grey80 = '#333333';
 export const grey90 = '#191919';
 export const blackOpacity10 = 'rgba(0, 0, 0, .1)';
+export const blackOpacity15 = 'rgba(0, 0, 0, .15)';
 export const blackOpacity25 = 'rgba(0, 0, 0, .25)';
 export const shadowPlate = '0px 4px 15px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.05)';
+export const underline = 'box-shadow: inset 0 -4px 0 rgb(242 216 166 / 50%)';
+export const underlineHover = 'box-shadow: inset 0 -4px 0 #f2d8a6;';
 
 export const getStatusColor = (status: StatusEnum) => {
   switch (status) {

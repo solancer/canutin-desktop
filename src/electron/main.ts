@@ -26,11 +26,13 @@ import {
   LOAD_FROM_OTHER_CSV,
   DB_GET_TRANSACTIONS,
   DB_GET_TRANSACTIONS_ACK,
+  FILTER_TRANSACTIONS,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
 import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
 import { enumExtensionFiles, enumImportTitleOptions } from '@appConstants/misc';
+import { FilterTransactionInterface } from '@appTypes/transaction.type';
 
 import {
   DID_FINISH_LOADING,
@@ -39,6 +41,9 @@ import {
   ELECTRON_WINDOW_CLOSED,
 } from './constants';
 import { connectAndSaveDB, findAndConnectDB } from './helpers/database.helper';
+import {
+  filterTransactions,
+} from './helpers/transactionHelpers/transaction.helper';
 import {
   importSourceData,
   loadFromCanutinFile,
@@ -121,6 +126,10 @@ const setupEvents = async () => {
       await importUpdatedAccounts(win, otherCsvPayload.updatedAccounts);
     }
   );
+
+  ipcMain.on(FILTER_TRANSACTIONS, async (_: IpcMainEvent, filter: FilterTransactionInterface) => {
+    await filterTransactions(win, filter);
+  });
 };
 
 const setupDbEvents = async () => {

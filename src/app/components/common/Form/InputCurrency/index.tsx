@@ -55,7 +55,7 @@ const InputCurrency = ({
       defaultValue={defaultFormValue ? defaultFormValue : null}
       rules={rules}
     />
-    {error && <FieldStatus status={StatusEnum.ERROR}>{error.message}</FieldStatus>}
+    {error && <FieldStatus status={StatusEnum.NEGATIVE}>{error.message}</FieldStatus>}
   </div>
 );
 

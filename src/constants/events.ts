@@ -29,3 +29,7 @@ export const LOAD_FROM_CANUTIN_FILE_ACK = 'loadFromCanutinFileAck';
 export const LOAD_FROM_OTHER_CSV = 'loadFromOtherCsv';
 export const LOAD_FROM_OTHER_CSV_ACK = 'loadFromOtherCsvAck';
 export const LOADING_CSV = 'loadingCsv';
+
+// Transactions
+export const FILTER_TRANSACTIONS = 'filterTransactions';
+export const FILTER_TRANSACTIONS_ACK = 'filterTransactionsAck';
