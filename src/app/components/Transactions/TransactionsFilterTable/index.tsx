@@ -9,6 +9,7 @@ import { Transaction } from '@database/entities';
 import { DateCell, AmountCell, DescriptionCell, LinkCell } from './TransactionsFilterTableCells';
 import TransactionsGlobalFilter from '../TransactionsGlobalFilter';
 import TransactionsFilterTableInfo from '../TransactionsFilterTableInfo';
+import EmptyFilterTable from '../EmptyFilterTable';
 import {
   container,
   headerContainer,
@@ -200,6 +201,7 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
             );
           }}
         </AutoSizerCustom>
+        {rows.length === 0 && <EmptyFilterTable />}
       </TableContainer>
     </Container>
   );

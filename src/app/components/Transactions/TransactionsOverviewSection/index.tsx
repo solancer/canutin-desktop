@@ -17,6 +17,7 @@ export enum TransactionOverviewSegmentsEnum {
 }
 
 const TransactionsOverviewSection = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [selectedSegment, setSelectedSegment] = useState(TransactionOverviewSegmentsEnum.ALL);
   const { filterOption } = useContext(TransactionsContext);
@@ -26,6 +27,7 @@ const TransactionsOverviewSection = () => {
 
     ipcRenderer.on(FILTER_TRANSACTIONS_ACK, (_: IpcRendererEvent, { transactions }) => {
       setTransactions(transactions);
+      setIsLoading(false);
     });
 
     return () => {
@@ -47,7 +49,7 @@ const TransactionsOverviewSection = () => {
   );
 
   const showedTransactions = () => {
-    switch(selectedSegment) {
+    switch (selectedSegment) {
       case TransactionOverviewSegmentsEnum.ALL: {
         return transactions;
       }
@@ -55,17 +57,17 @@ const TransactionsOverviewSection = () => {
         return transactions.filter(({ amount }) => amount >= 0);
       }
       case TransactionOverviewSegmentsEnum.DEBITS: {
-        return transactions.filter(({ amount }) => amount < 0)
+        return transactions.filter(({ amount }) => amount < 0);
       }
       default: {
         return [];
       }
     }
-  }
+  };
 
   return (
     <Section title="Filter transactions" scope={balanceSheetSegments}>
-      <TransactionsFilterTable transactions={showedTransactions()} />
+      {!isLoading && <TransactionsFilterTable transactions={showedTransactions()} />}
     </Section>
   );
 };
