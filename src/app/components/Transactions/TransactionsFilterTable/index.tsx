@@ -1,5 +1,5 @@
-import React, { useMemo, useCallback } from 'react';
-import { useTable, useSortBy, Column, useGlobalFilter, useFilters } from 'react-table';
+import React, { useMemo, useCallback, useState, useEffect } from 'react';
+import { useTable, useSortBy, Column, useGlobalFilter, useFilters, SortingRule } from 'react-table';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import styled from 'styled-components';
@@ -63,6 +63,7 @@ interface TransactionsFilterTableProps {
 }
 
 const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps) => {
+  const [sortBy, setSortBy] = useState<SortingRule<Transaction>[]>([{ id: 'date', desc: true }]);
   const transactionsData = useMemo(() => transactions, [transactions]);
   const columns = useMemo(
     () =>
@@ -111,7 +112,7 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
       columns,
       data: transactionsData,
       initialState: {
-        sortBy: [{ id: 'date', desc: true }],
+        sortBy,
       },
       disableSortRemove: true,
     },
@@ -119,6 +120,10 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
     useGlobalFilter,
     useSortBy
   );
+
+  useEffect(() => {
+    setSortBy(state.sortBy);
+  }, [state]);
 
   const transactionsCount = useMemo(() => rows.length, [rows]);
   const netBalanceCount = useMemo(
@@ -178,6 +183,7 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
       <TransactionsGlobalFilter
         globalFilter={state.globalFilter}
         setGlobalFilter={setGlobalFilter}
+        transactionsData={transactionsData}
       />
       <TransactionsFilterTableInfo
         netBalanceCount={netBalanceCount}
