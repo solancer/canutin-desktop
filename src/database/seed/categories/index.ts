@@ -1,7 +1,7 @@
 const categoryList = {
   categories: [
     {
-      subcategories: [],
+      subcategories: [{ name: 'Uncategorized' }],
       name: 'Uncategorized',
     },
     {

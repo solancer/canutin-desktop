@@ -5,7 +5,3 @@ export const buttonRow = css`
   grid-auto-flow: column;
   grid-gap: 8px;
 `;
-
-export const dividerRow = css`
-  display: flex;
-`;

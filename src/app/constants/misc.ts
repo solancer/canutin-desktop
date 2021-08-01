@@ -46,3 +46,8 @@ export enum StatusEnum {
   NEGATIVE = 'negative',
   WARNING = 'warning',
 }
+
+export enum TransactionTypesEnum {
+  INCOME = 'Income',
+  EXPENSE = 'Expense',
+}

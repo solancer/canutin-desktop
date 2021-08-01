@@ -26,13 +26,15 @@ import {
   LOAD_FROM_OTHER_CSV,
   DB_GET_TRANSACTIONS,
   DB_GET_TRANSACTIONS_ACK,
+  DB_NEW_TRANSACTION,
+  DB_NEW_TRANSACTION_ACK,
   FILTER_TRANSACTIONS,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
 import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
 import { enumExtensionFiles, enumImportTitleOptions } from '@appConstants/misc';
-import { FilterTransactionInterface } from '@appTypes/transaction.type';
+import { FilterTransactionInterface, NewTransactionType } from '@appTypes/transaction.type';
 
 import {
   DID_FINISH_LOADING,
@@ -175,6 +177,25 @@ const setupDbEvents = async () => {
   ipcMain.on(DB_GET_TRANSACTIONS, async (_: IpcMainEvent) => {
     const transactions = await TransactionRepository.getTransactions();
     win?.webContents.send(DB_GET_TRANSACTIONS_ACK, transactions);
+  });
+
+  ipcMain.on(DB_NEW_TRANSACTION, async (_: IpcMainEvent, transaction: NewTransactionType) => {
+    try {
+      const newTransaction = await TransactionRepository.createTransaction(transaction);
+      win?.webContents.send(DB_NEW_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
+    } catch (e) {
+      if (e instanceof QueryFailedError) {
+        win?.webContents.send(DB_NEW_TRANSACTION_ACK, {
+          status: EVENT_ERROR,
+          message: 'There is already a transaction with this name, please try a different one',
+        });
+      } else {
+        win?.webContents.send(DB_NEW_TRANSACTION_ACK, {
+          status: EVENT_ERROR,
+          message: 'An error occurred, please try again',
+        });
+      }
+    }
   });
 };
 

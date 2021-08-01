@@ -18,13 +18,13 @@ import FormFooter from '@components/common/Form/FormFooter';
 import SubmitButton from '@app/components/common/Form/SubmitButton';
 
 import { DB_GET_ACCOUNTS_ACK, LOAD_FROM_OTHER_CSV } from '@constants/events';
+import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
 import AccountIpc from '@app/data/account.ipc';
 import { Account } from '@database/entities';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 
 import { optionList, option, toggleInputContainer } from './styles';
 import {
-  CATEGORY_GROUPED_OPTIONS,
   SUPPORTED_DATE_FORMAT_OPTIONS,
   SupportedDateFormatType,
   NEW_ACCOUNT_GROUPED_OPTION,

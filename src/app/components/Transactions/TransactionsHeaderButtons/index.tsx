@@ -9,17 +9,12 @@ import {
 } from '@app/context/transactionsContext';
 
 import SelectButton from '@components/common/SelectButton';
-import { SelectFieldValue } from '@components/common/Form/Select';
 import Button from '@components/common/Button';
 
-import { buttonRow, dividerRow } from './styles';
+import { buttonRow } from './styles';
 
 const ButtonRow = styled.div`
   ${buttonRow}
-`;
-
-const DividerRow = styled.div`
-  ${dividerRow}
 `;
 
 const TransactionsHeaderButtons = () => {
@@ -28,6 +23,9 @@ const TransactionsHeaderButtons = () => {
 
   return (
     <ButtonRow>
+      <Button onClick={() => history.push(routesPaths.addTransaction)}>
+        Add new
+      </Button>
       <Button onClick={() => history.push(routesPaths.addAccountOrAssetByWizard)}>
         Import wizard
       </Button>

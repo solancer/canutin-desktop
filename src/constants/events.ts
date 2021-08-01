@@ -19,6 +19,9 @@ export const DB_GET_BALANCE_STATEMENTS_ACK = 'dbGetStatementsAck';
 export const DB_GET_TRANSACTIONS = 'dbGetTransactions';
 export const DB_GET_TRANSACTIONS_ACK = 'dbGetTransactionsAck';
 
+export const DB_NEW_TRANSACTION = 'dbNewTransaction';
+export const DB_NEW_TRANSACTION_ACK = 'dbNewTransactionAck';
+
 // Import Wizard
 export const IMPORT_SOURCE_FILE = 'importSourceFile';
 export const IMPORT_SOURCE_FILE_ACK = 'importSourceFileAck';

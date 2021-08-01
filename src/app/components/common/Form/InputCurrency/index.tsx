@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import { Controller, Control, FieldError, RegisterOptions } from 'react-hook-form';
 import styled from 'styled-components';
@@ -5,7 +6,7 @@ import styled from 'styled-components';
 import FieldStatus from '@components/common/Form/FieldStatus';
 import NumberFormat from '@components/common/NumberFormat';
 
-import { StatusEnum } from '@appConstants/misc';
+import { StatusEnum, TransactionTypesEnum } from '@appConstants/misc';
 
 import { inputElement } from './styles';
 
@@ -20,6 +21,8 @@ export interface InputCurrencyProps {
   defaultFormValue?: string | null;
   error?: FieldError;
   rules?: Exclude<RegisterOptions, 'valueAsNumber' | 'valueAsDate' | 'setValueAs'>;
+  transactionType?: TransactionTypesEnum;
+  allowNegative?: boolean;
 }
 
 const InputCurrency = ({
@@ -29,13 +32,15 @@ const InputCurrency = ({
   defaultFormValue,
   error,
   rules,
+  transactionType,
+  allowNegative = true,
 }: InputCurrencyProps) => (
   <div>
     <Controller
       render={({ value, onChange, name }) => {
         return (
           <NumberFormat
-            allowNegative={true}
+            allowNegative={allowNegative}
             decimalScale={2}
             thousandSeparator
             prefix="$"
@@ -45,6 +50,8 @@ const InputCurrency = ({
               onChange(values.value);
             }}
             disabled={disabled}
+            // @ts-ignore
+            transactionType={transactionType}
             name={name}
             customInput={CustomNumberFormat}
           />

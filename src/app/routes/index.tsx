@@ -5,6 +5,7 @@ import TheBigPicture from '@pages/TheBigPicture';
 import BalanceSheet from '@pages/BalanceSheet';
 import Budget from '@pages/Budget';
 import Transactions from '@pages/Transactions';
+import AddTransactions from '@pages/AddTransactions';
 import Trends from '@pages/Trends';
 import AddAccountOrAsset from '@pages/AddAccountOrAsset';
 import AddAccountAssetByHand from '@pages/AddAccountAssetByHand';
@@ -28,6 +29,7 @@ export const routesPaths = {
   ...rootRoutesPaths,
   addAccountOrAssetByHand: '/account/addAccountOrAsset/byHand',
   addAccountOrAssetByWizard: '/account/addAccountOrAsset/byWizard',
+  addTransaction: '/transactions/addTransactions',
   canutinSetup: '/canutinSetup',
 };
 
@@ -67,6 +69,12 @@ export const routesConfig: RouteConfigProps[] = [
     exact: true,
     component: <Transactions />,
     breadcrumb: 'Transactions',
+  },
+  {
+    path: routesPaths.addTransaction,
+    exact: true,
+    component: <AddTransactions />,
+    breadcrumb: 'Add new',
   },
   {
     path: routesPaths.trends,
