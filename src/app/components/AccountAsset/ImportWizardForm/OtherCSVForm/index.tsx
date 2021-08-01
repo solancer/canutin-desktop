@@ -186,7 +186,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
       setError('dateFormat', {
         type: 'manual',
         message:
-          'Couldn’t detect the date format, you can try another date format or update the file manually',
+          'Couldn’t interprete the transaction dates, try another date format or update the file manually',
       });
     }
 

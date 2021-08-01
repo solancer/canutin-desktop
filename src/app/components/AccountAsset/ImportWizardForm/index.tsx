@@ -33,11 +33,11 @@ const filePathStatusMessage = (status: StatusEnum, message?: string) => {
 
   switch (status) {
     case StatusEnum.NEUTRAL:
-      return 'Analyzing file...';
+      return 'Analyzing source file...';
     case StatusEnum.NEGATIVE:
       return "Couldn't interpret the chosen file";
     case StatusEnum.POSITIVE:
-      return 'Successful analysis';
+      return 'The source file was analyzed succesfully';
   }
 };
 
@@ -102,9 +102,9 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
             setOtherCsvMetadata(analyzeSource.metadata);
           } else {
             setCanutinJson(analyzeSource.sourceData);
+            analyzeSource.metadata &&
+              setSourceMessage(generateSourceMessage(analyzeSource.metadata));
           }
-
-          analyzeSource.metadata && setSourceMessage(generateSourceMessage(analyzeSource.metadata));
         }
 
         if (analyzeSource.status === StatusEnum.NEGATIVE) {

@@ -21,7 +21,7 @@ export const getTransactionsForOneAccount = (
     description: rowData[descriptionColumn],
     date: format(parse(rowData[dateColumn], dateFormat, new Date()), CANUTIN_FILE_DATE_FORMAT),
     amount: Number(rowData[amountColumn]),
-    excludeFromTotals: true,
+    excludeFromTotals: false,
     category:
       categoryColumn && categoryValues ? categoryValues[rowData[categoryColumn]] : 'Uncategorized',
   }));
@@ -55,7 +55,7 @@ export const getTransactionsForAccountColumn = (
             CANUTIN_FILE_DATE_FORMAT
           ),
           amount: Number(rowData[amountColumn]),
-          excludeFromTotals: true,
+          excludeFromTotals: false,
           category:
             categoryColumn && categoryValues
               ? categoryValues[rowData[categoryColumn]]
@@ -115,7 +115,7 @@ export const getUpdatedTransactionsForExistingAccounts = (
         description: rowData[descriptionColumn],
         date: format(parse(rowData[dateColumn], dateFormat, new Date()), CANUTIN_FILE_DATE_FORMAT),
         amount: Number(rowData[amountColumn]),
-        excludeFromTotals: true,
+        excludeFromTotals: false,
         category:
           categoryColumn && categoryValues
             ? categoryValues[rowData[categoryColumn]]

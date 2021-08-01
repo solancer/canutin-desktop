@@ -8,7 +8,6 @@ export const generateSourceMessage = (metadata: AnalyzeSourceMetadataType) => {
   let sourceMessage = 'Found ';
 
   if (hasAssets) {
-
     if (hasAccounts) {
       sourceMessage = sourceMessage.concat(`${metadata.countAssets} assets, `);
     } else {
@@ -17,9 +16,8 @@ export const generateSourceMessage = (metadata: AnalyzeSourceMetadataType) => {
   }
 
   if (hasAccounts) {
-
     if (hasTransactions) {
-      sourceMessage = sourceMessage.concat(`${metadata.countAccounts} accounts, `);
+      sourceMessage = sourceMessage.concat(`${metadata.countAccounts} accounts `);
     } else {
       sourceMessage = sourceMessage.concat(`and ${metadata.countAccounts} accounts`);
     }
@@ -31,8 +29,8 @@ export const generateSourceMessage = (metadata: AnalyzeSourceMetadataType) => {
     );
   }
 
-  if (!hasAccounts && !hasAccounts && !hasAssets) {
-    sourceMessage = "Empty file" // TODO: Double-check this message with @fmaclen
+  if (!hasAccounts && !hasTransactions && !hasAssets) {
+    sourceMessage = "Couldn't find any assets, accounts or transactions in the file";
   }
 
   return sourceMessage;

@@ -174,7 +174,7 @@ describe('Import Wizard tests', () => {
     userEvent.click(personalCapitalOption);
     expect(screen.getByText(/testpath/i)).not.toBeNull();
     expect(
-      screen.getByText(/Found 3 assets, 2 accounts, and 5 transactions in the file/i)
+      screen.getByText(/Found 3 assets, 2 accounts and 5 transactions in the file/i)
     ).not.toBeNull();
 
     const chooseButton = screen.getByRole('button', { name: /Choose/i });
@@ -183,7 +183,7 @@ describe('Import Wizard tests', () => {
     const spySendIpcRenderer = jest.spyOn(ipcRenderer, 'send');
     userEvent.click(chooseButton);
     expect(spySendIpcRenderer).toHaveBeenLastCalledWith(IMPORT_SOURCE_FILE, 'csv');
-    expect(screen.getByText(/Analyzing file.../i)).not.toBeNull();
+    expect(screen.getByText(/Analyzing source file.../i)).not.toBeNull();
   });
 
   test('Other CSV Form', async () => {
