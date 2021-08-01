@@ -1,7 +1,6 @@
 import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import { useTable, useSortBy, Column, useGlobalFilter, useFilters, SortingRule } from 'react-table';
 import { FixedSizeList } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
 import styled from 'styled-components';
 
 import { Transaction } from '@database/entities';
@@ -16,25 +15,22 @@ import {
   headerItemContainer,
   tableContainer,
   tableSortIcon,
-  rowContainer,
   rowItem,
-  autoSizer,
-  renderRowCustom,
 } from './styles';
 
 const Container = styled.div`
   ${container}
 `;
 
-const TableContainer = styled.div`
+const TableContainer = styled.table`
   ${tableContainer}
 `;
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.tr`
   ${headerContainer}
 `;
 
-const HeaderItemContainer = styled.div`
+const HeaderItemContainer = styled.th`
   ${headerItemContainer}
 `;
 
@@ -42,20 +38,8 @@ const TableSortIcon = styled.div`
   ${tableSortIcon}
 `;
 
-const RowContainer = styled.div`
-  ${rowContainer}
-`;
-
-const RowItem = styled.div`
+const RowItem = styled.td`
   ${rowItem}
-`;
-
-const AutoSizerCustom = styled(AutoSizer)`
-  ${autoSizer}
-`;
-
-const RenderRowCustom = styled.div`
-  ${renderRowCustom}
 `;
 
 interface TransactionsFilterTableProps {
@@ -135,24 +119,17 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
   );
 
   const RenderRow = React.useCallback(
-    ({ index, style }) => {
-      const row = rows[index];
-      prepareRow(row);
-
-      return (
-        <RenderRowCustom
-          {...row.getRowProps({
-            style,
-          })}
-        >
-          <RowContainer>
+    () =>
+      rows.map(row => {
+        prepareRow(row);
+        return (
+          <tr {...row.getRowProps()}>
             {row.cells.map(cell => {
               return <RowItem {...cell.getCellProps()}>{cell.render('Cell')}</RowItem>;
             })}
-          </RowContainer>
-        </RenderRowCustom>
-      );
-    },
+          </tr>
+        );
+      }),
     [prepareRow, rows]
   );
   const RenderHeader = useCallback(
@@ -166,11 +143,13 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
               isSorted={column.isSorted}
               {...column.getHeaderProps(column.getSortByToggleProps())}
             >
-              {column.render('Header')}
+              <div>
+                {column.render('Header')}
+                <TableSortIcon>
+                  {column.isSorted ? (column.isSortedDesc ? '▼' : '▲') : ''}
+                </TableSortIcon>
+              </div>
               {/* Add a sort direction indicator */}
-              <TableSortIcon>
-                {column.isSorted ? (column.isSortedDesc ? '▼' : '▲') : ''}
-              </TableSortIcon>
             </HeaderItemContainer>
           ))}
         </HeaderContainer>
@@ -190,23 +169,8 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
         transactionsCount={transactionsCount}
       />
       <TableContainer {...getTableProps()}>
-        {RenderHeader()}
-        <AutoSizerCustom>
-          {({ height, width }) => {
-            return (
-              <div {...getTableBodyProps()}>
-                <FixedSizeList
-                  height={height - 50}
-                  itemCount={rows.length}
-                  itemSize={40}
-                  width={width}
-                >
-                  {RenderRow}
-                </FixedSizeList>
-              </div>
-            );
-          }}
-        </AutoSizerCustom>
+        <thead>{RenderHeader()}</thead>
+        <tbody {...getTableBodyProps()}>{RenderRow()}</tbody>
         {rows.length === 0 && <EmptyFilterTable />}
       </TableContainer>
     </Container>

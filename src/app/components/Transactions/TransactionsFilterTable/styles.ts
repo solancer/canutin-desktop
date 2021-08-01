@@ -82,22 +82,30 @@ export const linkCell = css`
 `;
 
 export const headerContainer = css`
-  align-items: center;
   background-color: ${whitePlain};
   height: 47px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  padding: 0 12px;
 `;
 
 export const headerItemContainer = css<{ isSorted: boolean }>`
-  align-items: center;
   color: ${grey50};
   font-size: 12px;
-  display: flex;
+  text-align: left;
+  font-weight: 400;
+
+  > div {
+    align-items: center;
+    display: flex;
+  }
+
+  &:first-of-type {
+    padding-left: 12px;
+  }
 
   &:last-of-type {
-    justify-content: flex-end;
+    > div {
+      justify-content: flex-end;
+    }
+    padding-right: 12px;
   }
 
   ${({ isSorted }) =>
@@ -109,9 +117,9 @@ export const headerItemContainer = css<{ isSorted: boolean }>`
 
 export const tableContainer = css`
   border-top: 1px solid ${borderGrey};
-  border-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
   background-color: ${whitePlain};
-  height: 48vh;
 `;
 
 export const tableSortIcon = css`
@@ -120,33 +128,19 @@ export const tableSortIcon = css`
   padding-left: 4px;
 `;
 
-export const rowContainer = css`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  justify-content: center;
-  padding: 0 12px;
-`;
-
-export const renderRowCustom = css`
-  border-top: 1px solid ${borderGrey};
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
 export const rowItem = css`
   align-items: center;
   background-color: ${whitePlain};
   justify-content: center;
+  height: 40px;
+  border-top: 1px solid ${borderGrey};
+
+  &:first-of-type {
+    padding-left: 12px;
+  }
 
   &:last-of-type {
     text-align: right;
-  }
-`;
-
-export const autoSizer = css`
-  *::-webkit-scrollbar {
-    width: 0;
-    left: -100px;
+    padding-right: 12px;
   }
 `;
