@@ -5,6 +5,7 @@ import { Transaction } from '@database/entities';
 import { TransactionTypesEnum } from '@appConstants/misc';
 
 import ScrollView from '@components/common/ScrollView';
+import RemoveTransaction from '@components/Transactions/RemoveTransaction';
 import Section from '@components/common/Section';
 import TransactionForm from '@components/Transactions/TransactionForm';
 
@@ -32,6 +33,7 @@ const EditTransaction = () => {
       <Section title="Transaction details">
         <TransactionForm initialState={initialState} />
       </Section>
+      <RemoveTransaction transaction={transaction} />
     </ScrollView>
   );
 };

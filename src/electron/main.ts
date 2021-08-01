@@ -30,6 +30,8 @@ import {
   DB_NEW_TRANSACTION_ACK,
   DB_EDIT_TRANSACTION,
   DB_EDIT_TRANSACTION_ACK,
+  DB_DELETE_TRANSACTION,
+  DB_DELETE_TRANSACTION_ACK,
   FILTER_TRANSACTIONS,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
@@ -204,6 +206,18 @@ const setupDbEvents = async () => {
       win?.webContents.send(DB_EDIT_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
     } catch (e) {
       win?.webContents.send(DB_EDIT_TRANSACTION_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
+
+  ipcMain.on(DB_DELETE_TRANSACTION, async (_: IpcMainEvent, transactionId: number) => {
+    try {
+      await TransactionRepository.deleteTransaction(transactionId);
+      win?.webContents.send(DB_DELETE_TRANSACTION_ACK, { status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_DELETE_TRANSACTION_ACK, {
         status: EVENT_ERROR,
         message: 'An error occurred, please try again',
       });

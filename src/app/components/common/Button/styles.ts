@@ -1,9 +1,9 @@
 import { css } from 'styled-components';
 
 import { sansSerifBold } from '@appConstants/fonts';
-import { grey20, grey40, grey70 } from '@appConstants/colors';
+import { grey20, grey40, grey70, redPlain, whitePlain } from '@appConstants/colors';
 
-export const container = css`
+export const container = css<{ danger: boolean }>`
   ${sansSerifBold};
   cursor: pointer;
   padding: 8px 16px;
@@ -25,4 +25,9 @@ export const container = css`
   &:active {
     transform: scale(0.98);
   }
+
+  ${({ danger }) => danger && css`
+    background-color: ${redPlain};
+    color: ${whitePlain};
+  `}
 `;

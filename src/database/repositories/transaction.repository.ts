@@ -28,14 +28,6 @@ export class TransactionRepository {
   static async editTransaction(transaction: NewTransactionType): Promise<UpdateResult> {
     const account = await AccountRepository.getAccountById(transaction.accountId);
     const category = await CategoryRepository.getOrCreateSubCategory(transaction.categoryName);
-    console.log('here', {
-      account,
-      amount: transaction.balance,
-      category,
-      date: transaction.date,
-      excludeFromTotals: transaction.excludeFromTotals,
-      description: transaction.description as string,
-    })
 
     const newTransaction = await getRepository<Transaction>(Transaction).update(
       transaction.id as number,
@@ -50,6 +42,10 @@ export class TransactionRepository {
     );
 
     return newTransaction;
+  }
+
+  static async deleteTransaction(transactionId: number) {
+    await getRepository<Transaction>(Transaction).delete(transactionId);
   }
 
   static async createTransactions(transactions: Transaction[]): Promise<Transaction[]> {

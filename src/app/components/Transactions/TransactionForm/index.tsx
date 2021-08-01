@@ -60,7 +60,7 @@ type TransactionSubmitType = {
 const DATE_INFORMATION = getCurrentDateInformation();
 
 const TransactionForm = ({ initialState }: TransactionFormProps) => {
-  const { setStatusMessage, statusMessage } = useContext(StatusBarContext);
+  const { setStatusMessage } = useContext(StatusBarContext);
   const { setIsDbEmpty } = useContext(AppContext);
   const { handleSubmit, control, register, watch, setValue, formState } = useForm({
     mode: 'onChange',
@@ -109,7 +109,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
       }
 
       if (status === EVENT_ERROR) {
-        setStatusMessage(message);
+        setStatusMessage({ message, sentiment: StatusEnum.NEGATIVE, isLoading: false });
       }
     });
 
