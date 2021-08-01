@@ -7,11 +7,16 @@ import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
 import { TransactionTypesEnum } from '@appConstants/misc';
 import { yearsList, monthList, dayList, getCurrentDateInformation } from '@appConstants/dates';
 import AccountIpc from '@app/data/account.ipc';
-import { DB_GET_ACCOUNTS_ACK, DB_NEW_TRANSACTION_ACK } from '@constants/events';
+import {
+  DB_EDIT_TRANSACTION_ACK,
+  DB_GET_ACCOUNTS_ACK,
+  DB_NEW_TRANSACTION_ACK,
+} from '@constants/events';
 import { Account } from '@database/entities';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import TransactionIpc from '@app/data/transaction.ipc';
 import { AppContext } from '@app/context/appContext';
+import { StatusEnum } from '@app/constants/misc';
 import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
 
 import Form from '@components/common/Form/Form';
@@ -35,45 +40,49 @@ const FieldRows = styled.div`
   ${fieldRows}
 `;
 
+interface TransactionFormProps {
+  initialState?: TransactionSubmitType;
+}
+
 type TransactionSubmitType = {
-  account: string;
-  balance: string;
+  account: string | null;
+  balance: string | null;
   category: string;
   year: number;
   month: number;
   day: number;
-  description: string;
+  description: string | null;
+  transactionType: TransactionTypesEnum;
   excludeFromTotals: boolean;
+  id?: number;
 };
 
 const DATE_INFORMATION = getCurrentDateInformation();
 
-const TransactionForm = () => {
-  const { setSuccessMessage, setErrorMessage, setOnClickButton } = useContext(StatusBarContext);
+const TransactionForm = ({ initialState }: TransactionFormProps) => {
+  const { setStatusMessage, statusMessage } = useContext(StatusBarContext);
   const { setIsDbEmpty } = useContext(AppContext);
   const { handleSubmit, control, register, watch, setValue, formState } = useForm({
     mode: 'onChange',
-    defaultValues: {
-      account: null,
-      description: null,
-      category: 'Uncategorized',
-      day: DATE_INFORMATION.day + 1,
-      month: DATE_INFORMATION.month,
-      year: DATE_INFORMATION.year,
-      transactionType: 'Income',
-      balance: 0,
-      excludeFromTotals: false,
-    },
+    defaultValues: initialState
+      ? initialState
+      : {
+          account: null,
+          description: null,
+          category: 'Uncategorized',
+          day: DATE_INFORMATION.day + 1,
+          month: DATE_INFORMATION.month,
+          year: DATE_INFORMATION.year,
+          transactionType: TransactionTypesEnum.INCOME,
+          balance: null,
+          excludeFromTotals: false,
+        },
   });
   const [accounts, setAccounts] = useState<null | Account[]>(null);
   const excludeFromTotals = watch('excludeFromTotals');
   const transactionType = watch('transactionType');
   const balance = watch('balance');
   const description = watch('description');
-
-  const onCloseMessage = () => {
-    setSuccessMessage('');
-  };
 
   useEffect(() => {
     AccountIpc.getAccounts();
@@ -84,23 +93,30 @@ const TransactionForm = () => {
 
     ipcRenderer.on(DB_NEW_TRANSACTION_ACK, (_: IpcRendererEvent, { status, message }) => {
       if (status === EVENT_SUCCESS) {
-        setSuccessMessage(
-          <>
-            Transaction created/edit
-          </>
-        );
+        setStatusMessage({ message: 'Transaction created/edit', sentiment: StatusEnum.POSITIVE, isLoading: false });
         setIsDbEmpty(false);
       }
 
       if (status === EVENT_ERROR) {
-        setErrorMessage(message);
+        setStatusMessage(message);
       }
     });
 
-    setOnClickButton(() => onCloseMessage);
+    ipcRenderer.on(DB_EDIT_TRANSACTION_ACK, (_: IpcRendererEvent, { status, message }) => {
+      if (status === EVENT_SUCCESS) {
+        setStatusMessage({ message: 'Transaction created/edit', sentiment: StatusEnum.POSITIVE, isLoading: false });
+        setIsDbEmpty(false);
+      }
+
+      if (status === EVENT_ERROR) {
+        setStatusMessage(message);
+      }
+    });
 
     return () => {
       ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
+      ipcRenderer.removeAllListeners(DB_NEW_TRANSACTION_ACK);
+      ipcRenderer.removeAllListeners(DB_EDIT_TRANSACTION_ACK);
     };
   }, []);
 
@@ -110,7 +126,7 @@ const TransactionForm = () => {
   );
 
   useEffect(() => {
-    if (balance >= 0) {
+    if (Number(balance) >= 0) {
       setValue('transactionType', TransactionTypesEnum.INCOME);
     } else {
       setValue('transactionType', TransactionTypesEnum.EXPENSE);
@@ -128,18 +144,24 @@ const TransactionForm = () => {
     excludeFromTotals,
   }: TransactionSubmitType) => {
     const date = new Date(year, month, day);
-
-    TransactionIpc.addTransaction({
+    const transaction = {
       accountId: Number(account),
       balance: Number(balance),
       categoryName: category,
       date,
       description,
       excludeFromTotals,
-    });
+      id: initialState?.id,
+    };
+
+    if (initialState) {
+      TransactionIpc.editTransaction(transaction);
+    } else {
+      TransactionIpc.addTransaction(transaction);
+    }
   };
 
-  const submitIsDisabled = description === '' && !formState.isValid;
+  const submitIsDisabled = description === '' || !formState.isValid;
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} role="form">
@@ -174,7 +196,7 @@ const TransactionForm = () => {
           values={Object.values(TransactionTypesEnum)}
           onSelectOption={(option: string) => {
             setValue('transactionType', option);
-            setValue('balance', -balance);
+            balance && setValue('balance', -balance);
           }}
           register={register}
         />
@@ -198,7 +220,9 @@ const TransactionForm = () => {
         </Field>
       </Fieldset>
       <FormFooter>
-        <SubmitButton disabled={submitIsDisabled}>Add transaction</SubmitButton>
+        <SubmitButton disabled={submitIsDisabled}>
+          {initialState ? 'Save changes' : 'Add transaction'}
+        </SubmitButton>
       </FormFooter>
     </Form>
   );

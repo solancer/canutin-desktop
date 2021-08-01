@@ -5,9 +5,10 @@ export interface FilterTransactionInterface {
 
 export type NewTransactionType = {
   accountId: number;
-  description: string;
+  description: string | null;
   date: Date;
   categoryName: string;
   balance: number;
   excludeFromTotals: boolean;
+  id?: number;
 };

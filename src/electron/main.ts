@@ -28,6 +28,8 @@ import {
   DB_GET_TRANSACTIONS_ACK,
   DB_NEW_TRANSACTION,
   DB_NEW_TRANSACTION_ACK,
+  DB_EDIT_TRANSACTION,
+  DB_EDIT_TRANSACTION_ACK,
   FILTER_TRANSACTIONS,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
@@ -43,9 +45,7 @@ import {
   ELECTRON_WINDOW_CLOSED,
 } from './constants';
 import { connectAndSaveDB, findAndConnectDB } from './helpers/database.helper';
-import {
-  filterTransactions,
-} from './helpers/transactionHelpers/transaction.helper';
+import { filterTransactions } from './helpers/transactionHelpers/transaction.helper';
 import {
   importSourceData,
   loadFromCanutinFile,
@@ -195,6 +195,18 @@ const setupDbEvents = async () => {
           message: 'An error occurred, please try again',
         });
       }
+    }
+  });
+
+  ipcMain.on(DB_EDIT_TRANSACTION, async (_: IpcMainEvent, transaction: NewTransactionType) => {
+    try {
+      const newTransaction = await TransactionRepository.editTransaction(transaction);
+      win?.webContents.send(DB_EDIT_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_EDIT_TRANSACTION_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
     }
   });
 };

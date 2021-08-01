@@ -5,13 +5,14 @@ import TheBigPicture from '@pages/TheBigPicture';
 import BalanceSheet from '@pages/BalanceSheet';
 import Budget from '@pages/Budget';
 import Transactions from '@pages/Transactions';
-import AddTransactions from '@pages/AddTransactions';
+import AddTransactions from '@app/pages/AddTransaction';
 import Trends from '@pages/Trends';
 import AddAccountOrAsset from '@pages/AddAccountOrAsset';
 import AddAccountAssetByHand from '@pages/AddAccountAssetByHand';
 import AddAccountAssetByWizard from '@pages/AddAccountAssetByWizard';
 import Setup from '@pages/Setup';
 import Settings from '@pages/Settings';
+import EditTransaction from '@app/pages/EditTransaction';
 
 export const rootRoutesPaths = {
   bigpicture: '/bigpicture',
@@ -29,7 +30,8 @@ export const routesPaths = {
   ...rootRoutesPaths,
   addAccountOrAssetByHand: '/account/addAccountOrAsset/byHand',
   addAccountOrAssetByWizard: '/account/addAccountOrAsset/byWizard',
-  addTransaction: '/transactions/addTransactions',
+  addTransaction: '/transactions/addTransaction',
+  editTransaction: '/transactions/:categoryName/:accountName/Edit',
   canutinSetup: '/canutinSetup',
 };
 
@@ -77,6 +79,12 @@ export const routesConfig: RouteConfigProps[] = [
     breadcrumb: 'Add new',
   },
   {
+    path: routesPaths.editTransaction,
+    exact: true,
+    component: <EditTransaction />,
+    breadcrumb: 'Edit',
+  },
+  {
     path: routesPaths.trends,
     exact: true,
     component: <Trends />,
@@ -118,4 +126,10 @@ export const routesConfig: RouteConfigProps[] = [
     component: <Setup />,
     breadcrumb: 'Canutin Setup',
   },
+  {
+    path: routesPaths.editTransaction,
+    exact: true,
+    component: <EditTransaction />,
+    breadcrumb: 'Edit Transaction'
+  }
 ];

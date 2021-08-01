@@ -7,7 +7,7 @@ export const container = css`
   background-color: ${grey5};
   display: flex;
   justify-content: center;
-  height: 91%;
+  height: 10rem;
 `;
 
 export const message = css`

@@ -171,8 +171,8 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
       <TableContainer {...getTableProps()}>
         <thead>{RenderHeader()}</thead>
         <tbody {...getTableBodyProps()}>{RenderRow()}</tbody>
-        {rows.length === 0 && <EmptyFilterTable />}
       </TableContainer>
+      {rows.length === 0 && <EmptyFilterTable />}
     </Container>
   );
 };

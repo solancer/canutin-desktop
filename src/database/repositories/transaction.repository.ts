@@ -1,4 +1,4 @@
-import { getRepository, getConnection, Between } from 'typeorm';
+import { getRepository, getConnection, Between, UpdateResult } from 'typeorm';
 
 import { FilterTransactionInterface, NewTransactionType } from '@appTypes/transaction.type';
 
@@ -13,13 +13,40 @@ export class TransactionRepository {
 
     const newTransaction = await getRepository<Transaction>(Transaction).save(
       new Transaction(
-        transaction.description,
+        transaction.description as string,
         transaction.date,
         transaction.balance,
         transaction.excludeFromTotals,
         account as Account,
         category
       )
+    );
+
+    return newTransaction;
+  }
+
+  static async editTransaction(transaction: NewTransactionType): Promise<UpdateResult> {
+    const account = await AccountRepository.getAccountById(transaction.accountId);
+    const category = await CategoryRepository.getOrCreateSubCategory(transaction.categoryName);
+    console.log('here', {
+      account,
+      amount: transaction.balance,
+      category,
+      date: transaction.date,
+      excludeFromTotals: transaction.excludeFromTotals,
+      description: transaction.description as string,
+    })
+
+    const newTransaction = await getRepository<Transaction>(Transaction).update(
+      transaction.id as number,
+      {
+        account,
+        amount: transaction.balance,
+        category,
+        date: transaction.date,
+        excludeFromTotals: transaction.excludeFromTotals,
+        description: transaction.description as string,
+      }
     );
 
     return newTransaction;

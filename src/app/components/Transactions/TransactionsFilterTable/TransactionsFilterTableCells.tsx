@@ -1,6 +1,7 @@
 import React from 'react';
 import { CellProps } from 'react-table';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import { formatDate } from '@app/utils/date.utils';
 import { Transaction } from '@database/entities';
@@ -17,7 +18,7 @@ export const DateCellField = styled.span`
   ${dateCell}
 `;
 
-export const DescriptionCellField = styled.span`
+export const DescriptionCellField = styled(Link)`
   ${descriptionCell}
 `;
 
@@ -45,8 +46,15 @@ export const AmountCell = ({
   );
 };
 
-export const DescriptionCell = ({ value }: CellProps<Transaction>) => (
-  <DescriptionCellField>{value}</DescriptionCellField>
+export const DescriptionCell = ({ value, ...props }: CellProps<Transaction>) => (
+  <DescriptionCellField
+    to={{
+      pathname: `transactions/${props.row.original.category.name}/${props.row.original.account.name}/Edit`,
+      state: { transaction: props.row.original },
+    }}
+  >
+    {value}
+  </DescriptionCellField>
 );
 
 export const LinkCell = ({ value }: CellProps<Transaction>) => (

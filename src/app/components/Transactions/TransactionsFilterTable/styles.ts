@@ -61,6 +61,7 @@ export const descriptionCell = css`
 
   color: ${grey80};
   font-size: 12px;
+  text-decoration: none;
 
   :hover {
     ${underlineHover}

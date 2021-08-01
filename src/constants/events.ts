@@ -22,6 +22,9 @@ export const DB_GET_TRANSACTIONS_ACK = 'dbGetTransactionsAck';
 export const DB_NEW_TRANSACTION = 'dbNewTransaction';
 export const DB_NEW_TRANSACTION_ACK = 'dbNewTransactionAck';
 
+export const DB_EDIT_TRANSACTION = 'dbEditTransaction';
+export const DB_EDIT_TRANSACTION_ACK = 'dbEditTransactionAck';
+
 // Import Wizard
 export const IMPORT_SOURCE_FILE = 'importSourceFile';
 export const IMPORT_SOURCE_FILE_ACK = 'importSourceFileAck';
