@@ -19,15 +19,12 @@ import { rootRoutesPaths } from '@app/routes';
 const Container = styled.div`
   ${container}
 `;
-
 const Message = styled.div`
   ${message}
 `;
-
 const MessageContainer = styled.div`
   ${messageContainer}
 `;
-
 const MessageDanger = styled.div`
   ${messageDanger}
 `;
@@ -38,7 +35,6 @@ interface RemoveTransactionProps {
 
 const RemoveTransaction = ({ transaction }: RemoveTransactionProps) => {
   const history = useHistory();
-  const [isConfirmationMessageDisplay, setIsConfirmationMessageDisplay] = useState(false);
   const { setStatusMessage } = useContext(StatusBarContext);
 
   useEffect(() => {
@@ -63,34 +59,20 @@ const RemoveTransaction = ({ transaction }: RemoveTransactionProps) => {
   }, []);
 
   const onRemove = () => {
-    if (!isConfirmationMessageDisplay) {
-      setIsConfirmationMessageDisplay(true);
-    } else {
-      TransactionIpc.deleteTransaction(transaction.id);
-    }
+    const confirmDeletion = window.confirm('Are you sure you want to remove the transaction?');
+    confirmDeletion && TransactionIpc.deleteTransaction(transaction.id);
   };
 
   return (
     <Section title="Danger zone">
       <Container>
         <MessageContainer>
-          {!isConfirmationMessageDisplay && (
-            <>
-              <Message>
-                Remove transaction <b>{transaction.description}</b>
-              </Message>
-              <MessageDanger>This action can't be un-done.</MessageDanger>
-            </>
-          )}
-          {isConfirmationMessageDisplay && (
-            <Message>
-              Are you sure you want to remove the transaction <b>{transaction.description}</b>?
-            </Message>
-          )}
+          <Message>
+            Remove transaction <b>{transaction.description}</b>
+          </Message>
+          <MessageDanger>This action can't be un-done.</MessageDanger>
         </MessageContainer>
-        <Button danger={isConfirmationMessageDisplay} onClick={onRemove}>
-          Remove
-        </Button>
+        <Button onClick={onRemove}>Remove</Button>
       </Container>
     </Section>
   );

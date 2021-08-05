@@ -8,17 +8,25 @@ export const container = css`
   border: 1px solid ${borderGrey};
   display: flex;
   justify-content: space-between;
-  padding: 12px 20px;
+  font-size: 12px;
+  padding: 16px;
+  border-radius: 4px;
+  filter: grayscale(1);
+
+  &:hover {
+    filter: grayscale(0);
+  }
 `;
+
 export const messageContainer = css`
   display: flex;
   flex-direction: column;
 `;
+
 export const message = css`
   color: ${grey70};
-  font-size: 12px;
 `;
+
 export const messageDanger = css`
   color: ${redPlain};
-  font-size: 12px;
 `;

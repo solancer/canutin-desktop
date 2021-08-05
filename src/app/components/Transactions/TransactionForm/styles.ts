@@ -6,22 +6,8 @@ export const toggableInputContainer = css`
   grid-gap: 8px;
 `;
 
-export const fieldRows = css`
-  display: flex;
-  justify-content: space-between;
-
-  * {
-    display: flex;
-    flex: 1;
-    max-width: 131px;
-
-    &.select__menu-list {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  &:first-child {
-    padding-right: 1rem;
-  }
+export const dateField = css`
+  display: grid;
+  grid-gap: 8px;
+  grid-auto-flow: column;
 `;

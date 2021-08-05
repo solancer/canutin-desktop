@@ -9,6 +9,7 @@ export const selectInput = css<{ error: string | undefined; isClearable: boolean
   .select {
     &__control {
       ${inputShared}
+
       ${({ error }) =>
         error &&
         css`
@@ -63,4 +64,3 @@ export const selectInput = css<{ error: string | undefined; isClearable: boolean
     }
   }
 `;
-

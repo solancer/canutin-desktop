@@ -6,6 +6,7 @@ export const greenPlain = '#00A36F';
 export const greenLight = '#ECF9F6';
 export const bluePlain = '#0366D6';
 export const blueLight = '#EFF7FF';
+export const purplePlain = '#5255AC';
 export const goldPlain = '#B19B70';
 export const yellowPlain = '#FBA500';
 export const yellowLight = '#FFF8E4';

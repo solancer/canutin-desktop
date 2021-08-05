@@ -23,19 +23,20 @@ import Fieldset from '@components/common/Form/Fieldset';
 import InputTextField from '@components/common/Form/InputTextField';
 import Field from '@components/common/Form/Field';
 import SelectField from '@components/common/Form/SelectField';
+import Select from '@app/components/common/Form/Select';
 import InputCurrencyToggle from '@components/common/Form/InputCurrencyToggle';
 import FormFooter from '@components/common/Form/FormFooter';
 import SubmitButton from '@components/common/Form/SubmitButton';
 import InlineCheckbox from '@components/common/Form/Checkbox';
 
-import { toggableInputContainer, fieldRows } from './styles';
+import { toggableInputContainer, dateField } from './styles';
 
 const ToggableInputContainer = styled.div`
   ${toggableInputContainer}
 `;
 
-const FieldRows = styled.div`
-  ${fieldRows}
+const DateField = styled.div`
+  ${dateField}
 `;
 
 interface TransactionFormProps {
@@ -88,7 +89,11 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
 
     ipcRenderer.on(DB_NEW_TRANSACTION_ACK, (_: IpcRendererEvent, { status, message }) => {
       if (status === EVENT_SUCCESS) {
-        setStatusMessage({ message: 'Transaction created/edit', sentiment: StatusEnum.POSITIVE, isLoading: false });
+        setStatusMessage({
+          message: 'Transaction created/edit',
+          sentiment: StatusEnum.POSITIVE,
+          isLoading: false,
+        });
         setIsDbEmpty(false);
       }
 
@@ -99,7 +104,11 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
 
     ipcRenderer.on(DB_EDIT_TRANSACTION_ACK, (_: IpcRendererEvent, { status, message }) => {
       if (status === EVENT_SUCCESS) {
-        setStatusMessage({ message: 'Transaction created/edit', sentiment: StatusEnum.POSITIVE, isLoading: false });
+        setStatusMessage({
+          message: 'Transaction created/edit',
+          sentiment: StatusEnum.POSITIVE,
+          isLoading: false,
+        });
         setIsDbEmpty(false);
       }
 
@@ -164,11 +173,11 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
       <Fieldset>
         <InputTextField label="Description" name="description" register={register} />
         <Field label="Date" name="date">
-          <FieldRows>
-            <SelectField name="year" options={yearsList} control={control} required />
-            <SelectField name="month" options={monthList} control={control} required />
-            <SelectField name="day" options={dayList} control={control} required />
-          </FieldRows>
+          <DateField>
+            <Select name="year" options={yearsList} control={control} required />
+            <Select name="month" options={monthList} control={control} required />
+            <Select name="day" options={dayList} control={control} required />
+          </DateField>
         </Field>
         <SelectField
           name="category"

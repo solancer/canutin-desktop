@@ -2,7 +2,6 @@ import { css } from 'styled-components';
 
 export const container = css`
   display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: auto 192px;
+  grid-template-columns: repeat(2, 1fr);
   grid-gap: 8px;
 `;

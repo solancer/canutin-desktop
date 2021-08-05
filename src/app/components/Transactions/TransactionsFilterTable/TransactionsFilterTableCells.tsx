@@ -22,7 +22,7 @@ export const DescriptionCellField = styled(Link)`
   ${descriptionCell}
 `;
 
-export const LinkCellField = styled.span`
+export const LinkCellField = styled.p`
   ${linkCell}
 `;
 

@@ -1,45 +1,51 @@
 import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import { useTable, useSortBy, Column, useGlobalFilter, useFilters, SortingRule } from 'react-table';
-import { FixedSizeList } from 'react-window';
 import styled from 'styled-components';
 
 import { Transaction } from '@database/entities';
 
 import { DateCell, AmountCell, DescriptionCell, LinkCell } from './TransactionsFilterTableCells';
 import TransactionsGlobalFilter from '../TransactionsGlobalFilter';
-import TransactionsFilterTableInfo from '../TransactionsFilterTableInfo';
-import EmptyFilterTable from '../EmptyFilterTable';
+import TransactionsFilterSummary from '../TransactionsFilterSummary';
 import {
   container,
-  headerContainer,
-  headerItemContainer,
+  filterContainer,
+  tableHeaderRow,
+  tableHeaderItem,
   tableContainer,
   tableSortIcon,
+  row,
   rowItem,
+  tableEmptyCard,
 } from './styles';
+import EmptyCard from '@app/components/common/EmptyCard';
 
 const Container = styled.div`
   ${container}
 `;
-
+const FilterContainer = styled.nav`
+  ${filterContainer}
+`;
 const TableContainer = styled.table`
   ${tableContainer}
 `;
-
-const HeaderContainer = styled.tr`
-  ${headerContainer}
+const TableHeaderRow = styled.tr`
+  ${tableHeaderRow}
 `;
-
-const HeaderItemContainer = styled.th`
-  ${headerItemContainer}
+const TableHeaderItem = styled.th`
+  ${tableHeaderItem}
 `;
-
 const TableSortIcon = styled.div`
   ${tableSortIcon}
 `;
-
+const Row = styled.tr`
+  ${row};
+`;
 const RowItem = styled.td`
   ${rowItem}
+`;
+const TableEmptyCard = styled(EmptyCard)`
+  ${tableEmptyCard}
 `;
 
 interface TransactionsFilterTableProps {
@@ -123,11 +129,11 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
       rows.map(row => {
         prepareRow(row);
         return (
-          <tr {...row.getRowProps()}>
+          <Row {...row.getRowProps()}>
             {row.cells.map(cell => {
               return <RowItem {...cell.getCellProps()}>{cell.render('Cell')}</RowItem>;
             })}
-          </tr>
+          </Row>
         );
       }),
     [prepareRow, rows]
@@ -135,11 +141,11 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
   const RenderHeader = useCallback(
     () =>
       headerGroups.map(headerGroup => (
-        <HeaderContainer {...headerGroup.getHeaderGroupProps()}>
+        <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
           {headerGroup.headers.map(column => (
             // Add the sorting props to control sorting. For this example
             // we can add them into the header props
-            <HeaderItemContainer
+            <TableHeaderItem
               isSorted={column.isSorted}
               {...column.getHeaderProps(column.getSortByToggleProps())}
             >
@@ -150,29 +156,33 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
                 </TableSortIcon>
               </div>
               {/* Add a sort direction indicator */}
-            </HeaderItemContainer>
+            </TableHeaderItem>
           ))}
-        </HeaderContainer>
+        </TableHeaderRow>
       )),
     [headerGroups]
   );
 
   return (
     <Container>
-      <TransactionsGlobalFilter
-        globalFilter={state.globalFilter}
-        setGlobalFilter={setGlobalFilter}
-        transactionsData={transactionsData}
-      />
-      <TransactionsFilterTableInfo
-        netBalanceCount={netBalanceCount}
-        transactionsCount={transactionsCount}
-      />
-      <TableContainer {...getTableProps()}>
-        <thead>{RenderHeader()}</thead>
-        <tbody {...getTableBodyProps()}>{RenderRow()}</tbody>
-      </TableContainer>
-      {rows.length === 0 && <EmptyFilterTable />}
+      <FilterContainer>
+        <TransactionsGlobalFilter
+          globalFilter={state.globalFilter}
+          setGlobalFilter={setGlobalFilter}
+          transactionsData={transactionsData}
+        />
+        <TransactionsFilterSummary
+          netBalanceCount={netBalanceCount}
+          transactionsCount={transactionsCount}
+        />
+      </FilterContainer>
+      {rows.length === 0 && <TableEmptyCard message="No transactions were found" />}
+      {rows.length !== 0 && (
+        <TableContainer {...getTableProps()}>
+          <thead>{RenderHeader()}</thead>
+          <tbody {...getTableBodyProps()}>{RenderRow()}</tbody>
+        </TableContainer>
+      )}
     </Container>
   );
 };

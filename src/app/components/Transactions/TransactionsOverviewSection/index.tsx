@@ -66,7 +66,7 @@ const TransactionsOverviewSection = () => {
   };
 
   return (
-    <Section title="Filter transactions" scope={balanceSheetSegments}>
+    <Section title="Browse transactions" scope={balanceSheetSegments}>
       {!isLoading && <TransactionsFilterTable transactions={showedTransactions()} />}
     </Section>
   );
