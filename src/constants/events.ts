@@ -42,3 +42,6 @@ export const LOADING_CSV = 'loadingCsv';
 // Transactions
 export const FILTER_TRANSACTIONS = 'filterTransactions';
 export const FILTER_TRANSACTIONS_ACK = 'filterTransactionsAck';
+
+// Window
+export const WINDOW_CONTROL = 'windowControl';

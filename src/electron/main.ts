@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import settings from 'electron-settings';
 import { QueryFailedError } from 'typeorm';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-import { app, BrowserWindow, dialog, ipcMain, IpcMainEvent } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, IpcMainEvent, nativeTheme } from 'electron';
 import isDev from 'electron-is-dev';
 import * as path from 'path';
 
@@ -33,11 +33,12 @@ import {
   DB_DELETE_TRANSACTION,
   DB_DELETE_TRANSACTION_ACK,
   FILTER_TRANSACTIONS,
+  WINDOW_CONTROL,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
 import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
-import { enumExtensionFiles, enumImportTitleOptions } from '@appConstants/misc';
+import { enumExtensionFiles, enumImportTitleOptions, WindowControlEnum } from '@appConstants/misc';
 import { FilterTransactionInterface, NewTransactionType } from '@appTypes/transaction.type';
 
 import {
@@ -223,6 +224,21 @@ const setupDbEvents = async () => {
       });
     }
   });
+
+  ipcMain.on(WINDOW_CONTROL, async (e, action: WindowControlEnum) => {
+    if (win) {
+      switch (action) {
+        case WindowControlEnum.MINIMIZE:
+          win.minimize();
+          break;
+        case WindowControlEnum.MAXIMIZE:
+          win.isMaximized() ? win.unmaximize() : win.maximize();
+          break;
+        case WindowControlEnum.CLOSE:
+          win.close();
+      }
+    }
+  });
 };
 
 const createWindow = async () => {
@@ -231,13 +247,15 @@ const createWindow = async () => {
     minHeight: 768,
     width: 1280,
     height: 880,
+    frame: false,
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 16, y: 32 },
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
     },
   });
+
+  nativeTheme.themeSource = 'light';
 
   if (isDev) {
     win.loadURL('http://localhost:3000/index.html');
