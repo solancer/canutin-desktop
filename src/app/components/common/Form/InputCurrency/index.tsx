@@ -2,6 +2,7 @@
 import React from 'react';
 import { Controller, Control, FieldError, RegisterOptions } from 'react-hook-form';
 import styled from 'styled-components';
+import { NumberFormatPropsBase } from 'react-number-format';
 
 import FieldStatus from '@components/common/Form/FieldStatus';
 import NumberFormat from '@components/common/NumberFormat';
@@ -14,7 +15,7 @@ const CustomNumberFormat = styled.input`
   ${inputElement}
 `;
 
-export interface InputCurrencyProps {
+export interface InputCurrencyProps extends NumberFormatPropsBase {
   name: string;
   control: Control<Record<string, any>>;
   disabled?: boolean;
@@ -34,6 +35,7 @@ const InputCurrency = ({
   rules,
   transactionType,
   allowNegative = true,
+  ...numberFormatProps
 }: InputCurrencyProps) => (
   <div>
     <Controller
@@ -54,6 +56,7 @@ const InputCurrency = ({
             transactionType={transactionType}
             name={name}
             customInput={CustomNumberFormat}
+            {...numberFormatProps}
           />
         );
       }}

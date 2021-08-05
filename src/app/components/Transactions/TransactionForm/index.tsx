@@ -4,7 +4,6 @@ import { ipcRenderer, IpcRendererEvent } from 'electron';
 import styled from 'styled-components';
 
 import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
-import { TransactionTypesEnum } from '@appConstants/misc';
 import { yearsList, monthList, dayList, getCurrentDateInformation } from '@appConstants/dates';
 import AccountIpc from '@app/data/account.ipc';
 import {
@@ -23,9 +22,8 @@ import Form from '@components/common/Form/Form';
 import Fieldset from '@components/common/Form/Fieldset';
 import InputTextField from '@components/common/Form/InputTextField';
 import Field from '@components/common/Form/Field';
-import RadioGroupField from '@components/common/Form/RadioGroupField';
 import SelectField from '@components/common/Form/SelectField';
-import InputCurrency from '@components/common/Form/InputCurrency';
+import InputCurrencyToggle from '@components/common/Form/InputCurrencyToggle';
 import FormFooter from '@components/common/Form/FormFooter';
 import SubmitButton from '@components/common/Form/SubmitButton';
 import InlineCheckbox from '@components/common/Form/Checkbox';
@@ -52,7 +50,6 @@ type TransactionSubmitType = {
   month: number;
   day: number;
   description: string | null;
-  transactionType: TransactionTypesEnum;
   excludeFromTotals: boolean;
   id?: number;
 };
@@ -62,7 +59,7 @@ const DATE_INFORMATION = getCurrentDateInformation();
 const TransactionForm = ({ initialState }: TransactionFormProps) => {
   const { setStatusMessage } = useContext(StatusBarContext);
   const { setIsDbEmpty } = useContext(AppContext);
-  const { handleSubmit, control, register, watch, setValue, formState } = useForm({
+  const { handleSubmit, control, register, watch, formState, setValue } = useForm({
     mode: 'onChange',
     defaultValues: initialState
       ? initialState
@@ -73,16 +70,14 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
           day: DATE_INFORMATION.day + 1,
           month: DATE_INFORMATION.month,
           year: DATE_INFORMATION.year,
-          transactionType: TransactionTypesEnum.INCOME,
-          balance: null,
+          balance: '0',
           excludeFromTotals: false,
         },
   });
   const [accounts, setAccounts] = useState<null | Account[]>(null);
   const excludeFromTotals = watch('excludeFromTotals');
-  const transactionType = watch('transactionType');
-  const balance = watch('balance');
   const description = watch('description');
+  const balance = watch('balance');
 
   useEffect(() => {
     AccountIpc.getAccounts();
@@ -124,14 +119,6 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
     () => accounts?.map(account => ({ label: account.name, value: account.id.toString() })),
     [accounts]
   );
-
-  useEffect(() => {
-    if (Number(balance) >= 0) {
-      setValue('transactionType', TransactionTypesEnum.INCOME);
-    } else {
-      setValue('transactionType', TransactionTypesEnum.EXPENSE);
-    }
-  }, [balance]);
 
   const onSubmit = ({
     account,
@@ -190,25 +177,15 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
           control={control}
           required
         />
-        <RadioGroupField
-          label="Transaction type"
-          name="transactionType"
-          values={Object.values(TransactionTypesEnum)}
-          onSelectOption={(option: string) => {
-            setValue('transactionType', option);
-            balance && setValue('balance', -balance);
-          }}
-          register={register}
-        />
-        <Field label="Balance" name="balance">
+        <Field label="Amount" name="balance">
           <ToggableInputContainer>
-            <InputCurrency
+            <InputCurrencyToggle
+              currencyValue={Number(balance)}
               allowNegative={false}
               rules={{ validate: v => excludeFromTotals || v !== '' }}
-              disabled={excludeFromTotals}
               name="balance"
               control={control}
-              transactionType={transactionType as TransactionTypesEnum}
+              setValue={setValue}
             />
             <InlineCheckbox
               name="excludeFromTotals"

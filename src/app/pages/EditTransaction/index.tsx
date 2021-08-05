@@ -2,7 +2,6 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { Transaction } from '@database/entities';
-import { TransactionTypesEnum } from '@appConstants/misc';
 
 import ScrollView from '@components/common/ScrollView';
 import RemoveTransaction from '@components/Transactions/RemoveTransaction';
@@ -22,8 +21,6 @@ const EditTransaction = () => {
     month: transaction.date.getMonth(),
     day: transaction.date.getDate(),
     description: transaction.description,
-    transactionType:
-      transaction.amount > 0 ? TransactionTypesEnum.INCOME : TransactionTypesEnum.EXPENSE,
     excludeFromTotals: transaction.excludeFromTotals,
     id: transaction.id,
   };

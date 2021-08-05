@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactNumberFormatComponent, { NumberFormatPropsBase } from 'react-number-format';
 
-const NumberFormat = (props: NumberFormatPropsBase) => (
+interface NumberFormatProps extends NumberFormatPropsBase {
+  excludeFromTotals?: boolean;
+}
+
+const NumberFormat = ({ excludeFromTotals ,...props }: NumberFormatProps) => (
   <ReactNumberFormatComponent
     {...props}
     allowNegative
