@@ -7,7 +7,7 @@ import { NumberFormatPropsBase } from 'react-number-format';
 import FieldStatus from '@components/common/Form/FieldStatus';
 import NumberFormat from '@components/common/NumberFormat';
 
-import { StatusEnum, TransactionTypesEnum } from '@appConstants/misc';
+import { StatusEnum } from '@appConstants/misc';
 
 import { inputElement } from './styles';
 
@@ -22,7 +22,6 @@ export interface InputCurrencyProps extends NumberFormatPropsBase {
   defaultFormValue?: string | null;
   error?: FieldError;
   rules?: Exclude<RegisterOptions, 'valueAsNumber' | 'valueAsDate' | 'setValueAs'>;
-  transactionType?: TransactionTypesEnum;
   allowNegative?: boolean;
 }
 
@@ -33,11 +32,10 @@ const InputCurrency = ({
   defaultFormValue,
   error,
   rules,
-  transactionType,
   allowNegative = true,
   ...numberFormatProps
 }: InputCurrencyProps) => (
-  <div>
+  <>
     <Controller
       render={({ value, onChange, name }) => {
         return (
@@ -53,10 +51,10 @@ const InputCurrency = ({
             }}
             disabled={disabled}
             // @ts-ignore
-            transactionType={transactionType}
             name={name}
             customInput={CustomNumberFormat}
             {...numberFormatProps}
+            placeholder="$0.00"
           />
         );
       }}
@@ -66,7 +64,7 @@ const InputCurrency = ({
       rules={rules}
     />
     {error && <FieldStatus status={StatusEnum.NEGATIVE}>{error.message}</FieldStatus>}
-  </div>
+  </>
 );
 
 export default InputCurrency;

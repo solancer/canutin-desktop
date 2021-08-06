@@ -23,8 +23,8 @@ import Fieldset from '@components/common/Form/Fieldset';
 import InputTextField from '@components/common/Form/InputTextField';
 import Field from '@components/common/Form/Field';
 import SelectField from '@components/common/Form/SelectField';
-import Select from '@app/components/common/Form/Select';
-import InputCurrencyToggle from '@components/common/Form/InputCurrencyToggle';
+import Select from '@components/common/Form/Select';
+import InputCurrency from '@components/common/Form/InputCurrency';
 import FormFooter from '@components/common/Form/FormFooter';
 import SubmitButton from '@components/common/Form/SubmitButton';
 import InlineCheckbox from '@components/common/Form/Checkbox';
@@ -60,7 +60,7 @@ const DATE_INFORMATION = getCurrentDateInformation();
 const TransactionForm = ({ initialState }: TransactionFormProps) => {
   const { setStatusMessage } = useContext(StatusBarContext);
   const { setIsDbEmpty } = useContext(AppContext);
-  const { handleSubmit, control, register, watch, formState, setValue } = useForm({
+  const { handleSubmit, control, register, watch, formState } = useForm({
     mode: 'onChange',
     defaultValues: initialState
       ? initialState
@@ -71,7 +71,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
           day: DATE_INFORMATION.day + 1,
           month: DATE_INFORMATION.month,
           year: DATE_INFORMATION.year,
-          balance: '0',
+          balance: null,
           excludeFromTotals: false,
         },
   });
@@ -90,7 +90,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
     ipcRenderer.on(DB_NEW_TRANSACTION_ACK, (_: IpcRendererEvent, { status, message }) => {
       if (status === EVENT_SUCCESS) {
         setStatusMessage({
-          message: 'Transaction created/edit',
+          message: 'The transaction was succesfully created',
           sentiment: StatusEnum.POSITIVE,
           isLoading: false,
         });
@@ -105,7 +105,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
     ipcRenderer.on(DB_EDIT_TRANSACTION_ACK, (_: IpcRendererEvent, { status, message }) => {
       if (status === EVENT_SUCCESS) {
         setStatusMessage({
-          message: 'Transaction created/edit',
+          message: 'The transaction was succesfully updated',
           sentiment: StatusEnum.POSITIVE,
           isLoading: false,
         });
@@ -188,13 +188,11 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
         />
         <Field label="Amount" name="balance">
           <ToggableInputContainer>
-            <InputCurrencyToggle
-              currencyValue={Number(balance)}
-              allowNegative={false}
+            <InputCurrency
+              value={balance && Number(balance)}
               rules={{ validate: v => excludeFromTotals || v !== '' }}
               name="balance"
               control={control}
-              setValue={setValue}
             />
             <InlineCheckbox
               name="excludeFromTotals"

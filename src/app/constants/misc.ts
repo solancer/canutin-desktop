@@ -47,11 +47,6 @@ export enum StatusEnum {
   WARNING = 'warning',
 }
 
-export enum TransactionTypesEnum {
-  INCOME = 'Income',
-  EXPENSE = 'Expense',
-}
-
 export enum WindowControlEnum {
   CLOSE = 'close',
   MINIMIZE = 'minimize',
