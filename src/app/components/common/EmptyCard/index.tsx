@@ -9,8 +9,11 @@ const Container = styled.div`
 
 interface EmptyCardProps {
   message: string;
+  className?: string;
 }
 
-const EmptyCard = ({ message }: EmptyCardProps) => <Container>{message}</Container>;
+const EmptyCard = ({ message, className }: EmptyCardProps) => (
+  <Container className={className}>{message}</Container>
+);
 
 export default EmptyCard;

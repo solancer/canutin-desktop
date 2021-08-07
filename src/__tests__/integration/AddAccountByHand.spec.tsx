@@ -73,7 +73,7 @@ describe('Add account by Hand tests', () => {
       expect(spySendIpcRenderer).toBeCalledWith(DB_NEW_ACCOUNT, {
         accountType: 'checking',
         autoCalculate: true,
-        balance: undefined,
+        balance: null,
         institution: '',
         name: 'Test account',
         officialName: '',
@@ -106,7 +106,7 @@ describe('Add account by Hand tests', () => {
       expect(nameInput).toHaveValue('Test Account');
       expect(officialNameInput).toHaveValue('Test Official Name');
       expect(institutionInput).toHaveValue('Test Institution');
-      expect(balanceInput).toHaveValue(123);
+      expect(balanceInput).toHaveValue('$123');
     });
 
     const spySendIpcRenderer = jest.spyOn(ipcRenderer, 'send');

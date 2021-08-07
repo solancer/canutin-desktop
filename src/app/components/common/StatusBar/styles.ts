@@ -3,22 +3,27 @@ import { monospaceRegular } from '@appConstants/fonts';
 import {
   whitePlain,
   grey10,
+  bluePlain,
+  blueLight,
   redLight,
   redPlain,
   greenPlain,
   greenLight,
+  yellowPlain,
+  yellowLight,
   grey7,
   grey50,
 } from '@appConstants/colors';
 
 import { SUCCESS_MESSAGE_TIMEOUT } from './index';
+import { StatusEnum } from '@app/constants/misc';
 
-export const container = css<{ error: boolean; success: boolean }>`
+export const container = css<{ sentiment: StatusEnum; isLoading?: boolean }>`
   position: relative;
   grid-area: status-bar;
   align-items: center;
-  background-color: ${({ error, success }) =>
-    error ? redLight : success ? greenLight : whitePlain};
+  color: ${grey50};
+  background-color: ${whitePlain};
   border-top: 1px solid ${grey10};
   display: flex;
   justify-content: space-between;
@@ -26,9 +31,36 @@ export const container = css<{ error: boolean; success: boolean }>`
   padding: 0 16px;
   -webkit-user-select: none;
 
-  ${({ success }) =>
-    success &&
+  ${({ sentiment, isLoading }) =>
+    sentiment === StatusEnum.NEUTRAL &&
+    isLoading === true &&
     css`
+      color: ${bluePlain};
+      background-color: ${blueLight};
+    `}
+  }
+
+  ${({ sentiment }) =>
+    sentiment === StatusEnum.NEGATIVE &&
+    css`
+      color: ${redPlain};
+      background-color: ${redLight};
+    `}
+  }
+
+  ${({ sentiment }) =>
+    sentiment === StatusEnum.WARNING &&
+    css`
+      color: ${yellowPlain};
+      background-color: ${yellowLight};
+    `}
+  }
+
+  ${({ sentiment }) =>
+    sentiment === StatusEnum.POSITIVE &&
+    css`
+      color: ${greenPlain};
+      background-color: ${greenLight};
       position: relative;
 
       > * {
@@ -61,14 +93,13 @@ export const container = css<{ error: boolean; success: boolean }>`
   }
 `;
 
-export const error = css`
-  color: ${redPlain};
-  font-size: 11px;
-`;
-
-export const success = css`
-  color: ${greenPlain};
-  font-size: 11px;
+export const statusMessage = css`
+  width: 100%;
+  display: grid;
+  grid-gap: 32px;
+  grid-template-columns: auto max-content;
+  align-items: center;
+  font-size: 12px;
 `;
 
 export const currentSettings = css`

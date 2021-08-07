@@ -29,7 +29,7 @@ export const readCsv = (
 
   if (csv.errors.length > 0) {
     win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-      status: StatusEnum.ERROR,
+      status: StatusEnum.NEGATIVE,
       sourceData: {},
       metadata: { error: csv.error?.type },
     });
@@ -64,7 +64,7 @@ export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | 
       );
 
       win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-        status: StatusEnum.SUCCESS,
+        status: StatusEnum.POSITIVE,
         sourceData: canutinFile,
         metadata: {
           countAccounts,
@@ -78,7 +78,7 @@ export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | 
     }
   } catch (error) {
     win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-      status: StatusEnum.ERROR,
+      status: StatusEnum.NEGATIVE,
       sourceData: {},
     });
   }
@@ -92,13 +92,13 @@ export const analyzeMintFile = async (filePath: string, win: BrowserWindow | nul
       const { data, metadata } = mintCsvToJson((csvData.data as unknown) as MintCsvEntryType[]);
 
       win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-        status: StatusEnum.SUCCESS,
+        status: StatusEnum.POSITIVE,
         sourceData: data,
         metadata,
       });
     } catch (error) {
       win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-        status: StatusEnum.ERROR,
+        status: StatusEnum.NEGATIVE,
         sourceData: {},
       });
     }
@@ -115,13 +115,13 @@ export const analyzePersonalCapitalFile = async (filePath: string, win: BrowserW
       );
 
       win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-        status: StatusEnum.SUCCESS,
+        status: StatusEnum.POSITIVE,
         sourceData: data,
         metadata,
       });
     } catch (error) {
       win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-        status: StatusEnum.ERROR,
+        status: StatusEnum.NEGATIVE,
         sourceData: {},
       });
     }
@@ -134,13 +134,13 @@ export const analyzeOtherCSVFile = async (filePath: string, win: BrowserWindow |
   if (csvData?.data) {
     try {
       win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-        status: StatusEnum.SUCCESS,
+        status: StatusEnum.POSITIVE,
         sourceData: csvData.data,
         metadata: csvData.meta,
       });
     } catch (error) {
       win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
-        status: StatusEnum.ERROR,
+        status: StatusEnum.NEGATIVE,
         sourceData: {},
       });
     }
@@ -180,11 +180,11 @@ export const loadFromCanutinFile = async (
 
   if (isSuccess) {
     win?.webContents.send(LOAD_FROM_CANUTIN_FILE_ACK, {
-      status: StatusEnum.SUCCESS,
+      status: StatusEnum.POSITIVE,
     });
   } else {
     win?.webContents.send(LOAD_FROM_CANUTIN_FILE_ACK, {
-      status: StatusEnum.ERROR,
+      status: StatusEnum.NEGATIVE,
     });
   }
 };
@@ -198,11 +198,11 @@ export const importUpdatedAccounts = async (
       await updateAccounts(updatedAccounts);
     }
     win?.webContents.send(LOAD_FROM_OTHER_CSV_ACK, {
-      status: StatusEnum.SUCCESS,
+      status: StatusEnum.POSITIVE,
     });
   } catch (error) {
     win?.webContents.send(LOAD_FROM_OTHER_CSV_ACK, {
-      status: StatusEnum.ERROR,
+      status: StatusEnum.NEGATIVE,
     });
   }
 };

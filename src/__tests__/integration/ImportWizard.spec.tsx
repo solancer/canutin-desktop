@@ -7,6 +7,7 @@ import selectEvent from 'react-select-event';
 import App from '@components/App';
 import { AppCtxProvider } from '@app/context/appContext';
 import { DATABASE_CONNECTED } from '@constants';
+import { StatusEnum } from '@app/constants/misc';
 import {
   IMPORT_SOURCE_FILE,
   IMPORT_SOURCE_FILE_ACK,
@@ -159,7 +160,7 @@ describe('Import Wizard tests', () => {
 
       if (event === ANALYZE_SOURCE_FILE_ACK) {
         callback((event as unknown) as IpcRendererEvent, {
-          status: 'success',
+          status: StatusEnum.POSITIVE,
           sourceData: canutinFile,
           metadata: { countAccounts: 2, countTransactions: 5, countAssets: 3 },
         });
@@ -172,7 +173,9 @@ describe('Import Wizard tests', () => {
     const personalCapitalOption = screen.getByLabelText('Personal Capital (CSV)');
     userEvent.click(personalCapitalOption);
     expect(screen.getByText(/testpath/i)).not.toBeNull();
-    expect(screen.getByText(/Found 3 assets, 2 accounts, and 5 transactions in the file/i)).not.toBeNull();
+    expect(
+      screen.getByText(/Found 3 assets, 2 accounts and 5 transactions in the file/i)
+    ).not.toBeNull();
 
     const chooseButton = screen.getByRole('button', { name: /Choose/i });
     expect(chooseButton).toBeEnabled();
@@ -180,7 +183,7 @@ describe('Import Wizard tests', () => {
     const spySendIpcRenderer = jest.spyOn(ipcRenderer, 'send');
     userEvent.click(chooseButton);
     expect(spySendIpcRenderer).toHaveBeenLastCalledWith(IMPORT_SOURCE_FILE, 'csv');
-    expect(screen.getByText(/Analyzing file.../i)).not.toBeNull();
+    expect(screen.getByText(/Analyzing source file.../i)).not.toBeNull();
   });
 
   test('Other CSV Form', async () => {
@@ -196,7 +199,7 @@ describe('Import Wizard tests', () => {
 
       if (event === ANALYZE_SOURCE_FILE_ACK) {
         callback((event as unknown) as IpcRendererEvent, {
-          status: 'success',
+          status: StatusEnum.POSITIVE,
           sourceData: csvSourceData,
           metadata: csvMetadata,
         });

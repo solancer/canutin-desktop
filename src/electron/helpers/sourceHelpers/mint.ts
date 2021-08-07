@@ -38,7 +38,6 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
         excludeFromTotals: false,
         category: mapCategories(mintEntry.Category),
       };
-      countTransactions++;
 
       countTransactions++;
 

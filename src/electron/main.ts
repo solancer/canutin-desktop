@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import settings from 'electron-settings';
 import { QueryFailedError } from 'typeorm';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-import { app, BrowserWindow, dialog, ipcMain, IpcMainEvent } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, IpcMainEvent, nativeTheme } from 'electron';
 import isDev from 'electron-is-dev';
 import * as path from 'path';
 
@@ -26,11 +26,20 @@ import {
   LOAD_FROM_OTHER_CSV,
   DB_GET_TRANSACTIONS,
   DB_GET_TRANSACTIONS_ACK,
+  DB_NEW_TRANSACTION,
+  DB_NEW_TRANSACTION_ACK,
+  DB_EDIT_TRANSACTION,
+  DB_EDIT_TRANSACTION_ACK,
+  DB_DELETE_TRANSACTION,
+  DB_DELETE_TRANSACTION_ACK,
+  FILTER_TRANSACTIONS,
+  WINDOW_CONTROL,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
 import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
-import { enumExtensionFiles, enumImportTitleOptions } from '@appConstants/misc';
+import { enumExtensionFiles, enumImportTitleOptions, WindowControlEnum } from '@appConstants/misc';
+import { FilterTransactionInterface, NewTransactionType } from '@appTypes/transaction.type';
 
 import {
   DID_FINISH_LOADING,
@@ -39,6 +48,7 @@ import {
   ELECTRON_WINDOW_CLOSED,
 } from './constants';
 import { connectAndSaveDB, findAndConnectDB } from './helpers/database.helper';
+import { filterTransactions } from './helpers/transactionHelpers/transaction.helper';
 import {
   importSourceData,
   loadFromCanutinFile,
@@ -121,6 +131,10 @@ const setupEvents = async () => {
       await importUpdatedAccounts(win, otherCsvPayload.updatedAccounts);
     }
   );
+
+  ipcMain.on(FILTER_TRANSACTIONS, async (_: IpcMainEvent, filter: FilterTransactionInterface) => {
+    await filterTransactions(win, filter);
+  });
 };
 
 const setupDbEvents = async () => {
@@ -167,6 +181,64 @@ const setupDbEvents = async () => {
     const transactions = await TransactionRepository.getTransactions();
     win?.webContents.send(DB_GET_TRANSACTIONS_ACK, transactions);
   });
+
+  ipcMain.on(DB_NEW_TRANSACTION, async (_: IpcMainEvent, transaction: NewTransactionType) => {
+    try {
+      const newTransaction = await TransactionRepository.createTransaction(transaction);
+      win?.webContents.send(DB_NEW_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
+    } catch (e) {
+      if (e instanceof QueryFailedError) {
+        win?.webContents.send(DB_NEW_TRANSACTION_ACK, {
+          status: EVENT_ERROR,
+          message: 'There is already a transaction with this name, please try a different one',
+        });
+      } else {
+        win?.webContents.send(DB_NEW_TRANSACTION_ACK, {
+          status: EVENT_ERROR,
+          message: 'An error occurred, please try again',
+        });
+      }
+    }
+  });
+
+  ipcMain.on(DB_EDIT_TRANSACTION, async (_: IpcMainEvent, transaction: NewTransactionType) => {
+    try {
+      const newTransaction = await TransactionRepository.editTransaction(transaction);
+      win?.webContents.send(DB_EDIT_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_EDIT_TRANSACTION_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
+
+  ipcMain.on(DB_DELETE_TRANSACTION, async (_: IpcMainEvent, transactionId: number) => {
+    try {
+      await TransactionRepository.deleteTransaction(transactionId);
+      win?.webContents.send(DB_DELETE_TRANSACTION_ACK, { status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_DELETE_TRANSACTION_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
+
+  ipcMain.on(WINDOW_CONTROL, async (e, action: WindowControlEnum) => {
+    if (win) {
+      switch (action) {
+        case WindowControlEnum.MINIMIZE:
+          win.minimize();
+          break;
+        case WindowControlEnum.MAXIMIZE:
+          win.isMaximized() ? win.unmaximize() : win.maximize();
+          break;
+        case WindowControlEnum.CLOSE:
+          win.close();
+      }
+    }
+  });
 };
 
 const createWindow = async () => {
@@ -175,13 +247,15 @@ const createWindow = async () => {
     minHeight: 768,
     width: 1280,
     height: 880,
+    frame: false,
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 16, y: 32 },
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
     },
   });
+
+  nativeTheme.themeSource = 'light';
 
   if (isDev) {
     win.loadURL('http://localhost:3000/index.html');

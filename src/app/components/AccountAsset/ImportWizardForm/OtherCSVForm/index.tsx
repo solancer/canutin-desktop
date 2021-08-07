@@ -10,21 +10,21 @@ import SelectField from '@components/common/Form/SelectField';
 import Select from '@components/common/Form/Select';
 import InlineCheckbox from '@components/common/Form/Checkbox';
 import Field from '@components/common/Form/Field';
-import InputText from '@components/common/Form/InputText';
 import InputTextField from '@components/common/Form/InputTextField';
+import InputCurrency from '@components/common/Form/InputCurrency';
 import { AnalyzeSourceMetadataType } from '@components/AccountAsset/ImportWizardForm';
 import { accountGroupedValues } from '@components/AccountAsset/AddAccountAssetForm/index';
 import FormFooter from '@components/common/Form/FormFooter';
 import SubmitButton from '@app/components/common/Form/SubmitButton';
 
 import { DB_GET_ACCOUNTS_ACK, LOAD_FROM_OTHER_CSV } from '@constants/events';
+import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
 import AccountIpc from '@app/data/account.ipc';
 import { Account } from '@database/entities';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 
 import { optionList, option, toggleInputContainer } from './styles';
 import {
-  CATEGORY_GROUPED_OPTIONS,
   SUPPORTED_DATE_FORMAT_OPTIONS,
   SupportedDateFormatType,
   NEW_ACCOUNT_GROUPED_OPTION,
@@ -115,6 +115,12 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
     });
   }, [autoCalculate, register]);
 
+  const autoCalculateValidation = useMemo(() => {
+    return {
+      validate: (v: string) => autoCalculate || v !== '',
+    };
+  }, [autoCalculate, register]);
+
   // Set values
   useEffect(() => {
     if (selectedAccount === NEW_ACCOUNT_VALUE) {
@@ -180,7 +186,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
       setError('dateFormat', {
         type: 'manual',
         message:
-          'Couldn’t detect the date format, you can try another date format or update the file manually',
+          'Couldn’t interprete the transaction dates, try another date format or update the file manually',
       });
     }
 
@@ -366,10 +372,11 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
           )}
           <Field label="Account balance" name="account.balance">
             <ToggleInputContainer>
-              <InputText
+              <InputCurrency
                 name="account.balance"
+                control={control}
                 disabled={autoCalculate}
-                setRef={autoCalculateRegister}
+                rules={autoCalculateValidation}
               />
               <InlineCheckbox
                 name="account.autoCalculate"

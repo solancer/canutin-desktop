@@ -10,40 +10,27 @@ import {
   LOAD_FROM_OTHER_CSV_ACK,
   LOADING_CSV,
 } from '@constants/events';
+import { StatusEnum } from '@app/constants/misc';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { AppContext } from '@app/context/appContext';
 import AccountIpc from '@app/data/account.ipc';
 
 const AddAccountAssetByWizard = () => {
-  const {
-    setSuccessMessage,
-    setLoadingMessage,
-    loadingPercentage,
-    setLoadingPercentage,
-    setOnClickButton,
-  } = useContext(StatusBarContext);
+  const { setStatusMessage } = useContext(StatusBarContext);
   const { setIsDbEmpty } = useContext(AppContext);
+  const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  const onCloseMessage = () => {
-    setSuccessMessage('');
-  };
+  const [loadingPercentage, setLoadingPercentage] = useState(0);
 
   useEffect(() => {
     ipcRenderer.on(LOAD_FROM_CANUTIN_FILE_ACK, (_: IpcRendererEvent, { name }) => {
-      setLoadingPercentage(undefined);
-      setIsDbEmpty(false);
-      setIsLoading(false);
-      setSuccessMessage(`The file was imported successfully`);
+      setSuccessMessage('The CanutinFile was imported successfully');
     });
 
     ipcRenderer.on(LOAD_FROM_OTHER_CSV_ACK, (_: IpcRendererEvent, { name }) => {
-      setSuccessMessage(`The CSV was imported successfully`);
-      setIsDbEmpty(false);
+      setSuccessMessage('The CSV was imported successfully');
       // Reload accounts on other CSV form
       AccountIpc.getAccounts();
-      setLoadingPercentage(undefined);
-      setIsLoading(false);
     });
 
     ipcRenderer.on(LOADING_CSV, (_: IpcRendererEvent, { total }) => {
@@ -52,21 +39,29 @@ const AddAccountAssetByWizard = () => {
       );
     });
 
-    setLoadingMessage('Importing transactions from CSV');
-    setOnClickButton(() => onCloseMessage);
-
     return () => {
       ipcRenderer.removeAllListeners(LOAD_FROM_CANUTIN_FILE_ACK);
       ipcRenderer.removeAllListeners(LOAD_FROM_OTHER_CSV_ACK);
       ipcRenderer.removeAllListeners(LOADING_CSV);
-      setLoadingMessage('');
-      setOnClickButton(undefined);
     };
   }, [setSuccessMessage]);
 
   useEffect(() => {
-    if (loadingPercentage && loadingPercentage >= 100) {
-      setLoadingPercentage(undefined);
+    if (loadingPercentage >= 100) {
+      setIsLoading(false);
+      setIsDbEmpty(false);
+      setStatusMessage({
+        sentiment: StatusEnum.POSITIVE,
+        message: successMessage,
+        isLoading: false,
+      });
+    } else if (loadingPercentage > 0) {
+      setIsLoading(true);
+      setStatusMessage({
+        sentiment: StatusEnum.NEUTRAL,
+        message: 'Importing data...',
+        isLoading: true,
+      });
     }
   }, [loadingPercentage]);
 

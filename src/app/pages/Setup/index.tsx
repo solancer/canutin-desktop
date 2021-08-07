@@ -15,15 +15,16 @@ import { ReactComponent as Browse } from '@assets/icons/Browse.svg';
 import { OPEN_CREATE_VAULT, OPEN_EXISTING_VAULT } from '@constants/events';
 import { DATABASE_DOES_NOT_EXIST, DATABASE_NOT_VALID } from '@constants';
 import { DatabaseDoesNotExistsMessage } from '@constants/messages';
+import { StatusEnum } from '@app/constants/misc';
 import { routesPaths } from '@routes';
 import { AppContext } from '@app/context/appContext';
-import { StatusBarContext } from '@app/context/statusBarContext';
+import { emptyStatusMessage, StatusBarContext } from '@app/context/statusBarContext';
 
 const noVaultBreadcrumbs = [{ breadcrumb: 'Canutin setup', path: '/' }];
 
 const Setup = () => {
   const { setIsLoading, setIsAppInitialized, isLoading, filePath } = useContext(AppContext);
-  const { setErrorMessage, setOnClickButton, setBreadcrumbs } = useContext(StatusBarContext);
+  const { setStatusMessage, setBreadcrumbs } = useContext(StatusBarContext);
   const history = useHistory();
   const breadcrumbItems = useBreadcrumbs(noVaultBreadcrumbs, {
     excludePaths: Object.values(routesPaths),
@@ -40,25 +41,31 @@ const Setup = () => {
     ipcRenderer.on(DATABASE_DOES_NOT_EXIST, (_, { dbPath }: DatabaseDoesNotExistsMessage) => {
       setIsLoading(false);
       setIsAppInitialized(false);
-      setErrorMessage(
-        <>
-          The vault located at <b>{dbPath}</b> was moved or deleted
-        </>
-      );
+      setStatusMessage({
+        sentiment: StatusEnum.NEGATIVE,
+        message: (
+          <>
+            The vault located at <b>{dbPath}</b> was moved or deleted
+          </>
+        ),
+        isLoading: false,
+      });
     });
 
     ipcRenderer.on(DATABASE_NOT_VALID, () => {
       setIsLoading(false);
-      setErrorMessage(<>The chosen file is not a valid Canutin vault</>);
+      setStatusMessage({
+        sentiment: StatusEnum.NEGATIVE,
+        message: 'The chosen file is not a valid Canutin vault',
+        isLoading: false,
+      });
     });
 
-    setOnClickButton(() => () => setErrorMessage(''));
     setBreadcrumbs(<Breadcrumbs items={breadcrumbItems} />);
 
     return () => {
       ipcRenderer.removeAllListeners(DATABASE_DOES_NOT_EXIST);
-      setOnClickButton(() => () => {});
-      setErrorMessage('');
+      setStatusMessage(emptyStatusMessage);
       setBreadcrumbs(undefined);
     };
   }, []);

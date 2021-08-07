@@ -7,57 +7,39 @@ import {
   SetStateAction,
 } from 'react';
 
-interface StatusBarContextValue {
-  errorMessage: string | ReactNode;
-  successMessage: string | ReactNode;
-  loadingMessage: string;
-  loadingPercentage: number | undefined;
-  breadcrumbs: string | ReactNode;
-  onClickButton: (() => void) | undefined;
-  setErrorMessage: Dispatch<SetStateAction<string | ReactNode>>;
-  setSuccessMessage: Dispatch<SetStateAction<string | ReactNode>>;
-  setLoadingMessage: (_: string) => void;
-  setLoadingPercentage: Dispatch<SetStateAction<number | undefined>>;
-  setBreadcrumbs: (_: string[] | ReactNode) => void;
-  setOnClickButton: Dispatch<SetStateAction<(() => void) | undefined>>;
+import { StatusEnum } from '@app/constants/misc';
+
+export interface StatusMessageProps {
+  sentiment: StatusEnum;
+  message: string | ReactNode;
+  isLoading: boolean;
 }
 
+interface StatusBarContextValue {
+  statusMessage: StatusMessageProps;
+  breadcrumbs: string | ReactNode;
+  setStatusMessage: Dispatch<SetStateAction<StatusMessageProps>>;
+  setBreadcrumbs: (_: string[] | ReactNode) => void;
+}
+
+export const emptyStatusMessage = { sentiment: StatusEnum.NEUTRAL, message: '', isLoading: false };
+
 export const StatusBarContext = createContext<StatusBarContextValue>({
-  errorMessage: '',
-  successMessage: '',
-  loadingMessage: '',
-  loadingPercentage: undefined,
+  statusMessage: emptyStatusMessage,
   breadcrumbs: null,
-  onClickButton: undefined,
-  setErrorMessage: () => {},
-  setSuccessMessage: () => {},
-  setLoadingMessage: () => {},
-  setLoadingPercentage: () => {},
+  setStatusMessage: () => {},
   setBreadcrumbs: () => {},
-  setOnClickButton: () => {},
 });
 
 export const StatusBarProvider = ({ children }: PropsWithChildren<Record<string, unknown>>) => {
-  const [errorMessage, setErrorMessage] = useState<string | ReactNode>('');
-  const [successMessage, setSuccessMessage] = useState<string | ReactNode>('');
-  const [loadingMessage, setLoadingMessage] = useState('');
-  const [loadingPercentage, setLoadingPercentage] = useState<undefined | number>();
+  const [statusMessage, setStatusMessage] = useState<StatusMessageProps>(emptyStatusMessage);
   const [breadcrumbs, setBreadcrumbs] = useState<string[] | ReactNode>();
-  const [onClickButton, setOnClickButton] = useState<(() => void) | undefined>();
 
   const value = {
-    errorMessage,
-    successMessage,
-    loadingMessage,
-    loadingPercentage,
+    statusMessage,
     breadcrumbs,
-    onClickButton,
-    setErrorMessage,
-    setSuccessMessage,
-    setLoadingMessage,
-    setLoadingPercentage,
+    setStatusMessage,
     setBreadcrumbs,
-    setOnClickButton,
   };
 
   return <StatusBarContext.Provider value={value}>{children}</StatusBarContext.Provider>;

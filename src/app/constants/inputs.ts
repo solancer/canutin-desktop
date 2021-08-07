@@ -1,5 +1,5 @@
 import { sansSerifRegular } from '@appConstants/fonts';
-import { whitePlain, borderGrey, grey80, bluePlain } from '@appConstants/colors';
+import { whitePlain, borderGrey, grey30, grey80, bluePlain } from '@appConstants/colors';
 
 export const inputFocusColor = `
   &:focus {
@@ -25,4 +25,10 @@ export const inlineInput = `
   grid-template-columns: max-content auto;
   grid-gap: 8px;
   align-items: center;
+`;
+
+export const placeholder = `
+  &::placeholder {
+    color: ${grey30};
+  }
 `;

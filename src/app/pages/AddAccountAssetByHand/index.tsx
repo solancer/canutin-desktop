@@ -7,53 +7,58 @@ import AddAccountAssetForm from '@components/AccountAsset/AddAccountAssetForm';
 
 import { DB_NEW_ACCOUNT_ACK, DB_NEW_ASSET_ACK } from '@constants/events';
 import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
-import { ACCOUNT } from '@appConstants/misc';
-import { StatusBarContext } from '@app/context/statusBarContext';
+import { ACCOUNT, StatusEnum } from '@appConstants/misc';
+import { emptyStatusMessage, StatusBarContext } from '@app/context/statusBarContext';
 import { AppContext } from '@app/context/appContext';
 
 const AddAccountAssetByHand = () => {
-  const [formSubtitle, setFormSubtitle] = useState('Choose Type');
-  const { setSuccessMessage, setErrorMessage, setOnClickButton } = useContext(StatusBarContext);
   const { setIsDbEmpty } = useContext(AppContext);
-
-  const onCloseMessage = () => {
-    setSuccessMessage('');
-  };
+  const { setStatusMessage } = useContext(StatusBarContext);
+  const [formSubtitle, setFormSubtitle] = useState('Choose Type');
 
   useEffect(() => {
     ipcRenderer.on(DB_NEW_ASSET_ACK, (_: IpcRendererEvent, { name }) => {
-      setSuccessMessage(
-        <>
-          The asset <b>{name}</b> was created successfully
-        </>
-      );
+      setStatusMessage({
+        sentiment: StatusEnum.POSITIVE,
+        message: (
+          <>
+            The asset <b>{name}</b> was created successfully
+          </>
+        ),
+        isLoading: false,
+      });
       setIsDbEmpty(false);
     });
 
     ipcRenderer.on(DB_NEW_ACCOUNT_ACK, (_: IpcRendererEvent, { name, status, message }) => {
       if (status === EVENT_SUCCESS) {
-        setSuccessMessage(
-          <>
-            The account <b>{name}</b> was created successfully
-          </>
-        );
+        setStatusMessage({
+          sentiment: StatusEnum.POSITIVE,
+          message: (
+            <>
+              The account <b>{name}</b> was created successfully
+            </>
+          ),
+          isLoading: false,
+        });
         setIsDbEmpty(false);
       }
 
       if (status === EVENT_ERROR) {
-        setErrorMessage(message);
+        setStatusMessage({
+          sentiment: StatusEnum.NEGATIVE,
+          message: message,
+          isLoading: false,
+        });
       }
     });
-
-    setOnClickButton(() => onCloseMessage);
 
     return () => {
       ipcRenderer.removeAllListeners(DB_NEW_ASSET_ACK);
       ipcRenderer.removeAllListeners(DB_NEW_ACCOUNT_ACK);
-      setOnClickButton(undefined);
-      setSuccessMessage('');
+      setStatusMessage(emptyStatusMessage);
     };
-  }, [setSuccessMessage]);
+  }, [setStatusMessage]);
 
   return (
     <ScrollView title="Add by hand" subTitle="Create a new account or asset">

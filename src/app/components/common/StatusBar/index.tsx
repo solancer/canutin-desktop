@@ -2,24 +2,21 @@ import React, { useContext, useEffect } from 'react';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import styled from 'styled-components';
 
-import LoadingStatusBar from '@components/common/LoadingStatusBar';
 import Breadcrumbs from '@components/common/Breadcrumbs';
 import Button from '@components/common/Button';
+import { ReactComponent as Loading } from '@assets/icons/Loading.svg';
 
-import { StatusBarContext } from '@app/context/statusBarContext';
-import { AppContext } from '@app/context/appContext';
+import { emptyStatusMessage, StatusBarContext } from '@app/context/statusBarContext';
 import { routesConfig } from '@routes';
 
-import { container, error, success, currentSettings, currentSettingsLabel } from './styles';
+import { container, currentSettings, currentSettingsLabel, statusMessage } from './styles';
+import { StatusEnum } from '@app/constants/misc';
 
 const Container = styled.div`
   ${container}
 `;
-const Error = styled.p`
-  ${error}
-`;
-const Success = styled.p`
-  ${success}
+const StatusMessage = styled.div`
+  ${statusMessage};
 `;
 const CurrentSettings = styled.div`
   ${currentSettings}
@@ -31,59 +28,42 @@ const CurrentSettingsLabel = styled.div`
 export const SUCCESS_MESSAGE_TIMEOUT = 5000;
 
 const StatusBar = () => {
-  const {
-    loadingMessage,
-    loadingPercentage,
-    errorMessage,
-    successMessage,
-    setSuccessMessage,
-    onClickButton,
-    breadcrumbs,
-  } = useContext(StatusBarContext);
-  const { isAppInitialized } = useContext(AppContext);
+  const { statusMessage, setStatusMessage, breadcrumbs } = useContext(StatusBarContext);
   const breadcrumbItems = useBreadcrumbs(routesConfig, { excludePaths: ['/'] });
 
-  const error = errorMessage
-    ? (typeof errorMessage === 'string' && errorMessage !== '') || errorMessage !== null
-    : false;
-  const success = successMessage
-    ? (typeof successMessage === 'string' && successMessage !== '') || successMessage !== null
-    : false;
-
-  let content = breadcrumbs || <Breadcrumbs items={breadcrumbItems} />;
-
-  if (error) {
-    content = <Error>{errorMessage}</Error>;
-  }
-
-  if (success) {
-    content = <Success>{successMessage}</Success>;
-  }
-
-  if (loadingMessage && loadingPercentage) {
-    content = (
-      <LoadingStatusBar loadingMessage={loadingMessage} loadingPercentage={loadingPercentage} />
-    );
-  }
+  const dismissStatusMessage = () => {
+    setStatusMessage(emptyStatusMessage);
+  };
 
   // Auto-dismiss success messages
   useEffect(() => {
-    if (successMessage !== '') {
+    if (statusMessage.sentiment === StatusEnum.POSITIVE && statusMessage.message) {
       setTimeout(() => {
-        setSuccessMessage('');
+        setStatusMessage(emptyStatusMessage);
       }, SUCCESS_MESSAGE_TIMEOUT);
     }
-  }, [successMessage]);
+  }, [statusMessage]);
 
   return (
-    <Container error={error} success={success && !loadingPercentage}>
-      {content}
-      {(error || success) && !loadingPercentage && <Button onClick={onClickButton}>Dismiss</Button>}
-      {!(error || success) && !loadingPercentage && isAppInitialized && (
-        <CurrentSettings>
-          <CurrentSettingsLabel>ENGLISH</CurrentSettingsLabel>
-          <CurrentSettingsLabel>USD $</CurrentSettingsLabel>
-        </CurrentSettings>
+    <Container sentiment={statusMessage.sentiment} isLoading={statusMessage.isLoading}>
+      {statusMessage.message && (
+        <StatusMessage>
+          <p>{statusMessage.message}</p>
+          {statusMessage.isLoading ? (
+            <Loading />
+          ) : (
+            <Button onClick={dismissStatusMessage}>Dismiss</Button>
+          )}
+        </StatusMessage>
+      )}
+      {!statusMessage.message && (
+        <>
+          {breadcrumbs || <Breadcrumbs items={breadcrumbItems} />}
+          <CurrentSettings>
+            <CurrentSettingsLabel>ENGLISH</CurrentSettingsLabel>
+            <CurrentSettingsLabel>USD $</CurrentSettingsLabel>
+          </CurrentSettings>
+        </>
       )}
     </Container>
   );

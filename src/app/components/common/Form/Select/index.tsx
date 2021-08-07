@@ -9,7 +9,7 @@ import { StatusEnum } from '@appConstants/misc';
 
 import { selectInput } from './styles';
 
-const CustomSelect = styled(ReactSelect)`
+export const CustomSelect = styled(ReactSelect)`
   ${selectInput}
 `;
 
@@ -19,7 +19,7 @@ export type GroupedValue = {
 };
 
 export type SelectFieldValue = {
-  value: string | undefined;
+  value: any;
   label: string;
 };
 
@@ -85,10 +85,12 @@ const Select = ({
             error={error}
           />
         )}
-        defaultValue={defaultFormValue !== undefined ? defaultFormValue : optional ? null : defaultValue}
+        defaultValue={
+          defaultFormValue !== undefined ? defaultFormValue : optional ? null : defaultValue
+        }
         rules={{ required }}
       />
-      {error && <FieldStatus status={StatusEnum.ERROR}>{error.message}</FieldStatus>}
+      {error && <FieldStatus status={StatusEnum.NEGATIVE}>{error.message}</FieldStatus>}
     </div>
   );
 };

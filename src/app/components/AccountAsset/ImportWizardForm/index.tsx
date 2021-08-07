@@ -32,12 +32,12 @@ const filePathStatusMessage = (status: StatusEnum, message?: string) => {
   }
 
   switch (status) {
-    case StatusEnum.LOADING:
-      return 'Analyzing file...';
-    case StatusEnum.ERROR:
+    case StatusEnum.NEUTRAL:
+      return 'Analyzing source file...';
+    case StatusEnum.NEGATIVE:
       return "Couldn't interpret the chosen file";
-    case StatusEnum.SUCCESS:
-      return 'Successful analysis';
+    case StatusEnum.POSITIVE:
+      return 'The source file was analyzed succesfully';
   }
 };
 
@@ -96,18 +96,18 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
       (_: IpcRendererEvent, analyzeSource: AnalyzeSourceFileType) => {
         setFilePathStatus(analyzeSource.status);
 
-        if (analyzeSource.status === StatusEnum.SUCCESS) {
+        if (analyzeSource.status === StatusEnum.POSITIVE) {
           if (analyzeSource.metadata?.fields) {
             setOtherCsvData(analyzeSource.sourceData);
             setOtherCsvMetadata(analyzeSource.metadata);
           } else {
             setCanutinJson(analyzeSource.sourceData);
+            analyzeSource.metadata &&
+              setSourceMessage(generateSourceMessage(analyzeSource.metadata));
           }
-
-          analyzeSource.metadata && setSourceMessage(generateSourceMessage(analyzeSource.metadata));
         }
 
-        if (analyzeSource.status === StatusEnum.ERROR) {
+        if (analyzeSource.status === StatusEnum.NEGATIVE) {
           setCanutinJson(null);
           setOtherCsvData(null);
 
@@ -139,7 +139,7 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
 
   const analyzeSourceFile = () => {
     ipcRenderer.send(ANALYZE_SOURCE_FILE, { pathFile: filePath, source });
-    setFilePathStatus(StatusEnum.LOADING);
+    setFilePathStatus(StatusEnum.NEUTRAL);
   };
 
   const onChooseFileInput = () => {
