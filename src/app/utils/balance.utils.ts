@@ -1,5 +1,6 @@
 import { Asset, Account } from '@database/entities';
 import { BalanceData, AccountAssetBalance } from '@components/BalanceSheet/BalancesByGroup';
+import { BalanceGroupCardTypeEnum } from '@app/components/common/BalanceGroupCard/constants';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import { accountTypes } from '@constants/accountTypes';
 import { assetTypes } from '@constants/assetTypes';
@@ -156,3 +157,42 @@ export const getTypesByBalanceGroup = (balanceGroup: BalanceGroupEnum) => [
     .find(accountType => accountType.balanceGroup === balanceGroup)
     ?.accountTypes.map(accountTypes => accountTypes.value) || []),
 ];
+
+export type TotalBalanceType = { [value in BalanceGroupCardTypeEnum]: number } | undefined;
+
+export const getTotalBalanceByGroup = (assets: Asset[], accounts: Account[]) => {
+  const balances = getBalanceForAllAccountsAssets(assets, accounts);
+  return (
+    balances &&
+    [...Object.keys(balances), BalanceGroupCardTypeEnum.NET_WORTH].reduce(
+      (acc, value) => {
+        if (Number(value) === BalanceGroupCardTypeEnum.NET_WORTH) {
+          acc[BalanceGroupCardTypeEnum.NET_WORTH] = Object.keys(acc).reduce(
+            (total, key) => total + acc[(Number(key) as unknown) as BalanceGroupEnum],
+            0
+          );
+        } else {
+          const balanceData = balances[(value as unknown) as BalanceGroupEnum];
+          const totalAmount = balanceData
+            ? Object.keys(balanceData).reduce((acc, assetTypeKey) => {
+                const totalBalance = balanceData[assetTypeKey].reduce((acc, assetTypeBalance) => {
+                  return acc + assetTypeBalance.amount;
+                }, 0);
+
+                return acc + totalBalance;
+              }, 0)
+            : 0;
+          acc[Number(value) as BalanceGroupCardTypeEnum] = totalAmount;
+        }
+        return acc;
+      },
+      {
+        [BalanceGroupCardTypeEnum.CASH]: 0,
+        [BalanceGroupCardTypeEnum.DEBT]: 0,
+        [BalanceGroupCardTypeEnum.INVESTMENTS]: 0,
+        [BalanceGroupCardTypeEnum.OTHER_ASSETS]: 0,
+        [BalanceGroupCardTypeEnum.NET_WORTH]: 0,
+      }
+    )
+  );
+};

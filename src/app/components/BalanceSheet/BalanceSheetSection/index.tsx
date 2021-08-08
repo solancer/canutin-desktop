@@ -10,8 +10,7 @@ import AssetIpc from '@app/data/asset.ipc';
 import TransactionIpc from '@app/data/transaction.ipc';
 import AccountIpc from '@app/data/account.ipc';
 import { Account, Asset } from '@database/entities';
-
-import { getBalanceForAccounts, getBalanceForAllAccountsAssets, getBalanceForAssets } from './balanceSheetUtils';
+import { getBalanceForAccounts, getBalanceForAllAccountsAssets, getBalanceForAssets } from '@app/utils/balance.utils';
 
 export enum BalanceSheetSegmentsEnum {
   ALL = 'all',

@@ -24,6 +24,7 @@ export enum CardAppearanceEnum {
   DEBT,
   INVESTMENTS,
   OTHER_ASSETS,
+  NET_WORTH,
 }
 
 export interface CardProps {
@@ -35,8 +36,8 @@ export interface CardProps {
 
 const Card = ({ label, value, appearance, isCurrency }: CardProps) => (
   <Container appearance={appearance}>
-    <Label>{label}</Label>
-    {isCurrency ? <Amount value={value} displayType="text" /> : <Value>{value}</Value>}
+    <Label appearance={appearance}>{label}</Label>
+    {isCurrency ? <Amount appearance={appearance} value={value} displayType="text" /> : <Value>{value}</Value>}
   </Container>
 );
 
