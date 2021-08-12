@@ -1,6 +1,7 @@
 import { parse } from 'date-fns';
 import { BrowserWindow } from 'electron';
 
+import { dateInUTC } from '@app/utils/date.utils';
 import { Transaction } from '@database/entities/transaction.entity';
 import { Budget } from '@database/entities/budget.entity';
 import { AccountRepository } from '@database/repositories/account.repository';
@@ -29,7 +30,11 @@ export const importFromCanutinFile = async (
       if (accountInfo.transactions) {
         const transactions = await Promise.all(
           accountInfo.transactions.map(async transactionInfo => {
-            const transactionDate = parse(transactionInfo.date, CANUTIN_FILE_DATE_FORMAT, new Date());
+            const transactionDate = parse(
+              transactionInfo.date,
+              CANUTIN_FILE_DATE_FORMAT,
+              new Date()
+            );
             const budget =
               transactionInfo.budget &&
               new Budget(
@@ -43,7 +48,7 @@ export const importFromCanutinFile = async (
             );
             return new Transaction(
               transactionInfo.description,
-              transactionDate,
+              dateInUTC(transactionDate),
               transactionInfo.amount,
               transactionInfo.excludeFromTotals,
               account,
@@ -52,7 +57,7 @@ export const importFromCanutinFile = async (
             );
           })
         );
-  
+
         await TransactionRepository.createTransactions(transactions);
       }
 
@@ -98,7 +103,7 @@ export const updateAccounts = async (updatedAccounts: UpdatedAccount[]) => {
 
           return new Transaction(
             transactionInfo.description,
-            transactionDate,
+            dateInUTC(transactionDate),
             transactionInfo.amount,
             false,
             account,
@@ -107,7 +112,7 @@ export const updateAccounts = async (updatedAccounts: UpdatedAccount[]) => {
           );
         })
       );
-      await updatedTransactions && TransactionRepository.createTransactions(updatedTransactions);
+      (await updatedTransactions) && TransactionRepository.createTransactions(updatedTransactions);
     }
   });
 };

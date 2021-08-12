@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
 import { yearsList, monthList, dayList, getCurrentDateInformation } from '@appConstants/dates';
+import { dateInUTC } from '@app/utils/date.utils';
 import AccountIpc from '@app/data/account.ipc';
 import {
   DB_EDIT_TRANSACTION_ACK,
@@ -68,13 +69,14 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
           account: null,
           description: null,
           category: 'Uncategorized',
-          day: DATE_INFORMATION.day + 1,
+          day: DATE_INFORMATION.day,
           month: DATE_INFORMATION.month,
           year: DATE_INFORMATION.year,
           balance: null,
           excludeFromTotals: false,
         },
   });
+
   const [accounts, setAccounts] = useState<null | Account[]>(null);
   const excludeFromTotals = watch('excludeFromTotals');
   const description = watch('description');
@@ -144,7 +146,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
       accountId: Number(account),
       balance: Number(balance),
       categoryName: category,
-      date,
+      date: dateInUTC(date),
       description,
       excludeFromTotals,
       id: initialState?.id,

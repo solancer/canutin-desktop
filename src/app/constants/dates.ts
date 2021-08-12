@@ -1,8 +1,10 @@
-import { getYear, format, setMonth, getDay, getMonth } from 'date-fns';
+import { getYear, format, setMonth, getMonth, getDate } from 'date-fns';
+
+const today = new Date();
 
 export const yearsList = Array.from(
   { length: 50 },
-  (v, k) => getYear(new Date()) + 5 - k
+  (v, k) => getYear(today) + 5 - k
 ).map(value => ({ value, label: value.toString() }));
 
 export const dayList = Array.from({ length: 31 }, (v, k) => 1 + k).map(value => ({
@@ -12,15 +14,13 @@ export const dayList = Array.from({ length: 31 }, (v, k) => 1 + k).map(value => 
 
 export const monthList = Array.from({ length: 12 }, (v, k) => k).map(value => ({
   value,
-  label: format(setMonth(new Date(), value), 'MMM'),
+  label: format(setMonth(today, value), 'MMM'),
 }));
 
 export const getCurrentDateInformation = () => {
-  const today = new Date();
-
   return {
-    day: getDay(today),
+    day: getDate(today),
     month: getMonth(today),
-    year: getYear(today)
-  }
-}
+    year: getYear(today),
+  };
+};
