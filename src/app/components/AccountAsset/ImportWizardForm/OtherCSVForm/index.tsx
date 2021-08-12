@@ -15,7 +15,7 @@ import InputCurrency from '@components/common/Form/InputCurrency';
 import { AnalyzeSourceMetadataType } from '@components/AccountAsset/ImportWizardForm';
 import { accountGroupedValues } from '@components/AccountAsset/AddAccountAssetForm/index';
 import FormFooter from '@components/common/Form/FormFooter';
-import SubmitButton from '@app/components/common/Form/SubmitButton';
+import SubmitButton from '@components/common/Form/SubmitButton';
 
 import { DB_GET_ACCOUNTS_ACK, LOAD_FROM_OTHER_CSV } from '@constants/events';
 import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';

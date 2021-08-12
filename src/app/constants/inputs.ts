@@ -18,6 +18,10 @@ export const inputShared = `
   border-radius: 4px;
   padding: 8px;
   box-sizing: border-box;
+
+  &::placeholder {
+    color: ${grey30};
+  }
 `;
 
 export const inlineInput = `
@@ -25,10 +29,4 @@ export const inlineInput = `
   grid-template-columns: max-content auto;
   grid-gap: 8px;
   align-items: center;
-`;
-
-export const placeholder = `
-  &::placeholder {
-    color: ${grey30};
-  }
 `;

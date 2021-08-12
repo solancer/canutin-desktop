@@ -13,7 +13,7 @@ import { StatusEnum } from '@app/constants/misc';
 import Section from '@components/common/Section';
 
 import { message, messageContainer, messageDanger, container } from './styles';
-import Button from '@app/components/common/Button';
+import Button from '@components/common/Button';
 import { rootRoutesPaths } from '@app/routes';
 
 const Container = styled.div`

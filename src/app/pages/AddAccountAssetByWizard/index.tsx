@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
+import { useHistory } from 'react-router-dom';
 
 import ScrollView from '@components/common/ScrollView';
 import Section from '@components/common/Section';
@@ -14,8 +15,10 @@ import { StatusEnum } from '@app/constants/misc';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { AppContext } from '@app/context/appContext';
 import AccountIpc from '@app/data/account.ipc';
+import { routesPaths } from '@app/routes';
 
 const AddAccountAssetByWizard = () => {
+  const history = useHistory();
   const { setStatusMessage } = useContext(StatusBarContext);
   const { setIsDbEmpty } = useContext(AppContext);
   const [successMessage, setSuccessMessage] = useState('');
@@ -24,13 +27,14 @@ const AddAccountAssetByWizard = () => {
 
   useEffect(() => {
     ipcRenderer.on(LOAD_FROM_CANUTIN_FILE_ACK, (_: IpcRendererEvent, { name }) => {
-      setSuccessMessage('The CanutinFile was imported successfully');
+      setSuccessMessage('The file was imported successfully');
+      history.push(routesPaths.balance);
     });
 
     ipcRenderer.on(LOAD_FROM_OTHER_CSV_ACK, (_: IpcRendererEvent, { name }) => {
       setSuccessMessage('The CSV was imported successfully');
-      // Reload accounts on other CSV form
-      AccountIpc.getAccounts();
+      AccountIpc.getAccounts(); // Reload accounts on other CSV form
+      history.push(routesPaths.balance);
     });
 
     ipcRenderer.on(LOADING_CSV, (_: IpcRendererEvent, { total }) => {

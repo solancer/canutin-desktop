@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
@@ -15,7 +16,6 @@ import {
 import { Account } from '@database/entities';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import TransactionIpc from '@app/data/transaction.ipc';
-import { AppContext } from '@app/context/appContext';
 import { StatusEnum } from '@app/constants/misc';
 import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
 
@@ -59,8 +59,8 @@ type TransactionSubmitType = {
 const DATE_INFORMATION = getCurrentDateInformation();
 
 const TransactionForm = ({ initialState }: TransactionFormProps) => {
+  const history = useHistory();
   const { setStatusMessage } = useContext(StatusBarContext);
-  const { setIsDbEmpty } = useContext(AppContext);
   const { handleSubmit, control, register, watch, formState } = useForm({
     mode: 'onChange',
     defaultValues: initialState
@@ -96,11 +96,11 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
           sentiment: StatusEnum.POSITIVE,
           isLoading: false,
         });
-        setIsDbEmpty(false);
+        history.goBack();
       }
 
       if (status === EVENT_ERROR) {
-        setStatusMessage(message);
+        setStatusMessage({ message, sentiment: StatusEnum.NEGATIVE, isLoading: false });
       }
     });
 
@@ -111,7 +111,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
           sentiment: StatusEnum.POSITIVE,
           isLoading: false,
         });
-        setIsDbEmpty(false);
+        history.goBack();
       }
 
       if (status === EVENT_ERROR) {

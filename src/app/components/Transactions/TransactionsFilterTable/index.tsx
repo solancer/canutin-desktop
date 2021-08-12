@@ -18,7 +18,7 @@ import {
   rowItem,
   tableEmptyCard,
 } from './styles';
-import EmptyCard from '@app/components/common/EmptyCard';
+import EmptyCard from '@components/common/EmptyCard';
 
 const Container = styled.div`
   ${container}

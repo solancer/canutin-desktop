@@ -1,6 +1,5 @@
 import { Asset, Account } from '@database/entities';
 import { BalanceData, AccountAssetBalance } from '@components/BalanceSheet/BalancesByGroup';
-import { BalanceGroupCardTypeEnum } from '@app/components/common/BalanceGroupCard/constants';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import { accountTypes } from '@constants/accountTypes';
 import { assetTypes } from '@constants/assetTypes';
@@ -158,16 +157,16 @@ export const getTypesByBalanceGroup = (balanceGroup: BalanceGroupEnum) => [
     ?.accountTypes.map(accountTypes => accountTypes.value) || []),
 ];
 
-export type TotalBalanceType = { [value in BalanceGroupCardTypeEnum]: number } | undefined;
+export type TotalBalanceType = { [value in BalanceGroupEnum]: number } | undefined;
 
 export const getTotalBalanceByGroup = (assets: Asset[], accounts: Account[]) => {
   const balances = getBalanceForAllAccountsAssets(assets, accounts);
   return (
     balances &&
-    [...Object.keys(balances), BalanceGroupCardTypeEnum.NET_WORTH].reduce(
+    [...Object.keys(balances), BalanceGroupEnum.NET_WORTH].reduce(
       (acc, value) => {
-        if (Number(value) === BalanceGroupCardTypeEnum.NET_WORTH) {
-          acc[BalanceGroupCardTypeEnum.NET_WORTH] = Object.keys(acc).reduce(
+        if (Number(value) === BalanceGroupEnum.NET_WORTH) {
+          acc[BalanceGroupEnum.NET_WORTH] = Object.keys(acc).reduce(
             (total, key) => total + acc[(Number(key) as unknown) as BalanceGroupEnum],
             0
           );
@@ -182,16 +181,16 @@ export const getTotalBalanceByGroup = (assets: Asset[], accounts: Account[]) => 
                 return acc + totalBalance;
               }, 0)
             : 0;
-          acc[Number(value) as BalanceGroupCardTypeEnum] = totalAmount;
+          acc[Number(value) as BalanceGroupEnum] = Math.floor(totalAmount);
         }
         return acc;
       },
       {
-        [BalanceGroupCardTypeEnum.CASH]: 0,
-        [BalanceGroupCardTypeEnum.DEBT]: 0,
-        [BalanceGroupCardTypeEnum.INVESTMENTS]: 0,
-        [BalanceGroupCardTypeEnum.OTHER_ASSETS]: 0,
-        [BalanceGroupCardTypeEnum.NET_WORTH]: 0,
+        [BalanceGroupEnum.CASH]: 0,
+        [BalanceGroupEnum.DEBT]: 0,
+        [BalanceGroupEnum.INVESTMENTS]: 0,
+        [BalanceGroupEnum.OTHER_ASSETS]: 0,
+        [BalanceGroupEnum.NET_WORTH]: 0,
       }
     )
   );

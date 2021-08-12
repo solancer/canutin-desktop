@@ -26,7 +26,7 @@ const EditTransaction = () => {
   };
 
   return (
-    <ScrollView title="Edit transaction" subTitle={transaction.account.name}>
+    <ScrollView title="Edit transaction" subTitle={transaction.description}>
       <Section title="Transaction details">
         <TransactionForm initialState={initialState} />
       </Section>

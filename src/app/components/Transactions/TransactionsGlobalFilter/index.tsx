@@ -6,7 +6,7 @@ import { Transaction } from '@database/entities';
 import { TransactionsContext, filterOptions } from '@app/context/transactionsContext';
 
 import { inputElement } from '@components/common/Form/InputText/styles';
-import { CustomSelect } from '@app/components/common/Form/Select';
+import { CustomSelect } from '@components/common/Form/Select';
 import { container } from './styles';
 
 const Container = styled.div`

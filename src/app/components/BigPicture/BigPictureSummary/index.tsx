@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Card, { CardAppearanceEnum } from '@components/common/Card';
+import Card from '@components/common/Card';
 
 import { TotalBalanceType } from '@app/utils/balance.utils';
 import {
-  BalanceGroupCardTypeEnum,
-  getBalanceGroupCardTitle,
-} from '@app/components/common/BalanceGroupCard/constants';
-import Section from '@app/components/common/Section';
+  BalanceGroupEnum,
+  balanceGroupLabels,
+  balanceGroupApperances,
+} from '@enums/balanceGroup.enum';
+import Section from '@components/common/Section';
 
 import { container } from './styles';
 
@@ -23,37 +24,37 @@ interface BigPictureSummaryProps {
 const BigPictureSummary = ({ totalBalance }: BigPictureSummaryProps) => (
   <Section title="Summary">
     <Container>
-    <Card
-      label={getBalanceGroupCardTitle[BalanceGroupCardTypeEnum.NET_WORTH]}
-      value={totalBalance?.[BalanceGroupCardTypeEnum.NET_WORTH] || 0}
-      appearance={CardAppearanceEnum.NET_WORTH}
-      isCurrency
-    />
-    <Card
-      label={getBalanceGroupCardTitle[BalanceGroupCardTypeEnum.CASH]}
-      value={totalBalance?.[BalanceGroupCardTypeEnum.CASH] || 0}
-      appearance={CardAppearanceEnum.CASH}
-      isCurrency
-    />
-    <Card
-      label={getBalanceGroupCardTitle[BalanceGroupCardTypeEnum.INVESTMENTS]}
-      value={totalBalance?.[BalanceGroupCardTypeEnum.INVESTMENTS] || 0}
-      appearance={CardAppearanceEnum.INVESTMENTS}
-      isCurrency
-    />
-    <Card
-      label={getBalanceGroupCardTitle[BalanceGroupCardTypeEnum.DEBT]}
-      value={totalBalance?.[BalanceGroupCardTypeEnum.DEBT] || 0}
-      appearance={CardAppearanceEnum.DEBT}
-      isCurrency
-    />
-    <Card
-      label={getBalanceGroupCardTitle[BalanceGroupCardTypeEnum.OTHER_ASSETS]}
-      value={totalBalance?.[BalanceGroupCardTypeEnum.OTHER_ASSETS] || 0}
-      appearance={CardAppearanceEnum.OTHER_ASSETS}
-      isCurrency
-    />
-  </Container>
+      <Card
+        label={balanceGroupLabels[BalanceGroupEnum.NET_WORTH]}
+        appearance={balanceGroupApperances[BalanceGroupEnum.NET_WORTH]}
+        value={totalBalance?.[BalanceGroupEnum.NET_WORTH] || 0}
+        isCurrency
+      />
+      <Card
+        label={balanceGroupLabels[BalanceGroupEnum.CASH]}
+        appearance={balanceGroupApperances[BalanceGroupEnum.CASH]}
+        value={totalBalance?.[BalanceGroupEnum.CASH] || 0}
+        isCurrency
+      />
+      <Card
+        label={balanceGroupLabels[BalanceGroupEnum.INVESTMENTS]}
+        appearance={balanceGroupApperances[BalanceGroupEnum.INVESTMENTS]}
+        value={totalBalance?.[BalanceGroupEnum.INVESTMENTS] || 0}
+        isCurrency
+      />
+      <Card
+        label={balanceGroupLabels[BalanceGroupEnum.DEBT]}
+        appearance={balanceGroupApperances[BalanceGroupEnum.DEBT]}
+        value={totalBalance?.[BalanceGroupEnum.DEBT] || 0}
+        isCurrency
+      />
+      <Card
+        label={balanceGroupLabels[BalanceGroupEnum.OTHER_ASSETS]}
+        appearance={balanceGroupApperances[BalanceGroupEnum.OTHER_ASSETS]}
+        value={totalBalance?.[BalanceGroupEnum.OTHER_ASSETS] || 0}
+        isCurrency
+      />
+    </Container>
   </Section>
 );
 

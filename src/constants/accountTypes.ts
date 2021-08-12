@@ -92,7 +92,7 @@ export const accountTypes = [
     ],
   },
   {
-    balanceGroup: BalanceGroupEnum.INVESTMENT,
+    balanceGroup: BalanceGroupEnum.INVESTMENTS,
     accountTypes: [
       {
         label: '529 (US)',
@@ -278,10 +278,3 @@ export const accountTypes = [
     ],
   },
 ];
-
-export const balanceGroupLabels = {
-  [BalanceGroupEnum.CASH]: 'Cash',
-  [BalanceGroupEnum.DEBT]: 'Debt',
-  [BalanceGroupEnum.INVESTMENT]: 'Investment',
-  [BalanceGroupEnum.OTHER_ASSETS]: 'Other assets',
-};

@@ -6,7 +6,7 @@ import Fieldset from '@components/common/Form/Fieldset';
 import RadioGroupField from '@components/common/Form/RadioGroupField';
 import ChooseFileInput from '@components/common/ChooseFileInput';
 import FormFooter from '@components/common/Form/FormFooter';
-import SubmitButton from '@app/components/common/Form/SubmitButton';
+import SubmitButton from '@components/common/Form/SubmitButton';
 
 import {
   IMPORT_SOURCE_FILE,

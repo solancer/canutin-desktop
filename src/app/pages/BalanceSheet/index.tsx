@@ -1,8 +1,8 @@
 import React from 'react';
 
 import ScrollView from '@components/common/ScrollView';
-import HeaderButtons from '@app/components/BalanceSheet/HeaderButtons';
-import BalanceSheetSection from '@app/components/BalanceSheet/BalanceSheetSection';
+import HeaderButtons from '@components/BalanceSheet/HeaderButtons';
+import BalanceSheetSection from '@components/BalanceSheet/BalanceSheetSection';
 
 const BalanceSheet = () => (
   <>

@@ -3,23 +3,26 @@ import { AssetTypeEnum } from '../../enums/assetType.enum';
 import { accountTypes } from '../../constants/accountTypes';
 
 export const getBalanceGroupByAssetType = (assetType: AssetTypeEnum): BalanceGroupEnum => {
-    let balanceGroup = BalanceGroupEnum.CASH;
-    const cashBalanceGroup = [AssetTypeEnum.CASH];
-    const investmentBalanceGroup = [AssetTypeEnum.SECURITY, AssetTypeEnum.CRYPTOCURRENCY];
-    const otherBalanceGroup = [
-      AssetTypeEnum.COLLECTIBLE,
-      AssetTypeEnum.PRECIOUS_METAL,
-      AssetTypeEnum.VEHICLE,
-      AssetTypeEnum.REAL_STATE,
-      AssetTypeEnum.BUSINESS,
-      AssetTypeEnum.OTHER,
-    ];
+  let balanceGroup = BalanceGroupEnum.CASH;
+  const cashBalanceGroup = [AssetTypeEnum.CASH];
+  const investmentBalanceGroup = [AssetTypeEnum.SECURITY, AssetTypeEnum.CRYPTOCURRENCY];
+  const otherBalanceGroup = [
+    AssetTypeEnum.COLLECTIBLE,
+    AssetTypeEnum.PRECIOUS_METAL,
+    AssetTypeEnum.VEHICLE,
+    AssetTypeEnum.REAL_STATE,
+    AssetTypeEnum.BUSINESS,
+    AssetTypeEnum.OTHER,
+  ];
 
-    if (cashBalanceGroup.map(values => values.toLowerCase()).includes(assetType)) balanceGroup = BalanceGroupEnum.CASH;
-    if (investmentBalanceGroup.map(values => values.toLowerCase()).includes(assetType)) balanceGroup = BalanceGroupEnum.INVESTMENT;
-    if (otherBalanceGroup.map(values => values.toLowerCase()).includes(assetType)) balanceGroup = BalanceGroupEnum.OTHER_ASSETS;
+  if (cashBalanceGroup.map(values => values.toLowerCase()).includes(assetType))
+    balanceGroup = BalanceGroupEnum.CASH;
+  if (investmentBalanceGroup.map(values => values.toLowerCase()).includes(assetType))
+    balanceGroup = BalanceGroupEnum.INVESTMENTS;
+  if (otherBalanceGroup.map(values => values.toLowerCase()).includes(assetType))
+    balanceGroup = BalanceGroupEnum.OTHER_ASSETS;
 
-    return balanceGroup;
+  return balanceGroup;
 };
 
 export const getBalanceGroupByAccountType = (accountType: string): BalanceGroupEnum => {
@@ -31,4 +34,4 @@ export const getBalanceGroupByAccountType = (accountType: string): BalanceGroupE
   });
 
   return result;
-}
+};

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import NumberFormat from '@components/common/NumberFormat';
 
-import { AccountAssetBalance } from '@app/components/BalanceSheet/BalancesByGroup';
+import { AccountAssetBalance } from '@components/BalanceSheet/BalancesByGroup';
 
 import {
   container,

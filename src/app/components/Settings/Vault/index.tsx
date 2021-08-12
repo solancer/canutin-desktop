@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import Form from '@components/common/Form/Form';
 import FormFooter from '@components/common/Form/FormFooter';
-import SubmitButton from '@app/components/common/Form/SubmitButton';
+import SubmitButton from '@components/common/Form/SubmitButton';
 import Fieldset from '@components/common/Form/Fieldset';
 import InputTextField from '@components/common/Form/InputTextField';
 

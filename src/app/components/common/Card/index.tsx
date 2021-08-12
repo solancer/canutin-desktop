@@ -19,7 +19,7 @@ const Amount = styled(NumberFormat)`
 `;
 
 export enum CardAppearanceEnum {
-  SUMMARY,
+  SECONDARY,
   CASH,
   DEBT,
   INVESTMENTS,
@@ -30,14 +30,18 @@ export enum CardAppearanceEnum {
 export interface CardProps {
   label: string;
   value: number;
-  isCurrency?: boolean;
   appearance?: CardAppearanceEnum;
+  isCurrency?: boolean;
 }
 
 const Card = ({ label, value, appearance, isCurrency }: CardProps) => (
   <Container appearance={appearance}>
     <Label appearance={appearance}>{label}</Label>
-    {isCurrency ? <Amount appearance={appearance} value={value} displayType="text" /> : <Value>{value}</Value>}
+    {isCurrency ? (
+      <Amount appearance={appearance} value={value} displayType="text" />
+    ) : (
+      <Value>{value}</Value>
+    )}
   </Container>
 );
 

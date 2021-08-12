@@ -12,7 +12,7 @@ export const assetTypes = [
     ],
   },
   {
-    balanceGroup: BalanceGroupEnum.INVESTMENT,
+    balanceGroup: BalanceGroupEnum.INVESTMENTS,
     assetTypes: [
       {
         label: AssetTypeEnum.SECURITY,

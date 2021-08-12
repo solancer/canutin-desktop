@@ -23,7 +23,7 @@ export const container = css<{ appearance?: CardAppearanceEnum }>`
   border-radius: 4px;
 
   ${({ appearance }) =>
-    appearance === CardAppearanceEnum.SUMMARY
+    appearance === CardAppearanceEnum.SECONDARY
       ? css`
           background-color: transparent;
           box-shadow: none;
@@ -32,44 +32,34 @@ export const container = css<{ appearance?: CardAppearanceEnum }>`
       : appearance === CardAppearanceEnum.CASH
       ? css`
           background-color: ${greenPlain};
-
-          * {
-            color: ${whitePlain} !important;
-          }
+          color: ${whitePlain};
         `
       : appearance === CardAppearanceEnum.DEBT
       ? css`
           background-color: ${redPlain};
-
-          * {
-            color: ${whitePlain} !important;
-          }
+          color: ${whitePlain};
         `
       : appearance === CardAppearanceEnum.INVESTMENTS
       ? css`
           background-color: ${purplePlain};
-
-          * {
-            color: ${whitePlain} !important;
-          }
+          color: ${whitePlain};
         `
       : appearance === CardAppearanceEnum.OTHER_ASSETS
       ? css`
           background-color: ${goldPlain};
-
-          * {
-            color: ${whitePlain} !important;
-          }
+          color: ${whitePlain};
         `
       : appearance === CardAppearanceEnum.NET_WORTH
       ? css`
+          display: flex;
+          flex-direction: column;
           background-color: ${grey80};
-          grid-auto-flow: row;
-          grid-gap: 30px;
-
-          * {
-            color: ${whitePlain} !important;
-          }
+          justify-content: space-between;
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+          grid-gap: 8px;
+          color: ${whitePlain};
         `
       : css`
           background-color: ${whitePlain};
@@ -78,7 +68,6 @@ export const container = css<{ appearance?: CardAppearanceEnum }>`
 
 export const label = css<{ appearance?: CardAppearanceEnum }>`
   ${sansSerifBold}
-  color: ${grey80};
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -87,7 +76,6 @@ export const label = css<{ appearance?: CardAppearanceEnum }>`
 export const value = css<{ appearance?: CardAppearanceEnum }>`
   ${monospaceRegular}
   font-size: 14px;
-  color: ${grey80};
 
   ${({ appearance }) =>
     appearance === CardAppearanceEnum.NET_WORTH &&

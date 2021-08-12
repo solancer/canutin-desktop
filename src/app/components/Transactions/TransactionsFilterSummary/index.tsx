@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { container } from './styles';
-import Card, { CardAppearanceEnum } from '@app/components/common/Card';
+import Card, { CardAppearanceEnum } from '@components/common/Card';
 
 const Container = styled.div`
   ${container}
@@ -18,10 +18,14 @@ const TransactionsFilterSummary = ({
   transactionsCount,
 }: TransactionsFilterSummaryProps) => (
   <Container>
-    <Card label="Transactions" appearance={CardAppearanceEnum.SUMMARY} value={transactionsCount} />
+    <Card
+      label="Transactions"
+      appearance={CardAppearanceEnum.SECONDARY}
+      value={transactionsCount}
+    />
     <Card
       label="Net balance"
-      appearance={CardAppearanceEnum.SUMMARY}
+      appearance={CardAppearanceEnum.SECONDARY}
       value={netBalanceCount}
       isCurrency={true}
     />

@@ -15,12 +15,13 @@ import InputCurrency from '@components/common/Form/InputCurrency';
 import InputCurrencyField from '@components/common/Form/InputCurrencyField';
 
 import { ACCOUNT, ASSET } from '@appConstants/misc';
-import { accountTypes, balanceGroupLabels } from '@constants/accountTypes';
+import { accountTypes } from '@constants/accountTypes';
 import { assetTypes, assetTypesWithSymbol } from '@constants/assetTypes';
 import { NewAssetType } from '../../../../types/asset.type';
 import { NewAccountType } from '../../../../types/account.type';
 import AssetIpc from '@app/data/asset.ipc';
 import AccountIpc from '@app/data/account.ipc';
+import { balanceGroupLabels } from '@enums/balanceGroup.enum';
 
 import { toggableInputContainer } from './styles';
 

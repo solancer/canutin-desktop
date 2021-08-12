@@ -1,11 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BalanceGroupCardTypeEnum } from '@app/components/common/BalanceGroupCard/constants';
-import { AccountAssetBalance } from '@app/components/BalanceSheet/BalancesByGroup';
-import BalancesByTypeCard from '@app/components/BalanceSheet/BalanceByTypeCard';
-import EmptyCard from '@app/components/common/EmptyCard';
-import BalanceGroupCard from '@app/components/common/BalanceGroupCard';
+import {
+  BalanceGroupEnum,
+  balanceGroupLabels,
+  balanceGroupApperances,
+} from '@enums/balanceGroup.enum';
+import { AccountAssetBalance } from '@components/BalanceSheet/BalancesByGroup';
+import BalancesByTypeCard from '@components/BalanceSheet/BalanceByTypeCard';
+import EmptyCard from '@components/common/EmptyCard';
+import Card from '@components/common/Card';
 
 import { container } from './styles';
 
@@ -14,7 +18,7 @@ const Container = styled.div`
 `;
 
 interface BalanceGroupListProps {
-  type: BalanceGroupCardTypeEnum;
+  type: BalanceGroupEnum;
   balanceData?: {
     [nameOfBalance: string]: AccountAssetBalance[];
   };
@@ -41,7 +45,12 @@ const BalanceGroupList = ({ type, balanceData }: BalanceGroupListProps) => {
 
   return (
     <Container>
-      <BalanceGroupCard type={type} amount={Math.round(totalAmount)} />
+      <Card
+        label={balanceGroupLabels[type]}
+        appearance={balanceGroupApperances[type]}
+        value={Math.round(totalAmount)}
+        isCurrency={true}
+      />
       {!balanceData ||
         (Object.keys(balanceData).length === 0 && (
           <EmptyCard message="No balances are available in this group." />
