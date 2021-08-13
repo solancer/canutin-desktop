@@ -50,9 +50,13 @@ const TableEmptyCard = styled(EmptyCard)`
 
 interface TransactionsFilterTableProps {
   transactions: Transaction[];
+  withoutGlobalFilters?: boolean;
 }
 
-const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps) => {
+const TransactionsFilterTable = ({
+  transactions,
+  withoutGlobalFilters = false,
+}: TransactionsFilterTableProps) => {
   const [sortBy, setSortBy] = useState<SortingRule<Transaction>[]>([{ id: 'date', desc: true }]);
   const transactionsData = useMemo(() => transactions, [transactions]);
   const columns = useMemo(
@@ -166,11 +170,13 @@ const TransactionsFilterTable = ({ transactions }: TransactionsFilterTableProps)
   return (
     <Container>
       <FilterContainer>
-        <TransactionsGlobalFilter
-          globalFilter={state.globalFilter}
-          setGlobalFilter={setGlobalFilter}
-          transactionsData={transactionsData}
-        />
+        {!withoutGlobalFilters && (
+          <TransactionsGlobalFilter
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+            transactionsData={transactionsData}
+          />
+        )}
         <TransactionsFilterSummary
           netBalanceCount={netBalanceCount}
           transactionsCount={transactionsCount}

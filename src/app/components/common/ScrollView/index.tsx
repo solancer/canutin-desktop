@@ -1,10 +1,11 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import { ReactComponent as BackIcon } from '@assets/icons/Back.svg';
-
 import { rootRoutesPaths } from '@routes';
+
+import SectionTab, { SectionType } from '@components/common/SectionTab';
 
 import { container, header, title, main, subTitle, backButton, headerContainer } from './styles';
 
@@ -39,14 +40,23 @@ export interface ScrollViewProps {
   headerNav?: ReactNode;
   children?: ReactNode;
   wizard?: boolean;
+  sections?: SectionType[];
 }
 
-const ScrollView = ({ title, subTitle, headerNav, wizard, children }: ScrollViewProps) => {
+const ScrollView = ({
+  title,
+  subTitle,
+  headerNav,
+  wizard,
+  sections,
+  children,
+}: ScrollViewProps) => {
   const history = useHistory();
+  const [selectedSection, setSelectedSection] = useState(sections?.[0].label);
 
   return (
     <Container>
-      <Header>
+      <Header isSectionIncluded={!!selectedSection}>
         {history.length > 1 && !Object.values(rootRoutesPaths).includes(history.location.pathname) && (
           <BackButton
             onClick={() => {
@@ -61,8 +71,19 @@ const ScrollView = ({ title, subTitle, headerNav, wizard, children }: ScrollView
           </TitleContainer>
           {headerNav && <nav>{headerNav}</nav>}
         </HeaderContainer>
+        {sections && selectedSection && setSelectedSection ? (
+          <SectionTab
+            setSelectedSection={setSelectedSection}
+            sections={sections}
+            selectedSection={selectedSection}
+          />
+        ) : null}
       </Header>
-      <Main wizard={wizard}>{children}</Main>
+      <Main wizard={wizard}>
+        {selectedSection
+          ? sections?.find(({ label }) => label === selectedSection)?.component
+          : children}
+      </Main>
     </Container>
   );
 };

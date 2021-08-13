@@ -3,7 +3,8 @@ import { useAsyncDebounce } from 'react-table';
 import styled from 'styled-components';
 
 import { Transaction } from '@database/entities';
-import { TransactionsContext, filterOptions } from '@app/context/transactionsContext';
+import { TransactionsContext } from '@app/context/transactionsContext';
+import { filterOptions } from '@app/constants/filters';
 
 import { inputElement } from '@components/common/Form/InputText/styles';
 import { CustomSelect } from '@components/common/Form/Select';

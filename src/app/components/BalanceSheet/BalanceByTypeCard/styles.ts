@@ -8,6 +8,9 @@ import {
   grey80,
   shadowPlate,
   whitePlain,
+  yellowUnderline,
+  blackPlain,
+  yellowUnderlineHover,
 } from '@app/constants/colors';
 import { monospaceRegular } from '@app/constants/fonts';
 
@@ -70,9 +73,20 @@ export const balanceItemAmount = css`
 `;
 
 export const balanceName = css`
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: ${yellowUnderline};
+  text-decoration-thickness: 3px;
+  text-decoration-offset: -5px;
+  border-bottom: 2px;
   color: ${grey80};
   font-size: 12px;
   flex: 1;
+
+  &:hover {
+    color: ${blackPlain};
+    text-decoration-color: ${yellowUnderlineHover};
+  }
 `;
 
 export const balanceType = css`

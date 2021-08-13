@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import NumberFormat from '@components/common/NumberFormat';
 
@@ -34,7 +35,7 @@ const BalanceTypeAmount = styled(NumberFormat)`
 const BalanceItemAmount = styled(NumberFormat)`
   ${balanceItemAmount}
 `;
-const BalanceName = styled.div`
+const BalanceName = styled(Link)`
   ${balanceName}
 `;
 const BalanceType = styled.div`
@@ -64,7 +65,9 @@ const BalanceTypeCard = ({ assetTypeName, balanceData }: BalancesByTypeCardProps
 const BalanceItem = ({ balance }: BalanceItemProps) => (
   <BalanceItemContainer>
     <div>
-      <BalanceName>{balance.name}</BalanceName>
+      <BalanceName to={{ pathname: `/account/${balance.name}`, state: { balance } }}>
+        {balance.name}
+      </BalanceName>
       <BalanceType>{balance.type}</BalanceType>
     </div>
     <BalanceItemAmount displayType={'text'} value={Math.round(balance.amount)} />

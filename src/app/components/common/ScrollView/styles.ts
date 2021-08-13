@@ -20,7 +20,7 @@ export const container = css`
   overflow-y: auto;
 `;
 
-export const header = css`
+export const header = css<{ isSectionIncluded: boolean }>`
   position: relative;
   background-color: ${grey3};
   border-bottom: 1px solid ${grey10};
@@ -29,6 +29,10 @@ export const header = css`
   justify-content: flex-end;
   height: 152px;
   box-sizing: border-box;
+
+  ${({ isSectionIncluded}) => isSectionIncluded && css`
+    height: 207px;
+  `}
 `;
 
 const truncateLongTitle = css`

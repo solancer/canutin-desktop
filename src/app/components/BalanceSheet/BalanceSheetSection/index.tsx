@@ -7,7 +7,6 @@ import BalancesByGroup from '@components/BalanceSheet/BalancesByGroup';
 
 import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK } from '@constants/events';
 import AssetIpc from '@app/data/asset.ipc';
-import TransactionIpc from '@app/data/transaction.ipc';
 import AccountIpc from '@app/data/account.ipc';
 import { Account, Asset } from '@database/entities';
 import {
@@ -30,7 +29,6 @@ const BalanceSheetSection = () => {
   useEffect(() => {
     AccountIpc.getAccounts();
     AssetIpc.getAssets();
-    TransactionIpc.getTransactions();
 
     ipcRenderer.on(DB_GET_ASSETS_ACK, (_: IpcRendererEvent, assets: Asset[]) => {
       setAssets(assets);

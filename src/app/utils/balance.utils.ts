@@ -124,11 +124,13 @@ export const generateAccountsBalanceInfo = (accounts: Account[]) => {
     accountsBalances = [
       ...accountsBalances,
       {
+        ...account,
         amount: account.balanceStatements?.[account.balanceStatements?.length - 1].autoCalculate
           ? account.transactions?.reduce((sum, transaction) => transaction.amount + sum, 0)
           : account.balanceStatements?.[account.balanceStatements?.length - 1].value,
         type: 'Account',
         name: account.name,
+        id: account.id,
       },
     ];
   });
@@ -137,6 +139,7 @@ export const generateAccountsBalanceInfo = (accounts: Account[]) => {
 };
 
 export const generateAssetBalanceInfo = (asset: Asset) => ({
+  ...asset,
   name: asset.name,
   type: 'Asset',
   amount: asset.value,
