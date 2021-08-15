@@ -29,12 +29,9 @@ import InputCurrency from '@components/common/Form/InputCurrency';
 import FormFooter from '@components/common/Form/FormFooter';
 import SubmitButton from '@components/common/Form/SubmitButton';
 import InlineCheckbox from '@components/common/Form/Checkbox';
+import ToggleInputField from '@components/common/Form/ToggleInputField';
 
-import { toggableInputContainer, dateField } from './styles';
-
-const ToggableInputContainer = styled.div`
-  ${toggableInputContainer}
-`;
+import { dateField } from './styles';
 
 const DateField = styled.div`
   ${dateField}
@@ -92,7 +89,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
     ipcRenderer.on(DB_NEW_TRANSACTION_ACK, (_: IpcRendererEvent, { status, message }) => {
       if (status === EVENT_SUCCESS) {
         setStatusMessage({
-          message: 'The transaction was succesfully created',
+          message: 'The transaction was successfully created',
           sentiment: StatusEnum.POSITIVE,
           isLoading: false,
         });
@@ -107,7 +104,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
     ipcRenderer.on(DB_EDIT_TRANSACTION_ACK, (_: IpcRendererEvent, { status, message }) => {
       if (status === EVENT_SUCCESS) {
         setStatusMessage({
-          message: 'The transaction was succesfully updated',
+          message: 'The transaction was successfully updated',
           sentiment: StatusEnum.POSITIVE,
           isLoading: false,
         });
@@ -189,7 +186,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
           required
         />
         <Field label="Amount" name="balance">
-          <ToggableInputContainer>
+          <ToggleInputField>
             <InputCurrency
               value={balance && Number(balance)}
               rules={{ validate: v => excludeFromTotals || v !== '' }}
@@ -202,7 +199,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
               label="Exclude from totals"
               register={register}
             />
-          </ToggableInputContainer>
+          </ToggleInputField>
         </Field>
       </Fieldset>
       <FormFooter>

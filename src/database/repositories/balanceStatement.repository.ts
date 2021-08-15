@@ -20,8 +20,12 @@ export class BalanceStatementRepository {
     return await getRepository<BalanceStatement>(BalanceStatement).find({
       relations: ['account'],
       order: {
-        createdAt: 'DESC'
+        createdAt: 'DESC',
       },
     });
+  }
+
+  static async deleteBalanceStatements(balanceStatementsIds: number[]) {
+    await getRepository<BalanceStatement>(BalanceStatement).delete(balanceStatementsIds);
   }
 }

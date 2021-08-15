@@ -33,10 +33,7 @@ export class Transaction extends Base {
 
   @ManyToOne(
     () => TransactionSubCategory,
-    transactionSubCategory => transactionSubCategory.transactions,
-    {
-      cascade: true,
-    }
+    transactionSubCategory => transactionSubCategory.transactions
   )
   @JoinColumn()
   category: TransactionSubCategory;

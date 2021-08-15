@@ -30,7 +30,7 @@ export class Account extends Base {
   @OneToMany(() => Transaction, transaction => transaction.account)
   transactions?: Transaction[];
 
-  @ManyToOne(() => AccountType, accountType => accountType.account, { cascade: true })
+  @ManyToOne(() => AccountType, accountType => accountType.account)
   @JoinColumn()
   accountType: AccountType;
 

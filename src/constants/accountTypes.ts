@@ -1,4 +1,4 @@
-import { BalanceGroupEnum } from '../enums/balanceGroup.enum';
+import { BalanceGroupEnum, balanceGroupLabels } from '../enums/balanceGroup.enum';
 
 export const accountTypes = [
   {
@@ -278,3 +278,8 @@ export const accountTypes = [
     ],
   },
 ];
+
+export const accountGroupedValues = accountTypes.map(({ balanceGroup, accountTypes }) => ({
+  options: accountTypes,
+  label: balanceGroupLabels[balanceGroup],
+}));

@@ -15,7 +15,7 @@ import InputCurrency from '@components/common/Form/InputCurrency';
 import InputCurrencyField from '@components/common/Form/InputCurrencyField';
 
 import { ACCOUNT, ASSET } from '@appConstants/misc';
-import { accountTypes } from '@constants/accountTypes';
+import { accountGroupedValues } from '@constants/accountTypes';
 import { assetTypes, assetTypesWithSymbol } from '@constants/assetTypes';
 import { NewAssetType } from '../../../../types/asset.type';
 import { NewAccountType } from '../../../../types/account.type';
@@ -24,11 +24,6 @@ import AccountIpc from '@app/data/account.ipc';
 import { balanceGroupLabels } from '@enums/balanceGroup.enum';
 
 import { toggableInputContainer } from './styles';
-
-export const accountGroupedValues = accountTypes.map(({ balanceGroup, accountTypes }) => ({
-  options: accountTypes,
-  label: balanceGroupLabels[balanceGroup],
-}));
 
 const assetTypesValues = assetTypes.map(({ balanceGroup, assetTypes }) => ({
   options: assetTypes,

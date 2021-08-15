@@ -32,14 +32,23 @@ import {
   DB_EDIT_TRANSACTION_ACK,
   DB_DELETE_TRANSACTION,
   DB_DELETE_TRANSACTION_ACK,
+  DB_EDIT_ACCOUNT_BALANCE,
+  DB_EDIT_ACCOUNT_BALANCE_ACK,
+  DB_EDIT_ACCOUNT_DETAILS,
+  DB_EDIT_ACCOUNT_DETAILS_ACK,
+  DB_GET_ACCOUNT,
+  DB_GET_ACCOUNT_ACK,
   FILTER_TRANSACTIONS,
   WINDOW_CONTROL,
+  DB_DELETE_ACCOUNT,
+  DB_DELETE_ACCOUNT_ACK,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
 import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
 import { enumExtensionFiles, enumImportTitleOptions, WindowControlEnum } from '@appConstants/misc';
 import { FilterTransactionInterface, NewTransactionType } from '@appTypes/transaction.type';
+import { AccountEditBalanceSubmitType, AccountEditDetailsSubmitType } from '@appTypes/account.type';
 
 import {
   DID_FINISH_LOADING,
@@ -219,6 +228,54 @@ const setupDbEvents = async () => {
       win?.webContents.send(DB_DELETE_TRANSACTION_ACK, { status: EVENT_SUCCESS });
     } catch (e) {
       win?.webContents.send(DB_DELETE_TRANSACTION_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
+
+  ipcMain.on(DB_EDIT_ACCOUNT_BALANCE, async (_: IpcMainEvent, accountBalance: AccountEditBalanceSubmitType) => {
+    try {
+      const newAccount = await AccountRepository.editBalance(accountBalance);
+      win?.webContents.send(DB_EDIT_ACCOUNT_BALANCE_ACK, { ...newAccount, status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_EDIT_ACCOUNT_BALANCE_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
+
+  ipcMain.on(DB_EDIT_ACCOUNT_DETAILS, async (_: IpcMainEvent, accountDetails: AccountEditDetailsSubmitType) => {
+    try {
+      const newAccount = await AccountRepository.editDetails(accountDetails);
+      win?.webContents.send(DB_EDIT_ACCOUNT_DETAILS_ACK, { ...newAccount, status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_EDIT_ACCOUNT_DETAILS_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
+
+  ipcMain.on(DB_DELETE_ACCOUNT, async (_: IpcMainEvent, accountId: number) => {
+    try {
+      await AccountRepository.deleteAccount(accountId);
+      win?.webContents.send(DB_DELETE_ACCOUNT_ACK, { status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_DELETE_ACCOUNT_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
+
+  ipcMain.on(DB_GET_ACCOUNT, async (_: IpcMainEvent, accountId: number) => {
+    try {
+      const account = await AccountRepository.getAccountById(accountId);
+      win?.webContents.send(DB_GET_ACCOUNT_ACK, { account, status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_GET_ACCOUNT_ACK, {
         status: EVENT_ERROR,
         message: 'An error occurred, please try again',
       });

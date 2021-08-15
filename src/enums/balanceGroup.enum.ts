@@ -23,3 +23,10 @@ export const balanceGroupApperances = {
   [BalanceGroupEnum.OTHER_ASSETS]: CardAppearanceEnum.OTHER_ASSETS,
   [BalanceGroupEnum.NET_WORTH]: CardAppearanceEnum.NET_WORTH,
 };
+
+export const balanceGroupOptions = Object.keys(balanceGroupLabels).map(balanceKey => ({
+  value: balanceKey,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  label: balanceGroupLabels[balanceKey],
+}));

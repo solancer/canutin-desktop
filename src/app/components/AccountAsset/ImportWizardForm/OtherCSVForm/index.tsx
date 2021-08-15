@@ -13,7 +13,6 @@ import Field from '@components/common/Form/Field';
 import InputTextField from '@components/common/Form/InputTextField';
 import InputCurrency from '@components/common/Form/InputCurrency';
 import { AnalyzeSourceMetadataType } from '@components/AccountAsset/ImportWizardForm';
-import { accountGroupedValues } from '@components/AccountAsset/AddAccountAssetForm/index';
 import FormFooter from '@components/common/Form/FormFooter';
 import SubmitButton from '@components/common/Form/SubmitButton';
 
@@ -22,6 +21,7 @@ import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
 import AccountIpc from '@app/data/account.ipc';
 import { Account } from '@database/entities';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
+import { accountGroupedValues } from '@constants/accountTypes';
 
 import { optionList, option, toggleInputContainer } from './styles';
 import {

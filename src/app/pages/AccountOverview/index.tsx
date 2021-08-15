@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { Account, Transaction } from '@database/entities';
@@ -13,13 +13,14 @@ import AccountOverviewEdit from '@components/Account/AccountOverviewEdit';
 
 // TODO:
 // - Balance history component
-// - Edit tab
 
 const AccountOverview = () => {
   const {
     state: { balance: account },
   } = useLocation<{ balance: Account }>();
   const { selectedFilterOption, setSelectedFilterOption } = useGlobalFilterTable();
+  const editAccount = useMemo(() => <AccountOverviewEdit temporalAccount={account}/>, []);
+  
   const [accountOverviewSections, setAccountOverviewSections] = useState([
     {
       label: 'Overview',
@@ -32,7 +33,7 @@ const AccountOverview = () => {
     },
     {
       label: 'Edit',
-      component: <AccountOverviewEdit />,
+      component: editAccount,
     },
   ]);
 
@@ -53,7 +54,7 @@ const AccountOverview = () => {
       },
       {
         label: 'Edit',
-        component: <AccountOverviewEdit />,
+        component: editAccount,
       },
     ]);
   }, [selectedFilterOption.label]);
