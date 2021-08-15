@@ -16,6 +16,7 @@ import {
   AssetType,
   AccountType,
   TransactionSubCategory,
+  AssetBalanceStatement,
 } from '../entities';
 
 export const dbConfig = {
@@ -32,6 +33,7 @@ export const dbConfig = {
     AssetType,
     AccountType,
     TransactionSubCategory,
+    AssetBalanceStatement,
   ],
 };
 

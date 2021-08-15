@@ -1,5 +1,5 @@
 import { AssetTypeEnum } from '../enums/assetType.enum';
-import { BalanceGroupEnum } from '../enums/balanceGroup.enum';
+import { BalanceGroupEnum, balanceGroupLabels } from '../enums/balanceGroup.enum';
 
 export const assetTypes = [
   {
@@ -60,3 +60,8 @@ export const assetTypesWithSymbol = [
   AssetTypeEnum.PRECIOUS_METAL.toLowerCase(),
   AssetTypeEnum.SECURITY.toLowerCase(),
 ];
+
+export const assetTypesValues = assetTypes.map(({ balanceGroup, assetTypes }) => ({
+  options: assetTypes,
+  label: balanceGroupLabels[balanceGroup],
+}));

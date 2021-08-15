@@ -8,6 +8,9 @@ export const getBalanceForAllAccountsAssets = (
   assets: Asset[],
   accounts: Account[]
 ): BalanceData | undefined => {
+  const assetsNoSold = assets.filter(({ balanceStatements }) => balanceStatements && !balanceStatements?.[balanceStatements.length - 1].sold);
+  const accountsNoClosed = accounts.filter(({ closed }) => !closed);
+
   const listOfBalancesByGroup = Object.keys(BalanceGroupEnum).reduce(
     (listOfBalancesByGroup, balanceGroup) => {
       if (isNaN(Number(balanceGroup))) {
@@ -23,10 +26,10 @@ export const getBalanceForAllAccountsAssets = (
         assetTransactions = [];
 
         assetTransactions = [
-          ...getAssetByType(type, assets).map(asset => generateAssetBalanceInfo(asset)),
+          ...getAssetByType(type, assetsNoSold).map(asset => generateAssetBalanceInfo(asset)),
         ];
 
-        accountTransactions = generateAccountsBalanceInfo(getAccountsByType(type, accounts));
+        accountTransactions = generateAccountsBalanceInfo(getAccountsByType(type, accountsNoClosed));
 
         if (accountTransactions.length > 0 || assetTransactions.length > 0) {
           typeList[type] = [...accountTransactions, ...assetTransactions].sort(
@@ -48,6 +51,7 @@ export const getBalanceForAllAccountsAssets = (
 };
 
 export const getBalanceForAssets = (assets: Asset[]) => {
+  const assetsNoSold = assets.filter(({ balanceStatements }) => balanceStatements && !balanceStatements?.[balanceStatements.length - 1].sold);
   const listOfBalancesByGroup = Object.keys(BalanceGroupEnum).reduce(
     (listOfBalancesByGroup, balanceGroup) => {
       if (isNaN(Number(balanceGroup))) {
@@ -61,7 +65,7 @@ export const getBalanceForAssets = (assets: Asset[]) => {
         assetTransactions = [];
 
         assetTransactions = [
-          ...getAssetByType(type, assets).map(asset => generateAssetBalanceInfo(asset)),
+          ...getAssetByType(type, assetsNoSold).map(asset => generateAssetBalanceInfo(asset)),
         ];
 
         if (assetTransactions.length > 0) {
@@ -84,6 +88,7 @@ export const getBalanceForAssets = (assets: Asset[]) => {
 };
 
 export const getBalanceForAccounts = (accounts: Account[]) => {
+  const accountsNoClosed = accounts.filter(({ closed }) => !closed);
   const listOfBalancesByGroup = Object.keys(BalanceGroupEnum).reduce(
     (listOfBalancesByGroup, balanceGroup) => {
       if (isNaN(Number(balanceGroup))) {
@@ -96,7 +101,7 @@ export const getBalanceForAccounts = (accounts: Account[]) => {
       types.forEach(type => {
         accountTransactions = [];
 
-        accountTransactions = generateAccountsBalanceInfo(getAccountsByType(type, accounts));
+        accountTransactions = generateAccountsBalanceInfo(getAccountsByType(type, accountsNoClosed));
 
         if (accountTransactions.length > 0) {
           typeList[type] = accountTransactions.sort(
@@ -142,7 +147,9 @@ export const generateAssetBalanceInfo = (asset: Asset) => ({
   ...asset,
   name: asset.name,
   type: 'Asset',
-  amount: asset.value,
+  amount: asset.balanceStatements
+    ? asset.balanceStatements?.[asset.balanceStatements.length - 1].value
+    : 0,
 });
 
 export const getAccountsByType = (type: string, accounts: Account[]) =>
@@ -166,7 +173,7 @@ export const getTotalBalanceByGroup = (assets: Asset[], accounts: Account[]) => 
   const balances = getBalanceForAllAccountsAssets(assets, accounts);
   return (
     balances &&
-    [...Object.keys(balances), BalanceGroupEnum.NET_WORTH].reduce(
+    Object.keys(balances).reduce(
       (acc, value) => {
         if (Number(value) === BalanceGroupEnum.NET_WORTH) {
           acc[BalanceGroupEnum.NET_WORTH] = Object.keys(acc).reduce(

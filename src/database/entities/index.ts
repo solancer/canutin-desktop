@@ -7,3 +7,4 @@ export { AccountType } from './accountType.entity';
 export { AssetType } from './assetType.entity';
 export { TransactionCategory } from './transactionCategory.entity';
 export { TransactionSubCategory } from './transactionSubCategory.entity';
+export { AssetBalanceStatement } from './assetBalanceStatement.entity';

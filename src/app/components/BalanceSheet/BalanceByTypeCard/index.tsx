@@ -62,17 +62,21 @@ const BalanceTypeCard = ({ assetTypeName, balanceData }: BalancesByTypeCardProps
   );
 };
 
-const BalanceItem = ({ balance }: BalanceItemProps) => (
-  <BalanceItemContainer>
-    <div>
-      <BalanceName to={{ pathname: `/account/${balance.name}`, state: { balance } }}>
-        {balance.name}
-      </BalanceName>
-      <BalanceType>{balance.type}</BalanceType>
-    </div>
-    <BalanceItemAmount displayType={'text'} value={Math.round(balance.amount)} />
-  </BalanceItemContainer>
-);
+const BalanceItem = ({ balance }: BalanceItemProps) => {
+  const redirectPathName = balance.type === "Asset" ? `/asset/${balance.name}` : `/account/${balance.name}`
+
+  return (
+    <BalanceItemContainer>
+      <div>
+        <BalanceName to={{ pathname: redirectPathName, state: { balance } }}>
+          {balance.name}
+        </BalanceName>
+        <BalanceType>{balance.type}</BalanceType>
+      </div>
+      <BalanceItemAmount displayType={'text'} value={Math.round(balance.amount)} />
+    </BalanceItemContainer>
+  );
+};
 
 const BalancesByTypeCard = ({ assetTypeName, balanceData }: BalancesByTypeCardProps) => (
   <Container>

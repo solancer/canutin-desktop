@@ -47,8 +47,11 @@ const BalanceSheetSection = () => {
   // Segment count
   const countList = {
     all: '',
-    accounts: accounts?.length,
-    assets: assets?.length,
+    accounts: accounts?.filter(({ closed }) => !closed).length,
+    assets: assets?.filter(
+      ({ balanceStatements }) =>
+        balanceStatements && !balanceStatements[balanceStatements.length - 1].sold
+    ).length,
   };
 
   const balanceSheetSegments = (

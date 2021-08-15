@@ -13,6 +13,18 @@ export const DB_GET_ACCOUNTS_ACK = 'dbGetAccountsAck';
 export const DB_GET_ASSETS = 'dbGetAssets';
 export const DB_GET_ASSETS_ACK = 'dbGetAssetsAck';
 
+export const DB_GET_ASSET = 'dbGetAsset';
+export const DB_GET_ASSET_ACK = 'dbGetAssetAck';
+
+export const DB_DELETE_ASSET = 'dbDeleteAsset';
+export const DB_DELETE_ASSET_ACK = 'dbDeleteAssetAck';
+
+export const DB_EDIT_ASSET_VALUE = 'dbEditAssetValue';
+export const DB_EDIT_ASSET_VALUE_ACK = 'dbEditAssetValueAck';
+
+export const DB_EDIT_ASSET_DETAILS = 'dbEditAssetDetails';
+export const DB_EDIT_ASSET_DETAILS_ACK = 'dbEditAssetDetailsAck';
+
 export const DB_GET_BALANCE_STATEMENTS = 'dbGetStatements';
 export const DB_GET_BALANCE_STATEMENTS_ACK = 'dbGetStatementsAck';
 

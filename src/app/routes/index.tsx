@@ -14,6 +14,7 @@ import Setup from '@pages/Setup';
 import Settings from '@pages/Settings';
 import EditTransaction from '@app/pages/EditTransaction';
 import AccountOverview from '@app/pages/AccountOverview';
+import AssetOverview from '@app/pages/AssetOverview';
 
 export const rootRoutesPaths = {
   bigpicture: '/bigpicture',
@@ -32,6 +33,7 @@ export const routesPaths = {
   addAccountOrAssetByHand: '/account/addAccountOrAsset/byHand',
   addAccountOrAssetByWizard: '/account/addAccountOrAsset/byWizard',
   accountOverview: '/account/:accountName/',
+  assetOverview: '/asset/:assetName/',
   addTransaction: '/transactions/addTransaction',
   editTransaction: '/transactions/:categoryName/:accountName/Edit',
   canutinSetup: '/canutinSetup',
@@ -132,5 +134,10 @@ export const routesConfig: RouteConfigProps[] = [
     path: routesPaths.accountOverview,
     exact: true,
     component: <AccountOverview />,
+  },
+  {
+    path: routesPaths.assetOverview,
+    exact: true,
+    component: <AssetOverview />,
   }
 ];

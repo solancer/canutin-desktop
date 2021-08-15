@@ -16,19 +16,13 @@ import InputCurrencyField from '@components/common/Form/InputCurrencyField';
 
 import { ACCOUNT, ASSET } from '@appConstants/misc';
 import { accountGroupedValues } from '@constants/accountTypes';
-import { assetTypes, assetTypesWithSymbol } from '@constants/assetTypes';
-import { NewAssetType } from '../../../../types/asset.type';
-import { NewAccountType } from '../../../../types/account.type';
+import { assetTypesWithSymbol, assetTypesValues } from '@constants/assetTypes';
 import AssetIpc from '@app/data/asset.ipc';
 import AccountIpc from '@app/data/account.ipc';
-import { balanceGroupLabels } from '@enums/balanceGroup.enum';
 
+import { NewAssetType } from '../../../../types/asset.type';
+import { NewAccountType } from '../../../../types/account.type';
 import { toggableInputContainer } from './styles';
-
-const assetTypesValues = assetTypes.map(({ balanceGroup, assetTypes }) => ({
-  options: assetTypes,
-  label: balanceGroupLabels[balanceGroup],
-}));
 
 const ToggableInputContainer = styled.div`
   ${toggableInputContainer}

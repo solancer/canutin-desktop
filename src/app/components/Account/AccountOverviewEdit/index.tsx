@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import Section from '@components/common/Section';
 import RemoveSection from '@components/common/Form/RemoveSection';
@@ -70,7 +70,7 @@ const AccountOverviewEdit = ({ temporalAccount }: AccountOverviewEditProps) => {
         onRemove={onRemove}
         removeMessage={
           <>
-            Remove transaction <b>{account.name}</b>
+            Remove account <b>{account.name}</b>
           </>
         }
       />

@@ -1,17 +1,15 @@
-import { Entity, Column, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 import { Base } from './base.entity';
 import { BalanceGroupEnum } from '../../enums/balanceGroup.enum';
 import { AssetType } from './assetType.entity';
 import { getBalanceGroupByAssetType } from '../helpers';
+import { AssetBalanceStatement } from './assetBalanceStatement.entity';
 
 @Entity()
 export class Asset extends Base {
   @Column()
   name: string;
-
-  @Column({ default: 0 })
-  value: number;
 
   @ManyToOne(() => AssetType, assetType => assetType.asset, { cascade: true })
   @JoinColumn()
@@ -21,35 +19,22 @@ export class Asset extends Base {
   balanceGroup: BalanceGroupEnum;
 
   @Column({ nullable: true })
-  quantity?: number;
-
-  @Column({ nullable: true })
-  cost?: number;
-
-  @Column({ nullable: true })
   symbol?: string;
+
+  @OneToMany(() => AssetBalanceStatement, balanceStatement => balanceStatement.asset)
+  balanceStatements?: AssetBalanceStatement[];
 
   constructor(
     name: string,
     assetType: AssetType,
-    value = 0,
-    quantity?: number,
-    cost?: number,
-    symbol?: string
+    symbol?: string,
+    balanceStatements?: AssetBalanceStatement[]
   ) {
     super();
     this.name = name;
-
-    if (quantity && cost) {
-      this.value = quantity * cost;
-    } else {
-      this.value = value;
-    }
-
     this.assetType = assetType;
     this.balanceGroup = getBalanceGroupByAssetType(assetType?.name);
-    this.quantity = quantity;
-    this.cost = cost;
     this.symbol = symbol;
+    this.balanceStatements = balanceStatements;
   }
 }

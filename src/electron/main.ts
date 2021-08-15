@@ -42,6 +42,14 @@ import {
   WINDOW_CONTROL,
   DB_DELETE_ACCOUNT,
   DB_DELETE_ACCOUNT_ACK,
+  DB_DELETE_ASSET,
+  DB_GET_ASSET,
+  DB_DELETE_ASSET_ACK,
+  DB_GET_ASSET_ACK,
+  DB_EDIT_ASSET_VALUE,
+  DB_EDIT_ASSET_VALUE_ACK,
+  DB_EDIT_ASSET_DETAILS,
+  DB_EDIT_ASSET_DETAILS_ACK,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
@@ -70,7 +78,7 @@ import seedCategories from '@database/seed/seedCategories';
 import seedAssetTypes from '@database/seed/seedAssetTypes';
 import seedAccountTypes from '@database/seed/seedAccountTypes';
 import { AccountRepository } from '@database/repositories/account.repository';
-import { NewAssetType } from '../types/asset.type';
+import { AssetEditDetailsSubmitType, AssetEditValueSubmitType, NewAssetType } from '../types/asset.type';
 import { NewAccountType } from '../types/account.type';
 
 let win: BrowserWindow | null = null;
@@ -234,29 +242,41 @@ const setupDbEvents = async () => {
     }
   });
 
-  ipcMain.on(DB_EDIT_ACCOUNT_BALANCE, async (_: IpcMainEvent, accountBalance: AccountEditBalanceSubmitType) => {
-    try {
-      const newAccount = await AccountRepository.editBalance(accountBalance);
-      win?.webContents.send(DB_EDIT_ACCOUNT_BALANCE_ACK, { ...newAccount, status: EVENT_SUCCESS });
-    } catch (e) {
-      win?.webContents.send(DB_EDIT_ACCOUNT_BALANCE_ACK, {
-        status: EVENT_ERROR,
-        message: 'An error occurred, please try again',
-      });
+  ipcMain.on(
+    DB_EDIT_ACCOUNT_BALANCE,
+    async (_: IpcMainEvent, accountBalance: AccountEditBalanceSubmitType) => {
+      try {
+        const newAccount = await AccountRepository.editBalance(accountBalance);
+        win?.webContents.send(DB_EDIT_ACCOUNT_BALANCE_ACK, {
+          ...newAccount,
+          status: EVENT_SUCCESS,
+        });
+      } catch (e) {
+        win?.webContents.send(DB_EDIT_ACCOUNT_BALANCE_ACK, {
+          status: EVENT_ERROR,
+          message: 'An error occurred, please try again',
+        });
+      }
     }
-  });
+  );
 
-  ipcMain.on(DB_EDIT_ACCOUNT_DETAILS, async (_: IpcMainEvent, accountDetails: AccountEditDetailsSubmitType) => {
-    try {
-      const newAccount = await AccountRepository.editDetails(accountDetails);
-      win?.webContents.send(DB_EDIT_ACCOUNT_DETAILS_ACK, { ...newAccount, status: EVENT_SUCCESS });
-    } catch (e) {
-      win?.webContents.send(DB_EDIT_ACCOUNT_DETAILS_ACK, {
-        status: EVENT_ERROR,
-        message: 'An error occurred, please try again',
-      });
+  ipcMain.on(
+    DB_EDIT_ACCOUNT_DETAILS,
+    async (_: IpcMainEvent, accountDetails: AccountEditDetailsSubmitType) => {
+      try {
+        const newAccount = await AccountRepository.editDetails(accountDetails);
+        win?.webContents.send(DB_EDIT_ACCOUNT_DETAILS_ACK, {
+          ...newAccount,
+          status: EVENT_SUCCESS,
+        });
+      } catch (e) {
+        win?.webContents.send(DB_EDIT_ACCOUNT_DETAILS_ACK, {
+          status: EVENT_ERROR,
+          message: 'An error occurred, please try again',
+        });
+      }
     }
-  });
+  );
 
   ipcMain.on(DB_DELETE_ACCOUNT, async (_: IpcMainEvent, accountId: number) => {
     try {
@@ -281,6 +301,57 @@ const setupDbEvents = async () => {
       });
     }
   });
+
+  ipcMain.on(DB_DELETE_ASSET, async (_: IpcMainEvent, assetId: number) => {
+    try {
+      await AssetRepository.deleteAsset(assetId);
+      win?.webContents.send(DB_DELETE_ASSET_ACK, { status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_DELETE_ASSET_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
+
+  ipcMain.on(DB_GET_ASSET, async (_: IpcMainEvent, assetId: number) => {
+    try {
+      const asset = await AssetRepository.getAssetById(assetId);
+      win?.webContents.send(DB_GET_ASSET_ACK, { asset, status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_GET_ASSET_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
+
+  ipcMain.on(DB_EDIT_ASSET_VALUE, async (_: IpcMainEvent, assetValue: AssetEditValueSubmitType) => {
+    try {
+      const newAsset = await AssetRepository.editValue(assetValue);
+      win?.webContents.send(DB_EDIT_ASSET_VALUE_ACK, { ...newAsset, status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_EDIT_ASSET_VALUE_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
+
+  ipcMain.on(
+    DB_EDIT_ASSET_DETAILS,
+    async (_: IpcMainEvent, assetValue: AssetEditDetailsSubmitType) => {
+      try {
+        const newAsset = await AssetRepository.editDetails(assetValue);
+        win?.webContents.send(DB_EDIT_ASSET_DETAILS_ACK, { ...newAsset, status: EVENT_SUCCESS });
+      } catch (e) {
+        win?.webContents.send(DB_EDIT_ASSET_DETAILS_ACK, {
+          status: EVENT_ERROR,
+          message: 'An error occurred, please try again',
+        });
+      }
+    }
+  );
 
   ipcMain.on(WINDOW_CONTROL, async (e, action: WindowControlEnum) => {
     if (win) {

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 
 import { Account } from '@database/entities';
@@ -9,6 +10,7 @@ import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
 import { DB_EDIT_ACCOUNT_BALANCE_ACK } from '@constants/events';
 import { StatusEnum } from '@app/constants/misc';
 import { AccountEditBalanceSubmitType } from '@appTypes/account.type';
+import { routesPaths } from '@app/routes';
 
 import Form from '@components/common/Form/Form';
 import Fieldset from '@components/common/Form/Fieldset';
@@ -26,6 +28,7 @@ interface AccountEditBalanceFormProps {
 
 
 const AccountEditBalanceForm = ({ account }: AccountEditBalanceFormProps) => {
+  const { push } = useHistory();
   const { setStatusMessage } = useContext(StatusBarContext);
   const { handleSubmit, control, register, watch } = useForm({
     defaultValues: {
@@ -49,6 +52,7 @@ const AccountEditBalanceForm = ({ account }: AccountEditBalanceFormProps) => {
           sentiment: StatusEnum.POSITIVE,
           isLoading: false,
         });
+        push(routesPaths.balance);
       }
 
       if (status === EVENT_ERROR) {
