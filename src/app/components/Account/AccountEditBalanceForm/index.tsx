@@ -26,7 +26,6 @@ interface AccountEditBalanceFormProps {
   account: Account;
 }
 
-
 const AccountEditBalanceForm = ({ account }: AccountEditBalanceFormProps) => {
   const { push } = useHistory();
   const { setStatusMessage } = useContext(StatusBarContext);
@@ -42,6 +41,7 @@ const AccountEditBalanceForm = ({ account }: AccountEditBalanceFormProps) => {
   });
 
   const balance = watch('balance');
+  const closed = watch('closed');
   const autoCalculate = watch('autoCalculate');
 
   useEffect(() => {
@@ -102,6 +102,17 @@ const AccountEditBalanceForm = ({ account }: AccountEditBalanceFormProps) => {
         <Field label="Mark account as" name="closed">
           <InlineCheckbox name="closed" id="closed" label="Closed" register={register} />
         </Field>
+        {closed && (
+          <FieldNotice
+            title="Closing account"
+            description={
+              <div>
+                Marking an account as closed will keep it’s balance history but won’t be updated any
+                more going forward.
+              </div>
+            }
+          />
+        )}
       </Fieldset>
       <FormFooter>
         <SubmitButton>Save</SubmitButton>
