@@ -66,7 +66,7 @@ export class TransactionRepository {
     return await getRepository<Transaction>(Transaction).find({
       relations: ['account', 'account.accountType'],
       order: {
-        id: 'DESC',
+        date: 'DESC',
       },
     });
   }

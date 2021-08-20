@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { Account, Transaction } from '@database/entities';
 import { getAccountInformationLabel } from '@app/utils/account.utils';
-import { getSelectedTransactions } from '@app/constants/filters';
+import { getSelectedTransactions } from '@app/utils/balance.utils';
 import useGlobalFilterTable from '@app/hooks/useGlobalFilterTable';
 
 import ScrollView from '@components/common/ScrollView';
@@ -26,7 +26,11 @@ const AccountOverview = () => {
       label: 'Overview',
       component: (
         <AccountOverviewInformation
-          transactions={account.transactions as Transaction[]}
+          transactions={getSelectedTransactions(
+            account.transactions as Transaction[],
+            selectedFilterOption.value.dateFrom,
+            selectedFilterOption.value.dateTo
+          )}
           account={account}
         />
       ),

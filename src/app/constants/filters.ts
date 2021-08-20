@@ -1,7 +1,5 @@
 import { subMonths, subYears, isAfter, isBefore } from 'date-fns';
 
-import { Transaction } from '@database/entities';
-
 export const filters = [
   {
     label: 'This month',
@@ -34,8 +32,3 @@ export const filterOptions = filters.map(({ label, dateFrom, dateTo }) => ({
   value: { dateFrom, dateTo },
   label,
 }));
-
-export const getSelectedTransactions = (transactions: Transaction[], from: Date, to: Date) =>
-  transactions.filter(
-    transaction => isBefore(from, transaction.date) && isAfter(to, transaction.date)
-  );
