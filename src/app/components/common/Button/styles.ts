@@ -1,7 +1,7 @@
 import { css } from 'styled-components';
 
 import { sansSerifBold } from '@appConstants/fonts';
-import { grey20, grey40, grey70, redPlain, whitePlain } from '@appConstants/colors';
+import { grey20, grey40, grey70 } from '@appConstants/colors';
 
 export const container = css`
   ${sansSerifBold};

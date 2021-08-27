@@ -1,7 +1,7 @@
 import { css } from 'styled-components';
 
 import { inputShared } from '@appConstants/inputs';
-import { bluePlain, blueLight, redPlain } from '@appConstants/colors';
+import { bluePlain, blueLight, redPlain, borderGrey } from '@appConstants/colors';
 
 const innerSpacing = '6px';
 
@@ -22,8 +22,12 @@ export const selectInput = css<{ error: string | undefined; isClearable: boolean
         outline-color: none;
       }
 
-      &:hover,
-      &--is-focused {
+      &:hover {
+        border-color: ${borderGrey};
+      }
+
+      &--is-focused,
+      &--is-focused:hover {
         border-color: ${bluePlain};
       }
     }
