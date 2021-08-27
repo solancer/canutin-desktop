@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
+import merge from 'deepmerge';
 
 import Section from '@components/common/Section';
 import { SegmentedControl, Segment } from '@components/common/SegmentedControl';
@@ -10,9 +11,8 @@ import AssetIpc from '@app/data/asset.ipc';
 import AccountIpc from '@app/data/account.ipc';
 import { Account, Asset } from '@database/entities';
 import {
-  getBalanceForAccounts,
-  getBalanceForAllAccountsAssets,
-  getBalanceForAssets,
+  getBalanceForAccountsByBalanceGroup,
+  getBalanceForAssetByBalanceGroup,
 } from '@app/utils/balance.utils';
 
 export enum BalanceSheetSegmentsEnum {
@@ -67,10 +67,12 @@ const BalanceSheetSection = () => {
     </SegmentedControl>
   );
 
+  const assetsBalancesListData = assets && getBalanceForAssetByBalanceGroup(assets);
+  const accountBalancesListData = accounts && getBalanceForAccountsByBalanceGroup(accounts);
   const allBalancesListData =
-    assets && accounts && getBalanceForAllAccountsAssets(assets, accounts);
-  const assetsBalancesListData = assets && getBalanceForAssets(assets);
-  const accountBalancesListData = accounts && getBalanceForAccounts(accounts);
+    (assetsBalancesListData ||
+    accountBalancesListData) &&
+    merge(assetsBalancesListData ? assetsBalancesListData : {}, accountBalancesListData ? accountBalancesListData : {});
 
   const allBalanceSheet = <BalancesByGroup balancesByGroupData={allBalancesListData || {}} />;
   const accountsBalanceSheet = (
