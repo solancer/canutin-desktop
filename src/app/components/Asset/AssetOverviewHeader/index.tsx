@@ -1,23 +1,22 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { routesPaths } from '@routes';
 import { filterOptions } from '@app/constants/filters';
+import { SelectFieldValue } from '@components/common/Form/Select';
 
 import ButtonRow from '@components/common/ButtonRow';
 import Button from '@components/common/Button';
 import ButtonDivider from '@components/common/ButtonDivider';
 import ButtonSelect from '@components/common/ButtonSelect';
 
-const AssetOverviewHeader = () => {
-  const history = useHistory();
+interface AssetOverviewHeaderProps {
+  filterOption: SelectFieldValue;
+  setFilterOption: Dispatch<SetStateAction<SelectFieldValue>>;
+}
 
-  // FIXME: This is a placeholder, remove after implementing the correct date range.
-  const tempValue = {
-    label: 'Last 3 months',
-    dateFrom: new Date(),
-    dateTo: new Date(),
-  };
+const AssetOverviewHeader = ({ filterOption, setFilterOption }: AssetOverviewHeaderProps) => {
+  const history = useHistory();
 
   return (
     <ButtonRow>
@@ -27,8 +26,8 @@ const AssetOverviewHeader = () => {
       <ButtonDivider />
       <ButtonSelect
         options={filterOptions}
-        value={tempValue} // FIXME
-        onChange={() => {}} // FIXME
+        value={filterOption}
+        onChange={setFilterOption}
         isSearchable={false}
         classNamePrefix="select"
       />

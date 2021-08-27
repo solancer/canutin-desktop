@@ -163,6 +163,12 @@ export const getSelectedTransactions = (transactions: Transaction[], from: Date,
     transaction => isBefore(from, transaction.date) && isAfter(to, transaction.date)
   );
 
+
+export const getSelectedBalanceStatements = (assetBalanceStatements: AssetBalanceStatement[], from: Date, to: Date) =>
+assetBalanceStatements.filter(
+  assetBalanceStatement => isBefore(from, assetBalanceStatement.updatedAt) && isAfter(to, assetBalanceStatement.updatedAt)
+);
+
 export const getTransactionsBalance = (transactions: Transaction[]) => {
   return transactions.reduce((acc, transaction) => transaction.amount + acc, 0);
 };
@@ -268,7 +274,7 @@ export const getAccountBalancesByWeeks = (
     return [
       ...acc,
       {
-        week: getWeek(weekDate),
+        week: getWeek(weekDate, { weekStartsOn: 1 }),
         balance,
         dateWeek: weekDate,
         label: getWeek(weekDate, { weekStartsOn: 1 }).toString(),

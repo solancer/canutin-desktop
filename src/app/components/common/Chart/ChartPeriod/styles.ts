@@ -22,7 +22,6 @@ export const Period = styled.div`
     props.theme.isActive &&
     css`
       position: relative;
-      z-index: 1;
       background-color: ${grey3};
       border-bottom-color: transparent;
     `}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { isAfter, isBefore } from 'date-fns';
 
 import { Account, BalanceStatement, Transaction } from '@database/entities';
 
@@ -19,8 +20,8 @@ interface AccountOverviewInformationProps {
 const AccountOverviewInformation = ({ account, transactions }: AccountOverviewInformationProps) => {
   const accountChartBalances = account.balanceStatements?.[account.balanceStatements?.length - 1]
     .autoCalculate === false
-    ? getAccountBalancesByWeeks(account.balanceStatements as BalanceStatement[], 53)
-    : getTransactionBalanceByWeeks(transactions, 53);
+    ? getAccountBalancesByWeeks(account.balanceStatements as BalanceStatement[], 52)
+    : getTransactionBalanceByWeeks(transactions, 52);
 
   return (
     <>
@@ -28,9 +29,9 @@ const AccountOverviewInformation = ({ account, transactions }: AccountOverviewIn
         <Chart
           chartData={[
             ...generatePlaceholdersChartPeriod(
-              accountChartBalances[0].dateWeek,
-              53,
-              accountChartBalances.length
+              accountChartBalances?.[0].dateWeek ? accountChartBalances?.[0].dateWeek : new Date(),
+              52,
+              accountChartBalances.length > 52 ? 52 : accountChartBalances.length
             ),
             ...accountChartBalances,
           ]}

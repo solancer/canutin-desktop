@@ -20,7 +20,7 @@ const ChartSummary = ({ periodsLength, activeBalance }: ChartSummaryProps) => {
     <Card
       label="Week"
       appearance={CardAppearanceEnum.SECONDARY}
-      value={`${activeBalance.week} of ${activeBalance.dateWeek.getFullYear()}`}
+      value={`${activeBalance.label} of ${activeBalance.dateWeek.getFullYear()}`}
     />
     <Card
       label="Difference"
