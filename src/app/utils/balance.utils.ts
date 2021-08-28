@@ -119,9 +119,11 @@ export const getTotalBalanceByGroup = (assets: Asset[], accounts: Account[]) => 
   const assetsBalancesListData = assets && getBalanceForAssetByBalanceGroup(assets);
   const accountBalancesListData = accounts && getBalanceForAccountsByBalanceGroup(accounts);
   const allBalancesListData =
-    (assetsBalancesListData ||
-    accountBalancesListData) &&
-    merge(assetsBalancesListData ? assetsBalancesListData : {}, accountBalancesListData ? accountBalancesListData : {});
+    (assetsBalancesListData || accountBalancesListData) &&
+    merge(
+      assetsBalancesListData ? assetsBalancesListData : {},
+      accountBalancesListData ? accountBalancesListData : {}
+    );
 
   return (
     allBalancesListData &&
@@ -158,16 +160,23 @@ export const getTotalBalanceByGroup = (assets: Asset[], accounts: Account[]) => 
   );
 };
 
-export const getSelectedTransactions = (transactions: Transaction[], from: Date, to: Date) =>
-  transactions.filter(
+export const getSelectedTransactions = (transactions: Transaction[], from: Date, to: Date) => {
+  return transactions.filter(
     transaction => isBefore(from, transaction.date) && isAfter(to, transaction.date)
   );
+};
 
-
-export const getSelectedBalanceStatements = (assetBalanceStatements: AssetBalanceStatement[], from: Date, to: Date) =>
-assetBalanceStatements.filter(
-  assetBalanceStatement => isBefore(from, assetBalanceStatement.updatedAt) && isAfter(to, assetBalanceStatement.updatedAt)
-);
+export const getSelectedBalanceStatements = (
+  assetBalanceStatements: AssetBalanceStatement[],
+  from: Date,
+  to: Date
+) => {
+  return assetBalanceStatements.filter(
+    assetBalanceStatement =>
+      isBefore(from, assetBalanceStatement.updatedAt) &&
+      isAfter(to, assetBalanceStatement.updatedAt)
+  );
+};
 
 export const getTransactionsBalance = (transactions: Transaction[]) => {
   return transactions.reduce((acc, transaction) => transaction.amount + acc, 0);
@@ -239,7 +248,7 @@ export const getTransactionBalanceByWeeks = (
         week: getWeek(weekDate),
         balance,
         dateWeek: weekDate,
-        label: getWeek(weekDate, { weekStartsOn: 1 }).toString(),
+        label: getWeek(weekDate).toString(),
         difference: index === 0 ? 0 : calculateBalanceDifference(balance, acc[index - 1].balance),
         id: index,
       },
@@ -274,10 +283,10 @@ export const getAccountBalancesByWeeks = (
     return [
       ...acc,
       {
-        week: getWeek(weekDate, { weekStartsOn: 1 }),
+        week: getWeek(weekDate),
         balance,
         dateWeek: weekDate,
-        label: getWeek(weekDate, { weekStartsOn: 1 }).toString(),
+        label: getWeek(weekDate).toString(),
         difference: index === 0 ? 0 : calculateBalanceDifference(balance, acc[index - 1].balance),
         id: index,
       },
@@ -308,7 +317,7 @@ export const getAssetBalancesByWeeks = (
     );
     const balance = balanceStatementValue
       ? balanceStatementValue
-      : acc[index - 1].balance
+      : acc[index - 1]?.balance
       ? acc[index - 1].balance
       : 0;
 
@@ -318,7 +327,7 @@ export const getAssetBalancesByWeeks = (
         week: getWeek(weekDate),
         balance,
         dateWeek: weekDate,
-        label: getWeek(weekDate, { weekStartsOn: 1 }).toString(),
+        label: getWeek(weekDate).toString(),
         difference: index === 0 ? 0 : calculateBalanceDifference(balance, acc[index - 1].balance),
         id: index,
       },
@@ -336,11 +345,8 @@ export const generatePlaceholdersChartPeriod = (
   } else {
     const weeksDates = eachWeekOfInterval(
       {
-        start: sub(from, { weeks: weeks - weeksOffset }),
-        end: from,
-      },
-      {
-        weekStartsOn: 1,
+        start: sub(from, { weeks: weeks - weeksOffset + 1 }),
+        end: sub(from, { weeks: 1 }),
       }
     );
 
@@ -351,7 +357,7 @@ export const generatePlaceholdersChartPeriod = (
           week: getWeek(weekDate),
           balance: 0,
           dateWeek: weekDate,
-          label: getWeek(weekDate, { weekStartsOn: 1 }).toString(),
+          label: getWeek(weekDate).toString(),
           difference: 0,
           id: index + weeksOffset,
         },

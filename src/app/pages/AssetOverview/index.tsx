@@ -15,7 +15,7 @@ const AssetOverview = () => {
   const {
     state: { balance },
   } = useLocation<{ balance: Asset }>();
-  const { selectedFilterOption, setSelectedFilterOption } = useGlobalFilterTable();
+  const { selectedFilterOption, setSelectedFilterOption, numberOfWeeks } = useGlobalFilterTable();
   const editAsset = useMemo(() => <AssetOverviewEdit temporalAsset={balance} />, []);
 
   const [assetOverviewSections, setAssetOverviewSections] = useState([
@@ -31,6 +31,7 @@ const AssetOverview = () => {
               selectedFilterOption.value.dateTo
             )
           }
+          numberOfWeeks={numberOfWeeks}
         />
       ),
     },
@@ -54,6 +55,7 @@ const AssetOverview = () => {
                 selectedFilterOption.value.dateTo
               )
             }
+            numberOfWeeks={numberOfWeeks}
           />
         ),
       },

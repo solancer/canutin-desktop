@@ -11,9 +11,10 @@ const Container = styled.div``;
 
 interface AssetOverviewInformationProps {
   assetBalanceStatements: AssetBalanceStatement[] | undefined;
+  numberOfWeeks: number;
 }
 
-const AssetOverviewInformation = ({ assetBalanceStatements }: AssetOverviewInformationProps) => {
+const AssetOverviewInformation = ({ assetBalanceStatements, numberOfWeeks }: AssetOverviewInformationProps) => {
   const assetChartBalances =
     assetBalanceStatements && assetBalanceStatements.length > 0
       ? getAssetBalancesByWeeks(assetBalanceStatements, 52)
@@ -26,8 +27,8 @@ const AssetOverviewInformation = ({ assetBalanceStatements }: AssetOverviewInfor
           chartData={[
             ...generatePlaceholdersChartPeriod(
               assetChartBalances?.[0]?.dateWeek ? assetChartBalances?.[0].dateWeek : new Date(),
-              52,
-              assetChartBalances.length > 52 ? 52 : assetChartBalances.length
+              numberOfWeeks,
+              assetChartBalances.length > numberOfWeeks ? numberOfWeeks : assetChartBalances.length
             ),
             ...assetChartBalances,
           ]}

@@ -15,9 +15,10 @@ import {
 interface AccountOverviewInformationProps {
   account: Account;
   transactions: Transaction[];
+  numberOfWeeks: number;
 }
 
-const AccountOverviewInformation = ({ account, transactions }: AccountOverviewInformationProps) => {
+const AccountOverviewInformation = ({ account, transactions, numberOfWeeks }: AccountOverviewInformationProps) => {
   const accountChartBalances = account.balanceStatements?.[account.balanceStatements?.length - 1]
     .autoCalculate === false
     ? getAccountBalancesByWeeks(account.balanceStatements as BalanceStatement[], 52)
@@ -30,8 +31,8 @@ const AccountOverviewInformation = ({ account, transactions }: AccountOverviewIn
           chartData={[
             ...generatePlaceholdersChartPeriod(
               accountChartBalances?.[0].dateWeek ? accountChartBalances?.[0].dateWeek : new Date(),
-              52,
-              accountChartBalances.length > 52 ? 52 : accountChartBalances.length
+              numberOfWeeks,
+              accountChartBalances.length > numberOfWeeks ? numberOfWeeks : accountChartBalances.length,
             ),
             ...accountChartBalances,
           ]}

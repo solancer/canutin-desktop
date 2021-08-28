@@ -15,7 +15,7 @@ const AccountOverview = () => {
   const {
     state: { balance: account },
   } = useLocation<{ balance: Account }>();
-  const { selectedFilterOption, setSelectedFilterOption } = useGlobalFilterTable();
+  const { selectedFilterOption, setSelectedFilterOption, numberOfWeeks } = useGlobalFilterTable();
   const editAccount = useMemo(() => <AccountOverviewEdit temporalAccount={account} />, []);
 
   const [accountOverviewSections, setAccountOverviewSections] = useState([
@@ -29,6 +29,7 @@ const AccountOverview = () => {
             selectedFilterOption.value.dateTo
           )}
           account={account}
+          numberOfWeeks={numberOfWeeks}
         />
       ),
     },
@@ -50,6 +51,7 @@ const AccountOverview = () => {
               selectedFilterOption.value.dateTo
             )}
             account={account}
+            numberOfWeeks={numberOfWeeks}
           />
         ),
       },

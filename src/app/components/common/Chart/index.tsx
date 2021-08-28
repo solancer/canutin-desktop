@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { ChartPeriodType } from '@app/utils/balance.utils';
 
-import Period from './ChartPeriod';
+import ChartPeriod from './ChartPeriod';
 import ChartSummary from './ChartSummary';
 import { Frame } from './styles';
 
@@ -56,7 +56,7 @@ const Chart = ({ chartData }: ChartProps) => {
     <Frame columns={chartData.length}>
       {chartData.map((period, index) => {
         return (
-          <Period
+          <ChartPeriod
             key={period.id}
             id={period.id}
             balance={period.balance}
