@@ -233,6 +233,10 @@ export const getTransactionBalanceByWeeks = (
   transactions: Transaction[],
   weeks: number
 ): ChartPeriodType[] => {
+  if (transactions.length === 0) {
+    return [];
+  }
+
   const weeksDates = eachWeekOfInterval({
     start: max([transactions[0].date, subWeeks(new Date(), weeks)]),
     end: new Date(),
