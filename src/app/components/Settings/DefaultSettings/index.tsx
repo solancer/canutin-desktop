@@ -11,6 +11,7 @@ const DefaultSettings = () => (
       <InputTextField label="Currency" name="currency" value="USD $" disabled />
       <InputTextField label="Date format" name="dateFormat" value="YYYY/MM/DD" disabled />
       <InputTextField label="Number format" name="numberFormat" value="$111,222.33" disabled />
+      <InputTextField label="First day of the week" name="weekStartsOn" value="Monday" disabled />
     </Fieldset>
   </Form>
 );
