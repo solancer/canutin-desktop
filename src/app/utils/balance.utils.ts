@@ -216,14 +216,10 @@ export type ChartPeriodType = {
 };
 
 export const calculateBalanceDifference = (originalBalance: number, newBalance: number) => {
-  if (originalBalance === newBalance) {
+  if (originalBalance === newBalance || newBalance === 0) {
     return 0;
   } else {
-    if (originalBalance > 0) {
-      return Number((((originalBalance - newBalance) / originalBalance) * 100).toFixed(2));
-    } else {
-      return Number((((newBalance - originalBalance) / originalBalance) * 100).toFixed(2));
-    }
+    return Number((((originalBalance - newBalance) / Math.abs(newBalance)) * 100).toFixed(2));
   }
 };
 
