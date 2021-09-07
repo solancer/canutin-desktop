@@ -1,28 +1,22 @@
 import React from 'react';
 import { CellProps } from 'react-table';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 import { formatDate } from '@app/utils/date.utils';
 import { Transaction } from '@database/entities';
 
 import NumberFormat from '@components/common/NumberFormat';
 
-import { amountCell, dateCell, descriptionCell, linkCell } from './styles';
+import { amountCell, dateCell, linkCell } from './styles';
+import TextLink from '@app/components/common/TextLink';
 
-export const AmountCellField = styled(NumberFormat)`
+const AmountCellField = styled(NumberFormat)`
   ${amountCell}
 `;
-
-export const DateCellField = styled.span`
+const DateCellField = styled.span`
   ${dateCell}
 `;
-
-export const DescriptionCellField = styled(Link)`
-  ${descriptionCell}
-`;
-
-export const LinkCellField = styled.p`
+const LinkCellField = styled.p`
   ${linkCell}
 `;
 
@@ -47,14 +41,11 @@ export const AmountCell = ({
 };
 
 export const DescriptionCell = ({ value, ...props }: CellProps<Transaction>) => (
-  <DescriptionCellField
-    to={{
-      pathname: `transactions/${props.row.original.category.name}/${props.row.original.account.name}/Edit`,
-      state: { transaction: props.row.original },
-    }}
-  >
-    {value}
-  </DescriptionCellField>
+  <TextLink
+    pathname={`transactions/${props.row.original.category.name}/${props.row.original.account.name}/Edit`}
+    state={{ transaction: props.row.original }}
+    label={value}
+  />
 );
 
 export const LinkCell = ({ value }: CellProps<Transaction>) => (

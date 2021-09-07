@@ -72,23 +72,6 @@ export const balanceItemAmount = css`
   font-size: 12px;
 `;
 
-export const balanceName = css`
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-color: ${yellowUnderline};
-  text-decoration-thickness: 3px;
-  text-decoration-offset: -5px;
-  border-bottom: 2px;
-  color: ${grey80};
-  font-size: 12px;
-  flex: 1;
-
-  &:hover {
-    color: ${blackPlain};
-    text-decoration-color: ${yellowUnderlineHover};
-  }
-`;
-
 export const balanceType = css`
   color: ${grey30};
   font-size: 11px;

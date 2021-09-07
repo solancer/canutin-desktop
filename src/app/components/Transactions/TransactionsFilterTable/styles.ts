@@ -62,19 +62,6 @@ export const dateCell = css`
   white-space: nowrap;
 `;
 
-export const descriptionCell = css`
-  ${underline};
-  color: ${grey80};
-  font-size: 12px;
-  text-decoration: none;
-
-  &:hover {
-    ${underlineHover}
-    color: ${blackPlain};
-    cursor: pointer;
-  }
-`;
-
 export const linkCell = css`
   color: ${grey80};
   font-size: 12px;
