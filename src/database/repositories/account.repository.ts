@@ -164,13 +164,15 @@ export class AccountRepository {
     const account = await getRepository<Account>(Account).findOne(Number(accountId), {
       relations: ['transactions', 'balanceStatements'],
     });
+
     account?.transactions &&
-      await TransactionRepository.deleteTransactions(account.transactions.map(({ id }) => id));
+      account.transactions.length > 0 &&
+      (await TransactionRepository.deleteTransactions(account.transactions.map(({ id }) => id)));
 
     account?.balanceStatements &&
-      await BalanceStatementRepository.deleteBalanceStatements(
+      (await BalanceStatementRepository.deleteBalanceStatements(
         account.balanceStatements.map(({ id }) => id)
-      );
+      ));
 
     await getRepository<Account>(Account).delete(accountId);
   }
