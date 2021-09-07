@@ -27,7 +27,11 @@ describe('Add asset by Hand tests', () => {
 
       return ipcRenderer;
     });
-    render(<AppCtxProvider><App /></AppCtxProvider>);
+    render(
+      <AppCtxProvider>
+        <App />
+      </AppCtxProvider>
+    );
 
     const addAccountsOrAssetsButton = screen.getByText('Add accounts or assets').closest('a');
 
@@ -51,7 +55,7 @@ describe('Add asset by Hand tests', () => {
     // Required fields
     const nameInput = screen.getByLabelText('Name');
     const valueInput = screen.getByLabelText('Value');
-    
+
     const continueButton = screen.getByRole('button', { name: /Continue/i });
     expect(continueButton).toBeDisabled();
 
@@ -60,7 +64,7 @@ describe('Add asset by Hand tests', () => {
 
     await waitFor(() => {
       expect(nameInput).toHaveValue('Test asset');
-      expect(valueInput).toHaveValue('$200');
+      expect(valueInput).toHaveValue('+$200');
       expect(continueButton).not.toBeDisabled();
     });
 
@@ -68,12 +72,11 @@ describe('Add asset by Hand tests', () => {
     await waitFor(() => {
       expect(spySendIpcRenderer).toHaveBeenLastCalledWith(DB_NEW_ASSET, {
         assetType: 'vehicle',
-        name: "Test asset",
-        value: "200"
+        name: 'Test asset',
+        value: '200',
       });
     });
   });
-
 
   test('Create new asset with Cryptocurrency category', async () => {
     const addAssetByHandOptions = screen.getByLabelText('Asset');
@@ -91,7 +94,7 @@ describe('Add asset by Hand tests', () => {
 
     // Optional fields
     const symbolInput = screen.getByLabelText('Symbol / Optional');
-    
+
     const continueButton = screen.getByRole('button', { name: /Continue/i });
     expect(continueButton).toBeDisabled();
     expect(valueInput).toBeDisabled();
@@ -112,12 +115,12 @@ describe('Add asset by Hand tests', () => {
     await waitFor(() => {
       expect(spySendIpcRenderer).toHaveBeenLastCalledWith(DB_NEW_ASSET, {
         assetType: 'cryptocurrency',
-        name: "Test Cryptocurrency",
-        value: "400",
-        quantity: "2",
-        cost: "200",
-        symbol: "USD",
+        name: 'Test Cryptocurrency',
+        value: '400',
+        quantity: '2',
+        cost: '200',
+        symbol: 'USD',
       });
     });
-  })
+  });
 });

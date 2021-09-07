@@ -106,7 +106,7 @@ describe('Add account by Hand tests', () => {
       expect(nameInput).toHaveValue('Test Account');
       expect(officialNameInput).toHaveValue('Test Official Name');
       expect(institutionInput).toHaveValue('Test Institution');
-      expect(balanceInput).toHaveValue('$123');
+      expect(balanceInput).toHaveValue('+$123');
     });
 
     const spySendIpcRenderer = jest.spyOn(ipcRenderer, 'send');
