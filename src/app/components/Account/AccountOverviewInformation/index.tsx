@@ -9,7 +9,7 @@ import EmptyCard from '@app/components/common/EmptyCard';
 import {
   getTransactionBalanceByWeeks,
   generatePlaceholdersChartPeriod,
-  getAccountBalancesByWeeks,
+  getBalancesByWeeks,
 } from '@app/utils/balance.utils';
 
 interface AccountOverviewInformationProps {
@@ -18,11 +18,15 @@ interface AccountOverviewInformationProps {
   numberOfWeeks: number;
 }
 
-const AccountOverviewInformation = ({ account, transactions, numberOfWeeks }: AccountOverviewInformationProps) => {
-  const accountChartBalances = account.balanceStatements?.[account.balanceStatements?.length - 1]
-    .autoCalculate === false
-    ? getAccountBalancesByWeeks(account.balanceStatements as BalanceStatement[], 52)
-    : getTransactionBalanceByWeeks(transactions, 52);
+const AccountOverviewInformation = ({
+  account,
+  transactions,
+  numberOfWeeks,
+}: AccountOverviewInformationProps) => {
+  const accountChartBalances =
+    account.balanceStatements?.[account.balanceStatements?.length - 1].autoCalculate === false
+      ? getBalancesByWeeks(account.balanceStatements as BalanceStatement[], 52)
+      : getTransactionBalanceByWeeks(transactions, 52);
 
   return (
     <>
