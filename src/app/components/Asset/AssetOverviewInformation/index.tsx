@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { AssetBalanceStatement } from '@database/entities';
-import { generatePlaceholdersChartPeriod, getAssetBalancesByWeeks } from '@app/utils/balance.utils';
+import { generatePlaceholdersChartPeriod, getBalancesByWeeks } from '@app/utils/balance.utils';
 
 import Section from '@app/components/common/Section';
 import Chart from '@app/components/common/Chart';
@@ -14,10 +14,13 @@ interface AssetOverviewInformationProps {
   numberOfWeeks: number;
 }
 
-const AssetOverviewInformation = ({ assetBalanceStatements, numberOfWeeks }: AssetOverviewInformationProps) => {
+const AssetOverviewInformation = ({
+  assetBalanceStatements,
+  numberOfWeeks,
+}: AssetOverviewInformationProps) => {
   const assetChartBalances =
     assetBalanceStatements && assetBalanceStatements.length > 0
-      ? getAssetBalancesByWeeks(assetBalanceStatements, 52)
+      ? getBalancesByWeeks(assetBalanceStatements, 52)
       : [];
 
   return (

@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import settings from 'electron-settings';
 import { QueryFailedError } from 'typeorm';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-import { app, BrowserWindow, dialog, ipcMain, IpcMainEvent, nativeTheme } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, IpcMainEvent, nativeTheme, screen } from 'electron';
 import isDev from 'electron-is-dev';
 import * as path from 'path';
 
@@ -71,6 +71,12 @@ import {
   loadFromCanutinFile,
   importUpdatedAccounts,
 } from './helpers/importSource.helper';
+import {
+  MIN_WINDOW_WIDTH,
+  MIN_WINDOW_HEIGHT,
+  calculateWindowWidth,
+  calculateWindowHeight,
+} from './helpers/window.helpers';
 import { AssetRepository } from '@database/repositories/asset.repository';
 import { BalanceStatementRepository } from '@database/repositories/balanceStatement.repository';
 import { TransactionRepository } from '@database/repositories/transaction.repository';
@@ -78,7 +84,11 @@ import seedCategories from '@database/seed/seedCategories';
 import seedAssetTypes from '@database/seed/seedAssetTypes';
 import seedAccountTypes from '@database/seed/seedAccountTypes';
 import { AccountRepository } from '@database/repositories/account.repository';
-import { AssetEditDetailsSubmitType, AssetEditValueSubmitType, NewAssetType } from '../types/asset.type';
+import {
+  AssetEditDetailsSubmitType,
+  AssetEditValueSubmitType,
+  NewAssetType,
+} from '../types/asset.type';
 import { NewAccountType } from '../types/account.type';
 
 let win: BrowserWindow | null = null;
@@ -370,11 +380,13 @@ const setupDbEvents = async () => {
 };
 
 const createWindow = async () => {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
   win = new BrowserWindow({
-    minWidth: 1200,
-    minHeight: 768,
-    width: 1280,
-    height: 880,
+    minWidth: MIN_WINDOW_WIDTH,
+    minHeight: MIN_WINDOW_HEIGHT,
+    width: calculateWindowWidth(width),
+    height: calculateWindowHeight(height),
     frame: false,
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 16, y: 32 },

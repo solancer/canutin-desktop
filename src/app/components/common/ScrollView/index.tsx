@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { ReactComponent as BackIcon } from '@assets/icons/Back.svg';
 import { rootRoutesPaths } from '@routes';
 
-import SectionTab, { SectionType } from '@components/common/SectionTab';
+import SectionTab, { SectionType } from '@components/common/SectionTabs';
 
 import { container, header, title, main, subTitle, backButton, headerContainer } from './styles';
 

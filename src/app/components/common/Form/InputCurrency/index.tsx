@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import { Controller, Control, FieldError, RegisterOptions } from 'react-hook-form';
 import styled from 'styled-components';
@@ -11,7 +10,7 @@ import { StatusEnum } from '@appConstants/misc';
 
 import { inputElement } from './styles';
 
-const CustomNumberFormat = styled.input`
+const CustomNumberFormat = styled(NumberFormat)`
   ${inputElement}
 `;
 
@@ -39,22 +38,18 @@ const InputCurrency = ({
     <Controller
       render={({ value, onChange, name }) => {
         return (
-          <NumberFormat
+          <CustomNumberFormat
             allowNegative={allowNegative}
-            decimalScale={2}
-            thousandSeparator
-            prefix="$"
+            prefix={allowNegative && value > 0 ? '+$' : '$'}
             value={value}
             id={name}
             onValueChange={values => {
               onChange(values.value);
             }}
             disabled={disabled}
-            // @ts-ignore
             name={name}
-            customInput={CustomNumberFormat}
-            {...numberFormatProps}
             placeholder="$0.00"
+            {...numberFormatProps}
           />
         );
       }}

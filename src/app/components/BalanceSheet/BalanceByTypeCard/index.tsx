@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 import NumberFormat from '@components/common/NumberFormat';
+import TextLink from '@app/components/common/TextLink';
 
 import { AccountAssetBalance } from '@components/BalanceSheet/BalancesByGroup';
 
@@ -13,7 +13,6 @@ import {
   balanceTypeAmount,
   balanceItemContainer,
   balanceItemAmount,
-  balanceName,
   balanceType,
 } from './styles';
 
@@ -34,9 +33,6 @@ const BalanceTypeAmount = styled(NumberFormat)`
 `;
 const BalanceItemAmount = styled(NumberFormat)`
   ${balanceItemAmount}
-`;
-const BalanceName = styled(Link)`
-  ${balanceName}
 `;
 const BalanceType = styled.div`
   ${balanceType}
@@ -63,14 +59,13 @@ const BalanceTypeCard = ({ assetTypeName, balanceData }: BalancesByTypeCardProps
 };
 
 const BalanceItem = ({ balance }: BalanceItemProps) => {
-  const redirectPathName = balance.type === "Asset" ? `/asset/${balance.name}` : `/account/${balance.name}`
+  const redirectPathName =
+    balance.type === 'Asset' ? `/asset/${balance.name}` : `/account/${balance.name}`;
 
   return (
     <BalanceItemContainer>
       <div>
-        <BalanceName to={{ pathname: redirectPathName, state: { balance } }}>
-          {balance.name}
-        </BalanceName>
+        <TextLink pathname={redirectPathName} state={{ balance }} label={balance.name} />
         <BalanceType>{balance.type}</BalanceType>
       </div>
       <BalanceItemAmount displayType={'text'} value={Math.round(balance.amount)} />
