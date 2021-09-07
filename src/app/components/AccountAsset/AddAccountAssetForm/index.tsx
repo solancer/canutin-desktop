@@ -176,6 +176,7 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
               <InputCurrencyField
                 label="Cost"
                 name="cost"
+                allowNegative={false}
                 control={controlAssetField}
                 rules={{ required: true }}
               />
@@ -184,6 +185,7 @@ const AddAccountAssetForm = ({ onRadioButtonChange }: AddAccountAssetFormProps) 
           <InputCurrencyField
             label="Value"
             name="value"
+            allowNegative={!shouldDisplayAssetWithSymbolFields}
             control={controlAssetField}
             disabled={shouldDisplayAssetWithSymbolFields}
             rules={{ required: !shouldDisplayAssetWithSymbolFields }}

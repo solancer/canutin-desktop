@@ -5,13 +5,12 @@ interface NumberFormatProps extends NumberFormatPropsBase {
   excludeFromTotals?: boolean;
 }
 
-const NumberFormat = ({ excludeFromTotals ,...props }: NumberFormatProps) => (
+const NumberFormat = ({ excludeFromTotals, ...props }: NumberFormatProps) => (
   <ReactNumberFormatComponent
     {...props}
-    allowNegative
     decimalScale={2}
     thousandSeparator
-    prefix="$"
+    prefix={props.prefix ? props.prefix : '$'}
   />
 );
 

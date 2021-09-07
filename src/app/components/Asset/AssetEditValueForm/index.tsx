@@ -89,30 +89,32 @@ const AssetEditValueForm = ({ asset }: AssetEditValueFormProps) => {
             <InputCurrencyField
               label="Cost"
               name="cost"
+              allowNegative={false}
               control={control}
               rules={{ required: true }}
             />
           </>
         )}
+        <InputCurrencyField
+          label="Value"
+          name="value"
+          allowNegative={!shouldDisplayAssetWithSymbolFields}
+          control={control}
+          disabled={shouldDisplayAssetWithSymbolFields}
+          rules={{ required: !shouldDisplayAssetWithSymbolFields }}
+        />
         {lastBalanceStatement?.sold === false && (
           <FieldNotice
             title="Value history"
             description={
               <div>
-                Every time you manually update the quantity or price of an asset, a new balance
-                statement will be created (or updated) for the current week period. You can see past
+                Every time you manually update the value, quantity or price of an asset, a new
+                balance statement will be created for the current week period. You can see past
                 balance statements in the “Overview” tab.
               </div>
             }
           />
         )}
-        <InputCurrencyField
-          label="Value"
-          name="value"
-          control={control}
-          disabled={shouldDisplayAssetWithSymbolFields}
-          rules={{ required: !shouldDisplayAssetWithSymbolFields }}
-        />
       </Fieldset>
       <Fieldset>
         <Field label="Mark asset as" name="sold">

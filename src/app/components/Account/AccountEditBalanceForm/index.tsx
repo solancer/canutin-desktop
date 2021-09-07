@@ -91,8 +91,8 @@ const AccountEditBalanceForm = ({ account }: AccountEditBalanceFormProps) => {
             description={
               <div>
                 Every time you manually update the balance of an account, a new balance statement
-                will be created (or updated) for the current week period. You can see past balance
-                statements in the “Overview” tab.
+                will be created for the current week period. You can see past balance statements in
+                the “Overview” tab.
               </div>
             }
           />
