@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, JoinColumn, OneToMany, Unique } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 import { Base } from './base.entity';
 import { BalanceGroupEnum } from '../../enums/balanceGroup.enum';
@@ -7,7 +7,6 @@ import { getBalanceGroupByAssetType } from '../helpers';
 import { AssetBalanceStatement } from './assetBalanceStatement.entity';
 
 @Entity()
-@Unique(['name'])
 export class Asset extends Base {
   @Column()
   name: string;

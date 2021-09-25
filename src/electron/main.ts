@@ -166,22 +166,8 @@ const setupEvents = async () => {
 
 const setupDbEvents = async () => {
   ipcMain.on(DB_NEW_ASSET, async (_: IpcMainEvent, asset: NewAssetType) => {
-    try {
-      const newAsset = await AssetRepository.createAsset(asset);
-      win?.webContents.send(DB_NEW_ASSET_ACK, { ...newAsset, status: EVENT_SUCCESS });
-    } catch (e) {
-      if (e instanceof QueryFailedError) {
-        win?.webContents.send(DB_NEW_ASSET_ACK, {
-          status: EVENT_ERROR,
-          message: 'There is already an asset with this name, please try a different one',
-        });
-      } else {
-        win?.webContents.send(DB_NEW_ASSET_ACK, {
-          status: EVENT_ERROR,
-          message: 'An error occurred, please try again',
-        });
-      }
-    }
+    const newAsset = await AssetRepository.createAsset(asset);
+    win?.webContents.send(DB_NEW_ASSET_ACK, newAsset);
   });
 
   ipcMain.on(DB_NEW_ACCOUNT, async (_: IpcMainEvent, account: NewAccountType) => {
