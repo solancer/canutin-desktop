@@ -3,7 +3,11 @@ import { getRepository } from 'typeorm';
 import { AssetTypeRepository } from '@database/repositories/assetTypes.repository';
 
 import { Asset } from '../entities';
-import { AssetEditDetailsSubmitType, AssetEditValueSubmitType, NewAssetType } from '../../types/asset.type';
+import {
+  AssetEditDetailsSubmitType,
+  AssetEditValueSubmitType,
+  NewAssetType,
+} from '../../types/asset.type';
 import { AssetBalanceStatementRepository } from './assetBalanceStatement.entity';
 import { AssetTypeEnum } from '@enums/assetType.enum';
 
@@ -84,15 +88,30 @@ export class AssetRepository {
       assetType: assetType,
       balanceGroup: assetValue.balanceGroup,
       name: assetValue.name,
-      symbol: assetValue.symbol
+      symbol: assetValue.symbol,
     });
-   
+
     const updatedAsset = await getRepository<Asset>(Asset).findOne({
-    where: {
+      where: {
         id: assetValue.assetId,
       },
     });
 
     return updatedAsset as Asset;
+  }
+
+  static async getOrCreateAsset(asset: NewAssetType): Promise<Asset> {
+    const assetDb = await getRepository<Asset>(Asset)
+      .createQueryBuilder('assets')
+      .leftJoinAndSelect('assets.balanceStatements', 'balanceStatements')
+      .where('assets.name like :name', { name: `%${asset.name}%` })
+      .getOne();
+
+    console.log(assetDb);
+    if (!assetDb) {
+      return AssetRepository.createAsset(asset);
+    }
+
+    return assetDb;
   }
 }
