@@ -9,7 +9,7 @@ import {
   sub,
   eachMonthOfInterval,
   getMonth,
-  format
+  format,
 } from 'date-fns';
 import merge from 'deepmerge';
 
@@ -177,18 +177,24 @@ export type TransactionsTrailingCashflowType = {
 };
 
 export const getTransactionsTrailingCashflow = (transactions: Transaction[]) => {
-  if (transactions.length === 0) {
+  const transactionsNoAutocalculated = transactions.filter(
+    transaction =>
+      !transaction.account.balanceStatements?.[transaction?.account.balanceStatements?.length - 1]
+        .autoCalculate
+  );
+
+  if (transactionsNoAutocalculated.length === 0) {
     return [];
   }
 
   const monthDates = eachMonthOfInterval({
-    start: transactions[transactions.length - 1].date,
-    end: transactions[0].date,
+    start: transactionsNoAutocalculated[transactionsNoAutocalculated.length - 1].date,
+    end: transactionsNoAutocalculated[0].date,
   });
 
   return monthDates.reduce((acc: TransactionsTrailingCashflowType[], monthDate, index) => {
     const monthlyTransactions = getSelectedTransactions(
-      transactions,
+      transactionsNoAutocalculated,
       monthDate,
       monthDates[index + 1] ? monthDates[index + 1] : new Date()
     );
@@ -220,26 +226,28 @@ export const getTransactionTrailingCashflowAverage = (
   option: TrailingCashflowSegmentsEnum
 ) => {
   if (option === TrailingCashflowSegmentsEnum.LAST_12_MONTHS) {
-    const monthLimit = sub(new Date(), { months: 12 });
+    const afterDate = sub(new Date(), { months: 13 });
+    const beforeDate = sub(new Date(), { months: 1 });
 
     return trailingCashflow
-      .filter(({ month }) => isAfter(monthLimit, month))
+      .filter(({ month }) => isAfter(month, afterDate) && isBefore(month, beforeDate))
       .reduce(
         (acc, { expenses, income, surplus }) => {
-          return [acc[0] + (income / 12), acc[1] + (expenses / 12), acc[2] + (surplus / 12)];
+          return [acc[0] + income / 12, acc[1] + expenses / 12, acc[2] + surplus / 12];
         },
         [0, 0, 0]
       );
   }
 
   if (option === TrailingCashflowSegmentsEnum.LAST_6_MONTHS) {
-    const monthLimit = sub(new Date(), { months: 6 });
+    const afterDate = sub(new Date(), { months: 7 });
+    const beforeDate = sub(new Date(), { months: 1 });
 
     return trailingCashflow
-      .filter(({ month }) => isAfter(monthLimit, month))
+      .filter(({ month }) => isAfter(month, afterDate) && isBefore(month, beforeDate))
       .reduce(
         (acc, { expenses, income, surplus }) => {
-          return [acc[0] + (income / 6), acc[1] + (expenses / 6), acc[2] + (surplus / 6)];
+          return [acc[0] + income / 6, acc[1] + expenses / 6, acc[2] + surplus / 6];
         },
         [0, 0, 0]
       );
@@ -284,7 +292,7 @@ export type ChartPeriodType = {
   month?: Date;
   income?: number;
   expenses?: number;
-  surplus?: number; 
+  surplus?: number;
   week?: number;
   dateWeek?: Date;
   difference?: number;
@@ -398,7 +406,6 @@ export const generatePlaceholdersChartPeriod = (
     }, []);
   }
 };
-
 
 export const generatePlaceholdersChartMonthPeriod = (
   from: Date,

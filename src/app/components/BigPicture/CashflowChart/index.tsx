@@ -2,6 +2,7 @@ import { format, isAfter, isBefore, sub } from 'date-fns';
 
 import Chart from '@components/common/Chart';
 import Section from '@components/common/Section';
+import EmptyCard from '@components/common/EmptyCard';
 
 import { generatePlaceholdersChartMonthPeriod, TransactionsTrailingCashflowType } from '@app/utils/balance.utils';
 
@@ -26,12 +27,12 @@ const CashflowChart = ({ trailingCashflow }: CashflowChartProps) => {
 
   return trailingCashflow ? (
     <Section title="Cashflow">
-      {generateTrailingCashflowChartData ? (
+      {generateTrailingCashflowChartData?.length ? (
         <Chart
           chartData={[
             ...generatePlaceholdersChartMonthPeriod(
-              generateTrailingCashflowChartData?.[0].month
-                ? generateTrailingCashflowChartData?.[0].month
+              generateTrailingCashflowChartData?.[0]?.month
+                ? generateTrailingCashflowChartData?.[0]?.month
                 : new Date(),
               12,
               generateTrailingCashflowChartData.length > 12
@@ -41,7 +42,7 @@ const CashflowChart = ({ trailingCashflow }: CashflowChartProps) => {
             ...generateTrailingCashflowChartData,
           ]}
         />
-      ) : null}
+      ) : <EmptyCard message="No trailing cashflows are available." />}
     </Section>
   ) : null;
 };
