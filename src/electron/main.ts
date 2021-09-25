@@ -371,7 +371,7 @@ const setupDbEvents = async () => {
       } catch (e) {
         win?.webContents.send(DB_EDIT_ASSET_DETAILS_ACK, {
           status: EVENT_ERROR,
-          message: 'An error occurred, please try again',
+          message: 'There is already an asset with this name, please try a different one',
         });
       }
     }
