@@ -16,24 +16,53 @@ interface ChartSummaryProps {
 }
 
 const ChartSummary = ({ periodsLength, activeBalance }: ChartSummaryProps) => {
+  const weekSummary = (
+    <>
+      <Card
+        label="Week"
+        appearance={CardAppearanceEnum.SECONDARY}
+        value={`${activeBalance.label} of ${activeBalance.dateWeek?.getFullYear()}`}
+      />
+      <Card
+        label="Difference"
+        appearance={CardAppearanceEnum.SECONDARY}
+        value={`${activeBalance.difference}%`}
+      />
+      <Card
+        label="Balance"
+        appearance={CardAppearanceEnum.SECONDARY}
+        value={activeBalance.balance}
+        isCurrency
+      />
+    </>
+  );
+
+  const monthsSummary = (
+    <>
+      <Card
+        label="Income"
+        appearance={CardAppearanceEnum.SECONDARY}
+        value={activeBalance?.income}
+        isCurrency
+      />
+      <Card
+        label="Expenses"
+        appearance={CardAppearanceEnum.SECONDARY}
+        value={activeBalance?.expenses}
+        isCurrency
+      />
+      <Card
+        label="Surplus"
+        appearance={CardAppearanceEnum.SECONDARY}
+        value={activeBalance?.surplus}
+        isCurrency
+      />
+    </>
+  );
+
   return <Container periodsLength={periodsLength}>
-    <Card
-      label="Week"
-      appearance={CardAppearanceEnum.SECONDARY}
-      value={`${activeBalance.label} of ${activeBalance.dateWeek.getFullYear()}`}
-    />
-    <Card
-      label="Difference"
-      appearance={CardAppearanceEnum.SECONDARY}
-      value={`${activeBalance.difference}%`}
-    />
-    <Card
-      label="Balance"
-      appearance={CardAppearanceEnum.SECONDARY}
-      value={activeBalance.balance}
-      isCurrency
-    />
-  </Container>
+    {activeBalance.dateWeek ? weekSummary : monthsSummary}
+  </Container>;
 };
 
 export default ChartSummary;

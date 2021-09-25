@@ -20,18 +20,28 @@ const AddAccountAssetByHand = () => {
   const [formSubtitle, setFormSubtitle] = useState('Choose Type');
 
   useEffect(() => {
-    ipcRenderer.on(DB_NEW_ASSET_ACK, (_: IpcRendererEvent, { name }) => {
-      setStatusMessage({
-        sentiment: StatusEnum.POSITIVE,
-        message: (
-          <>
-            The asset <b>{name}</b> was created successfully
-          </>
-        ),
-        isLoading: false,
-      });
-      setIsDbEmpty(false);
-      history.push(routesPaths.balance);
+    ipcRenderer.on(DB_NEW_ASSET_ACK, (_: IpcRendererEvent, { name, status, message }) => {
+      if (status === EVENT_SUCCESS) {
+        setStatusMessage({
+          sentiment: StatusEnum.POSITIVE,
+          message: (
+            <>
+              The asset <b>{name}</b> was created successfully
+            </>
+          ),
+          isLoading: false,
+        });
+        setIsDbEmpty(false);
+        history.push(routesPaths.balance);
+      }
+
+      if (status === EVENT_ERROR) {
+        setStatusMessage({
+          sentiment: StatusEnum.NEGATIVE,
+          message: message,
+          isLoading: false,
+        });
+      }
     });
 
     ipcRenderer.on(DB_NEW_ACCOUNT_ACK, (_: IpcRendererEvent, { name, status, message }) => {

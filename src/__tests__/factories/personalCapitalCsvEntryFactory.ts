@@ -8,7 +8,7 @@ export const personalCapitalCSVEntryBuilder = build('Personal Capital CSV Entry'
     Description: uniqueDescription(),
     Amount: fake(f => f.finance.amount()),
     Category: fake(f => f.finance.transactionType()),
-    Account: fake(f => f.finance.accountName()),
+    Account: fake(f => f.random.uuid()),
     Tags: fake(f => f.lorem.sentence()),
   },
 });
