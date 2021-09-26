@@ -16,6 +16,8 @@ import { StatusBarContext } from '@app/context/statusBarContext';
 import { AppContext } from '@app/context/appContext';
 import AccountIpc from '@app/data/account.ipc';
 import { routesPaths } from '@app/routes';
+import AssetIpc from '@app/data/asset.ipc';
+import TransactionIpc from '@app/data/transaction.ipc';
 
 const AddAccountAssetByWizard = () => {
   const history = useHistory();
@@ -28,12 +30,17 @@ const AddAccountAssetByWizard = () => {
   useEffect(() => {
     ipcRenderer.on(LOAD_FROM_CANUTIN_FILE_ACK, (_: IpcRendererEvent, { name }) => {
       setSuccessMessage('The file was imported successfully');
+      AccountIpc.getAccounts();
+      AssetIpc.getAssets();
+      TransactionIpc.getTransactions();
       history.push(routesPaths.balance);
     });
 
     ipcRenderer.on(LOAD_FROM_OTHER_CSV_ACK, (_: IpcRendererEvent, { name }) => {
       setSuccessMessage('The CSV was imported successfully');
-      AccountIpc.getAccounts(); // Reload accounts on other CSV form
+      AccountIpc.getAccounts();
+      AssetIpc.getAssets();
+      TransactionIpc.getTransactions();
       history.push(routesPaths.balance);
     });
 

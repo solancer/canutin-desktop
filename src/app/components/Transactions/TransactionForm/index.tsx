@@ -7,10 +7,8 @@ import styled from 'styled-components';
 import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
 import { yearsList, monthList, dayList, getCurrentDateInformation } from '@appConstants/dates';
 import { dateInUTC } from '@app/utils/date.utils';
-import AccountIpc from '@app/data/account.ipc';
 import {
   DB_EDIT_TRANSACTION_ACK,
-  DB_GET_ACCOUNTS_ACK,
   DB_NEW_TRANSACTION_ACK,
 } from '@constants/events';
 import { Account } from '@database/entities';
@@ -32,6 +30,7 @@ import InlineCheckbox from '@components/common/Form/Checkbox';
 import ToggleInputField from '@components/common/Form/ToggleInputField';
 
 import { dateField } from './styles';
+import { EntitiesContext } from '@app/context/entitiesContext';
 
 const DateField = styled.div`
   ${dateField}
@@ -58,6 +57,7 @@ const DATE_INFORMATION = getCurrentDateInformation();
 const TransactionForm = ({ initialState }: TransactionFormProps) => {
   const history = useHistory();
   const { setStatusMessage } = useContext(StatusBarContext);
+  const { accountsIndex } = useContext(EntitiesContext);
   const { handleSubmit, control, register, watch, formState } = useForm({
     mode: 'onChange',
     defaultValues: initialState
@@ -74,18 +74,11 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
         },
   });
 
-  const [accounts, setAccounts] = useState<null | Account[]>(null);
   const excludeFromTotals = watch('excludeFromTotals');
   const description = watch('description');
   const balance = watch('balance');
 
   useEffect(() => {
-    AccountIpc.getAccounts();
-
-    ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
-      setAccounts(accounts);
-    });
-
     ipcRenderer.on(DB_NEW_TRANSACTION_ACK, (_: IpcRendererEvent, { status, message }) => {
       if (status === EVENT_SUCCESS) {
         setStatusMessage({
@@ -117,15 +110,14 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
     });
 
     return () => {
-      ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
       ipcRenderer.removeAllListeners(DB_NEW_TRANSACTION_ACK);
       ipcRenderer.removeAllListeners(DB_EDIT_TRANSACTION_ACK);
     };
   }, []);
 
   const accountOptions = useMemo(
-    () => accounts?.map(account => ({ label: account.name, value: account.id.toString() })),
-    [accounts]
+    () => accountsIndex?.accounts?.map(account => ({ label: account.name, value: account.id.toString() })),
+    [accountsIndex?.lastUpdate]
   );
 
   const onSubmit = ({

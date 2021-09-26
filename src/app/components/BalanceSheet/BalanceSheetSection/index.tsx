@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { ipcRenderer, IpcRendererEvent } from 'electron';
+import React, { useState, useContext } from 'react';
 import merge from 'deepmerge';
 
 import Section from '@components/common/Section';
 import { SegmentedControl, Segment } from '@components/common/SegmentedControl';
 import BalancesByGroup from '@components/BalanceSheet/BalancesByGroup';
 
-import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK } from '@constants/events';
-import AssetIpc from '@app/data/asset.ipc';
-import AccountIpc from '@app/data/account.ipc';
-import { Account, Asset } from '@database/entities';
 import {
   getBalanceForAccountsByBalanceGroup,
   getBalanceForAssetByBalanceGroup,
 } from '@app/utils/balance.utils';
+import { EntitiesContext } from '@app/context/entitiesContext';
 
 export enum BalanceSheetSegmentsEnum {
   ALL = 'all',
@@ -23,32 +19,13 @@ export enum BalanceSheetSegmentsEnum {
 
 const BalanceSheetSection = () => {
   const [selectedSegment, setSelectedSegment] = useState(BalanceSheetSegmentsEnum.ALL);
-  const [accounts, setAccounts] = useState<Account[]>();
-  const [assets, setAssets] = useState<Asset[]>();
-
-  useEffect(() => {
-    AccountIpc.getAccounts();
-    AssetIpc.getAssets();
-
-    ipcRenderer.on(DB_GET_ASSETS_ACK, (_: IpcRendererEvent, assets: Asset[]) => {
-      setAssets(assets);
-    });
-
-    ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
-      setAccounts(accounts);
-    });
-
-    return () => {
-      ipcRenderer.removeAllListeners(DB_GET_ASSETS_ACK);
-      ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
-    };
-  }, []);
+  const { assetsIndex, accountsIndex } = useContext(EntitiesContext);
 
   // Segment count
   const countList = {
     all: '',
-    accounts: accounts?.filter(({ closed }) => !closed).length,
-    assets: assets?.filter(
+    accounts: accountsIndex?.accounts?.filter(({ closed }) => !closed).length,
+    assets: assetsIndex?.assets.filter(
       ({ balanceStatements }) =>
         balanceStatements && !balanceStatements[balanceStatements.length - 1].sold
     ).length,
@@ -67,8 +44,8 @@ const BalanceSheetSection = () => {
     </SegmentedControl>
   );
 
-  const assetsBalancesListData = assets && getBalanceForAssetByBalanceGroup(assets);
-  const accountBalancesListData = accounts && getBalanceForAccountsByBalanceGroup(accounts);
+  const assetsBalancesListData = assetsIndex && getBalanceForAssetByBalanceGroup(assetsIndex.assets);
+  const accountBalancesListData = accountsIndex && getBalanceForAccountsByBalanceGroup(accountsIndex.accounts);
   const allBalancesListData =
     (assetsBalancesListData ||
     accountBalancesListData) &&

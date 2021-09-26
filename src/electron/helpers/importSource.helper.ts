@@ -191,7 +191,7 @@ export const loadFromCanutinFile = async (
 
 export const importUpdatedAccounts = async (
   win: BrowserWindow | null,
-  updatedAccounts?: UpdatedAccount[]
+  updatedAccounts?: UpdatedAccount[],
 ) => {
   try {
     if (updatedAccounts) {
