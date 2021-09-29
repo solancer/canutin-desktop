@@ -177,24 +177,23 @@ export type TransactionsTrailingCashflowType = {
 };
 
 export const getTransactionsTrailingCashflow = (transactions: Transaction[]) => {
-  const transactionsNoAutocalculated = transactions.filter(
+  const transactionsNoExcludedFromTotals = transactions.filter(
     transaction =>
-      !transaction.account.balanceStatements?.[transaction?.account.balanceStatements?.length - 1]
-        .autoCalculate
+      !transaction.excludeFromTotals
   );
 
-  if (transactionsNoAutocalculated.length === 0) {
+  if (transactionsNoExcludedFromTotals.length === 0) {
     return [];
   }
 
   const monthDates = eachMonthOfInterval({
-    start: transactionsNoAutocalculated[transactionsNoAutocalculated.length - 1].date,
-    end: transactionsNoAutocalculated[0].date,
+    start: transactionsNoExcludedFromTotals[transactionsNoExcludedFromTotals.length - 1].date,
+    end: transactionsNoExcludedFromTotals[0].date,
   });
 
   return monthDates.reduce((acc: TransactionsTrailingCashflowType[], monthDate, index) => {
     const monthlyTransactions = getSelectedTransactions(
-      transactionsNoAutocalculated,
+      transactionsNoExcludedFromTotals,
       monthDate,
       monthDates[index + 1] ? monthDates[index + 1] : new Date()
     );
