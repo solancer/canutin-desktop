@@ -177,23 +177,23 @@ export type TransactionsTrailingCashflowType = {
 };
 
 export const getTransactionsTrailingCashflow = (transactions: Transaction[]) => {
-  const transactionsNoExcludedFromTotals = transactions.filter(
+  const transactionsNotExcludedFromTotals = transactions.filter(
     transaction =>
       !transaction.excludeFromTotals
   );
 
-  if (transactionsNoExcludedFromTotals.length === 0) {
+  if (transactionsNotExcludedFromTotals.length === 0) {
     return [];
   }
 
   const monthDates = eachMonthOfInterval({
-    start: transactionsNoExcludedFromTotals[transactionsNoExcludedFromTotals.length - 1].date,
-    end: transactionsNoExcludedFromTotals[0].date,
+    start: transactionsNotExcludedFromTotals[transactionsNotExcludedFromTotals.length - 1].date,
+    end: transactionsNotExcludedFromTotals[0].date,
   });
 
   return monthDates.reduce((acc: TransactionsTrailingCashflowType[], monthDate, index) => {
     const monthlyTransactions = getSelectedTransactions(
-      transactionsNoExcludedFromTotals,
+      transactionsNotExcludedFromTotals,
       monthDate,
       monthDates[index + 1] ? monthDates[index + 1] : new Date()
     );
@@ -414,7 +414,7 @@ export const generatePlaceholdersChartMonthPeriod = (
   if (months === monthsOffset) {
     return [];
   } else {
-    const monthsDates = eachWeekOfInterval({
+    const monthsDates = eachMonthOfInterval({
       start: sub(from, { months: months - monthsOffset + 1 }),
       end: sub(from, { months: 1 }),
     });

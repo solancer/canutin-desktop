@@ -42,7 +42,7 @@ const CashflowChart = ({ trailingCashflow }: CashflowChartProps) => {
             ...generateTrailingCashflowChartData,
           ]}
         />
-      ) : <EmptyCard message="No trailing cashflows are available." />}
+      ) : <EmptyCard message="Not enough transactions to display this chart." />}
     </Section>
   ) : null;
 };

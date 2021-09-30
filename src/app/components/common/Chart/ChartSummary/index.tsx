@@ -42,19 +42,19 @@ const ChartSummary = ({ periodsLength, activeBalance }: ChartSummaryProps) => {
       <Card
         label="Income"
         appearance={CardAppearanceEnum.SECONDARY}
-        value={activeBalance?.income}
+        value={activeBalance?.income || 0}
         isCurrency
       />
       <Card
         label="Expenses"
         appearance={CardAppearanceEnum.SECONDARY}
-        value={activeBalance?.expenses}
+        value={activeBalance?.expenses || 0}
         isCurrency
       />
       <Card
         label="Surplus"
         appearance={CardAppearanceEnum.SECONDARY}
-        value={activeBalance?.surplus}
+        value={activeBalance?.surplus || 0}
         isCurrency
       />
     </>

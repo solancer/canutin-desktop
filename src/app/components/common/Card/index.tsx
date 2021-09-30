@@ -29,7 +29,7 @@ export enum CardAppearanceEnum {
 
 export interface CardProps {
   label: string;
-  value: number | string | undefined;
+  value: number | string;
   appearance?: CardAppearanceEnum;
   isCurrency?: boolean;
 }
