@@ -67,7 +67,7 @@ export const importFromCanutinFile = async (
     canutinFile.assets &&
       (await Promise.all(
         canutinFile.assets.map(async assetInfo =>
-          AssetRepository.createAsset({
+          AssetRepository.getOrCreateAsset({
             ...assetInfo,
             assetType: assetInfo.type as AssetTypeEnum,
           })

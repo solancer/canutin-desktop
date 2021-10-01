@@ -1,51 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { ipcRenderer, IpcRendererEvent } from 'electron';
+import React, { useState, useEffect, useContext } from 'react';
 
 import ScrollView from '@components/common/ScrollView';
 import BigPictureSummary from '@components/BigPicture/BigPictureSummary';
+import TrailingCashflow from '@components/BigPicture/TrailingCashflow';
+import CashflowChart from '@components/BigPicture/CashflowChart';
+import SectionRow from '@components/common/SectionRow';
 
-import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK } from '@constants/events';
-import AssetIpc from '@app/data/asset.ipc';
-import TransactionIpc from '@app/data/transaction.ipc';
-import AccountIpc from '@app/data/account.ipc';
-import { Account, Asset } from '@database/entities';
+import { EntitiesContext } from '@app/context/entitiesContext';
 import {
   getTotalBalanceByGroup,
+  getTransactionsTrailingCashflow,
   TotalBalanceType,
+  TransactionsTrailingCashflowType,
 } from '@app/utils/balance.utils';
 
 const TheBigPicture = () => {
-  const [accounts, setAccounts] = useState<Account[]>();
-  const [assets, setAssets] = useState<Asset[]>();
+  const { assetsIndex, transactionsIndex, accountsIndex } = useContext(EntitiesContext);
   const [totalBalance, setTotalBalance] = useState<TotalBalanceType>();
+  const [trailingCashflow, setTrailingCashflow] = useState<TransactionsTrailingCashflowType[]>();
 
   useEffect(() => {
-    AccountIpc.getAccounts();
-    AssetIpc.getAssets();
-    TransactionIpc.getTransactions();
-
-    ipcRenderer.on(DB_GET_ASSETS_ACK, (_: IpcRendererEvent, assets: Asset[]) => {
-      setAssets(assets);
-    });
-
-    ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
-      setAccounts(accounts);
-    });
-
-    return () => {
-      ipcRenderer.removeAllListeners(DB_GET_ASSETS_ACK);
-      ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
-    };
-  }, []);
+    assetsIndex &&
+      accountsIndex &&
+      setTotalBalance(getTotalBalanceByGroup(assetsIndex.assets, accountsIndex.accounts));
+  }, [assetsIndex, accountsIndex]);
 
   useEffect(() => {
-    assets && accounts && setTotalBalance(getTotalBalanceByGroup(assets, accounts));
-  }, [accounts, assets])
+    transactionsIndex &&
+      setTrailingCashflow(getTransactionsTrailingCashflow(transactionsIndex.transactions));
+  }, [transactionsIndex]);
 
   return (
     <>
       <ScrollView title="The big picture">
         <BigPictureSummary totalBalance={totalBalance} />
+        <SectionRow>
+          <TrailingCashflow trailingCashflow={trailingCashflow} />
+        </SectionRow>
+        <CashflowChart trailingCashflow={trailingCashflow} />
       </ScrollView>
     </>
   );

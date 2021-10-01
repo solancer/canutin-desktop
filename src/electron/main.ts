@@ -2,7 +2,16 @@ import 'reflect-metadata';
 import settings from 'electron-settings';
 import { QueryFailedError } from 'typeorm';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-import { app, BrowserWindow, dialog, ipcMain, IpcMainEvent, nativeTheme, screen } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  dialog,
+  ipcMain,
+  IpcMainEvent,
+  nativeTheme,
+  screen,
+  ipcRenderer,
+} from 'electron';
 import isDev from 'electron-is-dev';
 import * as path from 'path';
 
@@ -155,7 +164,10 @@ const setupEvents = async () => {
       otherCsvPayload: { canutinFile: CanutinFileType; updatedAccounts: UpdatedAccount[] }
     ) => {
       await loadFromCanutinFile(win, otherCsvPayload.canutinFile);
-      await importUpdatedAccounts(win, otherCsvPayload.updatedAccounts);
+      await importUpdatedAccounts(
+        win,
+        otherCsvPayload.updatedAccounts
+      );
     }
   );
 
@@ -166,14 +178,30 @@ const setupEvents = async () => {
 
 const setupDbEvents = async () => {
   ipcMain.on(DB_NEW_ASSET, async (_: IpcMainEvent, asset: NewAssetType) => {
-    const newAsset = await AssetRepository.createAsset(asset);
-    win?.webContents.send(DB_NEW_ASSET_ACK, newAsset);
+    try {
+      const newAsset = await AssetRepository.createAsset(asset);
+      win?.webContents.send(DB_NEW_ASSET_ACK, { ...newAsset, status: EVENT_SUCCESS });
+      await getAssets();
+    } catch (e) {
+      if (e instanceof QueryFailedError) {
+        win?.webContents.send(DB_NEW_ASSET_ACK, {
+          status: EVENT_ERROR,
+          message: 'There is already an asset with this name, please try a different one',
+        });
+      } else {
+        win?.webContents.send(DB_NEW_ASSET_ACK, {
+          status: EVENT_ERROR,
+          message: 'An error occurred, please try again',
+        });
+      }
+    }
   });
 
   ipcMain.on(DB_NEW_ACCOUNT, async (_: IpcMainEvent, account: NewAccountType) => {
     try {
       const newAccount = await AccountRepository.createAccount(account);
       win?.webContents.send(DB_NEW_ACCOUNT_ACK, { ...newAccount, status: EVENT_SUCCESS });
+      await getAccounts();
     } catch (e) {
       if (e instanceof QueryFailedError) {
         win?.webContents.send(DB_NEW_ACCOUNT_ACK, {
@@ -195,24 +223,22 @@ const setupDbEvents = async () => {
   });
 
   ipcMain.on(DB_GET_ACCOUNTS, async (_: IpcMainEvent) => {
-    const accounts = await AccountRepository.getAccounts();
-    win?.webContents.send(DB_GET_ACCOUNTS_ACK, accounts);
+    await getAccounts();
   });
 
   ipcMain.on(DB_GET_ASSETS, async (_: IpcMainEvent) => {
-    const assets = await AssetRepository.getAssets();
-    win?.webContents.send(DB_GET_ASSETS_ACK, assets);
+    await getAssets();
   });
 
   ipcMain.on(DB_GET_TRANSACTIONS, async (_: IpcMainEvent) => {
-    const transactions = await TransactionRepository.getTransactions();
-    win?.webContents.send(DB_GET_TRANSACTIONS_ACK, transactions);
+    await getTransactions();
   });
 
   ipcMain.on(DB_NEW_TRANSACTION, async (_: IpcMainEvent, transaction: NewTransactionType) => {
     try {
       const newTransaction = await TransactionRepository.createTransaction(transaction);
       win?.webContents.send(DB_NEW_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
+      await getTransactions();
     } catch (e) {
       if (e instanceof QueryFailedError) {
         win?.webContents.send(DB_NEW_TRANSACTION_ACK, {
@@ -232,6 +258,7 @@ const setupDbEvents = async () => {
     try {
       const newTransaction = await TransactionRepository.editTransaction(transaction);
       win?.webContents.send(DB_EDIT_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
+      await getTransactions();
     } catch (e) {
       win?.webContents.send(DB_EDIT_TRANSACTION_ACK, {
         status: EVENT_ERROR,
@@ -244,6 +271,7 @@ const setupDbEvents = async () => {
     try {
       await TransactionRepository.deleteTransaction(transactionId);
       win?.webContents.send(DB_DELETE_TRANSACTION_ACK, { status: EVENT_SUCCESS });
+      await getTransactions();
     } catch (e) {
       win?.webContents.send(DB_DELETE_TRANSACTION_ACK, {
         status: EVENT_ERROR,
@@ -261,6 +289,7 @@ const setupDbEvents = async () => {
           ...newAccount,
           status: EVENT_SUCCESS,
         });
+        await getAccounts();
       } catch (e) {
         win?.webContents.send(DB_EDIT_ACCOUNT_BALANCE_ACK, {
           status: EVENT_ERROR,
@@ -279,6 +308,7 @@ const setupDbEvents = async () => {
           ...newAccount,
           status: EVENT_SUCCESS,
         });
+        await getAccounts();
       } catch (e) {
         win?.webContents.send(DB_EDIT_ACCOUNT_DETAILS_ACK, {
           status: EVENT_ERROR,
@@ -288,10 +318,11 @@ const setupDbEvents = async () => {
     }
   );
 
-  ipcMain.on(DB_DELETE_ACCOUNT, async (_: IpcMainEvent, accountId: number) => {
+  ipcMain.on(DB_DELETE_ACCOUNT, async (event: IpcMainEvent, accountId: number) => {
     try {
       await AccountRepository.deleteAccount(accountId);
       win?.webContents.send(DB_DELETE_ACCOUNT_ACK, { status: EVENT_SUCCESS });
+      await getAccounts();
     } catch (e) {
       win?.webContents.send(DB_DELETE_ACCOUNT_ACK, {
         status: EVENT_ERROR,
@@ -316,6 +347,7 @@ const setupDbEvents = async () => {
     try {
       await AssetRepository.deleteAsset(assetId);
       win?.webContents.send(DB_DELETE_ASSET_ACK, { status: EVENT_SUCCESS });
+      await getAssets();
     } catch (e) {
       win?.webContents.send(DB_DELETE_ASSET_ACK, {
         status: EVENT_ERROR,
@@ -340,6 +372,7 @@ const setupDbEvents = async () => {
     try {
       const newAsset = await AssetRepository.editValue(assetValue);
       win?.webContents.send(DB_EDIT_ASSET_VALUE_ACK, { ...newAsset, status: EVENT_SUCCESS });
+      await getAssets();
     } catch (e) {
       win?.webContents.send(DB_EDIT_ASSET_VALUE_ACK, {
         status: EVENT_ERROR,
@@ -354,10 +387,11 @@ const setupDbEvents = async () => {
       try {
         const newAsset = await AssetRepository.editDetails(assetValue);
         win?.webContents.send(DB_EDIT_ASSET_DETAILS_ACK, { ...newAsset, status: EVENT_SUCCESS });
+        await getAssets();
       } catch (e) {
         win?.webContents.send(DB_EDIT_ASSET_DETAILS_ACK, {
           status: EVENT_ERROR,
-          message: 'An error occurred, please try again',
+          message: 'There is already an asset with this name, please try a different one',
         });
       }
     }
@@ -377,6 +411,21 @@ const setupDbEvents = async () => {
       }
     }
   });
+};
+
+const getAccounts = async () => {
+  const accounts = await AccountRepository.getAccounts();
+  win?.webContents.send(DB_GET_ACCOUNTS_ACK, accounts);
+};
+
+const getAssets = async () => {
+  const assets = await AssetRepository.getAssets();
+  win?.webContents.send(DB_GET_ASSETS_ACK, assets);
+};
+
+const getTransactions = async () => {
+  const transactions = await TransactionRepository.getTransactions();
+  win?.webContents.send(DB_GET_TRANSACTIONS_ACK, transactions);
 };
 
 const createWindow = async () => {

@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import React, { useEffect, useMemo, useCallback, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { ipcRenderer, IpcRendererEvent } from 'electron';
+import { ipcRenderer } from 'electron';
 import { isValid, parse } from 'date-fns';
 
 import Fieldset from '@components/common/Form/Fieldset';
@@ -16,12 +16,12 @@ import { AnalyzeSourceMetadataType } from '@components/AccountAsset/ImportWizard
 import FormFooter from '@components/common/Form/FormFooter';
 import SubmitButton from '@components/common/Form/SubmitButton';
 
-import { DB_GET_ACCOUNTS_ACK, LOAD_FROM_OTHER_CSV } from '@constants/events';
+import { LOAD_FROM_OTHER_CSV } from '@constants/events';
 import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
-import AccountIpc from '@app/data/account.ipc';
 import { Account } from '@database/entities';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import { accountGroupedValues } from '@constants/accountTypes';
+import { EntitiesContext } from '@app/context/entitiesContext';
 
 import { optionList, option, toggleInputContainer } from './styles';
 import {
@@ -69,7 +69,7 @@ export interface OtherCSVFormSubmit {
 }
 
 const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
-  const [accounts, setAccounts] = useState<null | Account[]>(null);
+  const { accountsIndex } = useContext(EntitiesContext);
   const dateFormatRef = useRef<HTMLInputElement>(null);
   const amountRef = useRef<HTMLInputElement>(null);
   const {
@@ -86,18 +86,6 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
   } = useForm({
     mode: 'onChange',
   });
-
-  useEffect(() => {
-    AccountIpc.getAccounts();
-
-    ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
-      setAccounts(accounts);
-    });
-
-    return () => {
-      ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
-    };
-  }, []);
 
   // Watch form values
   const autoCalculate = watch('account.autoCalculate');
@@ -128,8 +116,8 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
       setValue('account.balance', '', { shouldValidate: true });
     }
 
-    if (selectedAccount && accounts && selectedAccount !== NEW_ACCOUNT_VALUE) {
-      const account = accounts.find(account => account.id === Number.parseInt(selectedAccount));
+    if (selectedAccount && accountsIndex?.accounts && selectedAccount !== NEW_ACCOUNT_VALUE) {
+      const account = accountsIndex?.accounts.find(account => account.id === Number.parseInt(selectedAccount));
       setValue(
         'account.autoCalculate',
         account?.balanceStatements
@@ -145,7 +133,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
         { shouldValidate: true }
       );
     }
-  }, [accounts, selectedAccount, setValue]);
+  }, [accountsIndex?.lastUpdate, selectedAccount, setValue]);
 
   useEffect(() => {
     autoCalculate && trigger(['account.autoCalculate', 'account.balance']);
@@ -157,8 +145,8 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
     [metadata]
   );
   const accountOptions = useMemo(
-    () => accounts?.map(account => ({ label: account.name, value: account.id.toString() })),
-    [accounts]
+    () => accountsIndex?.accounts?.map(account => ({ label: account.name, value: account.id.toString() })),
+    [accountsIndex?.lastUpdate]
   );
   const newAccountGroupedOptions = accountOptions
     ? [NEW_ACCOUNT_GROUPED_OPTION, { label: 'Canutin accounts', options: [...accountOptions] }]
@@ -173,7 +161,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
     [data]
   );
   const accountColumnOptions = columnOptions(accountColumn).filter(
-    (accountName: string) => !accounts?.find(account => account.name === accountName)
+    (accountName: string) => !accountsIndex?.accounts?.find(account => account.name === accountName)
   );
 
   // Submit validations
@@ -223,7 +211,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
     }
 
     if (isValidDateColumn && isValidAmountColumn) {
-      const result = formToCantuinJsonFile(form, data, accounts);
+      const result = formToCantuinJsonFile(form, data, accountsIndex?.accounts as Account[]);
       ipcRenderer.send(LOAD_FROM_OTHER_CSV, result);
     }
   };
