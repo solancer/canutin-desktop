@@ -1,5 +1,6 @@
 import { createContext, PropsWithChildren, useEffect, useState, useContext } from 'react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
+import { add } from 'date-fns';
 
 import AssetIpc from '@app/data/asset.ipc';
 import TransactionIpc from '@app/data/transaction.ipc';
@@ -57,7 +58,13 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
     });
 
     ipcRenderer.on(DB_GET_TRANSACTIONS_ACK, (_: IpcRendererEvent, transactions: Transaction[]) => {
-      setTransactionsIndex({ transactions, lastUpdate: new Date() });
+      setTransactionsIndex({
+        transactions: transactions.map(({ date, ...transactionData }) => ({
+          ...transactionData,
+          date: add(date, { minutes: date.getTimezoneOffset() }),
+        })) as Transaction[],
+        lastUpdate: new Date(),
+      });
     });
 
     return () => {
