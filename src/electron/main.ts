@@ -2,16 +2,7 @@ import 'reflect-metadata';
 import settings from 'electron-settings';
 import { QueryFailedError } from 'typeorm';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-import {
-  app,
-  BrowserWindow,
-  dialog,
-  ipcMain,
-  IpcMainEvent,
-  nativeTheme,
-  screen,
-  ipcRenderer,
-} from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, IpcMainEvent, nativeTheme, screen } from 'electron';
 import isDev from 'electron-is-dev';
 import * as path from 'path';
 
@@ -164,10 +155,7 @@ const setupEvents = async () => {
       otherCsvPayload: { canutinFile: CanutinFileType; updatedAccounts: UpdatedAccount[] }
     ) => {
       await loadFromCanutinFile(win, otherCsvPayload.canutinFile);
-      await importUpdatedAccounts(
-        win,
-        otherCsvPayload.updatedAccounts
-      );
+      await importUpdatedAccounts(win, otherCsvPayload.updatedAccounts);
     }
   );
 
