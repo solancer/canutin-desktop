@@ -8,9 +8,9 @@ import {
   max,
   sub,
   eachMonthOfInterval,
-  getMonth,
   format,
   isEqual,
+  startOfWeek,
 } from 'date-fns';
 import merge from 'deepmerge';
 
@@ -321,7 +321,11 @@ export const getTransactionBalanceByWeeks = (
   return weeksDates.reduce((acc: ChartPeriodType[], weekDate, index) => {
     // Get transactions from -weeks ago to current week and calculate balance
     const balance = getTransactionsBalance(
-      getSelectedTransactions(transactions, weekDate, endOfWeek(weekDate, { weekStartsOn: 1 }))
+      getSelectedTransactions(
+        transactions,
+        startOfWeek(weekDate, { weekStartsOn: 1 }),
+        endOfWeek(weekDate, { weekStartsOn: 1 })
+      )
     );
     return [
       ...acc,
@@ -355,7 +359,7 @@ export const getBalancesByWeeks = (
     // Get transactions from -weeks ago to current week and calculate balance
     const balanceStatementValue = getSelectedBalanceStatementValue(
       balanceStatements,
-      weekDate,
+      startOfWeek(weekDate, { weekStartsOn: 1 }),
       endOfWeek(weekDate, { weekStartsOn: 1 })
     );
     const balance = balanceStatementValue
