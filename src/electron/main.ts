@@ -2,7 +2,16 @@ import 'reflect-metadata';
 import settings from 'electron-settings';
 import { QueryFailedError } from 'typeorm';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-import { app, BrowserWindow, dialog, ipcMain, IpcMainEvent, nativeTheme, screen } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  dialog,
+  ipcMain,
+  IpcMainEvent,
+  nativeTheme,
+  screen,
+  IpcMainInvokeEvent,
+} from 'electron';
 import isDev from 'electron-is-dev';
 import * as path from 'path';
 
@@ -50,6 +59,7 @@ import {
   DB_EDIT_ASSET_VALUE_ACK,
   DB_EDIT_ASSET_DETAILS,
   DB_EDIT_ASSET_DETAILS_ACK,
+  APP_INFO,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
@@ -398,6 +408,12 @@ const setupDbEvents = async () => {
           win.close();
       }
     }
+  });
+
+  ipcMain.handle(APP_INFO, async (_: IpcMainInvokeEvent) => {
+    return {
+      version: app.getVersion(),
+    };
   });
 };
 

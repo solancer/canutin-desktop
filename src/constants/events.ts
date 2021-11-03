@@ -67,5 +67,6 @@ export const LOADING_CSV = 'loadingCsv';
 export const FILTER_TRANSACTIONS = 'filterTransactions';
 export const FILTER_TRANSACTIONS_ACK = 'filterTransactionsAck';
 
-// Window
+// App
 export const WINDOW_CONTROL = 'windowControl';
+export const APP_INFO = 'appInfo';
