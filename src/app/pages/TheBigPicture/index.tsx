@@ -34,10 +34,10 @@ const TheBigPicture = () => {
     <>
       <ScrollView title="The big picture">
         <BigPictureSummary totalBalance={totalBalance} />
+        <CashflowChart trailingCashflow={trailingCashflow} />
         <SectionRow>
           <TrailingCashflow trailingCashflow={trailingCashflow} />
         </SectionRow>
-        <CashflowChart trailingCashflow={trailingCashflow} />
       </ScrollView>
     </>
   );

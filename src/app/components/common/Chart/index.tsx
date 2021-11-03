@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
+import { getWeek } from 'date-fns';
 
-import { ChartPeriodType } from '@app/utils/balance.utils';
+import { ChartPeriodType, proportionBetween } from '@app/utils/balance.utils';
 
 import ChartPeriod from './ChartPeriod';
 import ChartSummary from './ChartSummary';
 import { Frame } from './styles';
-
-const proportionBetween = (num1: number, num2: number) => {
-  if (typeof num1 === 'number' && typeof num2 === 'number') {
-    return Math.round((!(num1 === 0) && !(num2 === 0) ? (num1 * 100) / num2 : 0) * 1e2) / 1e2;
-  }
-  throw new Error('proportionBetween() was provided a string and only accepts numbers');
-};
 
 interface ChartProps {
   chartData: ChartPeriodType[];
@@ -40,10 +34,20 @@ const Chart = ({ chartData }: ChartProps) => {
   // Calculate the ratio between the positive and negative balances
   // and returns fr values for CSS grid-template-rows
   const balanceProportion = () => {
-    return `
-      ${proportionBetween(positiveBalance, balanceRange)}fr
-      ${proportionBetween(negativeBalance, balanceRange)}fr
-    `; // i.e. 0.85fr 0.15fr
+    const positiveProportion = proportionBetween(positiveBalance, balanceRange);
+    const negativeProportion = proportionBetween(negativeBalance, balanceRange);
+
+    if (positiveProportion === 0 && negativeProportion === 0) {
+      return `1fr 1px 1fr`;
+    } else {
+      return `
+        ${proportionBetween(positiveBalance, balanceRange)}fr
+        1px
+        ${proportionBetween(negativeBalance, balanceRange)}fr
+      `;
+      // i.e. 0.85fr 1px 0.15fr
+      // <PeriodBar><PeriodDivider><PeriodPaceholder>
+    }
   };
 
   const [activeBalance, setActiveBalance] = useState(chartData[chartData.length - 1]);
@@ -55,6 +59,12 @@ const Chart = ({ chartData }: ChartProps) => {
   return (
     <Frame columns={chartData.length}>
       {chartData.map((period, index) => {
+        const isStartOfYear = period.month
+          ? getWeek(period.month) === 1
+          : period.dateWeek
+          ? getWeek(period.dateWeek) === 1
+          : false;
+
         return (
           <ChartPeriod
             key={period.id}
@@ -64,7 +74,9 @@ const Chart = ({ chartData }: ChartProps) => {
             peakPositiveBalance={peakPositive}
             peakNegativeBalance={peakNegative}
             isCurrentPeriod={index === chartData.length - 1}
+            isStartOfYear={isStartOfYear}
             isActive={activeBalance.id === period.id}
+            periodLength={chartData.length}
             label={period.label}
             handleMouseEnter={handleMouseEnter}
           />

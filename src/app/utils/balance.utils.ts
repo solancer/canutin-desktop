@@ -165,7 +165,9 @@ export const getTotalBalanceByGroup = (assets: Asset[], accounts: Account[]) => 
 
 export const getSelectedTransactions = (transactions: Transaction[], from: Date, to: Date) => {
   return transactions.filter(
-    transaction => (isBefore(from, transaction.date) || isEqual(from, transaction.date)) && isAfter(to, transaction.date)
+    transaction =>
+      (isBefore(from, transaction.date) || isEqual(from, transaction.date)) &&
+      isAfter(to, transaction.date)
   );
 };
 
@@ -179,8 +181,7 @@ export type TransactionsTrailingCashflowType = {
 
 export const getTransactionsTrailingCashflow = (transactions: Transaction[]) => {
   const transactionsNotExcludedFromTotals = transactions.filter(
-    transaction =>
-      !transaction.excludeFromTotals
+    transaction => !transaction.excludeFromTotals
   );
 
   if (transactionsNotExcludedFromTotals.length === 0) {
@@ -396,13 +397,17 @@ export const generatePlaceholdersChartPeriod = (
     });
 
     return weeksDates.reduce((acc: ChartPeriodType[], weekDate, index) => {
+      const label = getWeek(weekDate).toLocaleString('en-US', {
+        minimumIntegerDigits: 2,
+      }); // From "01" to "52"
+
       return [
         ...acc,
         {
           week: getWeek(weekDate),
           balance: 0,
           dateWeek: weekDate,
-          label: getWeek(weekDate).toString(),
+          label: label,
           difference: 0,
           id: index + weeksOffset,
         },
@@ -425,12 +430,17 @@ export const generatePlaceholdersChartMonthPeriod = (
     });
 
     return monthsDates.reduce((acc: ChartPeriodType[], monthDate, index) => {
+      const label =
+        getWeek(monthDate) === 1
+          ? `${format(monthDate, 'MMM')} '${format(monthDate, 'yy')}`
+          : format(monthDate, 'MMM'); // From "Jan '21" to "Dec"
+
       return [
         ...acc,
         {
           month: monthDate,
           balance: 0,
-          label: format(monthDate, 'MMM'),
+          label: label,
           expenses: 0,
           income: 0,
           surplus: 0,
@@ -439,4 +449,8 @@ export const generatePlaceholdersChartMonthPeriod = (
       ];
     }, []);
   }
+};
+
+export const proportionBetween = (num1: number, num2: number) => {
+  return Math.round((!(num1 === 0) && !(num2 === 0) ? (num1 * 100) / num2 : 0) * 1e2) / 1e2;
 };
