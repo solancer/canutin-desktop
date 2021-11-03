@@ -57,7 +57,13 @@ const SideBar = () => {
             disabled={isDbEmpty}
           />
 
-          <NavItem icon={<Budget />} text="Budget" toggled={toggled} to={routesPaths.budget} disabled={isDbEmpty} />
+          <NavItem
+            icon={<Budget />}
+            text="Budget"
+            toggled={toggled}
+            to={routesPaths.budget}
+            disabled={isDbEmpty}
+          />
 
           <NavItem
             icon={<Transactions />}
@@ -67,7 +73,13 @@ const SideBar = () => {
             disabled={isDbEmpty}
           />
 
-          <NavItem icon={<Trends />} text="Trends" toggled={toggled} to={routesPaths.trends} disabled={isDbEmpty} />
+          <NavItem
+            icon={<Trends />}
+            text="Trends"
+            toggled={toggled}
+            to={routesPaths.trends}
+            disabled={isDbEmpty}
+          />
         </NavItems>
       </Nav>
 
@@ -77,6 +89,7 @@ const SideBar = () => {
         text="Add accounts or assets"
         toggled={toggled}
         to={routesPaths.addAccountOrAsset}
+        dataTestId="sidebar-add-account-or-assets"
       />
     </Container>
   );

@@ -16,6 +16,7 @@ import {
   borderGrey,
   whitePlain,
   grey5,
+  bluePlain,
 } from '@app/constants/colors';
 
 export const container = css`
@@ -62,9 +63,19 @@ export const dateCell = css`
   white-space: nowrap;
 `;
 
-export const linkCell = css`
+export const cellField = css`
   color: ${grey80};
   font-size: 12px;
+`;
+
+export const linkCellField = css`
+  color: ${grey80};
+  font-size: 12px;
+  text-decoration: none;
+
+  &:hover {
+    color: ${bluePlain};
+  }
 `;
 
 export const tableHeaderRow = css`

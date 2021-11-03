@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Asset } from '@database/entities';
 import { getAssetInformationLabel } from '@app/utils/asset.utils';
 import useGlobalFilterTable from '@app/hooks/useGlobalFilterTable';
+import { EntitiesContext } from '@app/context/entitiesContext';
 
 import ScrollView from '@components/common/ScrollView';
 import AssetOverviewHeader from '@components/Asset/AssetOverviewHeader';
@@ -12,11 +13,11 @@ import AssetOverviewEdit from '@components/Asset/AssetOverviewEdit';
 import { getSelectedBalanceStatements } from '@app/utils/balance.utils';
 
 const AssetOverview = () => {
-  const {
-    state: { balance },
-  } = useLocation<{ balance: Asset }>();
+  const { assetsIndex } = useContext(EntitiesContext);
+  const { assetName } = useParams<{ assetName: string }>();
+  const asset = assetsIndex!.assets.find(asset => asset.name === assetName && asset) as Asset;
   const { selectedFilterOption, setSelectedFilterOption, numberOfWeeks } = useGlobalFilterTable();
-  const editAsset = useMemo(() => <AssetOverviewEdit temporalAsset={balance} />, []);
+  const editAsset = useMemo(() => <AssetOverviewEdit temporalAsset={asset} />, []);
 
   const [assetOverviewSections, setAssetOverviewSections] = useState([
     {
@@ -24,9 +25,9 @@ const AssetOverview = () => {
       component: (
         <AssetOverviewInformation
           assetBalanceStatements={
-            balance.balanceStatements &&
+            asset.balanceStatements &&
             getSelectedBalanceStatements(
-              balance.balanceStatements,
+              asset.balanceStatements,
               selectedFilterOption.value.dateFrom,
               selectedFilterOption.value.dateTo
             )
@@ -48,9 +49,9 @@ const AssetOverview = () => {
         component: (
           <AssetOverviewInformation
             assetBalanceStatements={
-              balance.balanceStatements &&
+              asset.balanceStatements &&
               getSelectedBalanceStatements(
-                balance.balanceStatements,
+                asset.balanceStatements,
                 selectedFilterOption.value.dateFrom,
                 selectedFilterOption.value.dateTo
               )
@@ -69,8 +70,8 @@ const AssetOverview = () => {
   return (
     <>
       <ScrollView
-        title={balance.name}
-        subTitle={getAssetInformationLabel(balance)}
+        title={asset.name}
+        subTitle={getAssetInformationLabel(asset)}
         headerNav={
           <AssetOverviewHeader
             filterOption={selectedFilterOption}

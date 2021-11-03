@@ -4,7 +4,13 @@ import styled from 'styled-components';
 
 import { Transaction } from '@database/entities';
 
-import { DateCell, AmountCell, DescriptionCell, LinkCell } from './TransactionsFilterTableCells';
+import {
+  DateCell,
+  AmountCell,
+  DescriptionCell,
+  CategoryCell,
+  AccountCell,
+} from './TransactionsFilterTableCells';
 import TransactionsGlobalFilter from '../TransactionsGlobalFilter';
 import TransactionsFilterSummary from '../TransactionsFilterSummary';
 import {
@@ -76,12 +82,12 @@ const TransactionsFilterTable = ({
         {
           Header: 'Category',
           accessor: 'category.name',
-          Cell: LinkCell,
+          Cell: CategoryCell,
         },
         {
           Header: 'Account',
           accessor: 'account.name',
-          Cell: LinkCell,
+          Cell: AccountCell,
         },
         {
           Header: 'Amount',

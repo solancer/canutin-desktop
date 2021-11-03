@@ -26,7 +26,7 @@ describe('Add account by Hand tests', () => {
       </AppCtxProvider>
     );
 
-    const addAccountsOrAssetsButton = screen.getByText('Add accounts or assets').closest('a');
+    const addAccountsOrAssetsButton = screen.getByTestId('sidebar-add-account-or-assets');
 
     if (addAccountsOrAssetsButton) {
       userEvent.click(addAccountsOrAssetsButton);
@@ -38,9 +38,9 @@ describe('Add account by Hand tests', () => {
   });
 
   test('Create new account only with required fields', async () => {
-    const addAccountsOrAssetsButton = screen.getByText('Add accounts or assets').closest('a');
+    const addAccountsOrAssetsButton = screen.getByTestId('sidebar-add-account-or-assets');
     expect(screen.getByRole('form')).toHaveFormValues({});
-    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/account/addAccountOrAsset');
+    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/addAccountOrAsset');
 
     await selectEvent.select(screen.getByLabelText('Account type'), 'Checking');
 
@@ -82,9 +82,9 @@ describe('Add account by Hand tests', () => {
   });
 
   test('Create new account with optional fields', async () => {
-    const addAccountsOrAssetsButton = screen.getByText('Add accounts or assets').closest('a');
+    const addAccountsOrAssetsButton = screen.getByTestId('sidebar-add-account-or-assets');
     expect(screen.getByRole('form')).toHaveFormValues({});
-    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/account/addAccountOrAsset');
+    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/addAccountOrAsset');
 
     await selectEvent.select(screen.getByLabelText('Account type'), 'PayPal');
     const nameInput = screen.getByLabelText('Name');
