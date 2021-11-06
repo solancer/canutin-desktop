@@ -62,7 +62,17 @@ export class AccountRepository {
 
   static async getAccountById(accountId: number): Promise<Account | undefined> {
     return await getRepository<Account>(Account).findOne(accountId, {
-      relations: ['balanceStatements', 'accountType'],
+      relations: [
+        'transactions',
+        'transactions.account',
+        'transactions.category',
+        'balanceStatements',
+        'accountType',
+      ],
+      order: {
+        name: 'ASC',
+        id: 'DESC',
+      },
     });
   }
 

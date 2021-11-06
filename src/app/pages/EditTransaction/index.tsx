@@ -56,7 +56,7 @@ const EditTransaction = () => {
   };
 
   const onRemove = () => {
-    TransactionIpc.deleteTransaction(transaction.id);
+    TransactionIpc.deleteTransaction(transaction.account.id, transaction.id);
   };
 
   return (

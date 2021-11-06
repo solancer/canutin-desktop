@@ -62,15 +62,6 @@ export class TransactionRepository {
     return await getConnection().manager.query(nsql, args);
   }
 
-  static async getTransactions(): Promise<Transaction[]> {
-    return await getRepository<Transaction>(Transaction).find({
-      relations: ['account', 'account.accountType'],
-      order: {
-        date: 'DESC',
-      },
-    });
-  }
-
   static async getFilterTransactions(filter: FilterTransactionInterface): Promise<Transaction[]> {
     // The query seems to only return the expected results if the dates are offset by -1
     const dateFrom = subDays(dateInUTC(filter.dateFrom), 1);
