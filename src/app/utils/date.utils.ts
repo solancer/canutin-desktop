@@ -13,4 +13,4 @@ export const formatDate = (date: Date) => {
 };
 
 export const getNumberOfWeeks = (from: Date, to: Date) =>
-  differenceInCalendarWeeks(to, from);
+  differenceInCalendarWeeks(to, from, { weekStartsOn: 1 });

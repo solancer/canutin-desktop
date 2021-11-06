@@ -2,7 +2,7 @@ import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Base } from './base.entity';
 import { Account } from './account.entity';
 
-@Entity()
+@Entity({ name: 'account_balance_statement' })
 export class BalanceStatement extends Base {
   @Column({ nullable: true })
   value?: number;
