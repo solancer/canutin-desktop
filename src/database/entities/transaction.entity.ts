@@ -5,7 +5,7 @@ import { Budget } from './budget.entity';
 import { TransactionSubCategory } from './transactionSubCategory.entity';
 
 @Entity()
-@Unique('UQ_COLUMNS', ['account', 'date', 'description', 'amount'])
+@Unique('UQ_COLUMNS', ['account', 'date', 'description', 'amount', 'createdAt'])
 export class Transaction extends Base {
   @Column()
   description: string;
@@ -45,6 +45,7 @@ export class Transaction extends Base {
     excludeFromTotals: boolean,
     account: Account,
     category: TransactionSubCategory,
+    createdAt: Date,
     budget?: Budget
   ) {
     super();
@@ -53,7 +54,8 @@ export class Transaction extends Base {
     this.amount = amount;
     this.excludeFromTotals = excludeFromTotals ? excludeFromTotals : false;
     this.account = account;
-    this.budget = budget;
     this.category = category;
+    this.createdAt = createdAt;
+    this.budget = budget;
   }
 }

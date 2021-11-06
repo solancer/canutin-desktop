@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-import { grey40, grey80 } from '@appConstants/colors';
+import { bluePlain, grey40 } from '@appConstants/colors';
 
 const breadcrumbSpacing = css`
   display: grid;
@@ -15,6 +15,10 @@ export const container = css`
 
 export const breadcrumb = css`
   ${breadcrumbSpacing};
+
+  &:last-child {
+    pointer-events: none;
+  }
 `;
 
 export const breadcrumbLabel = css`
@@ -24,8 +28,7 @@ export const breadcrumbLabel = css`
   text-decoration: none;
   outline: none;
 
-  &:focus,
   &:hover {
-    color: ${grey80};
+    color: ${bluePlain};
   }
 `;

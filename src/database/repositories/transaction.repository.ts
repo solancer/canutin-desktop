@@ -3,7 +3,7 @@ import { subDays } from 'date-fns';
 
 import { FilterTransactionInterface, NewTransactionType } from '@appTypes/transaction.type';
 
-import { dateInUTC } from '@app/utils/date.utils';
+import { dateInUTC, createdAtDate } from '@app/utils/date.utils';
 import { Transaction, Account } from '../entities';
 import { AccountRepository } from './account.repository';
 import { CategoryRepository } from './category.repository';
@@ -12,7 +12,6 @@ export class TransactionRepository {
   static async createTransaction(transaction: NewTransactionType): Promise<Transaction> {
     const account = await AccountRepository.getAccountById(transaction.accountId);
     const category = await CategoryRepository.getOrCreateSubCategory(transaction.categoryName);
-
     const newTransaction = await getRepository<Transaction>(Transaction).save(
       new Transaction(
         transaction.description as string,
@@ -20,7 +19,8 @@ export class TransactionRepository {
         transaction.balance,
         transaction.excludeFromTotals,
         account as Account,
-        category
+        category,
+        createdAtDate(transaction.createdAt)
       )
     );
 
@@ -60,15 +60,6 @@ export class TransactionRepository {
     const nsql = sql.replace('INSERT INTO', 'INSERT OR IGNORE INTO');
 
     return await getConnection().manager.query(nsql, args);
-  }
-
-  static async getTransactions(): Promise<Transaction[]> {
-    return await getRepository<Transaction>(Transaction).find({
-      relations: ['account', 'account.accountType'],
-      order: {
-        date: 'DESC',
-      },
-    });
   }
 
   static async getFilterTransactions(filter: FilterTransactionInterface): Promise<Transaction[]> {

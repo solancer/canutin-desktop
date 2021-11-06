@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, shell } from 'electron';
 import styled from 'styled-components';
 
 import { ReactComponent as Icon } from '@assets/icons/CanutinIcon.svg';
@@ -42,7 +42,7 @@ const TitleBar = () => {
 
   return (
     <Container isMacOs={isMacOs}>
-      <CanutinIcon />
+      <CanutinIcon onClick={() => shell.openExternal('https://canutin.com')} />
       {!isMacOs && (
         <WindowControls>
           <Minimize onClick={() => windowControl(WindowControlEnum.MINIMIZE)}>

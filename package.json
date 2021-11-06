@@ -79,7 +79,7 @@
     "react-build": "react-app-rewired build",
     "react-eject": "react-scripts eject",
     "test": "react-app-rewired test --passWithNoTests",
-    "test:coverage": "react-scripts test --coverage --watchAll",
+    "test:coverage": "react-app-rewired test --coverage",
     "start": "concurrently \"BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && yarn electron-tsc && electron .\"",
     "build": "yarn react-build && yarn electron-tsc && electron-builder",
     "postinstall": "electron-builder install-app-deps",

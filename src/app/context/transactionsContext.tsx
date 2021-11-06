@@ -10,12 +10,12 @@ interface TransactionsContextValue {
 }
 
 export const TransactionsContext = createContext<TransactionsContextValue>({
-  filterOption: filterOptions[0],
+  filterOption: filterOptions[2],
   setFilterOption: () => {},
 });
 
 export const TransactionsProvider = ({ children }: PropsWithChildren<Record<string, unknown>>) => {
-  const [filterOption, setFilterOption] = useState<SelectFieldValue | null>(filterOptions[0]);
+  const [filterOption, setFilterOption] = useState<SelectFieldValue | null>(filterOptions[2]);
   const value = {
     filterOption,
     setFilterOption,

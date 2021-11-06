@@ -13,6 +13,7 @@ export interface CanutinFileTransactionType {
   amount: number;
   excludeFromTotals: boolean;
   category: string;
+  createdAt?: number;
   budget?: CanutinFileBudgetType;
 }
 
@@ -34,7 +35,7 @@ export interface CanutinFileAssetType {
   symbol?: string;
   quantity?: number;
   cost?: number;
-  vale?: number; 
+  value?: number;
 }
 
 export interface CanutinFileType {

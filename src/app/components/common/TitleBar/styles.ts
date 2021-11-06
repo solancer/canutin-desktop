@@ -1,6 +1,14 @@
 import { css } from 'styled-components';
 
-import { whitePlain, grey5, grey7, grey10, redPlain } from '@appConstants/colors';
+import {
+  whitePlain,
+  grey5,
+  grey7,
+  grey10,
+  redPlain,
+  grey3,
+  borderGrey,
+} from '@appConstants/colors';
 
 export const container = css<{ isMacOs: boolean }>`
   background-color: ${whitePlain};
@@ -31,6 +39,12 @@ export const icon = css`
   height: 16px;
   padding: 16px;
   border-right: 1px solid ${grey10};
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${grey3};
+    box-shadow: inset 0 -1px 0 ${borderGrey};
+  }
 `;
 
 export const windowControls = css`

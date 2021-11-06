@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import { Account, BalanceStatement, Transaction } from '@database/entities';
 

@@ -65,7 +65,7 @@ const BalanceItem = ({ balance }: BalanceItemProps) => {
   return (
     <BalanceItemContainer>
       <div>
-        <TextLink pathname={redirectPathName} state={{ balance }} label={balance.name} />
+        <TextLink pathname={redirectPathName} label={balance.name} />
         <BalanceType>{balance.type}</BalanceType>
       </div>
       <BalanceItemAmount displayType={'text'} value={Math.round(balance.amount)} />

@@ -10,7 +10,7 @@ import {
   IpcMainEvent,
   nativeTheme,
   screen,
-  ipcRenderer,
+  IpcMainInvokeEvent,
 } from 'electron';
 import isDev from 'electron-is-dev';
 import * as path from 'path';
@@ -33,8 +33,6 @@ import {
   ANALYZE_SOURCE_FILE,
   LOAD_FROM_CANUTIN_FILE,
   LOAD_FROM_OTHER_CSV,
-  DB_GET_TRANSACTIONS,
-  DB_GET_TRANSACTIONS_ACK,
   DB_NEW_TRANSACTION,
   DB_NEW_TRANSACTION_ACK,
   DB_EDIT_TRANSACTION,
@@ -59,6 +57,7 @@ import {
   DB_EDIT_ASSET_VALUE_ACK,
   DB_EDIT_ASSET_DETAILS,
   DB_EDIT_ASSET_DETAILS_ACK,
+  APP_INFO,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
@@ -164,10 +163,7 @@ const setupEvents = async () => {
       otherCsvPayload: { canutinFile: CanutinFileType; updatedAccounts: UpdatedAccount[] }
     ) => {
       await loadFromCanutinFile(win, otherCsvPayload.canutinFile);
-      await importUpdatedAccounts(
-        win,
-        otherCsvPayload.updatedAccounts
-      );
+      await importUpdatedAccounts(win, otherCsvPayload.updatedAccounts);
     }
   );
 
@@ -230,15 +226,11 @@ const setupDbEvents = async () => {
     await getAssets();
   });
 
-  ipcMain.on(DB_GET_TRANSACTIONS, async (_: IpcMainEvent) => {
-    await getTransactions();
-  });
-
   ipcMain.on(DB_NEW_TRANSACTION, async (_: IpcMainEvent, transaction: NewTransactionType) => {
     try {
       const newTransaction = await TransactionRepository.createTransaction(transaction);
       win?.webContents.send(DB_NEW_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
-      await getTransactions();
+      await getAccount(transaction.accountId);
     } catch (e) {
       if (e instanceof QueryFailedError) {
         win?.webContents.send(DB_NEW_TRANSACTION_ACK, {
@@ -258,7 +250,7 @@ const setupDbEvents = async () => {
     try {
       const newTransaction = await TransactionRepository.editTransaction(transaction);
       win?.webContents.send(DB_EDIT_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
-      await getTransactions();
+      await getAccount(transaction.accountId);
     } catch (e) {
       win?.webContents.send(DB_EDIT_TRANSACTION_ACK, {
         status: EVENT_ERROR,
@@ -267,18 +259,21 @@ const setupDbEvents = async () => {
     }
   });
 
-  ipcMain.on(DB_DELETE_TRANSACTION, async (_: IpcMainEvent, transactionId: number) => {
-    try {
-      await TransactionRepository.deleteTransaction(transactionId);
-      win?.webContents.send(DB_DELETE_TRANSACTION_ACK, { status: EVENT_SUCCESS });
-      await getTransactions();
-    } catch (e) {
-      win?.webContents.send(DB_DELETE_TRANSACTION_ACK, {
-        status: EVENT_ERROR,
-        message: 'An error occurred, please try again',
-      });
+  ipcMain.on(
+    DB_DELETE_TRANSACTION,
+    async (_: IpcMainEvent, accountId: number, transactionId: number) => {
+      try {
+        await TransactionRepository.deleteTransaction(transactionId);
+        win?.webContents.send(DB_DELETE_TRANSACTION_ACK, { status: EVENT_SUCCESS });
+        await getAccount(accountId);
+      } catch (e) {
+        win?.webContents.send(DB_DELETE_TRANSACTION_ACK, {
+          status: EVENT_ERROR,
+          message: 'An error occurred, please try again',
+        });
+      }
     }
-  });
+  );
 
   ipcMain.on(
     DB_EDIT_ACCOUNT_BALANCE,
@@ -411,6 +406,12 @@ const setupDbEvents = async () => {
       }
     }
   });
+
+  ipcMain.handle(APP_INFO, async (_: IpcMainInvokeEvent) => {
+    return {
+      version: app.getVersion(),
+    };
+  });
 };
 
 const getAccounts = async () => {
@@ -418,14 +419,14 @@ const getAccounts = async () => {
   win?.webContents.send(DB_GET_ACCOUNTS_ACK, accounts);
 };
 
+const getAccount = async (id: number) => {
+  const account = await AccountRepository.getAccountById(id);
+  win?.webContents.send(DB_GET_ACCOUNT_ACK, account);
+};
+
 const getAssets = async () => {
   const assets = await AssetRepository.getAssets();
   win?.webContents.send(DB_GET_ASSETS_ACK, assets);
-};
-
-const getTransactions = async () => {
-  const transactions = await TransactionRepository.getTransactions();
-  win?.webContents.send(DB_GET_TRANSACTIONS_ACK, transactions);
 };
 
 const createWindow = async () => {
@@ -441,6 +442,7 @@ const createWindow = async () => {
     trafficLightPosition: { x: 16, y: 32 },
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false, // https://github.com/electron/electron/issues/9920#issuecomment-575839738
     },
   });
 

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Account, Transaction } from '@database/entities';
 import { getAccountInformationLabel } from '@app/utils/account.utils';
 import { getSelectedTransactions } from '@app/utils/balance.utils';
 import useGlobalFilterTable from '@app/hooks/useGlobalFilterTable';
+import { EntitiesContext } from '@app/context/entitiesContext';
 
 import ScrollView from '@components/common/ScrollView';
 import AccountOverviewHeader from '@components/Account/AccountOverviewHeader';
@@ -12,9 +13,12 @@ import AccountOverviewInformation from '@components/Account/AccountOverviewInfor
 import AccountOverviewEdit from '@components/Account/AccountOverviewEdit';
 
 const AccountOverview = () => {
-  const {
-    state: { balance: account },
-  } = useLocation<{ balance: Account }>();
+  const { accountsIndex } = useContext(EntitiesContext);
+  const { accountName } = useParams<{ accountName: string }>();
+  const account = accountsIndex!.accounts.find(
+    account => account.name === accountName && account
+  ) as Account;
+
   const { selectedFilterOption, setSelectedFilterOption, numberOfWeeks } = useGlobalFilterTable();
   const editAccount = useMemo(() => <AccountOverviewEdit temporalAccount={account} />, []);
 
@@ -68,7 +72,10 @@ const AccountOverview = () => {
         title={account.name}
         subTitle={getAccountInformationLabel(account)}
         headerNav={
-          <AccountOverviewHeader filterOption={selectedFilterOption} setFilterOption={setSelectedFilterOption} />
+          <AccountOverviewHeader
+            filterOption={selectedFilterOption}
+            setFilterOption={setSelectedFilterOption}
+          />
         }
         sections={accountOverviewSections}
       />

@@ -15,29 +15,31 @@ import {
 } from '@app/utils/balance.utils';
 
 const TheBigPicture = () => {
-  const { assetsIndex, transactionsIndex, accountsIndex } = useContext(EntitiesContext);
+  const { assetsIndex, accountsIndex } = useContext(EntitiesContext);
   const [totalBalance, setTotalBalance] = useState<TotalBalanceType>();
   const [trailingCashflow, setTrailingCashflow] = useState<TransactionsTrailingCashflowType[]>();
 
   useEffect(() => {
+    const transactions =
+      accountsIndex && accountsIndex.accounts.map(account => account.transactions!).flat();
+    if (transactions) {
+      transactions.sort((a, b) => b.date.getTime() - a.date.getTime()); // Sort the transactions in 'DESC' order
+      setTrailingCashflow(getTransactionsTrailingCashflow(transactions));
+    }
+
     assetsIndex &&
       accountsIndex &&
       setTotalBalance(getTotalBalanceByGroup(assetsIndex.assets, accountsIndex.accounts));
   }, [assetsIndex, accountsIndex]);
 
-  useEffect(() => {
-    transactionsIndex &&
-      setTrailingCashflow(getTransactionsTrailingCashflow(transactionsIndex.transactions));
-  }, [transactionsIndex]);
-
   return (
     <>
       <ScrollView title="The big picture">
         <BigPictureSummary totalBalance={totalBalance} />
+        <CashflowChart trailingCashflow={trailingCashflow} />
         <SectionRow>
           <TrailingCashflow trailingCashflow={trailingCashflow} />
         </SectionRow>
-        <CashflowChart trailingCashflow={trailingCashflow} />
       </ScrollView>
     </>
   );

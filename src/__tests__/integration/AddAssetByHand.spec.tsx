@@ -33,7 +33,7 @@ describe('Add asset by Hand tests', () => {
       </AppCtxProvider>
     );
 
-    const addAccountsOrAssetsButton = screen.getByText('Add accounts or assets').closest('a');
+    const addAccountsOrAssetsButton = screen.getByTestId('sidebar-add-account-or-assets');
 
     if (addAccountsOrAssetsButton) {
       userEvent.click(addAccountsOrAssetsButton);
@@ -46,9 +46,9 @@ describe('Add asset by Hand tests', () => {
     const addAssetByHandOptions = screen.getByLabelText('Asset');
     userEvent.click(addAssetByHandOptions);
     const spySendIpcRenderer = jest.spyOn(ipcRenderer, 'send');
-    const addAccountsOrAssetsButton = screen.getByText('Add accounts or assets').closest('a');
+    const addAccountsOrAssetsButton = screen.getByTestId('sidebar-add-account-or-assets');
     expect(screen.getByRole('form')).toHaveFormValues({});
-    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/account/addAccountOrAsset');
+    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/addAccountOrAsset');
 
     await selectEvent.select(screen.getByLabelText('Asset type'), 'Vehicle');
 
