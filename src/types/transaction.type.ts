@@ -11,4 +11,5 @@ export type NewTransactionType = {
   balance: number;
   excludeFromTotals: boolean;
   id?: number;
+  createdAt?: number;
 };
