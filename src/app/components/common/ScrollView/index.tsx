@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useEffect } from 'react';
+import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
@@ -41,6 +41,7 @@ export interface ScrollViewProps {
   children?: ReactNode;
   wizard?: boolean;
   sections?: SectionType[];
+  dataTestId?: string;
 }
 
 const ScrollView = ({
@@ -50,18 +51,20 @@ const ScrollView = ({
   wizard,
   sections,
   children,
+  dataTestId,
 }: ScrollViewProps) => {
   const history = useHistory();
   const [selectedSection, setSelectedSection] = useState(sections?.[0].label);
 
   return (
-    <Container>
+    <Container data-testid={dataTestId}>
       <Header isSectionIncluded={!!selectedSection}>
         {history.length > 1 && !Object.values(rootRoutesPaths).includes(history.location.pathname) && (
           <BackButton
             onClick={() => {
               history.goBack();
             }}
+            data-testid="button-back"
           />
         )}
         <HeaderContainer>

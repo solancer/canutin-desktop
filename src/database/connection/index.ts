@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import {
   Account,
-  BalanceStatement,
+  AccountBalanceStatement,
   Asset,
   Budget,
   Transaction,
@@ -25,7 +25,7 @@ export const dbConfig = {
   logging: true,
   entities: [
     Account,
-    BalanceStatement,
+    AccountBalanceStatement,
     Asset,
     Budget,
     Transaction,

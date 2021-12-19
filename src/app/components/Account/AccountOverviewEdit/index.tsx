@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 import { useHistory } from 'react-router-dom';
 
@@ -10,28 +10,21 @@ import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import AccountIpc from '@app/data/account.ipc';
 import { StatusEnum } from '@app/constants/misc';
-import { DB_GET_ACCOUNT_ACK, DB_DELETE_ACCOUNT_ACK } from '@constants/events';
+import { DB_DELETE_ACCOUNT_ACK } from '@constants/events';
 import { rootRoutesPaths } from '@app/routes';
 
 import AccountEditBalanceForm from '../AccountEditBalanceForm';
 import AccountEditDetailsForm from '../AccountEditDetailsForm';
 
 interface AccountOverviewEditProps {
-  temporalAccount: Account;
+  account: Account;
 }
 
-const AccountOverviewEdit = ({ temporalAccount }: AccountOverviewEditProps) => {
-  const [account, setAccount] = useState<Account>();
+const AccountOverviewEdit = ({ account }: AccountOverviewEditProps) => {
   const { setStatusMessage } = useContext(StatusBarContext);
   const history = useHistory();
 
   useEffect(() => {
-    AccountIpc.getAccountById(temporalAccount.id);
-
-    ipcRenderer.on(DB_GET_ACCOUNT_ACK, (_: IpcRendererEvent, { account: newAccount }) => {
-      setAccount(newAccount);
-    });
-
     ipcRenderer.on(DB_DELETE_ACCOUNT_ACK, (_: IpcRendererEvent, { status, message }) => {
       if (status === EVENT_SUCCESS) {
         setStatusMessage({
@@ -48,13 +41,12 @@ const AccountOverviewEdit = ({ temporalAccount }: AccountOverviewEditProps) => {
     });
 
     return () => {
-      ipcRenderer.removeAllListeners(DB_GET_ACCOUNT_ACK);
       ipcRenderer.removeAllListeners(DB_DELETE_ACCOUNT_ACK);
     };
   }, []);
 
   const onRemove = () => {
-    AccountIpc.deleteAccount(temporalAccount.id);
+    AccountIpc.deleteAccount(account.id);
   };
 
   return account ? (

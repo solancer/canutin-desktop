@@ -2,15 +2,16 @@ import { readFileSync } from 'fs';
 import { BrowserWindow } from 'electron';
 
 import { enumImportTitleOptions, StatusEnum } from '@appConstants/misc';
+import { ANALYZE_SOURCE_FILE_ACK, LOAD_DATA_ACK } from '@constants/events';
 import {
-  ANALYZE_SOURCE_FILE_ACK,
-  LOAD_FROM_CANUTIN_FILE_ACK,
-  LOAD_FROM_OTHER_CSV_ACK,
-} from '@constants/events';
-import { CanutinFileType, UpdatedAccount, CanutinFileAccountType } from '@appTypes/canutin';
+  CanutinFileType,
+  UpdatedAccount,
+  CanutinFileAccountType,
+  CanutinFileAssetType,
+} from '@appTypes/canutinFile.type';
 import { ParseResult } from '@appTypes/parseCsv';
+import { CanutinFileTransactionType } from '@appTypes/canutinFile.type';
 import { importFromCanutinFile, updateAccounts } from '@database/helpers/importSource';
-import { CanutinFileTransactionType } from '@appTypes/canutin';
 
 import { mintCsvToJson, MintCsvEntryType } from './sourceHelpers/mint';
 import {
@@ -44,14 +45,37 @@ export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | 
   const file = readFileSync(filePath, 'utf8');
   try {
     const canutinFile = JSON.parse(file);
-    const hasCanutinFileAccounts = canutinFile?.accounts?.length > 0;
-    const countAssets = canutinFile?.assets?.length;
-    const hasAllAccountsAutoCalculatedField = canutinFile?.accounts?.every(
-      (account: CanutinFileAccountType) => account.autoCalculate !== undefined
+
+    // Validate accounts from CanutinFile
+    const hasAccounts = canutinFile?.accounts?.length > 0;
+    const hasAccountsRequiredProps = canutinFile?.accounts?.every(
+      (account: CanutinFileAccountType) => {
+        const { name, balanceGroup, accountType, autoCalculated, closed } = account;
+        return (
+          typeof name === 'string' &&
+          typeof balanceGroup === 'string' &&
+          typeof accountType === 'string' &&
+          typeof autoCalculated === 'boolean' &&
+          typeof closed === 'boolean'
+        );
+      }
     );
 
-    if ((hasCanutinFileAccounts && hasAllAccountsAutoCalculatedField) || countAssets) {
+    // Validate assets in CanutinFile
+    const hasAssets = canutinFile?.assets?.length > 0;
+    const hasAssetsRequiredProps = canutinFile?.assets?.every((asset: CanutinFileAssetType) => {
+      const { name, balanceGroup, assetType, sold } = asset;
+      return (
+        typeof name === 'string' &&
+        typeof balanceGroup === 'string' &&
+        typeof assetType === 'string' &&
+        typeof sold === 'boolean'
+      );
+    });
+
+    if ((hasAccounts && hasAccountsRequiredProps) || (hasAssets && hasAssetsRequiredProps)) {
       const countAccounts = canutinFile?.accounts?.length;
+      const countAssets = canutinFile?.assets?.length;
       const countTransactions = canutinFile?.accounts?.reduce(
         (countTransactions: number, account: { transactions: CanutinFileTransactionType[] }) => {
           if (account?.transactions) {
@@ -73,8 +97,7 @@ export const analyzeCanutinFile = async (filePath: string, win: BrowserWindow | 
         },
       });
     } else {
-      // Json file is not supported
-      throw Error;
+      throw Error; // Json file is not supported
     }
   } catch (error) {
     win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
@@ -178,30 +201,24 @@ export const loadFromCanutinFile = async (
 ) => {
   const isSuccess = await importFromCanutinFile(canutinFile, win);
 
-  if (isSuccess) {
-    win?.webContents.send(LOAD_FROM_CANUTIN_FILE_ACK, {
-      status: StatusEnum.POSITIVE,
-    });
-  } else {
-    win?.webContents.send(LOAD_FROM_CANUTIN_FILE_ACK, {
-      status: StatusEnum.NEGATIVE,
-    });
-  }
+  win?.webContents.send(LOAD_DATA_ACK, {
+    status: isSuccess ? StatusEnum.POSITIVE : StatusEnum.NEGATIVE,
+  });
 };
 
 export const importUpdatedAccounts = async (
   win: BrowserWindow | null,
-  updatedAccounts?: UpdatedAccount[],
+  updatedAccounts?: UpdatedAccount[]
 ) => {
   try {
     if (updatedAccounts) {
       await updateAccounts(updatedAccounts);
     }
-    win?.webContents.send(LOAD_FROM_OTHER_CSV_ACK, {
+    win?.webContents.send(LOAD_DATA_ACK, {
       status: StatusEnum.POSITIVE,
     });
   } catch (error) {
-    win?.webContents.send(LOAD_FROM_OTHER_CSV_ACK, {
+    win?.webContents.send(LOAD_DATA_ACK, {
       status: StatusEnum.NEGATIVE,
     });
   }

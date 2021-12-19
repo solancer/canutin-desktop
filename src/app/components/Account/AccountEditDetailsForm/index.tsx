@@ -30,11 +30,11 @@ const AccountEditDetailsForm = ({ account }: AccountEditBalanceFormProps) => {
   const { setStatusMessage } = useContext(StatusBarContext);
   const { handleSubmit, control, register, watch } = useForm({
     defaultValues: {
-      accountTypeName: account.accountType.name,
+      accountType: account.accountType.name,
       balanceGroup: account.balanceGroup.toString(),
       name: account.name,
-      institution: account.institution
-    }
+      institution: account.institution,
+    },
   });
 
   const name = watch('name');
@@ -67,7 +67,7 @@ const AccountEditDetailsForm = ({ account }: AccountEditBalanceFormProps) => {
       <Fieldset>
         <SelectField
           label="Account type"
-          name="accountTypeName"
+          name="accountType"
           groupedOptions={accountGroupedValues}
           required
           control={control}
@@ -83,6 +83,7 @@ const AccountEditDetailsForm = ({ account }: AccountEditBalanceFormProps) => {
       <Fieldset>
         <InputTextField label="Name" name="name" register={register} />
         <InputTextField label="Institution" name="institution" optional register={register} />
+        <InputTextField label="Official name" name="officialName" optional register={register} />
       </Fieldset>
       <FormFooter>
         <SubmitButton disabled={submitDisabled}>Save</SubmitButton>

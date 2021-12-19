@@ -7,9 +7,10 @@ import {
   AssetEditDetailsSubmitType,
   AssetEditValueSubmitType,
   NewAssetType,
-} from '../../types/asset.type';
+} from '@appTypes/asset.type';
 import { AssetBalanceStatementRepository } from './assetBalanceStatement.entity';
 import { AssetTypeEnum } from '@enums/assetType.enum';
+import { handleAssetBalanceStatements } from '@database/helpers/balanceStatement';
 
 export class AssetRepository {
   static async createAsset(asset: NewAssetType): Promise<Asset> {
@@ -17,19 +18,13 @@ export class AssetRepository {
       name: asset.assetType,
     });
 
-    const savedAsset = await getRepository<Asset>(Asset).save(
-      new Asset(asset.name, assetType, asset.symbol)
+    const existingAsset = await getRepository<Asset>(Asset).save(
+      new Asset(asset.name, assetType, asset.sold, asset.symbol)
     );
 
-    await AssetBalanceStatementRepository.createBalanceStatement({
-      asset: savedAsset,
-      sold: false,
-      value: asset.value,
-      cost: asset.cost,
-      quantity: asset.quantity,
-    });
+    await handleAssetBalanceStatements(existingAsset, asset);
 
-    return savedAsset;
+    return (await getRepository<Asset>(Asset).findOne(existingAsset.id)) as Asset;
   }
 
   static async getAssets(): Promise<Asset[]> {
@@ -68,16 +63,15 @@ export class AssetRepository {
       },
     });
 
-    asset &&
-      (await AssetBalanceStatementRepository.createBalanceStatement({
-        value: assetValue.value,
-        asset,
-        sold: assetValue.sold,
-        quantity: assetValue.quantity,
-        cost: assetValue.cost,
-      }));
+    await AssetBalanceStatementRepository.createBalanceStatement({
+      asset: asset as Asset,
+      createdAt: new Date(),
+      quantity: assetValue.quantity,
+      cost: assetValue.cost,
+      value: assetValue.value ? assetValue.value : 0,
+    });
 
-    return asset as Asset;
+    return (await getRepository<Asset>(Asset).findOne(asset!.id)) as Asset;
   }
 
   static async editDetails(assetValue: AssetEditDetailsSubmitType): Promise<Asset> {
@@ -101,16 +95,18 @@ export class AssetRepository {
   }
 
   static async getOrCreateAsset(asset: NewAssetType): Promise<Asset> {
-    const assetDb = await getRepository<Asset>(Asset)
+    const existingAsset = await getRepository<Asset>(Asset)
       .createQueryBuilder('assets')
       .leftJoinAndSelect('assets.balanceStatements', 'balanceStatements')
       .where('assets.name like :name', { name: `%${asset.name}%` })
       .getOne();
 
-    if (!assetDb) {
+    if (!existingAsset) {
       return AssetRepository.createAsset(asset);
     }
 
-    return assetDb;
+    await handleAssetBalanceStatements(existingAsset, asset);
+
+    return (await getRepository<Asset>(Asset).findOne(existingAsset.id)) as Asset;
   }
 }

@@ -22,7 +22,7 @@ interface BigPictureSummaryProps {
 }
 
 const BigPictureSummary = ({ totalBalance }: BigPictureSummaryProps) => (
-  <Section title="Summary">
+  <Section title="Summary" dataTestId="big-picture-summary">
     <Container>
       <Card
         label={balanceGroupLabels[BalanceGroupEnum.NET_WORTH]}

@@ -1,12 +1,15 @@
+import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import { AssetTypeEnum } from '../enums/assetType.enum';
+import { NewAssetBalanceStatementType } from '@appTypes/assetBalanceStatement.type';
+import { CanutinFileAssetBalanceStatementType } from '@appTypes/canutinFile.type';
 
 export type NewAssetType = {
   name: string;
-  quantity?: number;
-  cost?: number;
-  value?: number;
+  balanceGroup: BalanceGroupEnum;
   assetType: AssetTypeEnum;
+  sold: boolean;
   symbol?: string;
+  balanceStatements?: NewAssetBalanceStatementType[] | CanutinFileAssetBalanceStatementType[];
 };
 
 export type AssetEditValueSubmitType = {
@@ -24,3 +27,5 @@ export type AssetEditDetailsSubmitType = {
   symbol?: string;
   assetId: number;
 };
+
+export type AddNewAssetType = AssetEditDetailsSubmitType & AssetEditValueSubmitType;

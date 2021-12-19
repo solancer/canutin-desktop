@@ -51,7 +51,8 @@ export interface OtherCSVFormProps {
 
 export interface OtherCSVFormSubmit {
   account?: {
-    autoCalculate: boolean;
+    autoCalculated: boolean;
+    closed: boolean;
     balance: BalanceGroupEnum;
     importAccount: string;
     accountType: string;
@@ -88,7 +89,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
   });
 
   // Watch form values
-  const autoCalculate = watch('account.autoCalculate');
+  const autoCalculated = watch('account.autoCalculated');
   const selectedAccount = watch('account.importAccount');
   const accountColumn = watch('accountColumn');
   const selectedCategoryColumn = watch('categoryColumn');
@@ -97,32 +98,32 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
   const dateFormat = watch('dateFormat');
 
   // Custom register's
-  const autoCalculateRegister = useMemo(() => {
+  const autoCalculatedRegister = useMemo(() => {
     return register({
-      validate: v => autoCalculate || v !== '',
+      validate: v => autoCalculated || v !== '',
     });
-  }, [autoCalculate, register]);
+  }, [autoCalculated, register]);
 
-  const autoCalculateValidation = useMemo(() => {
+  const autoCalculatedValidation = useMemo(() => {
     return {
-      validate: (v: string) => autoCalculate || v !== '',
+      validate: (v: string) => autoCalculated || v !== '',
     };
-  }, [autoCalculate, register]);
+  }, [autoCalculated, register]);
 
   // Set values
   useEffect(() => {
     if (selectedAccount === NEW_ACCOUNT_VALUE) {
-      setValue('account.autoCalculate', true, { shouldValidate: true });
+      setValue('account.autoCalculated', true, { shouldValidate: true });
       setValue('account.balance', '', { shouldValidate: true });
     }
 
     if (selectedAccount && accountsIndex?.accounts && selectedAccount !== NEW_ACCOUNT_VALUE) {
-      const account = accountsIndex?.accounts.find(account => account.id === Number.parseInt(selectedAccount));
+      const account = accountsIndex?.accounts.find(
+        account => account.id === Number.parseInt(selectedAccount)
+      );
       setValue(
-        'account.autoCalculate',
-        account?.balanceStatements
-          ? account.balanceStatements[account.balanceStatements.length - 1].autoCalculate
-          : false,
+        'account.autoCalculated',
+        account?.balanceStatements ? account.autoCalculated : false,
         { shouldValidate: true }
       );
       setValue(
@@ -136,8 +137,8 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
   }, [accountsIndex?.lastUpdate, selectedAccount, setValue]);
 
   useEffect(() => {
-    autoCalculate && trigger(['account.autoCalculate', 'account.balance']);
-  }, [autoCalculate]);
+    autoCalculated && trigger(['account.autoCalculated', 'account.balance']);
+  }, [autoCalculated]);
 
   // Calculated Options
   const columnsOptions = useMemo(
@@ -145,7 +146,11 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
     [metadata]
   );
   const accountOptions = useMemo(
-    () => accountsIndex?.accounts?.map(account => ({ label: account.name, value: account.id.toString() })),
+    () =>
+      accountsIndex?.accounts?.map(account => ({
+        label: account.name,
+        value: account.id.toString(),
+      })),
     [accountsIndex?.lastUpdate]
   );
   const newAccountGroupedOptions = accountOptions
@@ -363,18 +368,18 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
               <InputCurrency
                 name="account.balance"
                 control={control}
-                disabled={autoCalculate}
-                rules={autoCalculateValidation}
+                disabled={autoCalculated}
+                rules={autoCalculatedValidation}
               />
               <InlineCheckbox
-                name="account.autoCalculate"
-                id="autoCalculate"
+                name="account.autoCalculated"
+                id="autoCalculated"
                 label="Auto-calculate from transactions"
                 register={register}
               />
             </ToggleInputContainer>
           </Field>
-          {!autoCalculate && (
+          {!autoCalculated && (
             <FieldNotice
               title="Balance history"
               description={

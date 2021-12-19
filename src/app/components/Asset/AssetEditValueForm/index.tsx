@@ -36,7 +36,6 @@ const AssetEditValueForm = ({ asset }: AssetEditValueFormProps) => {
       quantity: lastBalanceStatement?.quantity ? lastBalanceStatement.quantity.toString() : null,
       cost: lastBalanceStatement?.cost?.toString(),
       value: lastBalanceStatement?.value.toString(),
-      sold: lastBalanceStatement?.sold,
     },
     mode: 'onChange',
   });
@@ -103,7 +102,7 @@ const AssetEditValueForm = ({ asset }: AssetEditValueFormProps) => {
           disabled={shouldDisplayAssetWithSymbolFields}
           rules={{ required: !shouldDisplayAssetWithSymbolFields }}
         />
-        {lastBalanceStatement?.sold === false && (
+        {!asset.sold && (
           <FieldNotice
             title="Value history"
             description={

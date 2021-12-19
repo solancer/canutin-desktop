@@ -119,7 +119,7 @@ const mapCategories = (category: string) => {
 
     case 'dentist':
     case 'doctor':
-    case 'dyecare':
+    case 'eyecare':
     case 'health insurance':
     case 'healthcare/medical':
       return 'Health';

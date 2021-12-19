@@ -8,7 +8,7 @@ export type NewTransactionType = {
   description: string | null;
   date: Date;
   categoryName: string;
-  balance: number;
+  amount: number;
   excludeFromTotals: boolean;
   id?: number;
   createdAt?: number;

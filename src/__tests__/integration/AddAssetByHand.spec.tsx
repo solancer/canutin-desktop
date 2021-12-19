@@ -7,7 +7,7 @@ import selectEvent from 'react-select-event';
 import App from '@components/App';
 import { AppCtxProvider } from '@app/context/appContext';
 import { DATABASE_CONNECTED } from '@constants';
-import { DB_GET_ACCOUNTS_ACK, DB_GET_ACCOUNTS, DB_NEW_ASSET } from '@constants/events';
+import { DB_GET_ACCOUNTS_ACK, DB_NEW_ASSET } from '@constants/events';
 import { accountBuilder } from '@tests/factories/accountFactory';
 
 import { render } from '@tests/utils';
@@ -71,9 +71,17 @@ describe('Add asset by Hand tests', () => {
     userEvent.click(continueButton);
     await waitFor(() => {
       expect(spySendIpcRenderer).toHaveBeenLastCalledWith(DB_NEW_ASSET, {
-        assetType: 'vehicle',
         name: 'Test asset',
-        value: '200',
+        assetType: 'vehicle',
+        sold: false,
+        balanceStatements: [
+          {
+            createdAt: expect.any(Number),
+            quantity: undefined,
+            cost: undefined,
+            value: '200',
+          },
+        ],
       });
     });
   });
@@ -114,12 +122,19 @@ describe('Add asset by Hand tests', () => {
     userEvent.click(continueButton);
     await waitFor(() => {
       expect(spySendIpcRenderer).toHaveBeenLastCalledWith(DB_NEW_ASSET, {
-        assetType: 'cryptocurrency',
         name: 'Test Cryptocurrency',
-        value: '400',
-        quantity: '2',
-        cost: '200',
+        balanceGroup: undefined,
+        assetType: 'cryptocurrency',
         symbol: 'USD',
+        sold: false,
+        balanceStatements: [
+          {
+            createdAt: expect.any(Number),
+            quantity: '2',
+            cost: '200',
+            value: '400',
+          },
+        ],
       });
     });
   });

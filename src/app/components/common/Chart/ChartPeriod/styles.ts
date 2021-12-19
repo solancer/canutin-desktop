@@ -1,6 +1,4 @@
-import styled, { css } from 'styled-components';
-
-import NumberFormat from '@components/common/NumberFormat';
+import { css } from 'styled-components';
 
 import { monospaceRegular } from '@app/constants/fonts';
 import periodCurrentBackground from '@assets/icons/ChartCurrentBackground.svg';
@@ -16,7 +14,7 @@ import {
   whitePlain,
 } from '@app/constants/colors';
 
-export const Period = styled.div`
+export const period = css`
   display: flex;
   flex-direction: column;
   border-left: 1px ${props => (props.theme.isStartOfYear ? `dashed ${grey30}` : `solid ${grey10}`)};
@@ -45,7 +43,7 @@ export const Period = styled.div`
   }
 `;
 
-export const PeriodBalance = styled.div<{ proportion: string }>`
+export const periodBalance = css<{ proportion: string }>`
   display: grid;
   width: 100%;
   height: 50vh;
@@ -56,14 +54,14 @@ export const PeriodBalance = styled.div<{ proportion: string }>`
   grid-template-rows: ${props => props.proportion};
 `;
 
-export const PeriodBar = styled.div`
+export const periodBar = css`
   display: flex;
   flex-direction: column;
   width: 100%;
   min-height: 28px;
 `;
 
-export const PeriodBalanceLabel = styled(NumberFormat)<{ isVisible: boolean }>`
+export const periodBalanceLabel = css`
   ${monospaceRegular};
   display: inline-flex;
   align-items: center;
@@ -75,14 +73,14 @@ export const PeriodBalanceLabel = styled(NumberFormat)<{ isVisible: boolean }>`
   color: ${props =>
     props.theme.balance > 0 ? greenPlain : props.theme.balance < 0 ? redPlain : grey50};
   margin: ${props => (props.theme.balance >= 0 ? 'auto 0 0 0' : '0 0 auto 0')};
-  opacity: ${props => (props.theme.isActive ? 1 : props.isVisible ? 1 : 0)};
+  opacity: ${props => (props.theme.isActive ? 1 : props.theme.isBalanceLabelVisible ? 1 : 0)};
 `;
 
-export const Bar = styled.div<{ height: number }>`
+export const bar = css<{ height: number }>`
   height: ${props => props.height}%;
 `;
 
-export const BarPositive = styled(Bar)`
+export const barPositive = css`
   ${props => {
     let background = css`
       background-color: ${greenLight};
@@ -113,7 +111,7 @@ export const BarPositive = styled(Bar)`
     `}
 `;
 
-export const BarNegative = styled(Bar)`
+export const barNegative = css`
   border-bottom: 3px solid ${redPlain};
 
   ${props => {
@@ -138,11 +136,11 @@ export const BarNegative = styled(Bar)`
 `;
 
 // CSS HACK: we need an empty element to occupy the space allocated by <PeriodBalance/>'s grid-template-rows.
-export const PeriodBarPlaceholder = styled.div`
+export const periodBarPlaceholder = css`
   min-height: 28px;
 `;
 
-export const PeriodLabel = styled.time`
+export const periodLabel = css`
   display: flex;
   flex-direction: column;
   margin-top: auto;
@@ -154,7 +152,7 @@ export const PeriodLabel = styled.time`
   color: ${grey30};
 `;
 
-export const PeriodDivider = styled.hr`
+export const periodDivider = css`
   height: 1px;
   border: none;
   padding: 0;

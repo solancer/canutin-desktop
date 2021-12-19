@@ -139,7 +139,7 @@ const TransactionsFilterTable = ({
       rows.map(row => {
         prepareRow(row);
         return (
-          <Row {...row.getRowProps()}>
+          <Row {...row.getRowProps()} data-testid="row-transaction">
             {row.cells.map(cell => {
               return <RowItem {...cell.getCellProps()}>{cell.render('Cell')}</RowItem>;
             })}
@@ -165,7 +165,6 @@ const TransactionsFilterTable = ({
                   {column.isSorted ? (column.isSortedDesc ? '▼' : '▲') : ''}
                 </TableSortIcon>
               </div>
-              {/* Add a sort direction indicator */}
             </TableHeaderItem>
           ))}
         </TableHeaderRow>

@@ -19,6 +19,9 @@ export class Asset extends Base {
   @Column()
   balanceGroup: BalanceGroupEnum;
 
+  @Column()
+  sold: boolean;
+
   @Column({ nullable: true })
   symbol?: string;
 
@@ -28,6 +31,7 @@ export class Asset extends Base {
   constructor(
     name: string,
     assetType: AssetType,
+    sold: boolean,
     symbol?: string,
     balanceStatements?: AssetBalanceStatement[]
   ) {
@@ -35,6 +39,7 @@ export class Asset extends Base {
     this.name = name;
     this.assetType = assetType;
     this.balanceGroup = getBalanceGroupByAssetType(assetType?.name);
+    this.sold = sold;
     this.symbol = symbol;
     this.balanceStatements = balanceStatements;
   }

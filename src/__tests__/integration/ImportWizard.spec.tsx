@@ -231,7 +231,7 @@ describe('Import Wizard tests', () => {
     const accountType = screen.getByLabelText(/Account type/i);
     const accountInstitution = screen.getByLabelText('Account institution / Optional');
     const accountBalance = screen.getByLabelText(/Account balance/i);
-    const autoCalculate = screen.getByLabelText('Auto-calculate from transactions');
+    const autoCalculated = screen.getByLabelText('Auto-calculate from transactions');
 
     expect(matchColumns).toBeInTheDocument();
     expect(dateColumn).toBeInTheDocument();
@@ -245,7 +245,7 @@ describe('Import Wizard tests', () => {
     expect(accountType).toBeInTheDocument();
     expect(accountInstitution).toBeInTheDocument();
     expect(accountBalance).toBeInTheDocument();
-    expect(autoCalculate).toBeInTheDocument();
+    expect(autoCalculated).toBeInTheDocument();
     expect(continueButton).toBeDisabled();
 
     await selectEvent.select(accountColumn, 'Account Name');
@@ -269,8 +269,8 @@ describe('Import Wizard tests', () => {
     userEvent.type(accountName, 'Test account');
     await selectEvent.select(screen.getByLabelText('Account type'), 'Checking');
     userEvent.type(accountInstitution, 'Test Institution');
-    userEvent.click(autoCalculate);
-    expect(autoCalculate).not.toBeChecked();
+    userEvent.click(autoCalculated);
+    expect(autoCalculated).not.toBeChecked();
     userEvent.type(accountBalance, '123');
 
     consoleSpy.mockRestore();

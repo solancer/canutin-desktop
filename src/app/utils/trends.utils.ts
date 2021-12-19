@@ -1,6 +1,6 @@
 import { eachWeekOfInterval, getWeek, isEqual } from 'date-fns';
 
-import { Account, Asset, BalanceStatement, Transaction } from '@database/entities';
+import { Account, Asset, AccountBalanceStatement, Transaction } from '@database/entities';
 
 import {
   calculateBalanceDifference,
@@ -18,16 +18,13 @@ export const getNetWorthTrends = (
   dateTo: Date,
   balanceGroupFilter: BalanceGroupEnum = BalanceGroupEnum.NET_WORTH
 ) => {
-  const assetsNoSold = assets
-    .filter(
-      ({ balanceStatements }) =>
-        balanceStatements && !balanceStatements?.[balanceStatements.length - 1].sold
-    )
+  const assetsNotSold = assets
+    .filter(assets => !assets.sold)
     .filter(
       ({ balanceGroup }) =>
         balanceGroupFilter === balanceGroup || balanceGroupFilter === BalanceGroupEnum.NET_WORTH
     );
-  const accountsNoClosed = accounts
+  const accountsNotClosed = accounts
     .filter(({ closed }) => !closed)
     .filter(
       ({ balanceGroup }) =>
@@ -41,14 +38,13 @@ export const getNetWorthTrends = (
     { weekStartsOn: 1 }
   );
 
-  const accountChartBalances = accountsNoClosed.map(account => {
-    return account.balanceStatements?.[account.balanceStatements?.length - 1].autoCalculate ===
-      false
-      ? getBalancesByWeeks(account.balanceStatements as BalanceStatement[], 52)
-      : getTransactionBalanceByWeeks(account.transactions as Transaction[], 52);
+  const accountChartBalances = accountsNotClosed.map(account => {
+    return account.autoCalculated
+      ? getTransactionBalanceByWeeks(account.transactions as Transaction[], 52)
+      : getBalancesByWeeks(account.balanceStatements as AccountBalanceStatement[], 52);
   });
 
-  const assetChartBalances = assetsNoSold.map(asset => {
+  const assetChartBalances = assetsNotSold.map(asset => {
     return asset.balanceStatements && asset.balanceStatements.length > 0
       ? getBalancesByWeeks(asset.balanceStatements, 100)
       : [];

@@ -43,8 +43,6 @@ import {
   DB_EDIT_ACCOUNT_BALANCE_ACK,
   DB_EDIT_ACCOUNT_DETAILS,
   DB_EDIT_ACCOUNT_DETAILS_ACK,
-  DB_GET_ACCOUNT,
-  DB_GET_ACCOUNT_ACK,
   FILTER_TRANSACTIONS,
   WINDOW_CONTROL,
   DB_DELETE_ACCOUNT,
@@ -57,11 +55,13 @@ import {
   DB_EDIT_ASSET_VALUE_ACK,
   DB_EDIT_ASSET_DETAILS,
   DB_EDIT_ASSET_DETAILS_ACK,
+  DB_SEED_VAULT,
+  DB_SEED_VAULT_ACK,
   APP_INFO,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
-import { CanutinFileType, UpdatedAccount } from '@appTypes/canutin';
+import { CanutinFileType, UpdatedAccount } from '@appTypes/canutinFile.type';
 import { enumExtensionFiles, enumImportTitleOptions, WindowControlEnum } from '@appConstants/misc';
 import { FilterTransactionInterface, NewTransactionType } from '@appTypes/transaction.type';
 import { AccountEditBalanceSubmitType, AccountEditDetailsSubmitType } from '@appTypes/account.type';
@@ -86,18 +86,19 @@ import {
   calculateWindowHeight,
 } from './helpers/window.helpers';
 import { AssetRepository } from '@database/repositories/asset.repository';
-import { BalanceStatementRepository } from '@database/repositories/balanceStatement.repository';
+import { AccountBalanceStatementRepository } from '@database/repositories/accountBalanceStatement.repository';
 import { TransactionRepository } from '@database/repositories/transaction.repository';
 import seedCategories from '@database/seed/seedCategories';
 import seedAssetTypes from '@database/seed/seedAssetTypes';
 import seedAccountTypes from '@database/seed/seedAccountTypes';
+import seedDemoData from '@database/seed/seedDemoData';
 import { AccountRepository } from '@database/repositories/account.repository';
 import {
   AssetEditDetailsSubmitType,
   AssetEditValueSubmitType,
   NewAssetType,
-} from '../types/asset.type';
-import { NewAccountType } from '../types/account.type';
+} from '@appTypes/asset.type';
+import { NewAccountType } from '@appTypes/account.type';
 
 let win: BrowserWindow | null = null;
 
@@ -214,7 +215,7 @@ const setupDbEvents = async () => {
   });
 
   ipcMain.on(DB_GET_BALANCE_STATEMENTS, async (_: IpcMainEvent) => {
-    const balanceStatements = await BalanceStatementRepository.getBalanceStatements();
+    const balanceStatements = await AccountBalanceStatementRepository.getBalanceStatements();
     win?.webContents.send(DB_GET_BALANCE_STATEMENTS_ACK, balanceStatements);
   });
 
@@ -230,7 +231,7 @@ const setupDbEvents = async () => {
     try {
       const newTransaction = await TransactionRepository.createTransaction(transaction);
       win?.webContents.send(DB_NEW_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
-      await getAccount(transaction.accountId);
+      await getAccounts();
     } catch (e) {
       if (e instanceof QueryFailedError) {
         win?.webContents.send(DB_NEW_TRANSACTION_ACK, {
@@ -250,7 +251,7 @@ const setupDbEvents = async () => {
     try {
       const newTransaction = await TransactionRepository.editTransaction(transaction);
       win?.webContents.send(DB_EDIT_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
-      await getAccount(transaction.accountId);
+      await getAccounts();
     } catch (e) {
       win?.webContents.send(DB_EDIT_TRANSACTION_ACK, {
         status: EVENT_ERROR,
@@ -265,7 +266,7 @@ const setupDbEvents = async () => {
       try {
         await TransactionRepository.deleteTransaction(transactionId);
         win?.webContents.send(DB_DELETE_TRANSACTION_ACK, { status: EVENT_SUCCESS });
-        await getAccount(accountId);
+        await getAccounts();
       } catch (e) {
         win?.webContents.send(DB_DELETE_TRANSACTION_ACK, {
           status: EVENT_ERROR,
@@ -326,18 +327,6 @@ const setupDbEvents = async () => {
     }
   });
 
-  ipcMain.on(DB_GET_ACCOUNT, async (_: IpcMainEvent, accountId: number) => {
-    try {
-      const account = await AccountRepository.getAccountById(accountId);
-      win?.webContents.send(DB_GET_ACCOUNT_ACK, { account, status: EVENT_SUCCESS });
-    } catch (e) {
-      win?.webContents.send(DB_GET_ACCOUNT_ACK, {
-        status: EVENT_ERROR,
-        message: 'An error occurred, please try again',
-      });
-    }
-  });
-
   ipcMain.on(DB_DELETE_ASSET, async (_: IpcMainEvent, assetId: number) => {
     try {
       await AssetRepository.deleteAsset(assetId);
@@ -392,6 +381,13 @@ const setupDbEvents = async () => {
     }
   );
 
+  ipcMain.on(DB_SEED_VAULT, async () => {
+    await seedDemoData();
+    await getAccounts();
+    await getAssets();
+    win?.webContents.send(DB_SEED_VAULT_ACK, { status: EVENT_SUCCESS });
+  });
+
   ipcMain.on(WINDOW_CONTROL, async (e, action: WindowControlEnum) => {
     if (win) {
       switch (action) {
@@ -417,11 +413,6 @@ const setupDbEvents = async () => {
 const getAccounts = async () => {
   const accounts = await AccountRepository.getAccounts();
   win?.webContents.send(DB_GET_ACCOUNTS_ACK, accounts);
-};
-
-const getAccount = async (id: number) => {
-  const account = await AccountRepository.getAccountById(id);
-  win?.webContents.send(DB_GET_ACCOUNT_ACK, account);
 };
 
 const getAssets = async () => {

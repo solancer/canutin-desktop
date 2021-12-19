@@ -1,13 +1,17 @@
 import { AssetTypeEnum } from '../enums/assetType.enum';
 import { BalanceGroupEnum, balanceGroupLabels } from '../enums/balanceGroup.enum';
 
+const titelizeAssetType = (label: string) => {
+  return label.charAt(0).toUpperCase() + label.slice(1); // Makes the first character uppercase
+};
+
 export const assetTypes = [
   {
     balanceGroup: BalanceGroupEnum.CASH,
     assetTypes: [
       {
-        label: AssetTypeEnum.CASH,
-        value: AssetTypeEnum.CASH.toLowerCase(),
+        label: titelizeAssetType(AssetTypeEnum.CASH),
+        value: AssetTypeEnum.CASH,
       },
     ],
   },
@@ -15,12 +19,12 @@ export const assetTypes = [
     balanceGroup: BalanceGroupEnum.INVESTMENTS,
     assetTypes: [
       {
-        label: AssetTypeEnum.SECURITY,
-        value: AssetTypeEnum.SECURITY.toLowerCase(),
+        label: titelizeAssetType(AssetTypeEnum.SECURITY),
+        value: AssetTypeEnum.SECURITY,
       },
       {
-        label: AssetTypeEnum.CRYPTOCURRENCY,
-        value: AssetTypeEnum.CRYPTOCURRENCY.toLowerCase(),
+        label: titelizeAssetType(AssetTypeEnum.CRYPTOCURRENCY),
+        value: AssetTypeEnum.CRYPTOCURRENCY,
       },
     ],
   },
@@ -28,37 +32,37 @@ export const assetTypes = [
     balanceGroup: BalanceGroupEnum.OTHER_ASSETS,
     assetTypes: [
       {
-        label: AssetTypeEnum.COLLECTIBLE,
-        value: AssetTypeEnum.COLLECTIBLE.toLowerCase(),
+        label: titelizeAssetType(AssetTypeEnum.COLLECTIBLE),
+        value: AssetTypeEnum.COLLECTIBLE,
       },
       {
-        label: AssetTypeEnum.PRECIOUS_METAL,
-        value: AssetTypeEnum.PRECIOUS_METAL.toLowerCase(),
+        label: titelizeAssetType(AssetTypeEnum.PRECIOUS_METAL),
+        value: AssetTypeEnum.PRECIOUS_METAL,
       },
       {
-        label: AssetTypeEnum.VEHICLE,
-        value: AssetTypeEnum.VEHICLE.toLowerCase(),
+        label: titelizeAssetType(AssetTypeEnum.VEHICLE),
+        value: AssetTypeEnum.VEHICLE,
       },
       {
-        label: AssetTypeEnum.REAL_STATE,
-        value: AssetTypeEnum.REAL_STATE.toLowerCase(),
+        label: titelizeAssetType(AssetTypeEnum.REAL_STATE),
+        value: AssetTypeEnum.REAL_STATE,
       },
       {
-        label: AssetTypeEnum.BUSINESS,
-        value: AssetTypeEnum.BUSINESS.toLowerCase(),
+        label: titelizeAssetType(AssetTypeEnum.BUSINESS),
+        value: AssetTypeEnum.BUSINESS,
       },
       {
-        label: AssetTypeEnum.OTHER,
-        value: AssetTypeEnum.OTHER.toLowerCase(),
+        label: titelizeAssetType(AssetTypeEnum.OTHER),
+        value: AssetTypeEnum.OTHER,
       },
     ],
   },
 ];
 
 export const assetTypesWithSymbol = [
-  AssetTypeEnum.CRYPTOCURRENCY.toLowerCase(),
-  AssetTypeEnum.PRECIOUS_METAL.toLowerCase(),
-  AssetTypeEnum.SECURITY.toLowerCase(),
+  AssetTypeEnum.CRYPTOCURRENCY,
+  AssetTypeEnum.PRECIOUS_METAL,
+  AssetTypeEnum.SECURITY,
 ];
 
 export const assetTypesValues = assetTypes.map(({ balanceGroup, assetTypes }) => ({

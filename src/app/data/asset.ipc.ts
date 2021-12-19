@@ -12,7 +12,7 @@ import {
   NewAssetType,
   AssetEditValueSubmitType,
   AssetEditDetailsSubmitType,
-} from '../../types/asset.type';
+} from '@appTypes/asset.type';
 
 export default class AssetIpc {
   static createAsset(asset: NewAssetType) {

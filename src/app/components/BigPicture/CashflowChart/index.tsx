@@ -29,7 +29,7 @@ const CashflowChart = ({ trailingCashflow }: CashflowChartProps) => {
     }));
 
   return trailingCashflow ? (
-    <Section title="Cashflow">
+    <Section title="Cashflow" dataTestId="big-picture-cashflow">
       {generateTrailingCashflowChartData?.length ? (
         <Chart
           chartData={[

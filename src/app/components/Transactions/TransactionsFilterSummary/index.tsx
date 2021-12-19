@@ -22,12 +22,14 @@ const TransactionsFilterSummary = ({
       label="Transactions"
       appearance={CardAppearanceEnum.SECONDARY}
       value={transactionsCount}
+      dataTestId="card-transactions"
     />
     <Card
       label="Net balance"
       appearance={CardAppearanceEnum.SECONDARY}
       value={netBalanceCount}
       isCurrency={true}
+      dataTestId="card-net-balance"
     />
   </Container>
 );

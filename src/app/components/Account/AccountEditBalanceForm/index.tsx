@@ -11,6 +11,7 @@ import { DB_EDIT_ACCOUNT_BALANCE_ACK } from '@constants/events';
 import { StatusEnum } from '@app/constants/misc';
 import { AccountEditBalanceSubmitType } from '@appTypes/account.type';
 import { routesPaths } from '@app/routes';
+import { generateAccountBalanceInfo } from '@app/utils/balance.utils';
 
 import Form from '@components/common/Form/Form';
 import Fieldset from '@components/common/Form/Fieldset';
@@ -27,22 +28,20 @@ interface AccountEditBalanceFormProps {
 }
 
 const AccountEditBalanceForm = ({ account }: AccountEditBalanceFormProps) => {
+  const { amount } = generateAccountBalanceInfo(account);
   const { push } = useHistory();
   const { setStatusMessage } = useContext(StatusBarContext);
   const { handleSubmit, control, register, watch } = useForm({
     defaultValues: {
-      balance: account.balanceStatements?.[account.balanceStatements?.length - 1].value
-        ? account.balanceStatements?.[account.balanceStatements?.length - 1].value
-        : 0,
-      autoCalculate:
-        account.balanceStatements?.[account.balanceStatements?.length - 1].autoCalculate,
+      balance: amount,
+      autoCalculated: account.autoCalculated,
       closed: account.closed,
     },
   });
 
   const balance = watch('balance');
   const closed = watch('closed');
-  const autoCalculate = watch('autoCalculate');
+  const autoCalculated = watch('autoCalculated');
 
   useEffect(() => {
     ipcRenderer.on(DB_EDIT_ACCOUNT_BALANCE_ACK, (_: IpcRendererEvent, { status, message }) => {
@@ -72,20 +71,20 @@ const AccountEditBalanceForm = ({ account }: AccountEditBalanceFormProps) => {
           <ToggleInputField>
             <InputCurrency
               value={balance && Number(balance)}
-              rules={{ validate: v => autoCalculate || v !== '' }}
+              rules={{ validate: v => autoCalculated || v !== '' }}
               name="balance"
-              disabled={autoCalculate}
+              disabled={autoCalculated}
               control={control}
             />
             <InlineCheckbox
-              name="autoCalculate"
-              id="autoCalculate"
+              name="autoCalculated"
+              id="autoCalculated"
               label="Auto-calculate from transactions"
               register={register}
             />
           </ToggleInputField>
         </Field>
-        {!autoCalculate && (
+        {!autoCalculated && (
           <FieldNotice
             title="Balance history"
             description={

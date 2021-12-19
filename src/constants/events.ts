@@ -40,14 +40,14 @@ export const DB_DELETE_TRANSACTION_ACK = 'dbDeleteTransactionAck';
 export const DB_EDIT_ACCOUNT_BALANCE = 'dbEditAccountBalance';
 export const DB_EDIT_ACCOUNT_BALANCE_ACK = 'dbEditAccountBalanceAck';
 
-export const DB_GET_ACCOUNT = 'dbGetAccount';
-export const DB_GET_ACCOUNT_ACK = 'dbGetAccountAck';
-
 export const DB_EDIT_ACCOUNT_DETAILS = 'dbEditAccountDetails';
 export const DB_EDIT_ACCOUNT_DETAILS_ACK = 'dbEditAccountDetailsAck';
 
 export const DB_DELETE_ACCOUNT = 'dbDeleteAccount';
 export const DB_DELETE_ACCOUNT_ACK = 'dbDeleteAccountAck';
+
+export const DB_SEED_VAULT = 'dbSeedVault';
+export const DB_SEED_VAULT_ACK = 'dbSeedVaultAck';
 
 // Import Wizard
 export const IMPORT_SOURCE_FILE = 'importSourceFile';
@@ -55,10 +55,8 @@ export const IMPORT_SOURCE_FILE_ACK = 'importSourceFileAck';
 export const ANALYZE_SOURCE_FILE = 'analyzeSourceFile';
 export const ANALYZE_SOURCE_FILE_ACK = 'analyzeSourceFileAck';
 export const LOAD_FROM_CANUTIN_FILE = 'loadFromCanutinFile';
-export const LOAD_FROM_CANUTIN_FILE_ACK = 'loadFromCanutinFileAck';
 export const LOAD_FROM_OTHER_CSV = 'loadFromOtherCsv';
-export const LOAD_FROM_OTHER_CSV_ACK = 'loadFromOtherCsvAck';
-export const LOADING_CSV = 'loadingCsv';
+export const LOAD_DATA_ACK = 'loadDataAck';
 
 // Transactions
 export const FILTER_TRANSACTIONS = 'filterTransactions';

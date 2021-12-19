@@ -6,7 +6,11 @@ import TransactionsHeaderButtons from '@components/Transactions/TransactionsHead
 
 const Transactions = () => (
   <>
-    <ScrollView title="Transactions" headerNav={<TransactionsHeaderButtons />}>
+    <ScrollView
+      title="Transactions"
+      headerNav={<TransactionsHeaderButtons />}
+      dataTestId="scrollview-transactions"
+    >
       <TransactionsOverviewSection />
     </ScrollView>
   </>

@@ -1,4 +1,4 @@
-import { build, fake, sequence, bool, oneOf } from '@jackfranklin/test-data-bot';
+import { build, fake, sequence, bool } from '@jackfranklin/test-data-bot';
 
 import { accountTypes } from '@constants/accountTypes';
 
@@ -16,7 +16,6 @@ const getAccountTypesValues = () => {
 
 export const balanceStatementBuilder = build('BalanceStatement', {
   fields: {
-    autoCalculate: bool(),
     id: sequence(),
     createdAt: fake(f => f.date.past()),
     updatedAt: fake(f => f.date.past()),
@@ -42,6 +41,7 @@ export const accountBuilder = build('Account', {
     updatedAt: fake(f => f.date.past()),
     balanceGroup: fake(f => f.random.number(3)),
     closed: bool(),
+    autoCalculated: bool(),
   },
   postBuild: account => {
     const accountType = accountTypeBuilder();

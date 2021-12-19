@@ -13,6 +13,12 @@ export const inputElement = css<{
   min-height: 40px;
   background-color: ${whitePlain};
 
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      background-color: ${grey10};
+    `}
+
   // Positive values
   ${({ allowNegative, value }) =>
     allowNegative &&
@@ -29,11 +35,5 @@ export const inputElement = css<{
     value < 0 &&
     css`
       color: ${redPlain};
-    `}
-
-  ${({ disabled }) =>
-    disabled &&
-    css`
-      background-color: ${grey10};
     `}
 `;

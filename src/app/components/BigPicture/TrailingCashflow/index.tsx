@@ -9,8 +9,8 @@ import {
 } from '@app/utils/balance.utils';
 
 export enum TrailingCashflowSegmentsEnum {
-  LAST_6_MONTHS = 'Last 6 Months',
-  LAST_12_MONTHS = 'Last 12 Months',
+  LAST_6_MONTHS = 'Last 6 months',
+  LAST_12_MONTHS = 'Last 12 months',
 }
 
 interface TrailingCashflowInterface {
@@ -42,10 +42,29 @@ const TrailingCashflow = ({ trailingCashflow }: TrailingCashflowInterface) => {
   }, [selectedSegment, trailingCashflow]);
 
   return (
-    <Section title="Trailing cashflow" scope={balanceSheetSegments}>
-      <Card label="Income per month" value={trailingCashInfo[0]} isCurrency />
-      <Card label="Expenses per month" value={trailingCashInfo[1]} isCurrency />
-      <Card label="Net surplus per month" value={trailingCashInfo[2]} isCurrency />
+    <Section
+      title="Trailing cashflow"
+      scope={balanceSheetSegments}
+      dataTestId="big-picture-trailing-cashflow"
+    >
+      <Card
+        label="Income per month"
+        value={trailingCashInfo[0]}
+        dataTestId="big-picture-trailing-cashflow-income"
+        isCurrency
+      />
+      <Card
+        label="Expenses per month"
+        value={trailingCashInfo[1]}
+        dataTestId="big-picture-trailing-cashflow-expenses"
+        isCurrency
+      />
+      <Card
+        label="Net surplus per month"
+        value={trailingCashInfo[2]}
+        dataTestId="big-picture-trailing-cashflow-surplus"
+        isCurrency
+      />
     </Section>
   );
 };

@@ -17,10 +17,11 @@ export interface SectionProps {
   title: string;
   scope?: ReactNode;
   children?: ReactNode;
+  dataTestId?: string;
 }
 
-const Section = ({ title, scope, children }: SectionProps) => (
-  <Container>
+const Section = ({ title, scope, children, dataTestId }: SectionProps) => (
+  <Container data-testid={dataTestId}>
     <Header>
       <Title>{title}</Title>
       <div>{scope}</div>

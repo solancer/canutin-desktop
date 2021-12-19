@@ -6,12 +6,12 @@ import {
   getWeek,
   endOfWeek,
   min,
-  max,
   sub,
   eachMonthOfInterval,
   format,
   isEqual,
   startOfWeek,
+  endOfMonth,
 } from 'date-fns';
 import merge from 'deepmerge';
 
@@ -19,20 +19,18 @@ import {
   Asset,
   Account,
   Transaction,
-  BalanceStatement,
+  AccountBalanceStatement,
   AssetBalanceStatement,
 } from '@database/entities';
 import { BalanceData, AccountAssetBalance } from '@components/BalanceSheet/BalancesByGroup';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import { TrailingCashflowSegmentsEnum } from '@app/components/BigPicture/TrailingCashflow';
+import { dateInUTC } from './date.utils';
 
 export const getBalanceForAssetByBalanceGroup = (assets: Asset[]) => {
-  const assetsNoSold = assets.filter(
-    ({ balanceStatements }) =>
-      balanceStatements && !balanceStatements?.[balanceStatements.length - 1].sold
-  );
+  const assetsNotSold = assets.filter(asset => !asset.sold);
 
-  return assetsNoSold.reduce(
+  return assetsNotSold.reduce(
     (listOfBalancesByGroup, asset) => {
       let balanceData = listOfBalancesByGroup?.[asset.balanceGroup]?.[asset.assetType.name];
 
@@ -63,9 +61,9 @@ export const getBalanceForAssetByBalanceGroup = (assets: Asset[]) => {
 };
 
 export const getBalanceForAccountsByBalanceGroup = (accounts: Account[]) => {
-  const accountsNoClosed = accounts.filter(({ closed }) => !closed);
+  const accountsNotClosed = accounts.filter(({ closed }) => !closed);
 
-  return accountsNoClosed.reduce(
+  return accountsNotClosed.reduce(
     (listOfBalancesByGroup, account) => {
       let balanceData = listOfBalancesByGroup?.[account.balanceGroup]?.[account.accountType.name];
 
@@ -100,7 +98,7 @@ export const getBalanceForAccountsByBalanceGroup = (accounts: Account[]) => {
 
 export const generateAccountBalanceInfo = (account: Account) => ({
   ...account,
-  amount: account.balanceStatements?.[account.balanceStatements?.length - 1].autoCalculate
+  amount: account.autoCalculated
     ? account.transactions?.reduce((sum, transaction) => transaction.amount + sum, 0)
     : account.balanceStatements?.[account.balanceStatements?.length - 1].value,
   type: 'Account',
@@ -197,8 +195,8 @@ export const getTransactionsTrailingCashflow = (transactions: Transaction[]) => 
   return monthDates.reduce((acc: TransactionsTrailingCashflowType[], monthDate, index) => {
     const monthlyTransactions = getSelectedTransactions(
       transactionsNotExcludedFromTotals,
-      monthDate,
-      monthDates[index + 1] ? monthDates[index + 1] : new Date()
+      dateInUTC(monthDate),
+      monthDates[index + 1] ? dateInUTC(monthDates[index + 1]) : dateInUTC(endOfMonth(new Date()))
     );
     const income = monthlyTransactions.reduce(
       (acc, transaction) => (transaction.amount > 0 ? transaction.amount + acc : acc),
@@ -275,7 +273,7 @@ export const getTransactionsBalance = (transactions: Transaction[]) => {
 };
 
 export const getSelectedBalanceStatementValue = (
-  balanceStatements: (BalanceStatement | AssetBalanceStatement)[],
+  balanceStatements: (AccountBalanceStatement | AssetBalanceStatement)[],
   from: Date,
   to: Date
 ) => {
@@ -354,7 +352,7 @@ export const getTransactionBalanceByWeeks = (
 };
 
 export const getBalancesByWeeks = (
-  balanceStatements: BalanceStatement[] | AssetBalanceStatement[],
+  balanceStatements: AccountBalanceStatement[] | AssetBalanceStatement[],
   weeks: number
 ): ChartPeriodType[] => {
   const weeksDates = eachWeekOfInterval(

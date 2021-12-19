@@ -4,26 +4,29 @@
       "name": "Alice's Checking",
       "balanceGroup": "cash",
       "accountType": "checking",
-      "autoCalculate": false,
-      "balance": 5450.75,
+      "autoCalculated": true,
+      "closed": false,
+      "institution": "Ransack Bank",
+      "officialName": null,
+      "balanceStatements": null,
       "transactions": [
         {
           "description": "Paid Credit Card",
-          "date": "2021-02-01",
+          "date": 1630281600,
           "amount": -1500,
           "excludeFromTotals": true,
           "category": "Payment"
         },
         {
           "description": "Initech Payroll",
-          "date": "2021-02-01",
+          "date": 1630195200,
           "amount": 2750,
           "excludeFromTotals": false,
           "category": "Payroll & benefits"
         },
         {
           "description": "Transfer to Savings Account",
-          "date": "2021-02-01",
+          "date": 1630195200,
           "amount": -250,
           "excludeFromTotals": true,
           "category": "Transfer"
@@ -31,15 +34,17 @@
       ]
     },
     {
-      "name": "Alices's Emergency Fund",
+      "name": "Bob's Emergency Fund",
       "balanceGroup": "cash",
       "accountType": "savings",
-      "autoCalculate": true,
-      "balance": 999999,
+      "autoCalculated": true,
+      "closed": false,
+      "officialName": null,
+      "balanceStatements": null,
       "transactions": [
         {
           "description": "Transfer from Savings Account",
-          "date": "2021-02-01",
+          "date": 1630368000,
           "amount": 250,
           "excludeFromTotals": true,
           "category": "Transfer"
@@ -50,87 +55,121 @@
       "name": "My Visa Rewards",
       "balanceGroup": "debt",
       "accountType": "credit card",
-      "balance": 1782.32,
-      "autoCalculate": false,
+      "autoCalculated": false,
+      "closed": false,
+      "officialName": "Juggernaut Bank",
       "transactions": [
         {
           "description": "Trader Joes",
-          "date": "2021-02-01",
-          "amount": 65.99,
+          "date": 1629849600,
+          "amount": -65.99,
           "excludeFromTotals": false,
           "category": "Groceries"
         },
         {
           "description": "Crossroads Gas & Car Wash",
-          "date": "2021-02-01",
-          "amount": 25.43,
+          "date": 1629676800,
+          "amount": -25.43,
           "excludeFromTotals": false,
           "category": "Gas stations"
         },
         {
           "description": "Credit Card Payment",
-          "date": "2021-02-01",
-          "amount": 1500,
+          "date": 1630195200,
+          "amount": -1500,
           "excludeFromTotals": true,
           "category": "Transfer"
         }
+      ],
+      "balanceStatements": [
+        { "createdAt": 1636934400.0, "value": -250.46 },
+        { "createdAt": 1636329600.0, "value": -100.21 },
+        { "createdAt": 1635724800.0, "value": -78.06 },
+        { "createdAt": 1635120000.0, "value": 0 },
+        { "createdAt": 1634515200.0, "value": -342.17 },
+        { "createdAt": 1633910400.0, "value": -90.13 },
+        { "createdAt": 1633305600.0, "value": -123.77 },
+        { "createdAt": 1632700800.0, "value": -5.95 },
+        { "createdAt": 1632096000.0, "value": 0 }
       ]
     },
     {
-      "name": "Bob's Stocks",
+      "name": "Bob's Stock Picks",
       "balanceGroup": "investment",
       "accountType": "brokerage",
-      "autoCalculate": true,
-      "balance": 9999999
+      "autoCalculated": false,
+      "closed": false,
+      "institution": "Ransack Brokerage Plus",
+      "officialName": null,
+      "balanceStatements": [
+        { "createdAt": 1636934400.0, "value": 12250.46 },
+        { "createdAt": 1636329600.0, "value": 19100.21 },
+        { "createdAt": 1635724800.0, "value": 5721.23 },
+        { "createdAt": 1635120000.0, "value": 4588.2 },
+        { "createdAt": 1634515200.0, "value": 7841.17 },
+        { "createdAt": 1633910400.0, "value": 3450.13 },
+        { "createdAt": 1633305600.0, "value": 3201.77 },
+        { "createdAt": 1632700800.0, "value": 2123.95 },
+        { "createdAt": 1632096000.0, "value": 330.23 }
+      ]
     },
     {
       "name": "Alice's Roth IRA",
       "balanceGroup": "investment",
       "accountType": "roth",
-      "autoCalculate": false,
-      "balance": 16500
+      "autoCalculated": false,
+      "closed": true,
+      "institution": "Loot Financial",
+      "officialName": null,
+      "transactions": null,
+      "balanceStatements": [{ "createdAt": 1636934400.0, "value": 16500.33 }]
     },
     {
       "name": "Initech 401k Plan",
       "balanceGroup": "investment",
-      "autoCalculate": false,
       "accountType": "401k",
-      "balance": 0
+      "autoCalculated": false,
+      "closed": false,
+      "institution": "Loot Financial",
+      "officialName": null,
+      "transactions": null,
+      "balanceStatements": [{ "createdAt": 1636934400.0, "value": 29832.19 }]
     }
   ],
   "assets": [
     {
-      "type": "cryptocurrency",
-      "balanceGroup": "investment",
       "name": "Bitcoin",
+      "assetType": "cryptocurrency",
+      "balanceGroup": "investment",
       "symbol": "BTC",
-      "quantity": 0.5,
-      "cost": 250
+      "sold": false,
+      "balanceStatements": [
+        { "createdAt": 1636934400.0, "quantity": 0.25, "cost": 69420, "value": 17355 }
+      ]
     },
     {
-      "type": "precious metal",
-      "balanceGroup": "other asset",
       "name": "Gold",
+      "assetType": "precious metal",
+      "balanceGroup": "other asset",
       "symbol": "XAU",
-      "quantity": 10,
-      "cost": 145
+      "sold": false,
+      "balanceStatements": [
+        { "createdAt": 1636934400.0, "quantity": 10, "cost": 145, "value": 1450 }
+      ]
     },
     {
-      "type": "vehicle",
-      "balanceGroup": "other asset",
       "name": "2020 Honda Civic",
-      "value": 19500
+      "assetType": "vehicle",
+      "balanceGroup": "other asset",
+      "sold": false,
+      "balanceStatements": [{ "createdAt": 1636934400.0, "value": 19500 }]
     },
     {
-      "type": "real state",
+      "name": "7500 Main St (Sold)",
+      "assetType": "real state",
       "balanceGroup": "other asset",
-      "name": "7500 Main St",
-      "value": 145000
-    },
-    {
-      "type": "invalid category",
-      "balanceGroup": "other asset",
-      "name": "Other Asset"
+      "sold": true,
+      "balanceStatements": [{ "createdAt": 1636934400.0, "value": 145000 }]
     }
   ]
 }

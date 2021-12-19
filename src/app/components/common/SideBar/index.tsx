@@ -47,6 +47,7 @@ const SideBar = () => {
             toggled={toggled}
             to={routesPaths.bigpicture}
             disabled={isDbEmpty}
+            dataTestId="sidebar-big-picture"
           />
 
           <NavItem
@@ -55,6 +56,7 @@ const SideBar = () => {
             toggled={toggled}
             to={routesPaths.balance}
             disabled={isDbEmpty}
+            dataTestId="sidebar-balance-sheet"
           />
 
           <NavItem
@@ -71,6 +73,7 @@ const SideBar = () => {
             toggled={toggled}
             to={routesPaths.transactions}
             disabled={isDbEmpty}
+            dataTestId="sidebar-transactions"
           />
 
           <NavItem

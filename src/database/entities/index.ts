@@ -1,5 +1,5 @@
 export { Account } from './account.entity';
-export { BalanceStatement } from './balanceStatement.entity';
+export { AccountBalanceStatement } from './accountBalanceStatement.entity';
 export { Asset } from './asset.entity';
 export { Budget } from './budget.entity';
 export { Transaction } from './transaction.entity';

@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import { AssetType } from '../entities';
-import { NewAssetTypeType } from '../../types/assetType.type';
+import { NewAssetTypeType } from '@appTypes/assetType.type';
 
 export class AssetTypeRepository {
   static async createAssetType(assetType: NewAssetTypeType): Promise<AssetType> {

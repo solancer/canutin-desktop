@@ -31,18 +31,22 @@ const BalancesByGroup = ({ balancesByGroupData }: BalancesByGroupProps) => (
     <BalanceGroupList
       type={BalanceGroupEnum.CASH}
       balanceData={balancesByGroupData[BalanceGroupEnum.CASH]}
+      dataTestId="balance-group-cash"
     />
     <BalanceGroupList
       type={BalanceGroupEnum.DEBT}
       balanceData={balancesByGroupData[BalanceGroupEnum.DEBT]}
+      dataTestId="balance-group-debt"
     />
     <BalanceGroupList
       type={BalanceGroupEnum.INVESTMENTS}
       balanceData={balancesByGroupData[BalanceGroupEnum.INVESTMENTS]}
+      dataTestId="balance-group-investments"
     />
     <BalanceGroupList
       type={BalanceGroupEnum.OTHER_ASSETS}
       balanceData={balancesByGroupData[BalanceGroupEnum.OTHER_ASSETS]}
+      dataTestId="balance-group-other-assets"
     />
   </Container>
 );

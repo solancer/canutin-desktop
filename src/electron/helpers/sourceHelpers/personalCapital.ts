@@ -1,9 +1,8 @@
-import { format, parse } from 'date-fns';
+import { getUnixTime, parse } from 'date-fns';
 
-import { CanutinFileType } from '@appTypes/canutin';
+import { CanutinFileType } from '@appTypes/canutinFile.type';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import mapCategories from '@database/helpers/importResources/mapCategories';
-import { CANUTIN_FILE_DATE_FORMAT, PREVIOUS_AUTO_CALCULATED } from '@constants';
 
 export interface PersonalCapitalCsvEntryType {
   Date: string;
@@ -30,10 +29,7 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
 
       const transaction = {
         description: personalCapEntry.Description,
-        date: format(
-          parse(personalCapEntry.Date, 'yyyy-MM-dd', new Date()),
-          CANUTIN_FILE_DATE_FORMAT
-        ),
+        date: getUnixTime(parse(personalCapEntry.Date, 'yyyy-MM-dd', new Date())),
         amount: personalCapEntry.Amount,
         excludeFromTotals: false,
         category: mapCategories(personalCapEntry.Category),
@@ -41,7 +37,7 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
       countTransactions++;
 
       if (accountIndex > -1) {
-        acc.accounts[accountIndex].transactions.push(transaction);
+        acc.accounts[accountIndex].transactions?.push(transaction);
       } else {
         countAccounts++;
         if (!personalCapEntry.Account) {
@@ -53,7 +49,8 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
           balanceGroup: BalanceGroupEnum.CASH,
           accountType: 'checking',
           transactions: [transaction],
-          autoCalculate: PREVIOUS_AUTO_CALCULATED,
+          autoCalculated: true,
+          closed: false,
         });
       }
 

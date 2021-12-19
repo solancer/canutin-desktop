@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import { AccountType } from '../entities';
-import { NewAccountTypeType } from '../../types/accountType.type';
+import { NewAccountTypeType } from '@appTypes/accountType.type';
 
 export class AccountTypeRepository {
   static async createAccountType(accountType: NewAccountTypeType): Promise<AccountType> {

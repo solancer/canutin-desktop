@@ -45,7 +45,7 @@ const EditTransaction = () => {
 
   const initialState = {
     account: transaction.account.id.toString(),
-    balance: transaction.amount.toString(),
+    amount: transaction.amount.toString(),
     category: transaction.category.name,
     year: transaction.date.getUTCFullYear(),
     month: transaction.date.getUTCMonth(),

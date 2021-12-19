@@ -22,6 +22,7 @@ interface BalanceGroupListProps {
   balanceData?: {
     [nameOfBalance: string]: AccountAssetBalance[];
   };
+  dataTestId?: string;
 }
 
 const getTotal = (balance: AccountAssetBalance[]) =>
@@ -32,7 +33,7 @@ const sortBalanceDataByTotalAmount = (balanceData: { [x: string]: AccountAssetBa
     (balanceB, balanceA) => getTotal(balanceA[1]) - getTotal(balanceB[1])
   );
 
-const BalanceGroupList = ({ type, balanceData }: BalanceGroupListProps) => {
+const BalanceGroupList = ({ type, balanceData, dataTestId }: BalanceGroupListProps) => {
   const totalAmount = balanceData
     ? Object.keys(balanceData).reduce((acc, assetTypeKey) => {
         const totalBalance = balanceData[assetTypeKey].reduce((acc, assetTypeBalance) => {
@@ -44,7 +45,7 @@ const BalanceGroupList = ({ type, balanceData }: BalanceGroupListProps) => {
     : 0;
 
   return (
-    <Container>
+    <Container data-testid={dataTestId}>
       <Card
         label={balanceGroupLabels[type]}
         appearance={balanceGroupApperances[type]}

@@ -1,0 +1,1695 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Balance sheet tests Balance sheet page displays an empty view when no enough data is available 1`] = `
+<div
+  class="sc-crHlIS ddJrDV"
+  data-testid="scrollview-balance-sheet"
+>
+  <header
+    class="sc-egiSv hRJIbx"
+  >
+    <div
+      class="sc-bkkfTU buIckz"
+    >
+      <div
+        class="sc-bqiQRQ LTLaZ"
+      >
+        <h1
+          class="sc-ksdxAp iFaYkZ"
+          title="Balance sheet"
+        >
+          Balance sheet
+        </h1>
+      </div>
+      <nav>
+        <div
+          class="sc-iAKVOt kcxkTo"
+        >
+          <button
+            class="sc-pVTma esehCs"
+          >
+            Add new
+          </button>
+          <button
+            class="sc-pVTma esehCs"
+          >
+            Import
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main
+    class="sc-fotPbf QqKBQ"
+  >
+    <div
+      class="sc-kfPtPH eLfEnz"
+    >
+      <header
+        class="sc-fKVsgm lmUUqJ"
+      >
+        <h2
+          class="sc-bBHwJV dUpoYu"
+        >
+          Balances
+        </h2>
+        <div>
+          <nav
+            class="sc-cxpRKc eNixUz"
+          >
+            <div
+              class="sc-llYToB faxECz"
+            >
+              all 
+            </div>
+            <div
+              class="sc-llYToB cPliRY"
+            >
+              accounts 1
+            </div>
+            <div
+              class="sc-llYToB cPliRY"
+            >
+              assets 0
+            </div>
+          </nav>
+        </div>
+      </header>
+      <div
+        class="sc-jgrIVw fxCEJN"
+      >
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-cash"
+        >
+          <div
+            class="sc-ieebsP bYNJUZ"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Cash
+            </p>
+            <span
+              appearance="1"
+              class="sc-dlVyqM iQfZX"
+            >
+              $0
+            </span>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                undefined
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $0
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Alice's Checking"
+                >
+                  Alice's Checking
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $0
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-debt"
+        >
+          <div
+            class="sc-ieebsP ioyHEx"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Debt
+            </p>
+            <span
+              appearance="2"
+              class="sc-dlVyqM iQfZX"
+            >
+              $0
+            </span>
+          </div>
+          <div
+            class="sc-caiKgP dKuPRQ"
+          >
+            No balances are available in this group.
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-investments"
+        >
+          <div
+            class="sc-ieebsP kMXwXO"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Investments
+            </p>
+            <span
+              appearance="3"
+              class="sc-dlVyqM iQfZX"
+            >
+              $0
+            </span>
+          </div>
+          <div
+            class="sc-caiKgP dKuPRQ"
+          >
+            No balances are available in this group.
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-other-assets"
+        >
+          <div
+            class="sc-ieebsP kCsmTY"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Other assets
+            </p>
+            <span
+              appearance="4"
+              class="sc-dlVyqM iQfZX"
+            >
+              $0
+            </span>
+          </div>
+          <div
+            class="sc-caiKgP dKuPRQ"
+          >
+            No balances are available in this group.
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+`;
+
+exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = `
+<div
+  class="sc-crHlIS ddJrDV"
+  data-testid="scrollview-balance-sheet"
+>
+  <header
+    class="sc-egiSv hRJIbx"
+  >
+    <div
+      class="sc-bkkfTU buIckz"
+    >
+      <div
+        class="sc-bqiQRQ LTLaZ"
+      >
+        <h1
+          class="sc-ksdxAp iFaYkZ"
+          title="Balance sheet"
+        >
+          Balance sheet
+        </h1>
+      </div>
+      <nav>
+        <div
+          class="sc-iAKVOt kcxkTo"
+        >
+          <button
+            class="sc-pVTma esehCs"
+          >
+            Add new
+          </button>
+          <button
+            class="sc-pVTma esehCs"
+          >
+            Import
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main
+    class="sc-fotPbf QqKBQ"
+  >
+    <div
+      class="sc-kfPtPH eLfEnz"
+    >
+      <header
+        class="sc-fKVsgm lmUUqJ"
+      >
+        <h2
+          class="sc-bBHwJV dUpoYu"
+        >
+          Balances
+        </h2>
+        <div>
+          <nav
+            class="sc-cxpRKc eNixUz"
+          >
+            <div
+              class="sc-llYToB faxECz"
+            >
+              all 
+            </div>
+            <div
+              class="sc-llYToB cPliRY"
+            >
+              accounts 7
+            </div>
+            <div
+              class="sc-llYToB cPliRY"
+            >
+              assets 6
+            </div>
+          </nav>
+        </div>
+      </header>
+      <div
+        class="sc-jgrIVw fxCEJN"
+      >
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-cash"
+        >
+          <div
+            class="sc-ieebsP bYNJUZ"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Cash
+            </p>
+            <span
+              appearance="1"
+              class="sc-dlVyqM iQfZX"
+            >
+              $10,700
+            </span>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                savings
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $6,000
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Emergency Fund"
+                >
+                  Emergency Fund
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $6,000
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                checking
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $3,400
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Alice's Checking"
+                >
+                  Alice's Checking
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $3,400
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                cash
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $1,300
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Wallet"
+                >
+                  Wallet
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $1,300
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-debt"
+        >
+          <div
+            class="sc-ieebsP ioyHEx"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Debt
+            </p>
+            <span
+              appearance="2"
+              class="sc-dlVyqM iQfZX"
+            >
+              -$21,974
+            </span>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                credit card
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                -$724
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Bob's Juggernaut Visa"
+                >
+                  Bob's Juggernaut Visa
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                -$724
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                auto
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                -$21,250
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Toyota Auto Loan"
+                >
+                  Toyota Auto Loan
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                -$21,250
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-investments"
+        >
+          <div
+            class="sc-ieebsP kMXwXO"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Investments
+            </p>
+            <span
+              appearance="3"
+              class="sc-dlVyqM iQfZX"
+            >
+              $142,831
+            </span>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                cryptocurrency
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $86,920
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/Bitcoin"
+                >
+                  Bitcoin
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $69,420
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/Ethereum"
+                >
+                  Ethereum
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $17,500
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                security
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $33,125
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/Tesla"
+                >
+                  Tesla
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $30,000
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/GameStop"
+                >
+                  GameStop
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $3,125
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                roth
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $18,536
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Alice's Roth IRA"
+                >
+                  Alice's Roth IRA
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $18,536
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                401k
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $4,251
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Bob's 401k"
+                >
+                  Bob's 401k
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $4,251
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-other-assets"
+        >
+          <div
+            class="sc-ieebsP kCsmTY"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Other assets
+            </p>
+            <span
+              appearance="4"
+              class="sc-dlVyqM iQfZX"
+            >
+              $53,000
+            </span>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                vehicle
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $38,500
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/2021 Toyota RAV4"
+                >
+                  2021 Toyota RAV4
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $38,500
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                collectible
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $14,500
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/Pokemon Card Collection"
+                >
+                  Pokemon Card Collection
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $14,500
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+`;
+
+exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = `
+<div
+  class="sc-crHlIS ddJrDV"
+  data-testid="scrollview-balance-sheet"
+>
+  <header
+    class="sc-egiSv hRJIbx"
+  >
+    <div
+      class="sc-bkkfTU buIckz"
+    >
+      <div
+        class="sc-bqiQRQ LTLaZ"
+      >
+        <h1
+          class="sc-ksdxAp iFaYkZ"
+          title="Balance sheet"
+        >
+          Balance sheet
+        </h1>
+      </div>
+      <nav>
+        <div
+          class="sc-iAKVOt kcxkTo"
+        >
+          <button
+            class="sc-pVTma esehCs"
+          >
+            Add new
+          </button>
+          <button
+            class="sc-pVTma esehCs"
+          >
+            Import
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main
+    class="sc-fotPbf QqKBQ"
+  >
+    <div
+      class="sc-kfPtPH eLfEnz"
+    >
+      <header
+        class="sc-fKVsgm lmUUqJ"
+      >
+        <h2
+          class="sc-bBHwJV dUpoYu"
+        >
+          Balances
+        </h2>
+        <div>
+          <nav
+            class="sc-cxpRKc eNixUz"
+          >
+            <div
+              class="sc-llYToB cPliRY"
+            >
+              all 
+            </div>
+            <div
+              class="sc-llYToB faxECz"
+            >
+              accounts 7
+            </div>
+            <div
+              class="sc-llYToB cPliRY"
+            >
+              assets 6
+            </div>
+          </nav>
+        </div>
+      </header>
+      <div
+        class="sc-jgrIVw fxCEJN"
+      >
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-cash"
+        >
+          <div
+            class="sc-ieebsP bYNJUZ"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Cash
+            </p>
+            <span
+              appearance="1"
+              class="sc-dlVyqM iQfZX"
+            >
+              $10,700
+            </span>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                savings
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $6,000
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Emergency Fund"
+                >
+                  Emergency Fund
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $6,000
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                checking
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $3,400
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Alice's Checking"
+                >
+                  Alice's Checking
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $3,400
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                cash
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $1,300
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Wallet"
+                >
+                  Wallet
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $1,300
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-debt"
+        >
+          <div
+            class="sc-ieebsP ioyHEx"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Debt
+            </p>
+            <span
+              appearance="2"
+              class="sc-dlVyqM iQfZX"
+            >
+              -$21,974
+            </span>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                credit card
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                -$724
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Bob's Juggernaut Visa"
+                >
+                  Bob's Juggernaut Visa
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                -$724
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                auto
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                -$21,250
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Toyota Auto Loan"
+                >
+                  Toyota Auto Loan
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                -$21,250
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-investments"
+        >
+          <div
+            class="sc-ieebsP kMXwXO"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Investments
+            </p>
+            <span
+              appearance="3"
+              class="sc-dlVyqM iQfZX"
+            >
+              $22,786
+            </span>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                roth
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $18,536
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Alice's Roth IRA"
+                >
+                  Alice's Roth IRA
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $18,536
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                401k
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $4,251
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/account/Bob's 401k"
+                >
+                  Bob's 401k
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Account
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $4,251
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-other-assets"
+        >
+          <div
+            class="sc-ieebsP kCsmTY"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Other assets
+            </p>
+            <span
+              appearance="4"
+              class="sc-dlVyqM iQfZX"
+            >
+              $0
+            </span>
+          </div>
+          <div
+            class="sc-caiKgP dKuPRQ"
+          >
+            No balances are available in this group.
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+`;
+
+exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = `
+<div
+  class="sc-crHlIS ddJrDV"
+  data-testid="scrollview-balance-sheet"
+>
+  <header
+    class="sc-egiSv hRJIbx"
+  >
+    <div
+      class="sc-bkkfTU buIckz"
+    >
+      <div
+        class="sc-bqiQRQ LTLaZ"
+      >
+        <h1
+          class="sc-ksdxAp iFaYkZ"
+          title="Balance sheet"
+        >
+          Balance sheet
+        </h1>
+      </div>
+      <nav>
+        <div
+          class="sc-iAKVOt kcxkTo"
+        >
+          <button
+            class="sc-pVTma esehCs"
+          >
+            Add new
+          </button>
+          <button
+            class="sc-pVTma esehCs"
+          >
+            Import
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main
+    class="sc-fotPbf QqKBQ"
+  >
+    <div
+      class="sc-kfPtPH eLfEnz"
+    >
+      <header
+        class="sc-fKVsgm lmUUqJ"
+      >
+        <h2
+          class="sc-bBHwJV dUpoYu"
+        >
+          Balances
+        </h2>
+        <div>
+          <nav
+            class="sc-cxpRKc eNixUz"
+          >
+            <div
+              class="sc-llYToB cPliRY"
+            >
+              all 
+            </div>
+            <div
+              class="sc-llYToB cPliRY"
+            >
+              accounts 7
+            </div>
+            <div
+              class="sc-llYToB faxECz"
+            >
+              assets 6
+            </div>
+          </nav>
+        </div>
+      </header>
+      <div
+        class="sc-jgrIVw fxCEJN"
+      >
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-cash"
+        >
+          <div
+            class="sc-ieebsP bYNJUZ"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Cash
+            </p>
+            <span
+              appearance="1"
+              class="sc-dlVyqM iQfZX"
+            >
+              $0
+            </span>
+          </div>
+          <div
+            class="sc-caiKgP dKuPRQ"
+          >
+            No balances are available in this group.
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-debt"
+        >
+          <div
+            class="sc-ieebsP ioyHEx"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Debt
+            </p>
+            <span
+              appearance="2"
+              class="sc-dlVyqM iQfZX"
+            >
+              $0
+            </span>
+          </div>
+          <div
+            class="sc-caiKgP dKuPRQ"
+          >
+            No balances are available in this group.
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-investments"
+        >
+          <div
+            class="sc-ieebsP kMXwXO"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Investments
+            </p>
+            <span
+              appearance="3"
+              class="sc-dlVyqM iQfZX"
+            >
+              $120,045
+            </span>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                cryptocurrency
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $86,920
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/Bitcoin"
+                >
+                  Bitcoin
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $69,420
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/Ethereum"
+                >
+                  Ethereum
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $17,500
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                security
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $33,125
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/Tesla"
+                >
+                  Tesla
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $30,000
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/GameStop"
+                >
+                  GameStop
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $3,125
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-hUpaWb bDObUX"
+          data-testid="balance-group-other-assets"
+        >
+          <div
+            class="sc-ieebsP kCsmTY"
+          >
+            <p
+              class="sc-dJjZJu lckmyq"
+            >
+              Other assets
+            </p>
+            <span
+              appearance="4"
+              class="sc-dlVyqM iQfZX"
+            >
+              $53,000
+            </span>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                vehicle
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $38,500
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/2021 Toyota RAV4"
+                >
+                  2021 Toyota RAV4
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $38,500
+              </span>
+            </div>
+          </div>
+          <div
+            class="sc-cTApHj hAjhnN"
+          >
+            <div
+              class="sc-jObXwK gNFmmA"
+            >
+              <div
+                class="sc-bBHHQT iYvrpT"
+              >
+                collectible
+              </div>
+              <span
+                class="sc-cNKpQo kNjgRF"
+              >
+                $14,500
+              </span>
+            </div>
+            <div
+              class="sc-dPiKHq kwdnsA"
+            >
+              <div>
+                <a
+                  class="sc-efQUeY gVKLTO"
+                  href="/asset/Pokemon Card Collection"
+                >
+                  Pokemon Card Collection
+                </a>
+                <div
+                  class="sc-khQdMy bVdapH"
+                >
+                  Asset
+                </div>
+              </div>
+              <span
+                class="sc-AjmZR iFAMPX"
+              >
+                $14,500
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+`;

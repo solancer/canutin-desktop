@@ -25,10 +25,7 @@ const BalanceSheetSection = () => {
   const countList = {
     all: '',
     accounts: accountsIndex?.accounts?.filter(({ closed }) => !closed).length,
-    assets: assetsIndex?.assets.filter(
-      ({ balanceStatements }) =>
-        balanceStatements && !balanceStatements[balanceStatements.length - 1].sold
-    ).length,
+    assets: assetsIndex?.assets.filter(asset => !asset.sold).length,
   };
 
   const balanceSheetSegments = (

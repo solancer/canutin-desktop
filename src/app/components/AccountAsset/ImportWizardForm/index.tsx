@@ -1,6 +1,9 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, memo, useContext } from 'react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
+import { useHistory } from 'react-router-dom';
 
+import { EntitiesContext } from '@app/context/entitiesContext';
+import { StatusBarContext } from '@app/context/statusBarContext';
 import Form from '@components/common/Form/Form/formImportWizard';
 import Fieldset from '@components/common/Form/Fieldset';
 import RadioGroupField from '@components/common/Form/RadioGroupField';
@@ -14,16 +17,17 @@ import {
   ANALYZE_SOURCE_FILE,
   ANALYZE_SOURCE_FILE_ACK,
   LOAD_FROM_CANUTIN_FILE,
-  LOAD_FROM_CANUTIN_FILE_ACK,
-  LOAD_FROM_OTHER_CSV_ACK,
+  LOAD_DATA_ACK,
 } from '@constants/events';
 import { sourceExtensionFile, enumImportTitleOptions, StatusEnum } from '@appConstants/misc';
-import { CanutinFileType } from '@appTypes/canutin';
+import { CanutinFileType } from '@appTypes/canutinFile.type';
 import { ParseMeta } from '@appTypes/parseCsv';
+import AccountIpc from '@app/data/account.ipc';
+import AssetIpc from '@app/data/asset.ipc';
+import { routesPaths } from '@app/routes';
 
 import OtherCSVForm from './OtherCSVForm';
 import { generateSourceMessage } from './importWizardUtils';
-
 import sourceAlertsLookup from './dataSourceAlerts';
 
 const filePathStatusMessage = (status: StatusEnum, message?: string) => {
@@ -54,12 +58,10 @@ export interface AnalyzeSourceFileType {
   metadata: AnalyzeSourceMetadataType;
 }
 
-interface ImportWizardFormProps {
-  isLoading: boolean;
-  setIsLoading: (isLoading: boolean) => void;
-}
-
-const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) => {
+const ImportWizardForm = () => {
+  const history = useHistory();
+  const { accountsIndex, assetsIndex } = useContext(EntitiesContext);
+  const { statusMessage, setStatusMessage } = useContext(StatusBarContext);
   const [source, setSource] = useState<enumImportTitleOptions | null>(null);
   const [filePath, setFilePath] = useState<string | null>(null);
   const [filePathStatus, setFilePathStatus] = useState<StatusEnum>();
@@ -67,24 +69,6 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
   const [canutinJson, setCanutinJson] = useState<CanutinFileType | null>(null);
   const [otherCsvData, setOtherCsvData] = useState<unknown | null>(null);
   const [otherCsvMetadata, setOtherCsvMetadata] = useState<AnalyzeSourceMetadataType | null>(null);
-
-  useEffect(() => {
-    ipcRenderer.on(
-      LOAD_FROM_CANUTIN_FILE_ACK,
-      (_: IpcRendererEvent, { filePath: sourceFilePath }) => {
-        setIsLoading(false);
-      }
-    );
-
-    ipcRenderer.on(LOAD_FROM_OTHER_CSV_ACK, (_: IpcRendererEvent, { filePath: sourceFilePath }) => {
-      setIsLoading(false);
-    });
-
-    return () => {
-      ipcRenderer.removeAllListeners(LOAD_FROM_CANUTIN_FILE_ACK);
-      ipcRenderer.removeAllListeners(LOAD_FROM_OTHER_CSV_ACK);
-    };
-  }, []);
 
   useEffect(() => {
     ipcRenderer.on(IMPORT_SOURCE_FILE_ACK, (_: IpcRendererEvent, { filePath: sourceFilePath }) => {
@@ -118,11 +102,36 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
       }
     );
 
+    ipcRenderer.on(LOAD_DATA_ACK, (_: IpcRendererEvent, { status }) => {
+      if (status === StatusEnum.POSITIVE) {
+        AccountIpc.getAccounts();
+        AssetIpc.getAssets();
+      } else {
+        setStatusMessage({
+          sentiment: StatusEnum.NEGATIVE,
+          message: `There was a problem importing the data from the source file`,
+          isLoading: false,
+        });
+      }
+    });
+
     return () => {
       ipcRenderer.removeAllListeners(IMPORT_SOURCE_FILE_ACK);
       ipcRenderer.removeAllListeners(ANALYZE_SOURCE_FILE_ACK);
+      ipcRenderer.removeAllListeners(LOAD_DATA_ACK);
     };
   }, [source]);
+
+  useEffect(() => {
+    if (statusMessage.isLoading) {
+      setStatusMessage({
+        sentiment: StatusEnum.POSITIVE,
+        message: 'The data was imported successfully',
+        isLoading: false,
+      });
+      history.push(routesPaths.balance);
+    }
+  }, [accountsIndex, assetsIndex]);
 
   useEffect(() => {
     if (filePath) {
@@ -133,8 +142,12 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
   }, [filePath]);
 
   const onSubmit = () => {
+    setStatusMessage({
+      sentiment: StatusEnum.NEUTRAL,
+      message: 'Importing data...',
+      isLoading: true,
+    });
     canutinJson && ipcRenderer.send(LOAD_FROM_CANUTIN_FILE, canutinJson);
-    setIsLoading(true);
   };
 
   const analyzeSourceFile = () => {
@@ -152,7 +165,7 @@ const ImportWizardForm = ({ isLoading, setIsLoading }: ImportWizardFormProps) =>
   const isSubmitDisabled =
     source === enumImportTitleOptions.OTHER_CSV_IMPORT_TYPE_TITLE ||
     canutinJson === null ||
-    isLoading;
+    statusMessage.isLoading;
 
   return (
     <Form>

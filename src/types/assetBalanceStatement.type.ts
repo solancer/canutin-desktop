@@ -1,9 +1,9 @@
 import { Asset } from '@database/entities/asset.entity';
 
 export type NewAssetBalanceStatementType = {
-  value?: number;
+  asset: Asset;
+  createdAt: Date;
+  value: number;
   quantity?: number;
   cost?: number;
-  sold: boolean;
-  asset: Asset;
 };

@@ -32,10 +32,11 @@ export interface CardProps {
   value: number | string;
   appearance?: CardAppearanceEnum;
   isCurrency?: boolean;
+  dataTestId?: string;
 }
 
-const Card = ({ label, value, appearance, isCurrency }: CardProps) => (
-  <Container appearance={appearance}>
+const Card = ({ label, value, appearance, isCurrency, dataTestId }: CardProps) => (
+  <Container appearance={appearance} data-testid={dataTestId}>
     <Label appearance={appearance}>{label}</Label>
     {isCurrency ? (
       <Amount appearance={appearance} value={value} displayType="text" />
