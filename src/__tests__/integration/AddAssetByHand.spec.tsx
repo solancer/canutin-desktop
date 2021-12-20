@@ -48,7 +48,7 @@ describe('Add asset by Hand tests', () => {
     const spySendIpcRenderer = jest.spyOn(ipcRenderer, 'send');
     const addAccountsOrAssetsButton = screen.getByTestId('sidebar-add-account-or-assets');
     expect(screen.getByRole('form')).toHaveFormValues({});
-    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/addAccountOrAsset');
+    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '#/addAccountOrAsset');
 
     await selectEvent.select(screen.getByLabelText('Asset type'), 'Vehicle');
 

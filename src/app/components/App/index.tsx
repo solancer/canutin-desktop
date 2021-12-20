@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import React, { useEffect, useContext } from 'react';
+import { Switch, Route, HashRouter, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { ipcRenderer } from 'electron';
 
@@ -73,7 +73,7 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <BrowserRouter>
+      <HashRouter>
         <Container hasSidebar={isAppInitialized}>
           {!isLoading && isAppInitialized && (
             <>
@@ -104,7 +104,7 @@ const App = () => {
           )}
           <StatusBar />
         </Container>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 };

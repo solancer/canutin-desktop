@@ -120,7 +120,7 @@ exports[`Balance sheet tests Balance sheet page displays an empty view when no e
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Alice's Checking"
+                  href="#/account/Alice's Checking"
                 >
                   Alice's Checking
                 </a>
@@ -339,7 +339,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Emergency Fund"
+                  href="#/account/Emergency Fund"
                 >
                   Emergency Fund
                 </a>
@@ -379,7 +379,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Alice's Checking"
+                  href="#/account/Alice's Checking"
                 >
                   Alice's Checking
                 </a>
@@ -419,7 +419,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Wallet"
+                  href="#/account/Wallet"
                 >
                   Wallet
                 </a>
@@ -479,7 +479,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Bob's Juggernaut Visa"
+                  href="#/account/Bob's Juggernaut Visa"
                 >
                   Bob's Juggernaut Visa
                 </a>
@@ -519,7 +519,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Toyota Auto Loan"
+                  href="#/account/Toyota Auto Loan"
                 >
                   Toyota Auto Loan
                 </a>
@@ -579,7 +579,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/Bitcoin"
+                  href="#/asset/Bitcoin"
                 >
                   Bitcoin
                 </a>
@@ -601,7 +601,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/Ethereum"
+                  href="#/asset/Ethereum"
                 >
                   Ethereum
                 </a>
@@ -641,7 +641,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/Tesla"
+                  href="#/asset/Tesla"
                 >
                   Tesla
                 </a>
@@ -663,7 +663,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/GameStop"
+                  href="#/asset/GameStop"
                 >
                   GameStop
                 </a>
@@ -703,7 +703,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Alice's Roth IRA"
+                  href="#/account/Alice's Roth IRA"
                 >
                   Alice's Roth IRA
                 </a>
@@ -743,7 +743,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Bob's 401k"
+                  href="#/account/Bob's 401k"
                 >
                   Bob's 401k
                 </a>
@@ -803,7 +803,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/2021 Toyota RAV4"
+                  href="#/asset/2021 Toyota RAV4"
                 >
                   2021 Toyota RAV4
                 </a>
@@ -843,7 +843,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/Pokemon Card Collection"
+                  href="#/asset/Pokemon Card Collection"
                 >
                   Pokemon Card Collection
                 </a>
@@ -987,7 +987,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Emergency Fund"
+                  href="#/account/Emergency Fund"
                 >
                   Emergency Fund
                 </a>
@@ -1027,7 +1027,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Alice's Checking"
+                  href="#/account/Alice's Checking"
                 >
                   Alice's Checking
                 </a>
@@ -1067,7 +1067,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Wallet"
+                  href="#/account/Wallet"
                 >
                   Wallet
                 </a>
@@ -1127,7 +1127,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Bob's Juggernaut Visa"
+                  href="#/account/Bob's Juggernaut Visa"
                 >
                   Bob's Juggernaut Visa
                 </a>
@@ -1167,7 +1167,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Toyota Auto Loan"
+                  href="#/account/Toyota Auto Loan"
                 >
                   Toyota Auto Loan
                 </a>
@@ -1227,7 +1227,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Alice's Roth IRA"
+                  href="#/account/Alice's Roth IRA"
                 >
                   Alice's Roth IRA
                 </a>
@@ -1267,7 +1267,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/account/Bob's 401k"
+                  href="#/account/Bob's 401k"
                 >
                   Bob's 401k
                 </a>
@@ -1486,7 +1486,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/Bitcoin"
+                  href="#/asset/Bitcoin"
                 >
                   Bitcoin
                 </a>
@@ -1508,7 +1508,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/Ethereum"
+                  href="#/asset/Ethereum"
                 >
                   Ethereum
                 </a>
@@ -1548,7 +1548,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/Tesla"
+                  href="#/asset/Tesla"
                 >
                   Tesla
                 </a>
@@ -1570,7 +1570,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/GameStop"
+                  href="#/asset/GameStop"
                 >
                   GameStop
                 </a>
@@ -1630,7 +1630,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/2021 Toyota RAV4"
+                  href="#/asset/2021 Toyota RAV4"
                 >
                   2021 Toyota RAV4
                 </a>
@@ -1670,7 +1670,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
               <div>
                 <a
                   class="sc-efQUeY gVKLTO"
-                  href="/asset/Pokemon Card Collection"
+                  href="#/asset/Pokemon Card Collection"
                 >
                   Pokemon Card Collection
                 </a>
