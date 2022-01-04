@@ -45,7 +45,7 @@ const StatusBar = () => {
   }, [statusMessage]);
 
   return (
-    <Container sentiment={statusMessage.sentiment} isLoading={statusMessage.isLoading}>
+    <Container sentiment={statusMessage.sentiment}>
       {statusMessage.message && (
         <StatusMessage>
           <p>{statusMessage.message}</p>

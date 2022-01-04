@@ -1,7 +1,6 @@
 import { Entity, Column, ManyToOne, JoinColumn, Unique } from 'typeorm';
 import { Base } from './base.entity';
 import { Account } from './account.entity';
-import { Budget } from './budget.entity';
 import { TransactionSubCategory } from './transactionSubCategory.entity';
 
 @Entity()
@@ -25,12 +24,6 @@ export class Transaction extends Base {
   @JoinColumn()
   account: Account;
 
-  @ManyToOne(() => Budget, budget => budget.transactions, {
-    cascade: true,
-  })
-  @JoinColumn()
-  budget?: Budget;
-
   @ManyToOne(
     () => TransactionSubCategory,
     transactionSubCategory => transactionSubCategory.transactions
@@ -46,7 +39,6 @@ export class Transaction extends Base {
     account: Account,
     category: TransactionSubCategory,
     createdAt: Date,
-    budget?: Budget
   ) {
     super();
     this.description = description;
@@ -56,6 +48,5 @@ export class Transaction extends Base {
     this.account = account;
     this.category = category;
     this.createdAt = createdAt;
-    this.budget = budget;
   }
 }

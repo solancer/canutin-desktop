@@ -1,6 +1,9 @@
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+
+import { BudgetTypeEnum } from '@enums/budgetType.enum';
+
+import { TransactionSubCategory } from '.';
 import { Base } from './base.entity';
-import { Transaction } from './transaction.entity';
 
 @Entity()
 export class Budget extends Base {
@@ -11,19 +14,24 @@ export class Budget extends Base {
   targetAmount: number;
 
   @Column()
-  type: string;
+  type: BudgetTypeEnum;
 
-  @Column()
-  date: Date;
+  @ManyToMany(() => TransactionSubCategory, { cascade: true })
+  @JoinTable()
+  categories: TransactionSubCategory[];
 
-  @OneToMany(() => Transaction, transaction => transaction.budget)
-  transactions?: Transaction;
-
-  constructor(name: string, targetAmount: number, type: string, date: Date) {
+  constructor(
+    name: string,
+    targetAmount: number,
+    type: BudgetTypeEnum,
+    categories: TransactionSubCategory[],
+    createdAt: Date
+  ) {
     super();
+    this.createdAt = createdAt;
     this.name = name;
     this.targetAmount = targetAmount;
     this.type = type;
-    this.date = date;
+    this.categories = categories;
   }
 }

@@ -18,7 +18,7 @@ import {
 import { SUCCESS_MESSAGE_TIMEOUT } from './index';
 import { StatusEnum } from '@app/constants/misc';
 
-export const container = css<{ sentiment: StatusEnum; isLoading?: boolean }>`
+export const container = css<{ sentiment?: StatusEnum }>`
   position: relative;
   grid-area: status-bar;
   align-items: center;
@@ -31,66 +31,58 @@ export const container = css<{ sentiment: StatusEnum; isLoading?: boolean }>`
   padding: 0 16px;
   -webkit-user-select: none;
 
-  ${({ sentiment, isLoading }) =>
-    sentiment === StatusEnum.NEUTRAL &&
-    isLoading === true &&
-    css`
-      color: ${bluePlain};
-      background-color: ${blueLight};
-    `}
-  }
+  ${({ sentiment }) => {
+    switch (sentiment) {
+      case StatusEnum.NEUTRAL:
+        return css`
+          color: ${bluePlain};
+          background-color: ${blueLight};
+        `;
+      case StatusEnum.NEGATIVE:
+        return css`
+          color: ${redPlain};
+          background-color: ${redLight};
+        `;
+      case StatusEnum.WARNING:
+        return css`
+          color: ${yellowPlain};
+          background-color: ${yellowLight};
+        `;
+      case StatusEnum.POSITIVE:
+        return css`
+          color: ${greenPlain};
+          background-color: ${greenLight};
+          position: relative;
 
-  ${({ sentiment }) =>
-    sentiment === StatusEnum.NEGATIVE &&
-    css`
-      color: ${redPlain};
-      background-color: ${redLight};
-    `}
-  }
-
-  ${({ sentiment }) =>
-    sentiment === StatusEnum.WARNING &&
-    css`
-      color: ${yellowPlain};
-      background-color: ${yellowLight};
-    `}
-  }
-
-  ${({ sentiment }) =>
-    sentiment === StatusEnum.POSITIVE &&
-    css`
-      color: ${greenPlain};
-      background-color: ${greenLight};
-      position: relative;
-
-      > * {
-        z-index: 1;
-      }
-
-      &:before {
-        position: absolute;
-        top: 0;
-        left: 0;
-        content: '';
-        right: 0;
-        bottom: 0;
-        z-index: 0;
-        width: 100%;
-        height: 100%;
-        animation: ${SUCCESS_MESSAGE_TIMEOUT}ms ease-out autoDismissProgress;
-
-        @keyframes autoDismissProgress {
-          0% {
-            width: 0%;
+          > * {
+            z-index: 1;
           }
-          100% {
+
+          &:before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: '';
+            right: 0;
+            bottom: 0;
+            z-index: 0;
             width: 100%;
-            background-color: ${whitePlain};
+            height: 100%;
+            animation: ${SUCCESS_MESSAGE_TIMEOUT}ms ease-out autoDismissProgress;
+
+            @keyframes autoDismissProgress {
+              0% {
+                width: 0%;
+              }
+              100% {
+                width: 100%;
+                background-color: ${whitePlain};
+              }
+            }
           }
-        }
-      }
-    `}
-  }
+        `;
+    }
+  }}
 `;
 
 export const statusMessage = css`

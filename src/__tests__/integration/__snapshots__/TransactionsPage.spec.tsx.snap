@@ -2,20 +2,20 @@
 
 exports[`Transactions tests Transactions page displays an empty view when no enough data is available 1`] = `
 <div
-  class="sc-crHlIS ddJrDV"
+  class="hHSwWn"
   data-testid="scrollview-transactions"
 >
   <header
-    class="sc-egiSv hRJIbx"
+    class="kVxPac"
   >
     <div
-      class="sc-bkkfTU buIckz"
+      class="cbdbMT"
     >
       <div
-        class="sc-bqiQRQ LTLaZ"
+        class="jGiENK"
       >
         <h1
-          class="sc-ksdxAp iFaYkZ"
+          class="wbtfl"
           title="Transactions"
         >
           Transactions
@@ -23,23 +23,25 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
       </div>
       <nav>
         <nav
-          class="sc-TBWwm fJcRqx"
+          class="evIijI"
         >
           <button
-            class="sc-pVTma esehCs"
+            class="eVxMpZ"
+            type="button"
           >
             Add transaction
           </button>
           <button
-            class="sc-pVTma esehCs"
+            class="eVxMpZ"
+            type="button"
           >
             Import
           </button>
           <hr
-            class="sc-jIkYaL jUhwbq"
+            class="eJgmMW"
           />
           <div
-            class="sc-jOxuqd sc-hmjpBu dvBXbC irIGuF css-2b097c-container"
+            class="fldryk iTItLc css-2b097c-container"
           >
             <span
               aria-atomic="false"
@@ -98,35 +100,35 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
     </div>
   </header>
   <main
-    class="sc-fotPbf QqKBQ"
+    class="iLArhq"
   >
     <div
-      class="sc-kfPtPH eLfEnz"
+      class="dOahFo"
     >
       <header
-        class="sc-fKVsgm lmUUqJ"
+        class="hfAFDf"
       >
         <h2
-          class="sc-bBHwJV dUpoYu"
+          class="dYdCgw"
         >
           Browse transactions
         </h2>
         <div>
           <nav
-            class="sc-cxpRKc eNixUz"
+            class="dDdRjc"
           >
             <div
-              class="sc-llYToB faxECz"
+              class="dAAFPm"
             >
               all
             </div>
             <div
-              class="sc-llYToB cPliRY"
+              class="gDxUWx"
             >
               credits
             </div>
             <div
-              class="sc-llYToB cPliRY"
+              class="gDxUWx"
             >
               debits
             </div>
@@ -134,57 +136,150 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
         </div>
       </header>
       <div
-        class="sc-hiwReK fYPmRb"
+        class="ftEOHx"
       >
         <nav
-          class="sc-ehCIER gxammX"
+          class="bvkVPF"
         >
           <input
-            class="sc-eJwXpk iPpvRy"
+            class="hvhRRC"
             placeholder="Type to filter by date, description, category, account or amount"
             value=""
           />
           <div
-            class="sc-nVjpj cFQCRl"
+            class="eRlbCM"
           >
             <div
-              class="sc-ieebsP bfphNf"
+              class="hzBHfb"
               data-testid="card-transactions"
             >
               <p
-                class="sc-dJjZJu lckmyq"
+                class="bXnesS"
               >
                 Transactions
               </p>
               <p
-                class="sc-hGPAah LBEBv"
+                class="hfeHrb"
               >
                 0
               </p>
             </div>
             <div
-              class="sc-ieebsP bfphNf"
+              class="hzBHfb"
               data-testid="card-net-balance"
             >
               <p
-                class="sc-dJjZJu lckmyq"
+                class="bXnesS"
               >
                 Net balance
               </p>
               <span
                 appearance="0"
-                class="sc-dlVyqM iQfZX"
+                class="lcpzDX"
               >
                 $0
               </span>
             </div>
           </div>
         </nav>
-        <div
-          class="sc-caiKgP dKuPRQ sc-dvQbkV bbCdFj"
+        <table
+          class="epmggY"
+          role="table"
         >
-          No transactions were found
-        </div>
+          <thead>
+            <tr
+              class="dlazae"
+              role="row"
+            >
+              <th
+                class="fjGJkg"
+                colspan="1"
+                role="columnheader"
+                style="cursor: pointer;"
+                title="Toggle SortBy"
+              >
+                <div>
+                  Date
+                  <div
+                    class="bYMPbw"
+                  >
+                    ▼
+                  </div>
+                </div>
+              </th>
+              <th
+                class="fCiLLn"
+                colspan="1"
+                role="columnheader"
+                style="cursor: pointer;"
+                title="Toggle SortBy"
+              >
+                <div>
+                  Description
+                  <div
+                    class="bYMPbw"
+                  />
+                </div>
+              </th>
+              <th
+                class="fCiLLn"
+                colspan="1"
+                role="columnheader"
+                style="cursor: pointer;"
+                title="Toggle SortBy"
+              >
+                <div>
+                  Category
+                  <div
+                    class="bYMPbw"
+                  />
+                </div>
+              </th>
+              <th
+                class="fCiLLn"
+                colspan="1"
+                role="columnheader"
+                style="cursor: pointer;"
+                title="Toggle SortBy"
+              >
+                <div>
+                  Account
+                  <div
+                    class="bYMPbw"
+                  />
+                </div>
+              </th>
+              <th
+                class="glSWPn"
+                colspan="1"
+                role="columnheader"
+                style="cursor: pointer;"
+                title="Toggle SortBy"
+              >
+                <div>
+                  Amount
+                  <div
+                    class="bYMPbw"
+                  />
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="ggkxz"
+                colspan="1000"
+              >
+                <div
+                  class="dKuPRQ fCXMoP"
+                >
+                  No transactions were found
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </main>

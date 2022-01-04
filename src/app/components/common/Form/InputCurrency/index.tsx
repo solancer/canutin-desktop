@@ -22,6 +22,7 @@ export interface InputCurrencyProps extends NumberFormatPropsBase {
   error?: FieldError;
   rules?: Exclude<RegisterOptions, 'valueAsNumber' | 'valueAsDate' | 'setValueAs'>;
   allowNegative?: boolean;
+  onlyNegative?: boolean;
 }
 
 const InputCurrency = ({
@@ -32,6 +33,7 @@ const InputCurrency = ({
   error,
   rules,
   allowNegative = true,
+  onlyNegative = false,
   ...numberFormatProps
 }: InputCurrencyProps) => (
   <>
@@ -41,7 +43,7 @@ const InputCurrency = ({
           <CustomNumberFormat
             allowNegative={allowNegative}
             prefix={allowNegative && value > 0 ? '+$' : '$'}
-            value={value}
+            value={onlyNegative ? (value > 0 ? -value : value) : value}
             id={name}
             onValueChange={values => {
               onChange(values.value);

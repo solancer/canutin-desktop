@@ -11,9 +11,9 @@ const mapCategories = (category: string) => {
       return 'Allowance';
 
     case 'alcohol & bars':
+    case 'bars':
       return 'Bars';
 
-    case 'business & services':
     case 'advertising':
     case 'printing':
     case 'shipping':
@@ -23,41 +23,46 @@ const mapCategories = (category: string) => {
     case 'online services':
     case 'other bills':
     case 'other expenses':
+    case 'business & services':
       return 'Business & services';
 
     case 'book & supplies':
       return 'Books & supplies';
 
-    case 'charity':
     case 'charitable giving':
+    case 'charity':
       return 'Charity';
 
     case 'babysitter & daycare':
+    case 'childcare':
       return 'Childcare';
 
-    case 'clothing':
     case 'clothing/shoes':
+    case 'clothing':
       return 'Clothing';
 
+    case 'coffee':
     case 'coffee shops':
       return 'Coffee shops';
 
-    case 'education':
     case 'tuition':
+    case 'education':
       return 'Education';
 
-    case 'electronics':
     case 'electronics & software':
+    case 'electronics':
       return 'Electronics';
 
     case 'entertainment':
     case 'arts':
     case 'movies & dvds':
     case 'newspapers & magazines':
+    case 'entertainment & recreation':
       return 'Entertainment & recreation';
 
     case 'health & fitness':
     case 'gym':
+    case 'fitness':
       return 'Fitness';
 
     case 'fees & charges':
@@ -68,6 +73,7 @@ const mapCategories = (category: string) => {
     case 'service fee':
     case 'trade comissions':
     case 'service charges/fees':
+    case 'fees':
       return 'Fees';
 
     case 'financial':
@@ -85,6 +91,7 @@ const mapCategories = (category: string) => {
     case 'expense reinbursement':
     case 'retirement contributions':
     case 'savings':
+    case 'financial & banking':
       return 'Financial & banking';
 
     case 'financial advisor':
@@ -97,9 +104,11 @@ const mapCategories = (category: string) => {
     case 'portfolio management':
     case 'securities trades':
     case 'strategy change':
+    case 'financial services':
       return 'Financial services';
 
     case 'food & dining':
+    case 'food & drink':
       return 'Food & drink';
 
     case 'furnishings':
@@ -107,11 +116,12 @@ const mapCategories = (category: string) => {
 
     case 'gas & fuel':
     case 'gasoline/fuel':
+    case 'gas stations':
       return 'Gas stations';
 
     case 'gift':
-    case 'gifts':
     case 'gifts & donations':
+    case 'gifts':
       return 'Gifts';
 
     case 'groceries':
@@ -122,14 +132,15 @@ const mapCategories = (category: string) => {
     case 'eyecare':
     case 'health insurance':
     case 'healthcare/medical':
+    case 'health':
       return 'Health';
 
     case 'hobbies':
       return 'Hobbies';
 
     case 'home improvement':
+    case 'lawn & garden':
     case 'home maintenance':
-    case 'Lawn & Garden':
       return 'Home maintenance';
 
     case 'home':
@@ -139,9 +150,9 @@ const mapCategories = (category: string) => {
     case 'mortgage':
     case 'mortgages':
     case 'rent':
+    case 'housing':
       return 'Housing';
 
-    case 'income':
     case 'rental income':
     case 'investment income':
     case 'deposits':
@@ -150,37 +161,41 @@ const mapCategories = (category: string) => {
     case 'other income':
     case 'retirement income':
     case 'sales':
+    case 'income':
       return 'Income';
 
-    case 'insurance':
     case 'auto insurance':
     case 'life insurance':
     case 'home insurance':
+    case 'insurance':
       return 'Insurance';
 
-    case 'interest':
     case 'interest income':
+    case 'interest':
       return 'Interest';
 
     case 'home phone':
     case 'mobile phone':
     case 'internet':
     case 'telephone':
+    case 'internet & phone':
       return 'Internet & phone';
 
-    case 'kids':
     case 'child support':
     case 'kids activities':
     case 'child/dependent':
+    case 'kids':
       return 'Kids';
 
     case 'baby supplies':
+    case 'kids supplies':
       return 'Kids supplies';
 
     case 'legal':
       return 'Legal';
 
     case 'hotel':
+    case 'loadging':
       return 'Lodging';
 
     case 'music':
@@ -190,6 +205,7 @@ const mapCategories = (category: string) => {
       return 'Office supplies';
 
     case 'amusement':
+    case 'outdoors & parks':
       return 'Outdoors & parks';
 
     case 'parking':
@@ -197,32 +213,37 @@ const mapCategories = (category: string) => {
 
     case 'credit card payment':
     case 'credit card payments':
+    case 'payments':
       return 'Payments';
 
     case 'bonus':
     case 'paycheck':
     case 'paychecks/salary':
     case 'wages paid':
+    case 'payroll & benefits':
       return 'Payroll & benefits';
 
-    case 'personal care':
     case 'hair':
     case 'laundry':
     case 'spa & massage':
+    case 'personal care':
       return 'Personal care';
 
-    case 'pets':
     case 'pets/pet care':
     case 'pet food & supplies':
+    case 'pets':
       return 'Pets';
 
     case 'pet grooming':
+    case 'pet services':
       return 'Pet services';
 
     case 'pharmacy':
+    case 'pharmacies':
       return 'Pharmacies';
 
     case 'postage & shipping':
+    case 'postal & shipping':
       return 'Postal & shipping';
 
     case 'public transportation':
@@ -239,6 +260,7 @@ const mapCategories = (category: string) => {
     case 'books':
     case 'sporting goods':
     case 'general merchandise':
+    case 'shops':
       return 'Shops';
 
     case 'sports':
@@ -248,41 +270,43 @@ const mapCategories = (category: string) => {
       return 'Student loan';
 
     case 'dues & subscriptions':
+    case 'subscriptions':
       return 'Subscriptions';
 
-    case 'taxes':
     case 'federal tax':
     case 'local tax':
     case 'property tax':
     case 'sales tax':
     case 'tax location':
     case 'tax loss harvesting':
+    case 'taxes':
       return 'Taxes';
 
     case 'rental car & taxi':
+    case 'taxi & ride sharing':
       return 'Taxi & ride sharing';
 
-    case 'television':
     case 'cable/satellite':
+    case 'television':
       return 'Television';
 
     case 'transfer':
     case 'transfers':
       return 'Transfers';
 
-    case 'travel':
     case 'air travel':
+    case 'travel':
       return 'Travel';
 
     case 'toys':
       return 'Toys';
 
-    case 'utilities':
     case 'bills & utilities':
+    case 'utilities':
       return 'Utilities';
 
-    case 'vacation':
     case 'holidays':
+    case 'vacation':
       return 'Vacation';
 
     case 'veterinary':

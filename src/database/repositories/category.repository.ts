@@ -18,7 +18,7 @@ export class CategoryRepository {
     );
   }
 
-  static async getOrCreateSubCategory(name: string): Promise<TransactionSubCategory> {
+  static async getSubCategory(name: string): Promise<TransactionSubCategory> {
     let subCategory;
 
     if (!name) {

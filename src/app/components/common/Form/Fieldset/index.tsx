@@ -9,8 +9,11 @@ const Container = styled.fieldset`
 
 export interface FieldsetProps {
   children: ReactNode;
+  dataTestId?: string;
 }
 
-const Fieldset = ({ children }: FieldsetProps) => <Container>{children}</Container>;
+const Fieldset = ({ children, dataTestId }: FieldsetProps) => (
+  <Container data-testid={dataTestId}>{children}</Container>
+);
 
 export default Fieldset;

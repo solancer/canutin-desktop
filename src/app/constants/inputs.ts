@@ -18,6 +18,7 @@ export const inputShared = `
   border-radius: 4px;
   padding: 8px;
   box-sizing: border-box;
+  min-height: 40px;
 
   &::placeholder {
     color: ${grey30};

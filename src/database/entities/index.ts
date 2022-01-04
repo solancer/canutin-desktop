@@ -8,3 +8,4 @@ export { AssetType } from './assetType.entity';
 export { TransactionCategory } from './transactionCategory.entity';
 export { TransactionSubCategory } from './transactionSubCategory.entity';
 export { AssetBalanceStatement } from './assetBalanceStatement.entity';
+export { Settings } from './settings.entity';

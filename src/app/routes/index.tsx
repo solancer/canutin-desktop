@@ -15,6 +15,7 @@ import Settings from '@pages/Settings';
 import EditTransaction from '@app/pages/EditTransaction';
 import AccountOverview from '@app/pages/AccountOverview';
 import AssetOverview from '@app/pages/AssetOverview';
+import EditBudget from '@app/pages/EditBudget';
 
 export const rootRoutesPaths = {
   bigpicture: '/bigpicture',
@@ -38,6 +39,7 @@ export const routesPaths = {
   addTransaction: '/transactions/addTransaction',
   editTransaction: '/transactions/:transactionDescription',
   canutinSetup: '/canutinSetup',
+  editBudget: '/budget/edit',
 };
 
 export interface RouteConfigProps {
@@ -70,6 +72,12 @@ export const routesConfig: RouteConfigProps[] = [
     exact: true,
     component: <Budget />,
     breadcrumb: 'Budget',
+  },
+  {
+    path: routesPaths.editBudget,
+    exact: true,
+    component: <EditBudget />,
+    breadcrumb: 'Edit budget',
   },
   {
     path: routesPaths.transactions,

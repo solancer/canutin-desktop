@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import FieldContainer from '@components/common/Form/FieldContainer';
 import Field from '@components/common/Form/Field';
 
 import { container, title, description } from './styles';

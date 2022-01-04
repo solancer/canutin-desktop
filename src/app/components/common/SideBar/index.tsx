@@ -65,6 +65,7 @@ const SideBar = () => {
             toggled={toggled}
             to={routesPaths.budget}
             disabled={isDbEmpty}
+            dataTestId="sidebar-budget"
           />
 
           <NavItem
