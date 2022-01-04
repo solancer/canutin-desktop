@@ -121,8 +121,8 @@ exports[`Balance sheet tests Balance sheet page displays an empty view when no e
             >
               <div>
                 <a
-                  class="gVKLTO"
-                  href="/account/Alice's Checking"
+                  class="sc-efQUeY gVKLTO"
+                  href="#/account/Alice's Checking"
                 >
                   Alice's Checking
                 </a>

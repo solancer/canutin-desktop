@@ -40,7 +40,7 @@ describe('Add account by Hand tests', () => {
   test('Create new account only with required fields', async () => {
     const addAccountsOrAssetsButton = screen.getByTestId('sidebar-add-account-or-assets');
     expect(screen.getByRole('form')).toHaveFormValues({});
-    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/addAccountOrAsset');
+    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '#/addAccountOrAsset');
 
     await selectEvent.select(screen.getByLabelText('Account type'), 'Checking');
 
@@ -86,7 +86,7 @@ describe('Add account by Hand tests', () => {
   test('Create new account with optional fields', async () => {
     const addAccountsOrAssetsButton = screen.getByTestId('sidebar-add-account-or-assets');
     expect(screen.getByRole('form')).toHaveFormValues({});
-    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '/addAccountOrAsset');
+    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '#/addAccountOrAsset');
 
     await selectEvent.select(screen.getByLabelText('Account type'), 'PayPal');
     const nameInput = screen.getByLabelText('Name');

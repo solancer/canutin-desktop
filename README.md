@@ -1,19 +1,20 @@
 # Canutin Desktop
 
+<img width="1448" alt="Screen Shot 2021-12-21 at 11 13 51 AM" src="https://user-images.githubusercontent.com/1434675/146944233-696d2f81-5c20-4c28-9b83-dc1d080b6ec7.png">
+
 ## Available Scripts
 
-### `yarn start`
+#### `yarn start`
 
 Runs the Electron app in the development mode.
 
-The Electron app will reload if you make edits in the `electron` directory.<br>
-You will also see any lint errors in the console.
+#### `yarn test`
 
-### `yarn build`
+Runs the test suite.
+
+#### `yarn build`
 
 Builds the Electron app package for production to the `dist` folder.
-
-Your Electron app is ready to be distributed!
 
 ## Project directory structure
 
