@@ -24,7 +24,10 @@
 
 ## Tasks:
 
-- [ ] Tested in Mac
+- [ ] Tested in Mac (x86)
+- [ ] Tested in Mac (ARM)
+- [ ] Tested in Windows
+- [ ] Tested in Linux
 
 ## Notes:
 
