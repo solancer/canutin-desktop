@@ -1,0 +1,380 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Budget tests Budget page displays the correct data when auto-budget is enabled 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "autoBudgetField": "Disabled",
+        "editedBudgets": Array [
+          Object {
+            "name": "Income",
+            "targetAmount": 1000,
+            "type": "income",
+          },
+          Object {
+            "categories": Array [
+              Object {
+                "id": 1,
+                "name": "Education",
+              },
+              Object {
+                "id": 2,
+                "name": "Studen loan",
+              },
+              Object {
+                "id": 3,
+                "name": "Groceries",
+              },
+              Object {
+                "id": 4,
+                "name": "Health",
+              },
+              Object {
+                "id": 5,
+                "name": "Medical care",
+              },
+              Object {
+                "id": 6,
+                "name": "Pharmacies",
+              },
+              Object {
+                "id": 7,
+                "name": "Housing",
+              },
+              Object {
+                "id": 8,
+                "name": "Mortgage",
+              },
+              Object {
+                "id": 9,
+                "name": "Rent",
+              },
+              Object {
+                "id": 10,
+                "name": "Institutional",
+              },
+              Object {
+                "id": 11,
+                "name": "Insurance",
+              },
+              Object {
+                "id": 12,
+                "name": "Government",
+              },
+              Object {
+                "id": 13,
+                "name": "Legal",
+              },
+              Object {
+                "id": 14,
+                "name": "Taxes",
+              },
+              Object {
+                "id": 15,
+                "name": "Kids",
+              },
+              Object {
+                "id": 16,
+                "name": "Allowance",
+              },
+              Object {
+                "id": 17,
+                "name": "Child care",
+              },
+              Object {
+                "id": 18,
+                "name": "Kids supplies",
+              },
+              Object {
+                "id": 19,
+                "name": "Pets",
+              },
+              Object {
+                "id": 20,
+                "name": "Veterinary",
+              },
+              Object {
+                "id": 21,
+                "name": "Transportation",
+              },
+              Object {
+                "id": 22,
+                "name": "Automotive",
+              },
+              Object {
+                "id": 23,
+                "name": "Gas stations",
+              },
+              Object {
+                "id": 24,
+                "name": "Service & parts",
+              },
+              Object {
+                "id": 25,
+                "name": "Public transportation",
+              },
+              Object {
+                "id": 26,
+                "name": "Buses & trains",
+              },
+              Object {
+                "id": 27,
+                "name": "Utilities",
+              },
+              Object {
+                "id": 28,
+                "name": "Electricity",
+              },
+              Object {
+                "id": 29,
+                "name": "Gas",
+              },
+              Object {
+                "id": 30,
+                "name": "Internet & phone",
+              },
+              Object {
+                "id": 31,
+                "name": "Water",
+              },
+              Object {
+                "id": 32,
+                "name": "Sanitary & waste management",
+              },
+            ],
+            "name": "Needs",
+            "targetAmount": "-500",
+            "type": "expense",
+          },
+          Object {
+            "categories": Array [
+              Object {
+                "id": 100,
+                "name": "Museums",
+              },
+              Object {
+                "id": 101,
+                "name": "Music",
+              },
+              Object {
+                "id": 102,
+                "name": "Nightlife",
+              },
+              Object {
+                "id": 103,
+                "name": "Sports",
+              },
+              Object {
+                "id": 104,
+                "name": "Subscriptions",
+              },
+              Object {
+                "id": 105,
+                "name": "Theatres",
+              },
+              Object {
+                "id": 106,
+                "name": "Outdoors & parks",
+              },
+              Object {
+                "id": 107,
+                "name": "Business & services",
+              },
+              Object {
+                "id": 108,
+                "name": "Contractors",
+              },
+              Object {
+                "id": 109,
+                "name": "Manufacturing",
+              },
+              Object {
+                "id": 110,
+                "name": "Office supplies",
+              },
+              Object {
+                "id": 111,
+                "name": "Postal & shipping",
+              },
+              Object {
+                "id": 112,
+                "name": "Books & supplies",
+              },
+              Object {
+                "id": 113,
+                "name": "Financial & banking",
+              },
+              Object {
+                "id": 114,
+                "name": "Cash",
+              },
+              Object {
+                "id": 115,
+                "name": "Fees",
+              },
+              Object {
+                "id": 116,
+                "name": "Financial services",
+              },
+              Object {
+                "id": 117,
+                "name": "Income",
+              },
+              Object {
+                "id": 118,
+                "name": "Interest",
+              },
+              Object {
+                "id": 119,
+                "name": "Payments",
+              },
+              Object {
+                "id": 120,
+                "name": "Transfers",
+              },
+              Object {
+                "id": 121,
+                "name": "Withdrawals",
+              },
+              Object {
+                "id": 122,
+                "name": "Bars",
+              },
+              Object {
+                "id": 123,
+                "name": "Coffee shops",
+              },
+              Object {
+                "id": 124,
+                "name": "Food & drink",
+              },
+              Object {
+                "id": 125,
+                "name": "Restaurants",
+              },
+              Object {
+                "id": 126,
+                "name": "Fitness",
+              },
+              Object {
+                "id": 127,
+                "name": "Furnishings",
+              },
+              Object {
+                "id": 128,
+                "name": "Home maintenance",
+              },
+              Object {
+                "id": 129,
+                "name": "Home improvement",
+              },
+              Object {
+                "id": 130,
+                "name": "Home security",
+              },
+              Object {
+                "id": 131,
+                "name": "Religious",
+              },
+              Object {
+                "id": 132,
+                "name": "Toys",
+              },
+              Object {
+                "id": 133,
+                "name": "Personal",
+              },
+              Object {
+                "id": 134,
+                "name": "Charity",
+              },
+              Object {
+                "id": 135,
+                "name": "Gifts",
+              },
+              Object {
+                "id": 136,
+                "name": "Payroll & benefits",
+              },
+              Object {
+                "id": 137,
+                "name": "Personal care",
+              },
+              Object {
+                "id": 138,
+                "name": "Pet services",
+              },
+              Object {
+                "id": 139,
+                "name": "Shops",
+              },
+              Object {
+                "id": 140,
+                "name": "Arts & crafts",
+              },
+              Object {
+                "id": 141,
+                "name": "Clothing",
+              },
+              Object {
+                "id": 142,
+                "name": "Electronics",
+              },
+              Object {
+                "id": 143,
+                "name": "Hobbies",
+              },
+              Object {
+                "id": 144,
+                "name": "Parking",
+              },
+              Object {
+                "id": 145,
+                "name": "Taxi & ride sharing",
+              },
+              Object {
+                "id": 146,
+                "name": "Travel",
+              },
+              Object {
+                "id": 147,
+                "name": "Vehicle rentals",
+              },
+              Object {
+                "id": 148,
+                "name": "Boats & cruises",
+              },
+              Object {
+                "id": 149,
+                "name": "Lodging",
+              },
+              Object {
+                "id": 150,
+                "name": "Vacation",
+              },
+              Object {
+                "id": 151,
+                "name": "Television",
+              },
+              Object {
+                "id": 152,
+                "name": "Entertainment & recreation",
+              },
+            ],
+            "name": "Wants",
+            "targetAmount": "-400",
+            "type": "expense",
+          },
+        ],
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;

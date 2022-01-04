@@ -23,6 +23,7 @@ export interface InputTextProps {
   disabled?: boolean;
   readOnly?: boolean;
   setRef?: any;
+  placeholder?: string;
 }
 
 const InputText = ({
@@ -33,6 +34,7 @@ const InputText = ({
   required = false,
   disabled = false,
   setRef = null,
+  placeholder,
 }: InputTextProps) => (
   <InputElement
     name={name}
@@ -43,6 +45,7 @@ const InputText = ({
     disabled={disabled}
     readOnly={disabled}
     step={type === 'number' ? 'any' : undefined}
+    placeholder={placeholder}
   />
 );
 

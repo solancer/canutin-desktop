@@ -5,7 +5,7 @@ import { grey20, grey40 } from '@app/constants/colors';
 export const container = css`
   .select {
     &__control {
-      min-width: 128px;
+      min-width: 144px;
       border-width: 1px;
       height: 100%;
       min-height: 30px;

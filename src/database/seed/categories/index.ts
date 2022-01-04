@@ -145,7 +145,9 @@ const categoryList = {
         {
           name: 'Home improvement',
         },
-        { name: 'Home maintenance' },
+        {
+          name: 'Home maintenance',
+        },
         {
           name: 'Home security',
         },

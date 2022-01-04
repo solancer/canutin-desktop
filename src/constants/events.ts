@@ -10,6 +10,9 @@ export const DB_NEW_ACCOUNT_ACK = 'dbNewAccountAck';
 export const DB_GET_ACCOUNTS = 'dbGetAccounts';
 export const DB_GET_ACCOUNTS_ACK = 'dbGetAccountsAck';
 
+export const DB_GET_BUDGETS = 'dbGetBudgets';
+export const DB_GET_BUDGETS_ACK = 'dbGetBudgetsAck';
+
 export const DB_GET_ASSETS = 'dbGetAssets';
 export const DB_GET_ASSETS_ACK = 'dbGetAssetsAck';
 
@@ -46,8 +49,26 @@ export const DB_EDIT_ACCOUNT_DETAILS_ACK = 'dbEditAccountDetailsAck';
 export const DB_DELETE_ACCOUNT = 'dbDeleteAccount';
 export const DB_DELETE_ACCOUNT_ACK = 'dbDeleteAccountAck';
 
+export const DB_GET_TRANSACTION_CATEGORY = 'dbGetTransactionSubCategory';
+export const DB_GET_TRANSACTION_CATEGORY_ACK = 'dbGetTransactionSubCategoryAck';
+
+export const DB_GET_SETTINGS = 'dbGetSettings';
+export const DB_GET_SETTINGS_ACK = 'dbGetSettingsAck';
+
+export const DB_EDIT_BUDGET_GROUPS = 'dbEditBudgetGroups';
+export const DB_EDIT_BUDGET_GROUPS_ACK = 'dbEditBudgetGroupsAck';
+
+export const DB_EDIT_BUDGET_CATEGORY = 'dbEditBudgetCategory';
+export const DB_EDIT_BUDGET_CATEGORY_ACK = 'dbEditBudgetCategoryAck';
+
+export const DB_REMOVE_BUDGET_CATEGORY = 'dbRemoveBudgetCategory';
+export const DB_REMOVE_BUDGET_CATEGORY_ACK = 'dbRemoveBudgetCategoryAck';
+
 export const DB_SEED_VAULT = 'dbSeedVault';
 export const DB_SEED_VAULT_ACK = 'dbSeedVaultAck';
+
+export const DB_EDIT_SETTINGS = 'dbEditSettings';
+export const DB_EDIT_SETTINGS_ACK = 'dbEditSettingsAck';
 
 // Import Wizard
 export const IMPORT_SOURCE_FILE = 'importSourceFile';

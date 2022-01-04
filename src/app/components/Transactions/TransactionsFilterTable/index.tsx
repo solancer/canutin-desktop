@@ -13,45 +13,20 @@ import {
 } from './TransactionsFilterTableCells';
 import TransactionsGlobalFilter from '../TransactionsGlobalFilter';
 import TransactionsFilterSummary from '../TransactionsFilterSummary';
+import { container, filterContainer } from './styles';
 import {
-  container,
-  filterContainer,
-  tableHeaderRow,
-  tableHeaderItem,
-  tableContainer,
-  tableSortIcon,
-  row,
-  rowItem,
-  tableEmptyCard,
-} from './styles';
-import EmptyCard from '@components/common/EmptyCard';
+  TableOuterContainer,
+  TableInnerContainer,
+  TableHeaderRow,
+  TableHeaderItem,
+  TableSortIcon,
+  Row,
+  RowItem,
+  TableEmptyRow,
+} from '@app/components/common/Form/Table';
 
-const Container = styled.div`
-  ${container}
-`;
 const FilterContainer = styled.nav`
   ${filterContainer}
-`;
-const TableContainer = styled.table`
-  ${tableContainer}
-`;
-const TableHeaderRow = styled.tr`
-  ${tableHeaderRow}
-`;
-const TableHeaderItem = styled.th`
-  ${tableHeaderItem}
-`;
-const TableSortIcon = styled.div`
-  ${tableSortIcon}
-`;
-const Row = styled.tr`
-  ${row};
-`;
-const RowItem = styled.td`
-  ${rowItem}
-`;
-const TableEmptyCard = styled(EmptyCard)`
-  ${tableEmptyCard}
 `;
 
 interface TransactionsFilterTableProps {
@@ -141,7 +116,11 @@ const TransactionsFilterTable = ({
         return (
           <Row {...row.getRowProps()} data-testid="row-transaction">
             {row.cells.map(cell => {
-              return <RowItem {...cell.getCellProps()}>{cell.render('Cell')}</RowItem>;
+              return (
+                <RowItem {...cell.getCellProps()} alignRight={cell.column.Header === 'Amount'}>
+                  {cell.render('Cell')}
+                </RowItem>
+              );
             })}
           </Row>
         );
@@ -156,6 +135,7 @@ const TransactionsFilterTable = ({
             // Add the sorting props to control sorting. For this example
             // we can add them into the header props
             <TableHeaderItem
+              alignRight={column.Header === 'Amount'}
               isSorted={column.isSorted}
               {...column.getHeaderProps(column.getSortByToggleProps())}
             >
@@ -173,7 +153,7 @@ const TransactionsFilterTable = ({
   );
 
   return (
-    <Container>
+    <TableOuterContainer>
       <FilterContainer>
         {!withoutGlobalFilters && (
           <TransactionsGlobalFilter
@@ -187,14 +167,13 @@ const TransactionsFilterTable = ({
           transactionsCount={transactionsCount}
         />
       </FilterContainer>
-      {rows.length === 0 && <TableEmptyCard message="No transactions were found" />}
-      {rows.length !== 0 && (
-        <TableContainer {...getTableProps()}>
-          <thead>{RenderHeader()}</thead>
-          <tbody {...getTableBodyProps()}>{RenderRow()}</tbody>
-        </TableContainer>
-      )}
-    </Container>
+
+      <TableInnerContainer {...getTableProps()}>
+        <thead>{RenderHeader()}</thead>
+        {rows.length !== 0 && <tbody {...getTableBodyProps()}>{RenderRow()}</tbody>}
+        {rows.length === 0 && <TableEmptyRow message="No transactions were found" />}
+      </TableInnerContainer>
+    </TableOuterContainer>
   );
 };
 

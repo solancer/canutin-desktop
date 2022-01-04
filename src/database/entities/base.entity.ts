@@ -4,7 +4,7 @@ export abstract class Base extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @CreateDateColumn({ nullable: false })
+  @CreateDateColumn({ nullable: false,  })
   createdAt!: Date;
 
   @UpdateDateColumn({ nullable: false })

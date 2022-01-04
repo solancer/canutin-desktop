@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { CellProps } from 'react-table';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { formatDate } from '@app/utils/date.utils';
 import { Transaction } from '@database/entities';
-import { EntitiesContext } from '@app/context/entitiesContext';
 
 import NumberFormat from '@components/common/NumberFormat';
 

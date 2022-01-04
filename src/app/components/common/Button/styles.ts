@@ -5,7 +5,6 @@ import { grey20, grey40, grey70 } from '@appConstants/colors';
 
 export const container = css`
   ${sansSerifBold};
-  cursor: pointer;
   padding: 8px 16px;
   font-size: 12px;
   border-radius: 3px;

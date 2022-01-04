@@ -10,7 +10,6 @@ export const inputElement = css<{
 }>`
   ${inputShared};
   ${monospaceRegular};
-  min-height: 40px;
   background-color: ${whitePlain};
 
   ${({ disabled }) =>

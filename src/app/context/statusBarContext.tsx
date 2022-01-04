@@ -10,9 +10,9 @@ import {
 import { StatusEnum } from '@app/constants/misc';
 
 export interface StatusMessageProps {
-  sentiment: StatusEnum;
   message: string | ReactNode;
   isLoading: boolean;
+  sentiment?: StatusEnum;
 }
 
 interface StatusBarContextValue {
@@ -22,7 +22,7 @@ interface StatusBarContextValue {
   setBreadcrumbs: (_: string[] | ReactNode) => void;
 }
 
-export const emptyStatusMessage = { sentiment: StatusEnum.NEUTRAL, message: '', isLoading: false };
+export const emptyStatusMessage = { message: '', isLoading: false };
 
 export const StatusBarContext = createContext<StatusBarContextValue>({
   statusMessage: emptyStatusMessage,

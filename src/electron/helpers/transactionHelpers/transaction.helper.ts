@@ -11,7 +11,6 @@ export const filterTransactions = async (
 ) => {
   try {
     const transactions = await TransactionRepository.getFilterTransactions(filter);
-
     win?.webContents.send(FILTER_TRANSACTIONS_ACK, {
       transactions,
       status: StatusEnum.POSITIVE,

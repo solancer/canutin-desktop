@@ -39,6 +39,8 @@ import {
   DB_EDIT_TRANSACTION_ACK,
   DB_DELETE_TRANSACTION,
   DB_DELETE_TRANSACTION_ACK,
+  DB_GET_TRANSACTION_CATEGORY,
+  DB_GET_TRANSACTION_CATEGORY_ACK,
   DB_EDIT_ACCOUNT_BALANCE,
   DB_EDIT_ACCOUNT_BALANCE_ACK,
   DB_EDIT_ACCOUNT_DETAILS,
@@ -58,9 +60,19 @@ import {
   DB_SEED_VAULT,
   DB_SEED_VAULT_ACK,
   APP_INFO,
+  DB_GET_BUDGETS,
+  DB_GET_BUDGETS_ACK,
+  DB_EDIT_BUDGET_GROUPS,
+  DB_EDIT_BUDGET_GROUPS_ACK,
+  DB_EDIT_BUDGET_CATEGORY,
+  DB_EDIT_BUDGET_CATEGORY_ACK,
+  DB_REMOVE_BUDGET_CATEGORY,
+  DB_REMOVE_BUDGET_CATEGORY_ACK,
+  DB_GET_SETTINGS,
+  DB_GET_SETTINGS_ACK,
 } from '@constants/events';
 import { DATABASE_PATH, NEW_DATABASE } from '@constants';
-import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
+import { EVENT_ERROR, EVENT_SUCCESS, EVENT_NEUTRAL } from '@constants/eventStatus';
 import { CanutinFileType, UpdatedAccount } from '@appTypes/canutinFile.type';
 import { enumExtensionFiles, enumImportTitleOptions, WindowControlEnum } from '@appConstants/misc';
 import { FilterTransactionInterface, NewTransactionType } from '@appTypes/transaction.type';
@@ -91,14 +103,20 @@ import { TransactionRepository } from '@database/repositories/transaction.reposi
 import seedCategories from '@database/seed/seedCategories';
 import seedAssetTypes from '@database/seed/seedAssetTypes';
 import seedAccountTypes from '@database/seed/seedAccountTypes';
+import seedSettings from '@database/seed/seedSettings';
 import seedDemoData from '@database/seed/seedDemoData';
 import { AccountRepository } from '@database/repositories/account.repository';
 import {
   AssetEditDetailsSubmitType,
   AssetEditValueSubmitType,
   NewAssetType,
-} from '@appTypes/asset.type';
-import { NewAccountType } from '@appTypes/account.type';
+} from '../types/asset.type';
+import { NewAccountType } from '../types/account.type';
+import { BudgetRepository } from '@database/repositories/budget.repository';
+import { SettingsRepository } from '@database/repositories/settings.repository';
+import { EditBudgetCategorySubmitType } from '@app/components/Budget/TransactionCategoriesForm';
+import { CategoryRepository } from '@database/repositories/category.repository';
+import { EditBudgetType } from '@app/components/Budget/EditBudgetGroups';
 
 let win: BrowserWindow | null = null;
 
@@ -110,6 +128,7 @@ const setupEvents = async () => {
       });
 
       if (filePath) await connectAndSaveDB(win, filePath);
+      await seedSettings();
       await seedCategories();
       await seedAssetTypes();
       await seedAccountTypes();
@@ -227,11 +246,76 @@ const setupDbEvents = async () => {
     await getAssets();
   });
 
+  ipcMain.on(DB_GET_BUDGETS, async (_: IpcMainEvent) => {
+    await getBudgets();
+  });
+
+  ipcMain.on(DB_EDIT_BUDGET_GROUPS, async (_: IpcMainEvent, editBudgets: EditBudgetType) => {
+    try {
+      await SettingsRepository.editSettings(
+        editBudgets.autoBudgetField === 'Enabled' ? true : false
+      );
+      await BudgetRepository.editBudgets(editBudgets);
+      await getSettings();
+      await getBudgets();
+      win?.webContents.send(DB_EDIT_BUDGET_GROUPS_ACK, { status: EVENT_SUCCESS });
+    } catch (e) {
+      win?.webContents.send(DB_EDIT_BUDGET_GROUPS_ACK, {
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
+
+  ipcMain.on(
+    DB_EDIT_BUDGET_CATEGORY,
+    async (_: IpcMainEvent, editBudgetCategorySubmit: EditBudgetCategorySubmitType) => {
+      try {
+        await BudgetRepository.addBudgetCategory(editBudgetCategorySubmit);
+        await getBudgets();
+        win?.webContents.send(DB_EDIT_BUDGET_CATEGORY_ACK, { status: EVENT_SUCCESS });
+      } catch (e) {
+        if (e instanceof QueryFailedError) {
+          win?.webContents.send(DB_EDIT_BUDGET_CATEGORY_ACK, {
+            status: EVENT_NEUTRAL,
+            message: 'The category is already assigned to the budget',
+          });
+        } else {
+          win?.webContents.send(DB_EDIT_BUDGET_CATEGORY_ACK, {
+            status: EVENT_ERROR,
+            message: 'An error occurred, please try again',
+          });
+        }
+      }
+    }
+  );
+
+  ipcMain.on(
+    DB_REMOVE_BUDGET_CATEGORY,
+    async (_: IpcMainEvent, editBudgetCategorySubmit: EditBudgetCategorySubmitType) => {
+      try {
+        await BudgetRepository.removeBudgetCategory(editBudgetCategorySubmit);
+        await getBudgets();
+        win?.webContents.send(DB_REMOVE_BUDGET_CATEGORY_ACK, { status: EVENT_SUCCESS });
+      } catch (e) {
+        win?.webContents.send(DB_EDIT_BUDGET_CATEGORY_ACK, {
+          status: EVENT_NEUTRAL,
+          message: 'The category is not assigned to any expense group',
+        });
+      }
+    }
+  );
+
+  ipcMain.on(DB_GET_SETTINGS, async (_: IpcMainEvent) => {
+    await getSettings();
+  });
+
   ipcMain.on(DB_NEW_TRANSACTION, async (_: IpcMainEvent, transaction: NewTransactionType) => {
     try {
       const newTransaction = await TransactionRepository.createTransaction(transaction);
       win?.webContents.send(DB_NEW_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
       await getAccounts();
+      await getBudgets();
     } catch (e) {
       if (e instanceof QueryFailedError) {
         win?.webContents.send(DB_NEW_TRANSACTION_ACK, {
@@ -252,6 +336,7 @@ const setupDbEvents = async () => {
       const newTransaction = await TransactionRepository.editTransaction(transaction);
       win?.webContents.send(DB_EDIT_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
       await getAccounts();
+      await getBudgets();
     } catch (e) {
       win?.webContents.send(DB_EDIT_TRANSACTION_ACK, {
         status: EVENT_ERROR,
@@ -267,6 +352,7 @@ const setupDbEvents = async () => {
         await TransactionRepository.deleteTransaction(transactionId);
         win?.webContents.send(DB_DELETE_TRANSACTION_ACK, { status: EVENT_SUCCESS });
         await getAccounts();
+        await getBudgets();
       } catch (e) {
         win?.webContents.send(DB_DELETE_TRANSACTION_ACK, {
           status: EVENT_ERROR,
@@ -275,6 +361,11 @@ const setupDbEvents = async () => {
       }
     }
   );
+
+  ipcMain.on(DB_GET_TRANSACTION_CATEGORY, async (_: IpcMainEvent, subCategoryName: string) => {
+    const subCategory = await CategoryRepository.getSubCategory(subCategoryName);
+    win?.webContents.send(DB_GET_TRANSACTION_CATEGORY_ACK, subCategory);
+  });
 
   ipcMain.on(
     DB_EDIT_ACCOUNT_BALANCE,
@@ -286,6 +377,7 @@ const setupDbEvents = async () => {
           status: EVENT_SUCCESS,
         });
         await getAccounts();
+        await getBudgets();
       } catch (e) {
         win?.webContents.send(DB_EDIT_ACCOUNT_BALANCE_ACK, {
           status: EVENT_ERROR,
@@ -305,6 +397,7 @@ const setupDbEvents = async () => {
           status: EVENT_SUCCESS,
         });
         await getAccounts();
+        await getBudgets();
       } catch (e) {
         win?.webContents.send(DB_EDIT_ACCOUNT_DETAILS_ACK, {
           status: EVENT_ERROR,
@@ -319,6 +412,7 @@ const setupDbEvents = async () => {
       await AccountRepository.deleteAccount(accountId);
       win?.webContents.send(DB_DELETE_ACCOUNT_ACK, { status: EVENT_SUCCESS });
       await getAccounts();
+      await getBudgets();
     } catch (e) {
       win?.webContents.send(DB_DELETE_ACCOUNT_ACK, {
         status: EVENT_ERROR,
@@ -385,6 +479,7 @@ const setupDbEvents = async () => {
     await seedDemoData();
     await getAccounts();
     await getAssets();
+    await getBudgets();
     win?.webContents.send(DB_SEED_VAULT_ACK, { status: EVENT_SUCCESS });
   });
 
@@ -418,6 +513,16 @@ const getAccounts = async () => {
 const getAssets = async () => {
   const assets = await AssetRepository.getAssets();
   win?.webContents.send(DB_GET_ASSETS_ACK, assets);
+};
+
+const getBudgets = async () => {
+  const budgets = await BudgetRepository.getBudgets();
+  win?.webContents.send(DB_GET_BUDGETS_ACK, budgets);
+};
+
+const getSettings = async () => {
+  const settings = await SettingsRepository.getSettings();
+  win?.webContents.send(DB_GET_SETTINGS_ACK, settings);
 };
 
 const createWindow = async () => {

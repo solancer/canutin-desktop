@@ -61,9 +61,7 @@ const handleCanutinFileTransactions = async (
 ) => {
   const transactions = await Promise.all(
     canutinFileTransactions.map(async canutinFileTransaction => {
-      const category = await CategoryRepository.getOrCreateSubCategory(
-        canutinFileTransaction.category
-      );
+      const category = await CategoryRepository.getSubCategory(canutinFileTransaction.category);
 
       return new Transaction(
         canutinFileTransaction.description,

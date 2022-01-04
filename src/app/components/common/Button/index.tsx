@@ -14,7 +14,7 @@ export interface ButtonProps {
 }
 
 const Button = ({ children, onClick, disabled = false }: ButtonProps) => (
-  <Container onClick={!disabled && onClick ? () => onClick() : () => {}} disabled={disabled}>
+  <Container onClick={!disabled && onClick ? () => onClick() : () => {}} disabled={disabled} type="button">
     {children}
   </Container>
 );

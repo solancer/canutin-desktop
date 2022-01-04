@@ -1,4 +1,13 @@
-import { subMonths, subYears, startOfMonth, endOfMonth, startOfYear, endOfYear } from 'date-fns';
+import {
+  subMonths,
+  subYears,
+  startOfMonth,
+  endOfMonth,
+  startOfYear,
+  endOfYear,
+  eachMonthOfInterval,
+  format,
+} from 'date-fns';
 
 const today = new Date();
 const thisMonthFrom = startOfMonth(today);
@@ -53,3 +62,10 @@ export const filterOptions = filters.map(({ label, dateFrom, dateTo }) => ({
   value: { dateFrom, dateTo },
   label,
 }));
+
+export const budgetFilterOptions = eachMonthOfInterval({ end: today, start: subMonths(today, 12) })
+  .map(date => ({
+    value: { dateFrom: startOfMonth(date), dateTo: endOfMonth(date) },
+    label: format(date, 'MMMM yyyy'),
+  }))
+  .reverse();

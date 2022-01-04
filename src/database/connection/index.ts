@@ -17,6 +17,7 @@ import {
   AccountType,
   TransactionSubCategory,
   AssetBalanceStatement,
+  Settings
 } from '../entities';
 
 export const dbConfig = {
@@ -34,6 +35,7 @@ export const dbConfig = {
     AccountType,
     TransactionSubCategory,
     AssetBalanceStatement,
+    Settings
   ],
 };
 
@@ -45,6 +47,7 @@ const connection = {
         callback(connection);
       }
     } catch (error) {
+      console.log('Error', error)
       if (error instanceof AlreadyHasActiveConnectionError) {
         return;
       }

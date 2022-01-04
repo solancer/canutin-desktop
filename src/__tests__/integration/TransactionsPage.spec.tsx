@@ -2,6 +2,7 @@ import { screen } from '@testing-library/react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 import { mocked } from 'ts-jest/utils';
 import userEvent from '@testing-library/user-event';
+import 'jest-styled-components';
 import { endOfDay, startOfDay } from 'date-fns';
 
 // Fixes `ReferenceError: regeneratorRuntime is not defined` error on `useAsyncDebounce`.
@@ -236,7 +237,7 @@ describe('Transactions tests', () => {
     const spyOnIpcRenderer = jest.spyOn(ipcRenderer, 'send');
     const { dateFrom, dateTo } = filters.find(filter => {
       return filter.label === 'Last 6 months';
-    });
+    })!;
     expect(spyOnIpcRenderer).toBeCalledWith(FILTER_TRANSACTIONS, {
       dateFrom: dateFrom,
       dateTo: dateTo,

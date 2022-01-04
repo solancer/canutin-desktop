@@ -2,6 +2,7 @@ import { screen } from '@testing-library/react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 import { mocked } from 'ts-jest/utils';
 import userEvent from '@testing-library/user-event';
+import 'jest-styled-components';
 
 import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK } from '@constants/events';
 import { DATABASE_CONNECTED } from '@constants';
