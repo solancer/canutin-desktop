@@ -71,7 +71,7 @@ import {
   DB_GET_SETTINGS,
   DB_GET_SETTINGS_ACK,
 } from '@constants/events';
-import { DATABASE_PATH, NEW_DATABASE } from '@constants';
+import { DATABASE_PATH } from '@constants';
 import { EVENT_ERROR, EVENT_SUCCESS, EVENT_NEUTRAL } from '@constants/eventStatus';
 import { CanutinFileType, UpdatedAccount } from '@appTypes/canutinFile.type';
 import { enumExtensionFiles, enumImportTitleOptions, WindowControlEnum } from '@appConstants/misc';
@@ -132,7 +132,6 @@ const setupEvents = async () => {
       await seedCategories();
       await seedAssetTypes();
       await seedAccountTypes();
-      win.webContents.send(NEW_DATABASE);
     }
   });
 

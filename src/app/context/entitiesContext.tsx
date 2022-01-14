@@ -22,23 +22,23 @@ import {
 } from '@app/utils/budget.utils';
 
 export interface AccountsIndex {
-  lastUpdate: Date;
+  lastUpdate: Date | null;
   accounts: Account[];
 }
 
 interface AssetsIndex {
-  lastUpdate: Date;
+  lastUpdate: Date | null;
   assets: Asset[];
 }
 
 export interface BudgetsIndex {
-  lastUpdate: Date;
+  lastUpdate: Date | null;
   autoBudgets: Budget[];
   userBudgets: Budget[];
 }
 
 interface SettingsIndex {
-  lastUpdate: Date;
+  lastUpdate: Date | null;
   settings: Settings;
 }
 
@@ -49,10 +49,10 @@ interface EntitiesContextValue {
   settingsIndex: SettingsIndex | null;
 }
 
-const defaultAssetsIndex = { assets: [], lastUpdate: new Date() };
-const defaultAccountsIndex = { accounts: [], lastUpdate: new Date() };
-const defaultBudgetsIndex = { autoBudgets: [], userBudgets: [], lastUpdate: new Date() };
-const defaultSettingsIndex = { settings: { autoBudget: true } as Settings, lastUpdate: new Date() };
+const defaultAssetsIndex = { assets: [], lastUpdate: null };
+const defaultAccountsIndex = { accounts: [], lastUpdate: null };
+const defaultBudgetsIndex = { autoBudgets: [], userBudgets: [], lastUpdate: null };
+const defaultSettingsIndex = { settings: { autoBudget: true } as Settings, lastUpdate: null };
 
 export const EntitiesContext = createContext<EntitiesContextValue>({
   assetsIndex: defaultAssetsIndex,
@@ -70,6 +70,15 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
 
   // Get accounts, assets & settings
   useEffect(() => {
+    if (!filePath) {
+      return;
+    }
+
+    setAccountsIndex(defaultAccountsIndex);
+    setAssetsIndex(defaultAssetsIndex);
+    setSettingsIndex(defaultSettingsIndex);
+    setBudgetsIndex(defaultBudgetsIndex);
+
     setTimeout(() => {
       AccountIpc.getAccounts();
       AssetIpc.getAssets();
@@ -91,6 +100,7 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
     return () => {
       ipcRenderer.removeAllListeners(DB_GET_ASSETS_ACK);
       ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_SETTINGS_ACK);
     };
   }, [filePath]);
 
@@ -132,6 +142,7 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
     });
 
     return () => {
+      ipcRenderer.removeAllListeners(DB_GET_TRANSACTION_CATEGORY_ACK);
       ipcRenderer.removeAllListeners(DB_GET_BUDGETS_ACK);
     };
   }, [accountsIndex]);

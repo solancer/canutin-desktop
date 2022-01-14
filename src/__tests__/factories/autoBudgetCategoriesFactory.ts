@@ -1,14 +1,9 @@
-import { Transaction } from '@database/entities';
 import { autoBudgetNeedsCategories, autoBudgetWantsCategories } from '@app/utils/budget.utils';
+import { SeedTransaction, SeedTransactionCategory } from './entitiesFactory';
 
-interface FakeCategoryProps {
-  id: number;
-  name: string;
-}
-
-export const autoBudgetCategoriesBuilder = (transactions: Transaction[]) => {
-  const needsCategories = [] as FakeCategoryProps[];
-  const wantsCategories = [] as FakeCategoryProps[];
+export const autoBudgetCategoriesBuilder = (transactions: SeedTransaction[]) => {
+  const needsCategories = [] as SeedTransactionCategory[];
+  const wantsCategories = [] as SeedTransactionCategory[];
 
   autoBudgetNeedsCategories.forEach(autoBudgetCategory => {
     const lastCategoryId = needsCategories?.[needsCategories.length - 1]?.id;
@@ -28,15 +23,15 @@ export const autoBudgetCategoriesBuilder = (transactions: Transaction[]) => {
     wantsCategories.push(newCategory);
   });
 
-  const transactionsWithCategories = [] as any[];
+  const transactionsWithCategories = [] as SeedTransaction[];
   transactions.map(transaction => {
     let transactionCategory = needsCategories.find(
-      ({ name }) => name === transaction.category.name
+      ({ name }) => name === transaction.category?.name
     );
 
     !transactionCategory &&
       (transactionCategory = wantsCategories.find(
-        ({ name }) => name === transaction.category.name
+        ({ name }) => name === transaction.category?.name
       ));
 
     !transactionCategory && (transactionCategory = { id: 1000, name: 'Uncategorized' });

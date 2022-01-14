@@ -31,6 +31,7 @@ const NavItem = ({ icon, text, toggled, to, dataTestId, disabled = false }: NavI
       to={to}
       disabled={disabled}
       data-testid={dataTestId}
+      replace
     >
       {icon}
       <Text toggled={toggled}>{text}</Text>

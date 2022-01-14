@@ -4,19 +4,23 @@ import { mocked } from 'ts-jest/utils';
 import userEvent from '@testing-library/user-event';
 import { endOfDay, format, startOfDay, subMonths } from 'date-fns';
 
-import { render } from '@tests/utils';
-import App from '@components/App';
+import { initAppWith, initAppWithContexts } from '@tests/utils/initApp.utils';
+
 import {
   DB_GET_ACCOUNTS_ACK,
+  DB_GET_ASSETS_ACK,
+  DB_GET_SETTINGS_ACK,
   DB_GET_BUDGETS_ACK,
   DB_GET_TRANSACTION_CATEGORY_ACK,
   FILTER_TRANSACTIONS_ACK,
 } from '@constants/events';
 import { DATABASE_CONNECTED } from '@constants';
-import { AppCtxProvider } from '@app/context/appContext';
-import { EntitiesProvider } from '@app/context/entitiesContext';
-import { TransactionsProvider } from '@app/context/transactionsContext';
-import { seedAccounts } from '@tests/factories/seededEntitiesFactory';
+
+import {
+  seedAccounts,
+  seedMinimumAccount,
+  SeedTransaction,
+} from '@tests/factories/entitiesFactory';
 import { autoBudgetCategoriesBuilder } from '@tests/factories/autoBudgetCategoriesFactory';
 import {
   accountCheckingDetails,
@@ -33,33 +37,9 @@ import { dateInUTC } from '@app/utils/date.utils';
 import mapCategories from '@database/helpers/importResources/mapCategories';
 import BudgetIpc from '@app/data/budget.ipc';
 
-const initAppWithContexts = () => {
-  render(
-    <AppCtxProvider>
-      <EntitiesProvider>
-        <TransactionsProvider>
-          <App />
-        </TransactionsProvider>
-      </EntitiesProvider>
-    </AppCtxProvider>
-  );
-};
-
 describe('Budget tests', () => {
-  const minimumAccount = [{ ...accountCheckingDetails, transactions: [] }];
-
   test("Sidebar link can't be clicked if no accounts or assets are present", async () => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, {
-          filePath: 'testFilePath',
-        });
-      }
-
-      return ipcRenderer;
-    });
-
-    initAppWithContexts();
+    initAppWith({});
     const budgetSidebarLink = screen.getByTestId('sidebar-budget');
     expect(budgetSidebarLink).toHaveAttribute('disabled');
 
@@ -68,27 +48,10 @@ describe('Budget tests', () => {
   });
 
   test('Budget page displays an empty view when no enough data is available', async () => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, {
-          filePath: 'testFilePath',
-        });
-      }
-
-      if (event === DB_GET_ACCOUNTS_ACK) {
-        callback((event as unknown) as IpcRendererEvent, minimumAccount);
-      }
-
-      if (event === FILTER_TRANSACTIONS_ACK) {
-        callback((event as unknown) as IpcRendererEvent, { transactions: [] });
-      }
-
-      return ipcRenderer;
-    });
-
-    initAppWithContexts();
+    initAppWith({ accounts: seedMinimumAccount });
     const budgetSidebarLink = screen.getByTestId('sidebar-budget');
     expect(budgetSidebarLink).not.toHaveAttribute('disabled');
+    expect(budgetSidebarLink).toHaveAttribute('href', '#/budget');
 
     userEvent.click(budgetSidebarLink);
     expect(budgetSidebarLink).toHaveAttribute('active', '1');
@@ -108,7 +71,7 @@ describe('Budget tests', () => {
   });
 
   test('Budget page displays the correct data when auto-budget is enabled', async () => {
-    let oneMonthOfTransactions = accountCheckingTransactionSet()
+    let oneMonthOfTransactions: SeedTransaction[] = accountCheckingTransactionSet()
       .filter(transaction => {
         // Mimic the logic in `TransactionRepository.getFilterTransactions()`
         const dateFrom = dateInUTC(startOfDay(filters[0].dateFrom));
@@ -180,6 +143,18 @@ describe('Budget tests', () => {
         callback((event as unknown) as IpcRendererEvent, seedAccounts);
       }
 
+      if (event === DB_GET_ASSETS_ACK) {
+        callback((event as unknown) as IpcRendererEvent);
+      }
+
+      if (event === DB_GET_SETTINGS_ACK) {
+        callback((event as unknown) as IpcRendererEvent, { autoBudget: true });
+      }
+
+      if (event === DB_GET_BUDGETS_ACK) {
+        callback((event as unknown) as IpcRendererEvent, []);
+      }
+
       if (event === FILTER_TRANSACTIONS_ACK) {
         callback((event as unknown) as IpcRendererEvent, {
           transactions: oneMonthOfTransactions,
@@ -193,10 +168,6 @@ describe('Budget tests', () => {
         wantsCategories.forEach(category => {
           callback((event as unknown) as IpcRendererEvent, category);
         });
-      }
-
-      if (event === DB_GET_BUDGETS_ACK) {
-        callback((event as unknown) as IpcRendererEvent, []);
       }
 
       return ipcRenderer;

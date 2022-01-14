@@ -1,42 +1,13 @@
 import { screen } from '@testing-library/react';
-import { ipcRenderer, IpcRendererEvent } from 'electron';
-import { mocked } from 'ts-jest/utils';
 import userEvent from '@testing-library/user-event';
 import 'jest-styled-components';
 
-import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK } from '@constants/events';
-import { DATABASE_CONNECTED } from '@constants';
-import { AppCtxProvider } from '@app/context/appContext';
-import { EntitiesProvider } from '@app/context/entitiesContext';
-import { render } from '@tests/utils';
-import App from '@components/App';
-
-import { seedAccounts, seedAssets } from '@tests/factories/seededEntitiesFactory';
-import { accountCheckingDetails } from '@database/seed/demoData/accounts';
-
-const initAppWithContexts = () => {
-  render(
-    <AppCtxProvider>
-      <EntitiesProvider>
-        <App />
-      </EntitiesProvider>
-    </AppCtxProvider>
-  );
-};
+import { seedAccounts, seedAssets, seedMinimumAccount } from '@tests/factories/entitiesFactory';
+import { initAppWith } from '@tests/utils/initApp.utils';
 
 describe('Balance sheet tests', () => {
   test("Sidebar link can't be clicked if no accounts or assets are present", async () => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, {
-          filePath: 'testFilePath',
-        });
-      }
-
-      return ipcRenderer;
-    });
-
-    initAppWithContexts();
+    initAppWith({});
     const balanceSheetSidebarLink = screen.getByTestId('sidebar-balance-sheet');
     expect(balanceSheetSidebarLink).toHaveAttribute('active', '0');
     expect(balanceSheetSidebarLink).toHaveAttribute('disabled');
@@ -46,23 +17,7 @@ describe('Balance sheet tests', () => {
   });
 
   test('Balance sheet page displays an empty view when no enough data is available', async () => {
-    const minimumAccount = [{ ...accountCheckingDetails, transactions: [] }];
-
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, {
-          filePath: 'testFilePath',
-        });
-      }
-
-      if (event === DB_GET_ACCOUNTS_ACK) {
-        callback((event as unknown) as IpcRendererEvent, minimumAccount);
-      }
-
-      return ipcRenderer;
-    });
-
-    initAppWithContexts();
+    initAppWith({ accounts: seedMinimumAccount });
     userEvent.click(screen.getByTestId('sidebar-big-picture')); // Resets path back to the default
     const balanceSheetSidebarLink = screen.getByTestId('sidebar-balance-sheet');
     expect(balanceSheetSidebarLink).toHaveAttribute('active', '0');
@@ -98,25 +53,7 @@ describe('Balance sheet tests', () => {
   });
 
   test('Balance sheet page displays the correct data', async () => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, {
-          filePath: 'testFilePath',
-        });
-      }
-
-      if (event === DB_GET_ACCOUNTS_ACK) {
-        callback((event as unknown) as IpcRendererEvent, seedAccounts);
-      }
-
-      if (event === DB_GET_ASSETS_ACK) {
-        callback((event as unknown) as IpcRendererEvent, seedAssets);
-      }
-
-      return ipcRenderer;
-    });
-
-    initAppWithContexts();
+    initAppWith({ accounts: seedAccounts, assets: seedAssets });
     userEvent.click(screen.getByTestId('sidebar-big-picture')); // Resets path back to the default
     const balanceSheetSidebarLink = screen.getByTestId('sidebar-balance-sheet');
     expect(balanceSheetSidebarLink).toHaveAttribute('active', '0');

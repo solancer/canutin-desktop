@@ -1,27 +1,8 @@
 import { screen } from '@testing-library/react';
-import { ipcRenderer, IpcRendererEvent } from 'electron';
-import { mocked } from 'ts-jest/utils';
 import userEvent from '@testing-library/user-event';
 
-import { DB_GET_ACCOUNTS_ACK, DB_GET_ASSETS_ACK } from '@constants/events';
-import { DATABASE_CONNECTED } from '@constants';
-import { AppCtxProvider } from '@app/context/appContext';
-import { EntitiesProvider } from '@app/context/entitiesContext';
-import { render } from '@tests/utils';
-import App from '@components/App';
-
-import { seedAccounts, seedAssets } from '@tests/factories/seededEntitiesFactory';
-import { accountCheckingDetails } from '@database/seed/demoData/accounts';
-
-const initAppWithContexts = () => {
-  render(
-    <AppCtxProvider>
-      <EntitiesProvider>
-        <App />
-      </EntitiesProvider>
-    </AppCtxProvider>
-  );
-};
+import { seedAccounts, seedAssets, seedMinimumAccount } from '@tests/factories/entitiesFactory';
+import { initAppWith } from '@tests/utils/initApp.utils';
 
 describe('Big picture tests', () => {
   const bigPictureCashflowChartPeriodMonths = [
@@ -40,18 +21,7 @@ describe('Big picture tests', () => {
   ];
 
   test("Sidebar link can't be clicked if no accounts or assets are present", async () => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, {
-          filePath: 'testFilePath',
-        });
-      }
-
-      return ipcRenderer;
-    });
-
-    initAppWithContexts();
-
+    initAppWith({});
     const bigPictureSidebarLink = screen.getByTestId('sidebar-big-picture');
     expect(bigPictureSidebarLink).toHaveAttribute('disabled');
 
@@ -60,24 +30,7 @@ describe('Big picture tests', () => {
   });
 
   test('Big picture page displays an empty view when no enough data is available', async () => {
-    const minimumAccount = [{ ...accountCheckingDetails, transactions: [] }];
-
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, {
-          filePath: 'testFilePath',
-        });
-      }
-
-      if (event === DB_GET_ACCOUNTS_ACK) {
-        callback((event as unknown) as IpcRendererEvent, minimumAccount);
-      }
-
-      return ipcRenderer;
-    });
-
-    initAppWithContexts();
-
+    initAppWith({ accounts: seedMinimumAccount });
     const bigPictureSidebarLink = screen.getByTestId('sidebar-big-picture');
     expect(bigPictureSidebarLink).not.toHaveAttribute('disabled');
 
@@ -122,29 +75,10 @@ describe('Big picture tests', () => {
   });
 
   test('Big picture page displays the correct data', async () => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, {
-          filePath: 'testFilePath',
-        });
-      }
-
-      if (event === DB_GET_ACCOUNTS_ACK) {
-        callback((event as unknown) as IpcRendererEvent, seedAccounts);
-      }
-
-      if (event === DB_GET_ASSETS_ACK) {
-        callback((event as unknown) as IpcRendererEvent, seedAssets);
-      }
-
-      return ipcRenderer;
-    });
-
-    initAppWithContexts();
-
+    initAppWith({ accounts: seedAccounts, assets: seedAssets });
     const bigPictureSidebarLink = screen.getByTestId('sidebar-big-picture');
     expect(bigPictureSidebarLink).toHaveAttribute('toggled', '1');
-    expect(bigPictureSidebarLink).toHaveAttribute('active', '0');
+    expect(bigPictureSidebarLink).toHaveAttribute('active', '1');
     expect(bigPictureSidebarLink).not.toHaveAttribute('disabled');
 
     userEvent.click(bigPictureSidebarLink);
