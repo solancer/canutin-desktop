@@ -50,7 +50,6 @@ const Budget = () => {
     periodSavingsAmount,
     periodOutOfBudgetAmount,
     periodExpenseGroups,
-    periodTransactions,
     isLoading,
     autoBudget,
   } = useBudget();
@@ -62,7 +61,7 @@ const Budget = () => {
         subTitle={autoBudget ? 'Auto-budget' : 'Custom budget'}
         headerNav={<BudgetHeaderButtons />}
       >
-        {!isLoading && targetIncomeAmount > 0 && periodTransactions.length > 0 && (
+        {!isLoading && targetIncomeAmount > 0 && (
           <>
             <BudgetThisMonthContainer>
               {isThisMonth(budgetFilterOption?.value?.dateFrom) && (

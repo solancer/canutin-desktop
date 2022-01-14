@@ -13,7 +13,7 @@ import {
 } from './TransactionsFilterTableCells';
 import TransactionsGlobalFilter from '../TransactionsGlobalFilter';
 import TransactionsFilterSummary from '../TransactionsFilterSummary';
-import { container, filterContainer } from './styles';
+import { filterContainer } from './styles';
 import {
   TableOuterContainer,
   TableInnerContainer,

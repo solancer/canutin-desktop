@@ -4,50 +4,28 @@ import { mocked } from 'ts-jest/utils';
 import userEvent from '@testing-library/user-event';
 import selectEvent from 'react-select-event';
 
-import App from '@components/App';
-import { AppCtxProvider } from '@app/context/appContext';
-import { DATABASE_CONNECTED } from '@constants';
 import { StatusEnum } from '@app/constants/misc';
 import {
   IMPORT_SOURCE_FILE,
   IMPORT_SOURCE_FILE_ACK,
   ANALYZE_SOURCE_FILE_ACK,
-  DB_GET_ACCOUNTS_ACK,
 } from '@constants/events';
-import { accountBuilder } from '@tests/factories/accountFactory';
-import { render } from '@tests/utils';
 
 import canutinFile from '../data/canutinFile.json';
 import csvMetadata from '../data/csvMetadata.json';
 import csvSourceData from '../data/csvSourceData.json';
-
-const initImportWizard = () => {
-  render(
-    <AppCtxProvider>
-      <App />
-    </AppCtxProvider>
-  );
-
-  const addAccountsOrAssetsButton = screen.getByTestId('sidebar-add-account-or-assets');
-
-  if (addAccountsOrAssetsButton) {
-    userEvent.click(addAccountsOrAssetsButton);
-  }
-  const onImportWizard = screen.getByRole('button', { name: /Import Wizard/i });
-  userEvent.click(onImportWizard);
-};
+import { initAppWith } from '@tests/utils/initApp.utils';
 
 describe('Import Wizard tests', () => {
+  beforeEach(() => {
+    initAppWith({});
+    const addAccountsOrAssetsSidebarLink = screen.getByTestId('sidebar-add-account-or-assets');
+    userEvent.click(addAccountsOrAssetsSidebarLink);
+    const onImportWizard = screen.getByRole('button', { name: /Import Wizard/i });
+    userEvent.click(onImportWizard);
+  });
+
   test('Check import wizard options', async () => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
-      }
-
-      return ipcRenderer;
-    });
-
-    initImportWizard();
     expect(screen.getAllByRole('radio')).toHaveLength(4);
     const canutinFileOption = screen.getByLabelText('CanutinFile (JSON)');
     const mintOption = screen.getByLabelText('Mint.com (CSV)');
@@ -80,15 +58,6 @@ describe('Import Wizard tests', () => {
   });
 
   test('Import canutin file', async () => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
-      }
-
-      return ipcRenderer;
-    });
-
-    initImportWizard();
     const canutinFileOption = screen.getByLabelText('CanutinFile (JSON)');
     userEvent.click(canutinFileOption);
     const chooseButton = screen.getByRole('button', { name: /Choose/i });
@@ -103,15 +72,6 @@ describe('Import Wizard tests', () => {
   });
 
   test('Import Mint file', async () => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
-      }
-
-      return ipcRenderer;
-    });
-
-    initImportWizard();
     const mintFileOption = screen.getByLabelText('Mint.com (CSV)');
     userEvent.click(mintFileOption);
     const chooseButton = screen.getByRole('button', { name: /Choose/i });
@@ -126,15 +86,6 @@ describe('Import Wizard tests', () => {
   });
 
   test('Import Personal capital file', async () => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
-      }
-
-      return ipcRenderer;
-    });
-
-    initImportWizard();
     const personalCapitalOption = screen.getByLabelText('Personal Capital (CSV)');
     userEvent.click(personalCapitalOption);
     const chooseButton = screen.getByRole('button', { name: /Choose/i });
@@ -149,11 +100,9 @@ describe('Import Wizard tests', () => {
   });
 
   test('Import option with data source', async () => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
-      }
+    const personalCapitalOption = screen.getByLabelText('Personal Capital (CSV)');
 
+    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === IMPORT_SOURCE_FILE_ACK) {
         callback((event as unknown) as IpcRendererEvent, { filePath: 'testPath' });
       }
@@ -169,8 +118,6 @@ describe('Import Wizard tests', () => {
       return ipcRenderer;
     });
 
-    initImportWizard();
-    const personalCapitalOption = screen.getByLabelText('Personal Capital (CSV)');
     userEvent.click(personalCapitalOption);
     expect(screen.getByText(/testpath/i)).not.toBeNull();
     expect(
@@ -187,12 +134,9 @@ describe('Import Wizard tests', () => {
   });
 
   test('Other CSV Form', async () => {
-    const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation(message => {});
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
-      }
+    const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation(message => {}); // Clears console warnings
 
+    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === IMPORT_SOURCE_FILE_ACK) {
         callback((event as unknown) as IpcRendererEvent, { filePath: 'testPath' });
       }
@@ -205,15 +149,9 @@ describe('Import Wizard tests', () => {
         });
       }
 
-      if (event === DB_GET_ACCOUNTS_ACK) {
-        const accountMock = accountBuilder();
-        callback((event as unknown) as IpcRendererEvent, [accountMock]);
-      }
-
       return ipcRenderer;
     });
 
-    initImportWizard();
     const otherCSVOption = screen.getByLabelText('Other CSV');
     userEvent.click(otherCSVOption);
     expect(screen.getByText(/testpath/i)).not.toBeNull();
@@ -232,7 +170,6 @@ describe('Import Wizard tests', () => {
     const accountInstitution = screen.getByLabelText('Account institution / Optional');
     const accountBalance = screen.getByLabelText(/Account balance/i);
     const autoCalculated = screen.getByLabelText('Auto-calculate from transactions');
-
     expect(matchColumns).toBeInTheDocument();
     expect(dateColumn).toBeInTheDocument();
     expect(dateFormat).toBeInTheDocument();
@@ -255,8 +192,10 @@ describe('Import Wizard tests', () => {
     expect(screen.queryByLabelText(/Account balance/i)).not.toBeInTheDocument();
     expect(screen.queryByLabelText('Account institution / Optional')).not.toBeInTheDocument();
     expect(screen.queryByText('Choose types for new accounts')).toBeInTheDocument();
+
     await selectEvent.select(categoryColumn, 'Category');
     expect(screen.queryByText('Match categories')).toBeInTheDocument();
+
     await selectEvent.select(dateColumn, 'Date');
     await selectEvent.select(amountColumn, 'Amount');
     await selectEvent.select(descriptionColumn, 'Description');
@@ -264,14 +203,20 @@ describe('Import Wizard tests', () => {
 
     await selectEvent.clearAll(categoryColumn);
     expect(continueButton).not.toBeDisabled();
+
     await selectEvent.clearAll(accountColumn);
     expect(continueButton).toBeDisabled();
-    userEvent.type(accountName, 'Test account');
-    await selectEvent.select(screen.getByLabelText('Account type'), 'Checking');
-    userEvent.type(accountInstitution, 'Test Institution');
+
+    userEvent.type(accountName, "Bob's Juggernaut Visa");
+    await selectEvent.select(screen.getByLabelText('Account type'), 'Credit card');
+    userEvent.type(accountInstitution, 'Juggernaut Bank');
     userEvent.click(autoCalculated);
     expect(autoCalculated).not.toBeChecked();
-    userEvent.type(accountBalance, '123');
+
+    userEvent.type(accountBalance, '-2500');
+    // FIXME: add assertions for:
+    // - `expect(continueButton).not.toBeDisabled();`
+    // - Clicking "continue" fires `LOAD_FROM_CANUTIN_FILE` event with the proper data
 
     consoleSpy.mockRestore();
   });

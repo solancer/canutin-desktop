@@ -22,7 +22,7 @@ import { StatusEnum } from '@app/constants/misc';
 
 const AddAccountOrAsset = () => {
   const { push } = useHistory();
-  const { isDbEmpty } = useContext(AppContext);
+  const { isDbEmpty, setIsDbEmpty } = useContext(AppContext);
   const { setStatusMessage } = useContext(StatusBarContext);
 
   const seedVault = () => {
@@ -42,9 +42,14 @@ const AddAccountOrAsset = () => {
           sentiment: StatusEnum.POSITIVE,
           isLoading: false,
         });
+        setIsDbEmpty(false);
         push(routesPaths.balance);
       }
     });
+
+    return () => {
+      ipcRenderer.removeAllListeners(DB_SEED_VAULT_ACK);
+    };
   }, []);
 
   return (

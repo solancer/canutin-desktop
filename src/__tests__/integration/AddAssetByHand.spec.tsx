@@ -1,54 +1,33 @@
 import { screen, waitFor } from '@testing-library/react';
-import { ipcRenderer, IpcRendererEvent } from 'electron';
-import { mocked } from 'ts-jest/utils';
+import { ipcRenderer } from 'electron';
 import userEvent from '@testing-library/user-event';
 import selectEvent from 'react-select-event';
 
-import App from '@components/App';
-import { AppCtxProvider } from '@app/context/appContext';
-import { DATABASE_CONNECTED } from '@constants';
-import { DB_GET_ACCOUNTS_ACK, DB_NEW_ASSET } from '@constants/events';
-import { accountBuilder } from '@tests/factories/accountFactory';
-
-import { render } from '@tests/utils';
+import { DB_NEW_ASSET } from '@constants/events';
+import { initAppWith } from '@tests/utils/initApp.utils';
 
 describe('Add asset by Hand tests', () => {
-  const accountMock = accountBuilder();
-
   beforeEach(() => {
-    mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-      if (event === DATABASE_CONNECTED) {
-        callback((event as unknown) as IpcRendererEvent, { filePath: 'testFilePath' });
-      }
+    initAppWith({});
+    const addAccountsOrAssetsSidebarLink = screen.getByTestId('sidebar-add-account-or-assets');
+    userEvent.click(addAccountsOrAssetsSidebarLink);
+  });
 
-      if (event === DB_GET_ACCOUNTS_ACK) {
-        callback((event as unknown) as IpcRendererEvent, [accountMock]);
-      }
-
-      return ipcRenderer;
-    });
-    render(
-      <AppCtxProvider>
-        <App />
-      </AppCtxProvider>
-    );
-
-    const addAccountsOrAssetsButton = screen.getByTestId('sidebar-add-account-or-assets');
-
-    if (addAccountsOrAssetsButton) {
-      userEvent.click(addAccountsOrAssetsButton);
-    }
-    const onCreateNewAccountByHand = screen.getByRole('button', { name: /By hand/i });
-    userEvent.click(onCreateNewAccountByHand);
+  test('Sidebar link can be clicked if no accounts or assets are present', async () => {
+    const addAccountsOrAssetsSidebarLink = screen.getByTestId('sidebar-add-account-or-assets');
+    expect(addAccountsOrAssetsSidebarLink).toHaveAttribute('active', '1');
+    expect(addAccountsOrAssetsSidebarLink).not.toHaveAttribute('disabled');
+    expect(addAccountsOrAssetsSidebarLink).toHaveAttribute('href', '#/addAccountOrAsset');
   });
 
   test('Create new asset with Vehicle category', async () => {
-    const addAssetByHandOptions = screen.getByLabelText('Asset');
-    userEvent.click(addAssetByHandOptions);
+    const buttonAddByHand = screen.getByText('By hand');
+    expect(buttonAddByHand).toBeInTheDocument();
+
+    userEvent.click(buttonAddByHand);
+    userEvent.click(screen.getByLabelText('Asset'));
     const spySendIpcRenderer = jest.spyOn(ipcRenderer, 'send');
-    const addAccountsOrAssetsButton = screen.getByTestId('sidebar-add-account-or-assets');
     expect(screen.getByRole('form')).toHaveFormValues({});
-    expect(addAccountsOrAssetsButton).toHaveAttribute('href', '#/addAccountOrAsset');
 
     await selectEvent.select(screen.getByLabelText('Asset type'), 'Vehicle');
 
@@ -59,19 +38,19 @@ describe('Add asset by Hand tests', () => {
     const continueButton = screen.getByRole('button', { name: /Continue/i });
     expect(continueButton).toBeDisabled();
 
-    userEvent.type(nameInput, 'Test asset');
-    userEvent.type(valueInput, '200');
+    userEvent.type(nameInput, '2022 Ford F-150');
+    userEvent.type(valueInput, '77970');
 
     await waitFor(() => {
-      expect(nameInput).toHaveValue('Test asset');
-      expect(valueInput).toHaveValue('+$200');
+      expect(nameInput).toHaveValue('2022 Ford F-150');
+      expect(valueInput).toHaveValue('+$77,970');
       expect(continueButton).not.toBeDisabled();
     });
 
     userEvent.click(continueButton);
     await waitFor(() => {
       expect(spySendIpcRenderer).toHaveBeenLastCalledWith(DB_NEW_ASSET, {
-        name: 'Test asset',
+        name: '2022 Ford F-150',
         assetType: 'vehicle',
         sold: false,
         balanceStatements: [
@@ -79,7 +58,7 @@ describe('Add asset by Hand tests', () => {
             createdAt: expect.any(Number),
             quantity: undefined,
             cost: undefined,
-            value: '200',
+            value: '77970',
           },
         ],
       });
@@ -87,8 +66,11 @@ describe('Add asset by Hand tests', () => {
   });
 
   test('Create new asset with Cryptocurrency category', async () => {
-    const addAssetByHandOptions = screen.getByLabelText('Asset');
-    userEvent.click(addAssetByHandOptions);
+    const buttonAddByHand = screen.getByText('By hand');
+    expect(buttonAddByHand).toBeInTheDocument();
+
+    userEvent.click(buttonAddByHand);
+    userEvent.click(screen.getByLabelText('Asset'));
     const spySendIpcRenderer = jest.spyOn(ipcRenderer, 'send');
     expect(screen.getByRole('form')).toHaveFormValues({});
 
@@ -102,37 +84,35 @@ describe('Add asset by Hand tests', () => {
 
     // Optional fields
     const symbolInput = screen.getByLabelText('Symbol / Optional');
-
     const continueButton = screen.getByRole('button', { name: /Continue/i });
     expect(continueButton).toBeDisabled();
     expect(valueInput).toBeDisabled();
 
-    userEvent.type(nameInput, 'Test Cryptocurrency');
+    userEvent.type(nameInput, 'Bitcoin');
     userEvent.type(quantityInput, '2');
-    userEvent.type(costInput, '200');
+    userEvent.type(costInput, '50000');
 
     await waitFor(() => {
-      expect(nameInput).toHaveValue('Test Cryptocurrency');
-      expect(valueInput).toHaveValue('$400');
+      expect(nameInput).toHaveValue('Bitcoin');
+      expect(valueInput).toHaveValue('$100,000');
       expect(continueButton).not.toBeDisabled();
     });
 
-    userEvent.type(symbolInput, 'USD');
-
+    userEvent.type(symbolInput, 'BTC');
     userEvent.click(continueButton);
     await waitFor(() => {
       expect(spySendIpcRenderer).toHaveBeenLastCalledWith(DB_NEW_ASSET, {
-        name: 'Test Cryptocurrency',
+        name: 'Bitcoin',
         balanceGroup: undefined,
         assetType: 'cryptocurrency',
-        symbol: 'USD',
+        symbol: 'BTC',
         sold: false,
         balanceStatements: [
           {
             createdAt: expect.any(Number),
             quantity: '2',
-            cost: '200',
-            value: '400',
+            cost: '50000',
+            value: '100000',
           },
         ],
       });

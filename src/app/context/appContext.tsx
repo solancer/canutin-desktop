@@ -18,7 +18,7 @@ export const AppContext = createContext<AppContextValue>({
   setIsAppInitialized: () => {},
   filePath: null,
   setFilePath: () => {},
-  isDbEmpty: false,
+  isDbEmpty: true,
   setIsDbEmpty: () => {},
 });
 
@@ -26,7 +26,7 @@ export const AppCtxProvider = ({ children }: PropsWithChildren<Record<string, un
   const [isLoading, setIsLoading] = useState(true);
   const [isAppInitialized, setIsAppInitialized] = useState(false);
   const [filePath, setFilePath] = useState<string | null>(null);
-  const [isDbEmpty, setIsDbEmpty] = useState(false);
+  const [isDbEmpty, setIsDbEmpty] = useState(true);
 
   const value = {
     isLoading,

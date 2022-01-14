@@ -1,3 +1,12 @@
+import { fromUnixTime } from 'date-fns';
+
+import {
+  CanutinFileAccountBalanceStatementType,
+  CanutinFileAssetBalanceStatementType,
+} from '@appTypes/canutinFile.type';
+import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
+import { dateInUTC } from '@app/utils/date.utils';
+
 import {
   accountCheckingDetails,
   accountSavingsDetails,
@@ -32,16 +41,55 @@ import {
   assetCollectibleBalanceStatements,
   assetVehicleBalanceStatements,
 } from '@database/seed/demoData/balanceStatements';
-import { fromUnixTime } from 'date-fns';
-import {
-  CanutinFileAccountBalanceStatementType,
-  CanutinFileAssetBalanceStatementType,
-  CanutinFileTransactionType,
-} from '@appTypes/canutinFile.type';
-import { dateInUTC } from '@app/utils/date.utils';
 
-// FIXME: Should be `transactions: CanutinFileTransactionType[]`
-const handleTransactionsSet = (transactions: any[]) =>
+interface SeedType {
+  name: string;
+}
+
+interface SeedBalanceStatement {
+  createdAt: Date;
+  quantity?: number;
+  cost?: number;
+  value?: number;
+}
+
+export interface SeedTransactionCategory {
+  id?: number;
+  name: string;
+}
+
+export interface SeedTransaction {
+  description: string;
+  amount: number;
+  date: Date;
+  categoryName: string;
+  excludeFromTotals: boolean;
+  category?: SeedTransactionCategory;
+  account?: SeedAccount;
+}
+
+export interface SeedAccount {
+  name: string;
+  balanceGroup: BalanceGroupEnum;
+  autoCalculated: boolean;
+  closed: boolean;
+  accountType: string | SeedType;
+  officialName?: string;
+  institution?: string;
+  transactions?: SeedTransaction[];
+  balanceStatements?: SeedBalanceStatement[];
+}
+
+export interface SeedAsset {
+  name: string;
+  balanceGroup: BalanceGroupEnum;
+  assetType: SeedType;
+  sold: boolean;
+  symbol?: string;
+  balanceStatements?: SeedBalanceStatement[];
+}
+
+const handleTransactionsSet = (transactions: SeedTransaction[]) =>
   transactions.map(transaction => ({
     ...transaction,
     date: dateInUTC(transaction.date),
@@ -63,7 +111,9 @@ const handleSeedBalanceStatements = (
     createdAt: fromUnixTime(balanceStatement.createdAt),
   }));
 
-export const seedAccounts = [
+export const seedMinimumAccount = [{ ...accountCheckingDetails, id: 1, transactions: [] }];
+
+export const seedAccounts: SeedAccount[] = [
   {
     ...accountCheckingDetails,
     accountType: { name: accountCheckingDetails.accountType },
@@ -108,41 +158,35 @@ export const seedAccounts = [
   },
 ];
 
-export const seedAssets = [
+export const seedAssets: SeedAsset[] = [
   {
     ...assetSecurityTeslaDetails,
     assetType: { name: assetSecurityTeslaDetails.assetType },
-    transactions: [],
     balanceStatements: handleSeedBalanceStatements(assetTeslaBalanceStatements),
   },
   {
     ...assetSecurityGamestopDetails,
     assetType: { name: assetSecurityGamestopDetails.assetType },
-    transactions: [],
     balanceStatements: handleSeedBalanceStatements(assetGamestopBalanceStatements),
   },
   {
     ...assetCryptoBitcoinDetails,
     assetType: { name: assetCryptoBitcoinDetails.assetType },
-    transactions: [],
     balanceStatements: handleSeedBalanceStatements(assetBitcoinBalanceStatements),
   },
   {
     ...assetCryptoEthereumDetails,
     assetType: { name: assetCryptoEthereumDetails.assetType },
-    transactions: [],
     balanceStatements: handleSeedBalanceStatements(assetEthereumBalanceStatements),
   },
   {
     ...assetCollectibleDetails,
     assetType: { name: assetCollectibleDetails.assetType },
-    transactions: [],
     balanceStatements: handleSeedBalanceStatements(assetCollectibleBalanceStatements),
   },
   {
     ...assetVehicleDetails,
     assetType: { name: assetVehicleDetails.assetType },
-    transactions: [],
     balanceStatements: handleSeedBalanceStatements(assetVehicleBalanceStatements),
   },
 ];

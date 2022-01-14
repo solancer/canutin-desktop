@@ -40,6 +40,7 @@ export const icon = css`
   padding: 16px;
   border-right: 1px solid ${grey10};
   cursor: pointer;
+  -webkit-app-region: no-drag;
 
   &:hover {
     background-color: ${grey3};

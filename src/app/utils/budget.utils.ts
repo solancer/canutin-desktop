@@ -111,7 +111,9 @@ export const getAutoBudgets = (
   accountsIndex: AccountsIndex,
   autoBudgetCategories: AutoBudgetCategoriesType
 ) => {
-  const transactions = accountsIndex?.accounts.map(account => account.transactions!).flat();
+  const transactions = accountsIndex?.accounts
+    ? accountsIndex?.accounts.map(account => account.transactions!).flat()
+    : [];
 
   const targetIncomeAmount = Math.round(
     transactions?.sort((a, b) => b.date.getTime() - a.date.getTime())

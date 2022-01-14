@@ -25,7 +25,7 @@ const useBudget = () => {
   const autoBudget = settingsIndex?.settings.autoBudget;
   const autoBudgetForPeriod = budgetsIndex?.autoBudgets;
   const userBudgetForPeriod =
-    budgetsIndex &&
+    budgetsIndex?.userBudgets &&
     getUserBudgetForPeriod(budgetsIndex.userBudgets, budgetFilterOption?.value.dateFrom);
 
   const {
