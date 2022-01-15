@@ -20,7 +20,7 @@ const AssetOverviewHeader = ({ filterOption, setFilterOption }: AssetOverviewHea
 
   return (
     <ButtonRow>
-      <Button onClick={() => history.push(routesPaths.addAccountOrAssetByWizard)}>
+      <Button onClick={() => history.push(routesPaths.addOrUpdateDataByWizard)}>
         Import Wizard
       </Button>
       <ButtonDivider />

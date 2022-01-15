@@ -17,7 +17,7 @@ const TransactionsHeaderButtons = () => {
   return (
     <ButtonRow>
       <Button onClick={() => history.push(routesPaths.addTransaction)}>Add transaction</Button>
-      <Button onClick={() => history.push(routesPaths.addAccountOrAssetByWizard)}>Import</Button>
+      <Button onClick={() => history.push(routesPaths.addOrUpdateDataByWizard)}>Import</Button>
       <ButtonDivider />
       <ButtonSelect
         options={filterOptions}
