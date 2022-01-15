@@ -105,7 +105,7 @@ const AccountEditBalanceForm = ({ account }: AccountEditBalanceFormProps) => {
             title="Closing account"
             description={
               <div>
-                Marking an account as closed will keep it’s balance history but won’t be updated any
+                Marking an account as closed will keep it's balance history but won't be updated any
                 more going forward.
               </div>
             }

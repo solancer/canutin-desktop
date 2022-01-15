@@ -86,7 +86,7 @@ const AddOrUpdateData = () => {
             <PrimaryCard
               icon={<Bot />}
               title="Unleash a bot"
-              subTitle="Attemp to grab accounts and transactions from your financial institution’s website"
+              subTitle="Attemp to grab accounts and transactions from your financial institution's website"
               onClick={() => {}}
               disabled
             />
