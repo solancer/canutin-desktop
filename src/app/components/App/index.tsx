@@ -104,7 +104,7 @@ const App = () => {
           {isAppInitialized && !isLoading && (
             <>
               <SideBar />
-              {isDbEmpty && <Redirect to={routesPaths.addAccountOrAsset} />}
+              {isDbEmpty && <Redirect to={routesPaths.addOrUpdateData} />}
               {!isDbEmpty && <Redirect to={routesPaths.index} />}
               <Switch>
                 {routesConfig.map(({ path, component, exact }: RouteConfigProps, index) => (

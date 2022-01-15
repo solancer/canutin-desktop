@@ -9,15 +9,15 @@ import { initAppWith } from '@tests/utils/initApp.utils';
 describe('Add asset by Hand tests', () => {
   beforeEach(() => {
     initAppWith({});
-    const addAccountsOrAssetsSidebarLink = screen.getByTestId('sidebar-add-account-or-assets');
+    const addAccountsOrAssetsSidebarLink = screen.getByTestId('sidebar-add-or-update-data');
     userEvent.click(addAccountsOrAssetsSidebarLink);
   });
 
   test('Sidebar link can be clicked if no accounts or assets are present', async () => {
-    const addAccountsOrAssetsSidebarLink = screen.getByTestId('sidebar-add-account-or-assets');
+    const addAccountsOrAssetsSidebarLink = screen.getByTestId('sidebar-add-or-update-data');
     expect(addAccountsOrAssetsSidebarLink).toHaveAttribute('active', '1');
     expect(addAccountsOrAssetsSidebarLink).not.toHaveAttribute('disabled');
-    expect(addAccountsOrAssetsSidebarLink).toHaveAttribute('href', '#/addAccountOrAsset');
+    expect(addAccountsOrAssetsSidebarLink).toHaveAttribute('href', '#/addOrUpdateData');
   });
 
   test('Create new asset with Vehicle category', async () => {

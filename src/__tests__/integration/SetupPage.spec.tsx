@@ -40,5 +40,5 @@ test('Setup Page in case there is a database set', async () => {
   expect(screen.getByText('Transactions')).toBeInTheDocument();
   expect(screen.getByText('Trends')).toBeInTheDocument();
   expect(screen.getByText('Settings')).toBeInTheDocument();
-  expect(screen.getAllByText(/Add accounts or assets/i)).toHaveLength(3);
+  expect(screen.getAllByText(/Add or update data/i)).toHaveLength(3);
 });

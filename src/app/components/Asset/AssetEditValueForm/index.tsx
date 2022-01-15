@@ -124,7 +124,7 @@ const AssetEditValueForm = ({ asset }: AssetEditValueFormProps) => {
             title="Selling asset"
             description={
               <div>
-                Marking an asset as sold will keep it’s balance history but won’t be updated any
+                Marking an asset as sold will keep it's balance history but won't be updated any
                 more going forward.
               </div>
             }

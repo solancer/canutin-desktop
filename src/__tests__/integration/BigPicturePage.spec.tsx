@@ -52,7 +52,7 @@ describe('Big picture tests', () => {
     const bigPictureCashflow = screen.getByTestId('big-picture-cashflow');
     expect(bigPictureCashflow).toBeVisible();
     expect(bigPictureCashflow).toHaveTextContent('Cashflow');
-    expect(bigPictureCashflow).toHaveTextContent('Not enough transactions to display this chart.');
+    expect(bigPictureCashflow).toHaveTextContent('Not enough transactions to display this chart');
     expect(bigPictureCashflow).not.toHaveTextContent('Jan');
     expect(bigPictureCashflow).not.toHaveTextContent('$');
 

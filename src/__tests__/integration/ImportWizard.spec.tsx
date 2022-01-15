@@ -19,7 +19,7 @@ import { initAppWith } from '@tests/utils/initApp.utils';
 describe('Import Wizard tests', () => {
   beforeEach(() => {
     initAppWith({});
-    const addAccountsOrAssetsSidebarLink = screen.getByTestId('sidebar-add-account-or-assets');
+    const addAccountsOrAssetsSidebarLink = screen.getByTestId('sidebar-add-or-update-data');
     userEvent.click(addAccountsOrAssetsSidebarLink);
     const onImportWizard = screen.getByRole('button', { name: /Import Wizard/i });
     userEvent.click(onImportWizard);

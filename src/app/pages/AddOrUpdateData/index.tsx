@@ -20,7 +20,7 @@ import { EVENT_SUCCESS } from '@constants/eventStatus';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { StatusEnum } from '@app/constants/misc';
 
-const AddAccountOrAsset = () => {
+const AddOrUpdateData = () => {
   const { push } = useHistory();
   const { isDbEmpty, setIsDbEmpty } = useContext(AppContext);
   const { setStatusMessage } = useContext(StatusBarContext);
@@ -53,7 +53,7 @@ const AddAccountOrAsset = () => {
   }, []);
 
   return (
-    <ScrollView title="Add accounts or assets" wizard={true}>
+    <ScrollView title="Add or update data" wizard={true}>
       <SectionRow>
         {isDbEmpty && (
           <Section title="Seed vault">
@@ -71,13 +71,13 @@ const AddAccountOrAsset = () => {
               icon={<Sheet />}
               title="Import wizard"
               subTitle="Import data from sites like Mint, Personal Capital, YNAB, etc..."
-              onClick={() => push(routesPaths.addAccountOrAssetByWizard)}
+              onClick={() => push(routesPaths.addOrUpdateDataByWizard)}
             />
             <PrimaryCard
               icon={<Keyboard />}
               title="By hand"
-              subTitle="Create a new account by entering data manually."
-              onClick={() => push(routesPaths.addAccountOrAssetByHand)}
+              subTitle="Create a new account by entering data manually"
+              onClick={() => push(routesPaths.addOrUpdateDataByHand)}
             />
           </PrimaryCardRow>
         </Section>
@@ -86,14 +86,14 @@ const AddAccountOrAsset = () => {
             <PrimaryCard
               icon={<Bot />}
               title="Unleash a bot"
-              subTitle="Attemp to grab accounts and transactions from your financial institution’s website."
+              subTitle="Attemp to grab accounts and transactions from your financial institution's website"
               onClick={() => {}}
               disabled
             />
             <PrimaryCard
               icon={<Lightning />}
               title="Canutin Link"
-              subTitle="Automatically import and sync accounts from your financial institution."
+              subTitle="Automatically import and sync accounts from your financial institution"
               onClick={() => {}}
               disabled
             />
@@ -104,4 +104,4 @@ const AddAccountOrAsset = () => {
   );
 };
 
-export default AddAccountOrAsset;
+export default AddOrUpdateData;
