@@ -99,13 +99,3 @@ export const currentSettings = css`
   grid-gap: 4px;
   grid-auto-flow: column;
 `;
-
-export const currentSettingsLabel = css`
-  ${monospaceRegular};
-  font-size: 11px;
-  letter-spacing: -0.025em;
-  color: ${grey50};
-  background-color: ${grey7};
-  padding: 4px 8px;
-  border-radius: 4px;
-`;

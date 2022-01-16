@@ -52,6 +52,7 @@ const EditTransaction = () => {
     day: transaction.date.getUTCDate(),
     description: transaction.description,
     excludeFromTotals: transaction.excludeFromTotals,
+    pending: transaction.pending,
     id: transaction.id,
   };
 

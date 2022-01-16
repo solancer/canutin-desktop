@@ -90,10 +90,10 @@ const SideBar = () => {
       <NavItem icon={<Settings />} text="Settings" toggled={toggled} to={routesPaths.settings} />
       <NavItem
         icon={<AddIcon />}
-        text="Add accounts or assets"
+        text="Add or update data"
         toggled={toggled}
-        to={routesPaths.addAccountOrAsset}
-        dataTestId="sidebar-add-account-or-assets"
+        to={routesPaths.addOrUpdateData}
+        dataTestId="sidebar-add-or-update-data"
       />
     </Container>
   );

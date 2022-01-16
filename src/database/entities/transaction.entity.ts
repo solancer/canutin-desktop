@@ -18,6 +18,12 @@ export class Transaction extends Base {
   @Column()
   excludeFromTotals: boolean;
 
+  @Column()
+  pending: boolean;
+
+  @Column({ nullable: true })
+  importedAt?: Date;
+
   @ManyToOne(() => Account, account => account.transactions, {
     cascade: true,
   })
@@ -36,15 +42,19 @@ export class Transaction extends Base {
     date: Date,
     amount: number,
     excludeFromTotals: boolean,
+    pending: boolean,
     account: Account,
     category: TransactionSubCategory,
     createdAt: Date,
+    importedAt?: Date
   ) {
     super();
     this.description = description;
     this.date = date;
     this.amount = amount;
     this.excludeFromTotals = excludeFromTotals ? excludeFromTotals : false;
+    this.pending = pending ? pending : false;
+    this.importedAt = importedAt;
     this.account = account;
     this.category = category;
     this.createdAt = createdAt;

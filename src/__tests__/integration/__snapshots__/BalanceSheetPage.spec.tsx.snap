@@ -162,7 +162,7 @@ exports[`Balance sheet tests Balance sheet page displays an empty view when no e
           <div
             class="bIsif"
           >
-            No balances are available in this group.
+            No balances are available in this group
           </div>
         </div>
         <div
@@ -187,7 +187,7 @@ exports[`Balance sheet tests Balance sheet page displays an empty view when no e
           <div
             class="bIsif"
           >
-            No balances are available in this group.
+            No balances are available in this group
           </div>
         </div>
         <div
@@ -212,7 +212,7 @@ exports[`Balance sheet tests Balance sheet page displays an empty view when no e
           <div
             class="bIsif"
           >
-            No balances are available in this group.
+            No balances are available in this group
           </div>
         </div>
       </div>
@@ -1313,7 +1313,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
           <div
             class="bIsif"
           >
-            No balances are available in this group.
+            No balances are available in this group
           </div>
         </div>
       </div>
@@ -1424,7 +1424,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
           <div
             class="bIsif"
           >
-            No balances are available in this group.
+            No balances are available in this group
           </div>
         </div>
         <div
@@ -1449,7 +1449,7 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
           <div
             class="bIsif"
           >
-            No balances are available in this group.
+            No balances are available in this group
           </div>
         </div>
         <div

@@ -36,7 +36,7 @@ const TitleBar = () => {
   const [isMaximized, setIsMaximized] = useState(false);
 
   const windowControl = (action: WindowControlEnum) => {
-    WindowControlEnum.MAXIMIZE && setIsMaximized(!isMaximized);
+    action === WindowControlEnum.MAXIMIZE && setIsMaximized(!isMaximized);
     ipcRenderer.send(WINDOW_CONTROL, action);
   };
 

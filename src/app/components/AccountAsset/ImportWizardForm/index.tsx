@@ -29,6 +29,7 @@ import { routesPaths } from '@app/routes';
 import OtherCSVForm from './OtherCSVForm';
 import { generateSourceMessage } from './importWizardUtils';
 import sourceAlertsLookup from './dataSourceAlerts';
+import { AppContext } from '@app/context/appContext';
 
 const filePathStatusMessage = (status: StatusEnum, message?: string) => {
   if (message) {
@@ -60,6 +61,7 @@ export interface AnalyzeSourceFileType {
 
 const ImportWizardForm = () => {
   const history = useHistory();
+  const { setIsDbEmpty } = useContext(AppContext);
   const { accountsIndex, assetsIndex } = useContext(EntitiesContext);
   const { statusMessage, setStatusMessage } = useContext(StatusBarContext);
   const [source, setSource] = useState<enumImportTitleOptions | null>(null);
@@ -124,6 +126,7 @@ const ImportWizardForm = () => {
 
   useEffect(() => {
     if (statusMessage.isLoading) {
+      setIsDbEmpty(false);
       setStatusMessage({
         sentiment: StatusEnum.POSITIVE,
         message: 'The data was imported successfully',

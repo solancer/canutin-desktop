@@ -24,6 +24,7 @@ import FormFooter from '@components/common/Form/FormFooter';
 import SubmitButton from '@components/common/Form/SubmitButton';
 import InlineCheckbox from '@components/common/Form/Checkbox';
 import ToggleInputField from '@components/common/Form/ToggleInputField';
+import FieldNotice from '@components/common/Form/FieldNotice';
 
 import { dateField } from './styles';
 import { EntitiesContext } from '@app/context/entitiesContext';
@@ -45,6 +46,7 @@ type TransactionSubmitType = {
   day: number;
   description: string | null;
   excludeFromTotals: boolean;
+  pending?: boolean;
   id?: number;
 };
 
@@ -128,6 +130,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
     day,
     description,
     excludeFromTotals,
+    pending,
   }: TransactionSubmitType) => {
     const date = new Date(year, month, day);
     const transaction = {
@@ -137,6 +140,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
       date: dateInUTC(date),
       description,
       excludeFromTotals,
+      pending: initialState?.pending || false,
       id: initialState?.id,
     };
 
@@ -161,6 +165,21 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
         />
       </Fieldset>
       <Fieldset>
+        {initialState?.pending && (
+          <>
+            <InputTextField label="Status" name="status" value="Pending" disabled />
+            <FieldNotice
+              title="Transaction hasn't posted yet"
+              description={
+                <div>
+                  The transaction has been authorized by your financial institution but hasn't been
+                  finalized. Changes made to this transaction will be overwriten when the
+                  institution confirms the transaction.
+                </div>
+              }
+            />
+          </>
+        )}
         <InputTextField label="Description" name="description" register={register} />
         <Field label="Date" name="date">
           <DateField>

@@ -4,12 +4,13 @@ import styled from 'styled-components';
 
 import Breadcrumbs from '@components/common/Breadcrumbs';
 import Button from '@components/common/Button';
+import Tag from '@components/common/Tag';
 import { ReactComponent as Loading } from '@assets/icons/Loading.svg';
 
 import { emptyStatusMessage, StatusBarContext } from '@app/context/statusBarContext';
 import { routesConfig } from '@routes';
 
-import { container, currentSettings, currentSettingsLabel, statusMessage } from './styles';
+import { container, currentSettings, statusMessage } from './styles';
 import { StatusEnum } from '@app/constants/misc';
 
 const Container = styled.div`
@@ -20,9 +21,6 @@ const StatusMessage = styled.div`
 `;
 const CurrentSettings = styled.div`
   ${currentSettings}
-`;
-const CurrentSettingsLabel = styled.div`
-  ${currentSettingsLabel}
 `;
 
 export const SUCCESS_MESSAGE_TIMEOUT = 5000;
@@ -60,8 +58,8 @@ const StatusBar = () => {
         <>
           {breadcrumbs || <Breadcrumbs items={breadcrumbItems} />}
           <CurrentSettings>
-            <CurrentSettingsLabel>ENGLISH</CurrentSettingsLabel>
-            <CurrentSettingsLabel>USD $</CurrentSettingsLabel>
+            <Tag>ENGLISH</Tag>
+            <Tag>USD $</Tag>
           </CurrentSettings>
         </>
       )}

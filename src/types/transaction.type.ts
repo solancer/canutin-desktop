@@ -10,6 +10,8 @@ export type NewTransactionType = {
   categoryName: string;
   amount: number;
   excludeFromTotals: boolean;
+  pending: boolean;
+  importedAt?: Date;
   id?: number;
   createdAt?: number;
 };

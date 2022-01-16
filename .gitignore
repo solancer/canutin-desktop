@@ -25,6 +25,4 @@ yarn-error.log*
 
 # IDE
 .idea
-
-.env
 .vscode/settings.json

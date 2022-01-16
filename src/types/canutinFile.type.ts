@@ -4,8 +4,10 @@ export interface CanutinFileTransactionType {
   description: string;
   date: number;
   amount: number;
-  excludeFromTotals: boolean;
   category: string;
+  excludeFromTotals: boolean;
+  pending: boolean;
+  importedAt?: number;
   createdAt?: number;
 }
 

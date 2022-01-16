@@ -35,6 +35,7 @@ export const mintCsvToJson = (mintCsv: MintCsvEntryType[]) => {
         date: getUnixTime(parse(mintEntry.Date, 'M/dd/yyyy', new Date())),
         amount: mintEntry['Transaction Type'] === 'credit' ? mintEntry.Amount : -mintEntry.Amount,
         excludeFromTotals: false,
+        pending: false,
         category: mapCategories(mintEntry.Category),
       };
 

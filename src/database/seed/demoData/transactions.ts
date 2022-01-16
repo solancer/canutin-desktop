@@ -10,6 +10,7 @@ export const accountCheckingTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 0),
       categoryName: 'Rent',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Initech HR * Payroll',
@@ -17,6 +18,7 @@ export const accountCheckingTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 5),
       categoryName: 'Payroll & benefits',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Transfer to Ransack Savings',
@@ -24,6 +26,7 @@ export const accountCheckingTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 6),
       categoryName: 'Transfers',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Juggernaut Visa Payment',
@@ -31,6 +34,7 @@ export const accountCheckingTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 7),
       categoryName: 'Payments',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Initech HR * Payroll',
@@ -38,6 +42,7 @@ export const accountCheckingTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 20),
       categoryName: 'Payroll & benefits',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Transfer to Loot Financial',
@@ -45,6 +50,7 @@ export const accountCheckingTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 24),
       categoryName: 'Transfers',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Transfer to MegaCoin Exchange',
@@ -52,6 +58,7 @@ export const accountCheckingTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 27),
       categoryName: 'Transfers',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Toyota - TFS Payment',
@@ -59,6 +66,7 @@ export const accountCheckingTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 27),
       categoryName: 'Automotive',
       excludeFromTotals: false,
+      pending: false,
     },
   ];
 
@@ -78,6 +86,7 @@ export const accountSavingsTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 6),
       categoryName: 'Transfers',
       excludeFromTotals: false,
+      pending: false,
     },
   ];
 
@@ -97,6 +106,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 1),
       categoryName: 'Groceries',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Evergreen Market',
@@ -104,6 +114,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 7),
       categoryName: 'Groceries',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Evergreen Market',
@@ -111,6 +122,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 15),
       categoryName: 'Groceries',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Evergreen Market',
@@ -118,6 +130,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 23),
       categoryName: 'Groceries',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Chorizo King',
@@ -125,6 +138,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 3),
       categoryName: 'Food & drink',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Por Que No Los Tacos?',
@@ -132,6 +146,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 6),
       categoryName: 'Food & drink',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Mainely Lobster',
@@ -139,6 +154,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 10),
       categoryName: 'Restaurants',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: "Maria's Artisanal Gelato",
@@ -146,6 +162,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 11),
       categoryName: 'Food & drink',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Sunset Cafe',
@@ -153,6 +170,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 14),
       categoryName: 'Restaurants',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Stellar Burger',
@@ -160,6 +178,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 20),
       categoryName: 'Restaurants',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: "Roy's Steakhouse",
@@ -167,6 +186,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 25),
       categoryName: 'Restaurants',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Stellar Burger',
@@ -174,6 +194,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 27),
       categoryName: 'Restaurants',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'NetTV Max',
@@ -181,6 +202,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 2),
       categoryName: 'Subscriptions',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Store.com',
@@ -188,6 +210,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 12),
       categoryName: 'Shops',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Store.com',
@@ -195,6 +218,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 18),
       categoryName: 'Shops',
       excludeFromTotals: true,
+      pending: false,
     },
     {
       description: 'Store.com (Refund)',
@@ -202,6 +226,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 27),
       categoryName: 'Shops',
       excludeFromTotals: true,
+      pending: false,
     },
     {
       description: 'Florida Man (Gas & Convinience Store)',
@@ -209,6 +234,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 7),
       categoryName: 'Gas stations',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Florida Man (Gas & Convinience Store)',
@@ -216,6 +242,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 24),
       categoryName: 'Gas stations',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Patriot Insurance',
@@ -223,6 +250,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 2),
       categoryName: 'Insurance',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Horizon Wireless',
@@ -230,6 +258,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 15),
       categoryName: 'Internet & phone',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: i % 7 === 0 ? 'Hølm Home' : 'The Hardware Center',
@@ -237,6 +266,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 16),
       categoryName: i % 2 === 0 ? 'Furnishings' : 'Home maintenance',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: i % 5 === 0 ? 'ShortCircut Computers' : 'alphaStream',
@@ -244,6 +274,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 26),
       categoryName: i % 5 === 0 ? 'Electronics' : 'Music',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'PurpleShield Health',
@@ -251,6 +282,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 3),
       categoryName: 'Health',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: i % 7 === 0 ? 'Narby Warker' : "Stefano's Pizza by the Slice",
@@ -258,6 +290,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 13),
       categoryName: i % 7 === 0 ? 'Health' : 'Restaurants',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: i % 9 === 0 ? '9-5 Office Supplies' : 'Flix Movie Rentals',
@@ -265,6 +298,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 13),
       categoryName: i % 9 === 0 ? 'Office supplies' : 'Entertainment & recreation',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description:
@@ -273,6 +307,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 27),
       categoryName: i % 11 === 0 ? 'Internet & phone' : 'Financial & banking',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Ransack Bank Payment Received — Thank You',
@@ -280,6 +315,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 8),
       categoryName: 'Payments',
       excludeFromTotals: false,
+      pending: false,
     },
     {
       description: 'Juggernaut Visa Interest',
@@ -287,6 +323,7 @@ export const accountCreditCardTransactionSet = () => {
       date: addDays(startOfMonth(subMonths(new Date(), i)), 8),
       categoryName: 'Fees',
       excludeFromTotals: false,
+      pending: false,
     },
   ];
 

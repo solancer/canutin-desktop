@@ -5,16 +5,6 @@ import styled from 'styled-components';
 import { Transaction } from '@database/entities';
 
 import {
-  DateCell,
-  AmountCell,
-  DescriptionCell,
-  CategoryCell,
-  AccountCell,
-} from './TransactionsFilterTableCells';
-import TransactionsGlobalFilter from '../TransactionsGlobalFilter';
-import TransactionsFilterSummary from '../TransactionsFilterSummary';
-import { filterContainer } from './styles';
-import {
   TableOuterContainer,
   TableInnerContainer,
   TableHeaderRow,
@@ -24,9 +14,22 @@ import {
   RowItem,
   TableEmptyRow,
 } from '@app/components/common/Form/Table';
+import {
+  DateCell,
+  AmountCell,
+  DescriptionCell,
+  CategoryCell,
+  AccountCell,
+} from './TransactionsFilterTableCells';
+import TransactionsGlobalFilter from '../TransactionsGlobalFilter';
+import TransactionsFilterSummary from '../TransactionsFilterSummary';
+import { filterContainer, transactionRow } from './styles';
 
 const FilterContainer = styled.nav`
   ${filterContainer}
+`;
+const TransactionRow = styled(Row)`
+  ${transactionRow}
 `;
 
 interface TransactionsFilterTableProps {
@@ -114,7 +117,11 @@ const TransactionsFilterTable = ({
       rows.map(row => {
         prepareRow(row);
         return (
-          <Row {...row.getRowProps()} data-testid="row-transaction">
+          <TransactionRow
+            {...row.getRowProps()}
+            isPending={row.original.pending}
+            data-testid="row-transaction"
+          >
             {row.cells.map(cell => {
               return (
                 <RowItem {...cell.getCellProps()} alignRight={cell.column.Header === 'Amount'}>
@@ -122,7 +129,7 @@ const TransactionsFilterTable = ({
                 </RowItem>
               );
             })}
-          </Row>
+          </TransactionRow>
         );
       }),
     [prepareRow, rows]

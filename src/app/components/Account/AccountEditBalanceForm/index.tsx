@@ -89,9 +89,8 @@ const AccountEditBalanceForm = ({ account }: AccountEditBalanceFormProps) => {
             title="Balance history"
             description={
               <div>
-                Every time you manually update the balance of an account, a new balance statement
-                will be created for the current week period. You can see past balance statements in
-                the “Overview” tab.
+                Every time you manually update the balance of an account a new balance statement
+                will be created for the current week period.
               </div>
             }
           />
@@ -106,7 +105,7 @@ const AccountEditBalanceForm = ({ account }: AccountEditBalanceFormProps) => {
             title="Closing account"
             description={
               <div>
-                Marking an account as closed will keep it’s balance history but won’t be updated any
+                Marking an account as closed will keep it's balance history but won't be updated any
                 more going forward.
               </div>
             }

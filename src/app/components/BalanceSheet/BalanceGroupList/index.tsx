@@ -54,7 +54,7 @@ const BalanceGroupList = ({ type, balanceData, dataTestId }: BalanceGroupListPro
       />
       {!balanceData ||
         (Object.keys(balanceData).length === 0 && (
-          <EmptyCard message="No balances are available in this group." />
+          <EmptyCard message="No balances are available in this group" />
         ))}
       {balanceData &&
         sortBalanceDataByTotalAmount(balanceData).map(assetTypeName => (

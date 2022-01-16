@@ -6,9 +6,10 @@ import styled from 'styled-components';
 import { formatDate } from '@app/utils/date.utils';
 import { Transaction } from '@database/entities';
 
+import Tag from '@components/common/Tag';
 import NumberFormat from '@components/common/NumberFormat';
 
-import { amountCell, dateCell, cellField, linkCellField } from './styles';
+import { amountCell, dateCell, cellField, linkCellField, descriptionCellContainer } from './styles';
 import TextLink from '@app/components/common/TextLink';
 
 const AmountCellField = styled(NumberFormat)`
@@ -23,6 +24,9 @@ const CellField = styled.p`
 const LinkCellField = styled(Link)`
   ${linkCellField}
 `;
+const DescriptionCellContainer = styled.div`
+  ${descriptionCellContainer};
+`;
 
 export const DateCell = ({ value }: CellProps<Transaction>) => (
   <DateCellField>{formatDate(value)}</DateCellField>
@@ -31,7 +35,7 @@ export const DateCell = ({ value }: CellProps<Transaction>) => (
 export const AmountCell = ({
   value,
   row: {
-    original: { excludeFromTotals },
+    original: { excludeFromTotals, pending },
   },
 }: CellProps<Transaction>) => {
   return (
@@ -45,11 +49,18 @@ export const AmountCell = ({
 };
 
 export const DescriptionCell = ({ value, ...props }: CellProps<Transaction>) => (
-  <TextLink
-    pathname={`transactions/${props.row.original.description}`}
-    state={{ transaction: props.row.original }}
-    label={value}
-  />
+  <DescriptionCellContainer>
+    {props.row.original.pending && (
+      <Tag title="The transaction has been authorized by your financial institution but hasn't been finalized">
+        Pending
+      </Tag>
+    )}
+    <TextLink
+      pathname={`transactions/${props.row.original.description}`}
+      state={{ transaction: props.row.original }}
+      label={value}
+    />
+  </DescriptionCellContainer>
 );
 
 export const AccountCell = ({ value }: CellProps<Transaction>) => {

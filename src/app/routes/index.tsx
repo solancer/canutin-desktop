@@ -7,7 +7,7 @@ import Budget from '@pages/Budget';
 import Transactions from '@pages/Transactions';
 import AddTransactions from '@app/pages/AddTransaction';
 import Trends from '@pages/Trends';
-import AddAccountOrAsset from '@pages/AddAccountOrAsset';
+import AddOrUpdateData from '@app/pages/AddOrUpdateData';
 import AddAccountAssetByHand from '@pages/AddAccountAssetByHand';
 import AddAccountAssetByWizard from '@pages/AddAccountAssetByWizard';
 import Setup from '@pages/Setup';
@@ -26,14 +26,14 @@ export const rootRoutesPaths = {
   transactions: '/transactions',
   trends: '/trends',
   settings: '/settings',
-  addAccountOrAsset: '/addAccountOrAsset',
+  addOrUpdateData: '/addOrUpdateData',
 };
 
 export const routesPaths = {
   index: '/index.html',
   ...rootRoutesPaths,
-  addAccountOrAssetByHand: '/addAccountOrAsset/byHand',
-  addAccountOrAssetByWizard: '/addAccountOrAsset/byWizard',
+  addOrUpdateDataByHand: '/addOrUpdateData/byHand',
+  addOrUpdateDataByWizard: '/addOrUpdateData/byWizard',
   accountOverview: '/account/:accountName',
   assetOverview: '/asset/:assetName',
   addTransaction: '/transactions/addTransaction',
@@ -121,19 +121,19 @@ export const routesConfig: RouteConfigProps[] = [
     breadcrumb: 'Asset',
   },
   {
-    path: routesPaths.addAccountOrAsset,
+    path: routesPaths.addOrUpdateData,
     exact: true,
-    component: <AddAccountOrAsset />,
-    breadcrumb: 'Add accounts or assets',
+    component: <AddOrUpdateData />,
+    breadcrumb: 'Add or update data',
   },
   {
-    path: routesPaths.addAccountOrAssetByHand,
+    path: routesPaths.addOrUpdateDataByHand,
     exact: true,
     component: <AddAccountAssetByHand />,
     breadcrumb: 'By hand',
   },
   {
-    path: routesPaths.addAccountOrAssetByWizard,
+    path: routesPaths.addOrUpdateDataByWizard,
     exact: true,
     component: <AddAccountAssetByWizard />,
     breadcrumb: 'Import wizard',

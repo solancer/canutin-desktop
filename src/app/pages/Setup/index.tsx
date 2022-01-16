@@ -12,35 +12,21 @@ import PrimaryCardRow from '@components/common/PrimaryCardRow';
 import { ReactComponent as Vault } from '@assets/icons/Vault.svg';
 import { ReactComponent as Browse } from '@assets/icons/Browse.svg';
 import { OPEN_CREATE_VAULT, OPEN_EXISTING_VAULT } from '@constants/events';
-import { DATABASE_NOT_VALID } from '@constants';
-import { StatusEnum } from '@app/constants/misc';
 import { routesPaths } from '@routes';
-import { AppContext } from '@app/context/appContext';
 import { emptyStatusMessage, StatusBarContext } from '@app/context/statusBarContext';
 
 const noVaultBreadcrumbs = [{ breadcrumb: 'Canutin setup', path: '/' }];
 
 const Setup = () => {
-  const { setIsLoading } = useContext(AppContext);
   const { setStatusMessage, setBreadcrumbs } = useContext(StatusBarContext);
   const breadcrumbItems = useBreadcrumbs(noVaultBreadcrumbs, {
     excludePaths: Object.values(routesPaths),
   });
 
   useEffect(() => {
-    ipcRenderer.on(DATABASE_NOT_VALID, () => {
-      setIsLoading(false);
-      setStatusMessage({
-        sentiment: StatusEnum.NEGATIVE,
-        message: 'The chosen file is not a valid Canutin vault',
-        isLoading: false,
-      });
-    });
-
     setBreadcrumbs(<Breadcrumbs items={breadcrumbItems} />);
 
     return () => {
-      ipcRenderer.removeAllListeners(DATABASE_NOT_VALID);
       setStatusMessage(emptyStatusMessage);
       setBreadcrumbs(undefined);
     };
