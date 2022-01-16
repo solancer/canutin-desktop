@@ -239,10 +239,11 @@ describe('Transactions tests', () => {
       expect(spySendIpcRenderer).toHaveBeenLastCalledWith(DB_NEW_TRANSACTION, {
         accountId: 1,
         amount: -135.5,
-        date: dateInUTC(today),
         categoryName: 'Groceries',
+        date: dateInUTC(today),
         description: 'Evergreen Market',
         excludeFromTotals: false,
+        pending: false,
         id: undefined,
       });
     });

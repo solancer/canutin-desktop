@@ -32,6 +32,7 @@ export const personalCapitalCsvToJson = (personalCapitalCsv: PersonalCapitalCsvE
         date: getUnixTime(parse(personalCapEntry.Date, 'yyyy-MM-dd', new Date())),
         amount: personalCapEntry.Amount,
         excludeFromTotals: false,
+        pending: false,
         category: mapCategories(personalCapEntry.Category),
       };
       countTransactions++;

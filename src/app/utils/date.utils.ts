@@ -15,12 +15,12 @@ export const formatDate = (date: Date) => {
 export const getNumberOfWeeks = (from: Date, to: Date) =>
   differenceInCalendarWeeks(to, from, { weekStartsOn: 1 });
 
-export const createdAtDate = (createdAt?: number | Date) => {
-  if (!createdAt) {
+export const handleDate = (date?: number | Date) => {
+  if (!date) {
     return new Date();
-  } else if (typeof createdAt === 'number') {
-    return fromUnixTime(createdAt);
+  } else if (typeof date === 'number') {
+    return fromUnixTime(date);
   } else {
-    return createdAt;
+    return date;
   }
 };

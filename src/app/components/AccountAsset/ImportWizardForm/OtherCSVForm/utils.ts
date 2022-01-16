@@ -25,6 +25,7 @@ export const getTransactionsForOneAccount = (
     date: getUnixTime(parse(rowData[dateColumn], dateFormat, new Date())),
     amount: Number(rowData[amountColumn]),
     excludeFromTotals: false,
+    pending: false,
     category:
       categoryColumn && categoryValues ? categoryValues[rowData[categoryColumn]] : 'Uncategorized',
   }));
@@ -56,6 +57,7 @@ export const getTransactionsForAccountColumn = (
           date: getUnixTime(parse(rowData[dateColumn], dateFormat, new Date())),
           amount: Number(rowData[amountColumn]),
           excludeFromTotals: false,
+          pending: false,
           category:
             categoryColumn && categoryValues
               ? categoryValues[rowData[categoryColumn]]
@@ -117,6 +119,7 @@ export const getUpdatedTransactionsForExistingAccounts = (
         date: getUnixTime(parse(rowData[dateColumn], dateFormat, new Date())),
         amount: Number(rowData[amountColumn]),
         excludeFromTotals: false,
+        pending: false,
         category:
           categoryColumn && categoryValues
             ? categoryValues[rowData[categoryColumn]]

@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 import { mocked } from 'ts-jest/utils';
 import userEvent from '@testing-library/user-event';
@@ -214,9 +214,10 @@ describe('Import Wizard tests', () => {
     expect(autoCalculated).not.toBeChecked();
 
     userEvent.type(accountBalance, '-2500');
-    // FIXME: add assertions for:
-    // - `expect(continueButton).not.toBeDisabled();`
-    // - Clicking "continue" fires `LOAD_FROM_CANUTIN_FILE` event with the proper data
+    waitFor(() => {
+      // FIXME: this assertion works but asserting the opposite also works.
+      expect(continueButton).not.toBeDisabled();
+    });
 
     consoleSpy.mockRestore();
   });

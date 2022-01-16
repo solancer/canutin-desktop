@@ -1,4 +1,4 @@
-import { createdAtDate } from '@app/utils/date.utils';
+import { handleDate } from '@app/utils/date.utils';
 import { AccountBalanceStatementRepository } from '@database/repositories/accountBalanceStatement.repository';
 import { Account, Asset } from '@database/entities';
 import { NewAccountType } from '@appTypes/account.type';
@@ -22,7 +22,7 @@ export const handleAccountBalanceStatements = async (
         balanceStatement: NewAccountBalanceStatementType | CanutinFileAccountBalanceStatementType
       ) => {
         await AccountBalanceStatementRepository.createBalanceStatement({
-          createdAt: createdAtDate(balanceStatement.createdAt),
+          createdAt: handleDate(balanceStatement.createdAt),
           value: balanceStatement.value ? balanceStatement.value : 0,
           account: existingAccount,
         });
@@ -49,7 +49,7 @@ export const handleAssetBalanceStatements = async (
         balanceStatement: NewAssetBalanceStatementType | CanutinFileAssetBalanceStatementType
       ) => {
         await AssetBalanceStatementRepository.createBalanceStatement({
-          createdAt: createdAtDate(balanceStatement.createdAt),
+          createdAt: handleDate(balanceStatement.createdAt),
           value: balanceStatement.value ? balanceStatement.value : 0,
           cost: balanceStatement.cost,
           quantity: balanceStatement.quantity,
