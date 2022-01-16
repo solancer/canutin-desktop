@@ -4,7 +4,12 @@ import { Switch, Route, HashRouter, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { routesConfig, RouteConfigProps, routesPaths } from '@routes';
-import { DATABASE_CONNECTED, DATABASE_NOT_DETECTED, DATABASE_DOES_NOT_EXIST } from '@constants';
+import {
+  DATABASE_CONNECTED,
+  DATABASE_NOT_DETECTED,
+  DATABASE_DOES_NOT_EXIST,
+  DATABASE_NOT_VALID,
+} from '@constants';
 
 import { EntitiesContext } from '@app/context/entitiesContext';
 import { AppContext } from '@app/context/appContext';
@@ -63,10 +68,20 @@ const App = () => {
       });
     });
 
+    ipcRenderer.on(DATABASE_NOT_VALID, () => {
+      setIsLoading(false);
+      setStatusMessage({
+        sentiment: StatusEnum.NEGATIVE,
+        message: 'The chosen file is not a valid Canutin vault',
+        isLoading: false,
+      });
+    });
+
     return () => {
       ipcRenderer.removeAllListeners(DATABASE_CONNECTED);
       ipcRenderer.removeAllListeners(DATABASE_NOT_DETECTED);
       ipcRenderer.removeAllListeners(DATABASE_DOES_NOT_EXIST);
+      ipcRenderer.removeAllListeners(DATABASE_NOT_VALID);
     };
   }, []);
 
