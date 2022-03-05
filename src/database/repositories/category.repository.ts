@@ -9,7 +9,16 @@ export class CategoryRepository {
     );
   }
 
-  static async addSubCategories(
+  static async addSubCategories(transactionSubCategories: TransactionSubCategory[]) {
+    await getRepository(TransactionSubCategory)
+      .createQueryBuilder()
+      .insert()
+      .into(TransactionSubCategory)
+      .values(transactionSubCategories)
+      .execute();
+  }
+
+  static async addSubCategory(
     name: string,
     rootCategory: TransactionCategory
   ): Promise<TransactionSubCategory> {

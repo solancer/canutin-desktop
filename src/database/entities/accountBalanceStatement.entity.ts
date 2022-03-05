@@ -5,14 +5,14 @@ import { Account } from './account.entity';
 @Entity()
 @Unique('UQ_COLUMNS', ['account', 'createdAt'])
 export class AccountBalanceStatement extends Base {
-  @Column({ nullable: true })
-  value?: number;
+  @Column()
+  value: number;
 
   @ManyToOne(() => Account, account => account.balanceStatements, { eager: false })
   @JoinColumn()
   account: Account;
 
-  constructor(account: Account, createdAt: Date, value?: number) {
+  constructor(value: number, account: Account, createdAt: Date) {
     super();
     this.value = value;
     this.account = account;

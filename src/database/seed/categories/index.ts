@@ -1,11 +1,11 @@
 const categoryList = {
   categories: [
     {
-      subcategories: [{ name: 'Uncategorized' }],
+      subCategories: [{ name: 'Uncategorized' }],
       name: 'Uncategorized',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Entertainment & recreation',
         },
@@ -34,7 +34,7 @@ const categoryList = {
       name: 'Entertainment & recreation',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Business & services',
         },
@@ -54,7 +54,7 @@ const categoryList = {
       name: 'Business & services',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Books & supplies',
         },
@@ -66,7 +66,7 @@ const categoryList = {
       name: 'Education',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Financial & banking',
         },
@@ -98,7 +98,7 @@ const categoryList = {
       name: 'Financial & banking',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Food & drink',
         },
@@ -118,7 +118,7 @@ const categoryList = {
       name: 'Food & drink',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Health',
         },
@@ -135,7 +135,7 @@ const categoryList = {
       name: 'Health',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Housing',
         },
@@ -161,7 +161,7 @@ const categoryList = {
       name: 'Housing',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Institutional',
         },
@@ -184,7 +184,7 @@ const categoryList = {
       name: 'Institutional',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Kids',
         },
@@ -204,7 +204,7 @@ const categoryList = {
       name: 'Kids',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Personal',
         },
@@ -224,7 +224,7 @@ const categoryList = {
       name: 'Personal',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Pets',
         },
@@ -238,7 +238,7 @@ const categoryList = {
       name: 'Pets',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Shops',
         },
@@ -258,7 +258,7 @@ const categoryList = {
       name: 'Shops',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Transportation',
         },
@@ -284,7 +284,7 @@ const categoryList = {
       name: 'Transportation',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Travel',
         },
@@ -310,7 +310,7 @@ const categoryList = {
       name: 'Travel',
     },
     {
-      subcategories: [
+      subCategories: [
         {
           name: 'Utilities',
         },

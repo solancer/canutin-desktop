@@ -40,39 +40,39 @@ export const accountAutoLoanBalanceStatements = [
     value: -33000,
   },
   {
-    createdAt: getUnixTime(subMonths(new Date(), 8)),
+    createdAt: getUnixTime(subMonths(new Date(), 9)),
     value: -34500,
   },
   {
-    createdAt: getUnixTime(subMonths(new Date(), 9)),
+    createdAt: getUnixTime(subMonths(new Date(), 10)),
     value: -36000,
   },
   {
-    createdAt: getUnixTime(subMonths(new Date(), 10)),
+    createdAt: getUnixTime(subMonths(new Date(), 11)),
     value: -37500,
   },
   {
-    createdAt: getUnixTime(subMonths(new Date(), 11)),
-    value: -48000,
+    createdAt: getUnixTime(subMonths(new Date(), 12)),
+    value: -38000,
   },
   {
-    createdAt: getUnixTime(subMonths(new Date(), 12)),
+    createdAt: getUnixTime(subMonths(new Date(), 13)),
     value: -39500,
   },
   {
-    createdAt: getUnixTime(subMonths(new Date(), 13)),
+    createdAt: getUnixTime(subMonths(new Date(), 14)),
     value: -40000,
   },
   {
-    createdAt: getUnixTime(subMonths(new Date(), 12)),
+    createdAt: getUnixTime(subMonths(new Date(), 15)),
     value: -41500,
   },
   {
-    createdAt: getUnixTime(subMonths(new Date(), 13)),
+    createdAt: getUnixTime(subMonths(new Date(), 16)),
     value: -42000,
   },
   {
-    createdAt: getUnixTime(subMonths(new Date(), 14)),
+    createdAt: getUnixTime(subMonths(new Date(), 17)),
     value: -42500,
   },
 ];

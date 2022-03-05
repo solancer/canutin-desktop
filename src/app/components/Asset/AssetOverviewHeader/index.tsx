@@ -21,7 +21,7 @@ const AssetOverviewHeader = ({ filterOption, setFilterOption }: AssetOverviewHea
   return (
     <ButtonRow>
       <Button onClick={() => history.push(routesPaths.addOrUpdateDataByWizard)}>
-        Import Wizard
+        Import wizard
       </Button>
       <ButtonDivider />
       <ButtonSelect

@@ -21,7 +21,10 @@ const TheBigPicture = () => {
 
   useEffect(() => {
     const transactions =
-      accountsIndex && accountsIndex.accounts.map(account => account.transactions!).flat();
+      accountsIndex &&
+      accountsIndex.accounts
+        .map(account => (account.transactions ? account.transactions : []))
+        .flat();
     if (transactions) {
       transactions.sort((a, b) => b.date.getTime() - a.date.getTime()); // Sort the transactions in 'DESC' order
       setTrailingCashflow(getTransactionsTrailingCashflow(transactions));

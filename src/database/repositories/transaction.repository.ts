@@ -1,8 +1,9 @@
-import { getRepository, getConnection, Between, UpdateResult } from 'typeorm';
+import { getRepository, Between, UpdateResult } from 'typeorm';
 import { subMinutes } from 'date-fns';
 
 import { FilterTransactionInterface, NewTransactionType } from '@appTypes/transaction.type';
 
+import { splitInChunks } from '@database/helpers';
 import { dateInUTC, handleDate } from '@app/utils/date.utils';
 import { Transaction, Account } from '../entities';
 import { AccountRepository } from './account.repository';
@@ -12,6 +13,7 @@ export class TransactionRepository {
   static async createTransaction(transaction: NewTransactionType): Promise<Transaction> {
     const account = await AccountRepository.getAccountById(transaction.accountId);
     const category = await CategoryRepository.getSubCategory(transaction.categoryName);
+
     const newTransaction = await getRepository<Transaction>(Transaction).save(
       new Transaction(
         transaction.description as string,
@@ -56,12 +58,21 @@ export class TransactionRepository {
     await getRepository<Transaction>(Transaction).delete(transactionsIds);
   }
 
-  static async createTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-    const q = getRepository(Transaction).createQueryBuilder().insert().values(transactions);
-    const [sql, args] = q.getQueryAndParameters();
-    const nsql = sql.replace('INSERT INTO', 'INSERT OR IGNORE INTO');
+  static async createTransactions(transactions: Transaction[]) {
+    const transactionChunks: Transaction[][] = splitInChunks(transactions);
 
-    return await getConnection().manager.query(nsql, args);
+    transactionChunks.forEach(async transactionChunk => {
+      try {
+        await getRepository(Transaction)
+          .createQueryBuilder()
+          .insert()
+          .orIgnore()
+          .values(transactionChunk)
+          .execute();
+      } catch (e) {
+        console.error(e);
+      }
+    });
   }
 
   static async getFilterTransactions(filter: FilterTransactionInterface): Promise<Transaction[]> {

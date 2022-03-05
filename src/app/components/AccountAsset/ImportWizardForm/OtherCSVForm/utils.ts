@@ -184,6 +184,8 @@ export const formToCantuinJsonFile = (
       if (canutinAccount.institution) {
         institution = canutinAccount.institution;
       }
+    } else {
+      closed = false;
     }
 
     const transactions = getTransactionsForOneAccount(

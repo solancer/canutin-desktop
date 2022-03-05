@@ -71,7 +71,7 @@ export const DB_SEED_VAULT_ACK = 'dbSeedVaultAck';
 export const DB_EDIT_SETTINGS = 'dbEditSettings';
 export const DB_EDIT_SETTINGS_ACK = 'dbEditSettingsAck';
 
-// Import Wizard
+// Import wizard
 export const IMPORT_SOURCE_FILE = 'importSourceFile';
 export const IMPORT_SOURCE_FILE_ACK = 'importSourceFileAck';
 export const ANALYZE_SOURCE_FILE = 'analyzeSourceFile';

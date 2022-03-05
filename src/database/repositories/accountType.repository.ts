@@ -19,4 +19,13 @@ export class AccountTypeRepository {
 
     return accountTypeDb;
   }
+
+  static async createAccountTypes(accountTypes: AccountType[]) {
+    await getRepository(AccountType)
+      .createQueryBuilder()
+      .insert()
+      .into(AccountType)
+      .values(accountTypes)
+      .execute();
+  }
 }

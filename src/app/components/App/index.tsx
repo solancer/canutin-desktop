@@ -38,7 +38,7 @@ const App = () => {
     isDbEmpty,
     setIsDbEmpty,
   } = useContext(AppContext);
-  const { accountsIndex, assetsIndex, budgetsIndex, settingsIndex } = useContext(EntitiesContext);
+  const { accountsIndex, assetsIndex, settingsIndex } = useContext(EntitiesContext);
   const { setStatusMessage } = useContext(StatusBarContext);
 
   useEffect(() => {
@@ -100,10 +100,9 @@ const App = () => {
   useEffect(() => {
     assetsIndex?.lastUpdate &&
       accountsIndex?.lastUpdate &&
-      budgetsIndex?.lastUpdate &&
       settingsIndex?.lastUpdate &&
       setIsLoading(false);
-  }, [assetsIndex, accountsIndex, budgetsIndex, settingsIndex]);
+  }, [assetsIndex, accountsIndex, settingsIndex]);
 
   return (
     <>

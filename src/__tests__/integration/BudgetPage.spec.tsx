@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import userEvent from '@testing-library/user-event';
 import { endOfDay, format, startOfDay, subMonths } from 'date-fns';
 
@@ -42,9 +42,8 @@ describe('Budget tests', () => {
     initAppWith({});
     const budgetSidebarLink = screen.getByTestId('sidebar-budget');
     expect(budgetSidebarLink).toHaveAttribute('disabled');
-
-    userEvent.click(budgetSidebarLink);
-    expect(budgetSidebarLink).not.toHaveAttribute('active', '1');
+    expect(budgetSidebarLink).toHaveAttribute('active', '0');
+    expect(budgetSidebarLink).toHaveStyle('pointer-events: none');
   });
 
   test('Budget page displays an empty view when no enough data is available', async () => {
@@ -56,11 +55,13 @@ describe('Budget tests', () => {
     userEvent.click(budgetSidebarLink);
     expect(budgetSidebarLink).toHaveAttribute('active', '1');
     expect(screen.getByText('Auto-budget')).toBeVisible();
-    expect(
-      screen.getByText(
-        'Need at least 2 months of transactions for budgets to be displayed when auto-budget is enabled'
-      )
-    ).toBeVisible();
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          'Need at least 2 months of transactions for budgets to be displayed when auto-budget is enabled'
+        )
+      ).toBeVisible();
+    });
 
     const periodChooser = screen.getByText(format(new Date(), 'MMMM yyyy'));
     expect(periodChooser).toBeVisible();
@@ -182,10 +183,12 @@ describe('Budget tests', () => {
     userEvent.click(budgetSidebarLink);
     expect(budgetSidebarLink).toHaveAttribute('active', '1');
 
-    const budgetBarIncome = screen.getByTestId('budget-bar-income');
-    expect(budgetBarIncome).toHaveTextContent('Income');
-    expect(budgetBarIncome).toHaveTextContent('$7,577');
-    expect(budgetBarIncome).toHaveTextContent('$8,050 (106%)');
+    await waitFor(() => {
+      const budgetBarIncome = screen.getByTestId('budget-bar-income');
+      expect(budgetBarIncome).toHaveTextContent('Income');
+      expect(budgetBarIncome).toHaveTextContent('$7,577');
+      expect(budgetBarIncome).toHaveTextContent('$8,050 (106%)');
+    });
 
     const budgetBarExpenses = screen.getByTestId('budget-bar-expenses');
     expect(budgetBarExpenses).toHaveTextContent('Expenses');

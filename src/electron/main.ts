@@ -86,11 +86,7 @@ import {
 } from './constants';
 import { connectAndSaveDB, findAndConnectDB } from './helpers/database.helper';
 import { filterTransactions } from './helpers/transactionHelpers/transaction.helper';
-import {
-  importSourceData,
-  loadFromCanutinFile,
-  importUpdatedAccounts,
-} from './helpers/importSource.helper';
+import { importSourceData, importUpdatedAccounts } from './helpers/importSource.helper';
 import {
   MIN_WINDOW_WIDTH,
   MIN_WINDOW_HEIGHT,
@@ -117,6 +113,7 @@ import { SettingsRepository } from '@database/repositories/settings.repository';
 import { EditBudgetCategorySubmitType } from '@app/components/Budget/TransactionCategoriesForm';
 import { CategoryRepository } from '@database/repositories/category.repository';
 import { EditBudgetType } from '@app/components/Budget/EditBudgetGroups';
+import { importFromCanutinFile } from '@database/helpers/importSource';
 
 let win: BrowserWindow | null = null;
 
@@ -129,9 +126,9 @@ const setupEvents = async () => {
 
       if (filePath) await connectAndSaveDB(win, filePath);
       await seedSettings();
-      await seedCategories();
-      await seedAssetTypes();
       await seedAccountTypes();
+      await seedAssetTypes();
+      await seedCategories();
     }
   });
 
@@ -172,7 +169,7 @@ const setupEvents = async () => {
   );
 
   ipcMain.on(LOAD_FROM_CANUTIN_FILE, async (_: IpcMainEvent, canutinFile: CanutinFileType) => {
-    await loadFromCanutinFile(win, canutinFile);
+    await importFromCanutinFile(win, canutinFile);
   });
 
   ipcMain.on(
@@ -181,7 +178,7 @@ const setupEvents = async () => {
       _: IpcMainEvent,
       otherCsvPayload: { canutinFile: CanutinFileType; updatedAccounts: UpdatedAccount[] }
     ) => {
-      await loadFromCanutinFile(win, otherCsvPayload.canutinFile);
+      await importFromCanutinFile(win, otherCsvPayload.canutinFile);
       await importUpdatedAccounts(win, otherCsvPayload.updatedAccounts);
     }
   );
@@ -534,7 +531,7 @@ const createWindow = async () => {
     height: calculateWindowHeight(height),
     frame: false,
     titleBarStyle: 'hidden',
-    trafficLightPosition: { x: 16, y: 32 },
+    trafficLightPosition: { x: 16, y: 16 },
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false, // https://github.com/electron/electron/issues/9920#issuecomment-575839738

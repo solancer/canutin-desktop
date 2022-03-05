@@ -1,6 +1,6 @@
 import { handleDate } from '@app/utils/date.utils';
 import { AccountBalanceStatementRepository } from '@database/repositories/accountBalanceStatement.repository';
-import { Account, Asset } from '@database/entities';
+import { Account, AccountBalanceStatement, Asset, AssetBalanceStatement } from '@database/entities';
 import { NewAccountType } from '@appTypes/account.type';
 import { NewAssetType } from '@appTypes/asset.type';
 import {
@@ -17,17 +17,19 @@ export const handleAccountBalanceStatements = async (
 ) => {
   if (!newAccount.autoCalculated && newAccount.balanceStatements) {
     // Generate an accountBalanceStatement for each provided balanceStatement
-    newAccount.balanceStatements.forEach(
-      async (
+    const newAccountBalanceStatements = newAccount.balanceStatements.map(
+      (
         balanceStatement: NewAccountBalanceStatementType | CanutinFileAccountBalanceStatementType
       ) => {
-        await AccountBalanceStatementRepository.createBalanceStatement({
-          createdAt: handleDate(balanceStatement.createdAt),
-          value: balanceStatement.value ? balanceStatement.value : 0,
-          account: existingAccount,
-        });
+        return new AccountBalanceStatement(
+          balanceStatement.value ? balanceStatement.value : 0,
+          existingAccount,
+          handleDate(balanceStatement.createdAt)
+        );
       }
     );
+
+    await AccountBalanceStatementRepository.createBalanceStatements(newAccountBalanceStatements);
   } else if (!newAccount.autoCalculated && !newAccount.closed) {
     // Generate an accountBalanceStatement when no balanceStatements are provided
     await AccountBalanceStatementRepository.createBalanceStatement({
@@ -44,19 +46,19 @@ export const handleAssetBalanceStatements = async (
 ) => {
   if (!newAsset.sold && newAsset.balanceStatements) {
     // Generate an assetBalanceStatement for each provided balanceStatement
-    newAsset.balanceStatements.forEach(
-      async (
-        balanceStatement: NewAssetBalanceStatementType | CanutinFileAssetBalanceStatementType
-      ) => {
-        await AssetBalanceStatementRepository.createBalanceStatement({
-          createdAt: handleDate(balanceStatement.createdAt),
-          value: balanceStatement.value ? balanceStatement.value : 0,
-          cost: balanceStatement.cost,
-          quantity: balanceStatement.quantity,
-          asset: existingAsset,
-        });
+    const newAssetBalanceStatements = newAsset.balanceStatements.map(
+      (balanceStatement: NewAssetBalanceStatementType | CanutinFileAssetBalanceStatementType) => {
+        return new AssetBalanceStatement(
+          balanceStatement.value ? balanceStatement.value : 0,
+          existingAsset,
+          handleDate(balanceStatement.createdAt),
+          balanceStatement.quantity,
+          balanceStatement.cost
+        );
       }
     );
+
+    await AssetBalanceStatementRepository.createBalanceStatements(newAssetBalanceStatements);
   } else if (!newAsset.sold) {
     // Generate an assetBalanceStatement when no balanceStatements are provided
     await AssetBalanceStatementRepository.createBalanceStatement({

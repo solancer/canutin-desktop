@@ -1,9 +1,7 @@
-import { getRepository, In } from 'typeorm';
-import { isAfter, isSameMonth, startOfMonth, isEqual } from 'date-fns';
+import { getRepository } from 'typeorm';
+import { startOfMonth } from 'date-fns';
 
 import { BudgetTypeEnum } from '@enums/budgetType.enum';
-import { Settings } from '@database/entities';
-
 import { Budget, TransactionSubCategory } from '../entities';
 import { dateInUTC } from '@app/utils/date.utils';
 import { EditBudgetCategorySubmitType } from '@app/components/Budget/TransactionCategoriesForm';

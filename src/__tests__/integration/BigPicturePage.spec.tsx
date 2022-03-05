@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { seedAccounts, seedAssets, seedMinimumAccount } from '@tests/factories/entitiesFactory';
@@ -24,9 +24,8 @@ describe('Big picture tests', () => {
     initAppWith({});
     const bigPictureSidebarLink = screen.getByTestId('sidebar-big-picture');
     expect(bigPictureSidebarLink).toHaveAttribute('disabled');
-
-    userEvent.click(bigPictureSidebarLink);
-    expect(bigPictureSidebarLink).not.toHaveAttribute('active', '1');
+    expect(bigPictureSidebarLink).toHaveAttribute('active', '0');
+    expect(bigPictureSidebarLink).toHaveStyle('pointer-events: none');
   });
 
   test('Big picture page displays an empty view when no enough data is available', async () => {
@@ -169,11 +168,13 @@ describe('Big picture tests', () => {
     expect(bigPictureTrailingCashflowSurplus).not.toHaveTextContent('$444.99');
 
     userEvent.click(screen.getByText('Last 12 months'));
-    expect(bigPictureTrailingCashflowIncome).not.toHaveTextContent('$7,577.00');
-    expect(bigPictureTrailingCashflowExpenses).not.toHaveTextContent('-$7,137.39');
-    expect(bigPictureTrailingCashflowSurplus).not.toHaveTextContent('$439.60');
-    expect(bigPictureTrailingCashflowIncome).toHaveTextContent('$7,611.97');
-    expect(bigPictureTrailingCashflowExpenses).toHaveTextContent('-$7,166.98');
-    expect(bigPictureTrailingCashflowSurplus).toHaveTextContent('$444.99');
+    await waitFor(() => {
+      expect(bigPictureTrailingCashflowIncome).not.toHaveTextContent('$7,577.00');
+      expect(bigPictureTrailingCashflowExpenses).not.toHaveTextContent('-$7,137.39');
+      expect(bigPictureTrailingCashflowSurplus).not.toHaveTextContent('$439.60');
+      expect(bigPictureTrailingCashflowIncome).toHaveTextContent('$7,611.97');
+      expect(bigPictureTrailingCashflowExpenses).toHaveTextContent('-$7,166.98');
+      expect(bigPictureTrailingCashflowSurplus).toHaveTextContent('$444.99');
+    });
   });
 });

@@ -4,14 +4,13 @@ import { BrowserWindow } from 'electron';
 import { enumImportTitleOptions, StatusEnum } from '@appConstants/misc';
 import { ANALYZE_SOURCE_FILE_ACK, LOAD_DATA_ACK } from '@constants/events';
 import {
-  CanutinFileType,
   UpdatedAccount,
   CanutinFileAccountType,
   CanutinFileAssetType,
 } from '@appTypes/canutinFile.type';
 import { ParseResult } from '@appTypes/parseCsv';
 import { CanutinFileTransactionType } from '@appTypes/canutinFile.type';
-import { importFromCanutinFile, updateAccounts } from '@database/helpers/importSource';
+import { updateAccounts } from '@database/helpers/importSource';
 
 import { mintCsvToJson, MintCsvEntryType } from './sourceHelpers/mint';
 import {
@@ -193,17 +192,6 @@ export const importSourceData = async (
       break;
     }
   }
-};
-
-export const loadFromCanutinFile = async (
-  win: BrowserWindow | null,
-  canutinFile: CanutinFileType
-) => {
-  const isSuccess = await importFromCanutinFile(canutinFile, win);
-
-  win?.webContents.send(LOAD_DATA_ACK, {
-    status: isSuccess ? StatusEnum.POSITIVE : StatusEnum.NEGATIVE,
-  });
 };
 
 export const importUpdatedAccounts = async (

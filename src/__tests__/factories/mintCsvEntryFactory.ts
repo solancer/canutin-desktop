@@ -14,7 +14,7 @@ export const mintCSVEntryBuilder = build('Mint CSV Entry', {
     Description: uniqueDescription(),
     Amount: fake(f => f.finance.amount()),
     Category: fake(f => f.finance.transactionType()),
-    'Account Name': fake(f => f.random.uuid()),
+    'Account Name': fake(f => f.datatype.uuid()),
     Labels: fake(f => f.lorem.sentence()),
     Notes: fake(f => f.lorem.sentence()),
   },

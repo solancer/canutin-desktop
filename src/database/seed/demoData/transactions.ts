@@ -55,7 +55,7 @@ export const accountCheckingTransactionSet = () => {
     {
       description: 'Transfer to MegaCoin Exchange',
       amount: i % 3 === 0 ? 0 : -500,
-      date: addDays(startOfMonth(subMonths(new Date(), i)), 27),
+      date: addDays(startOfMonth(subMonths(new Date(), i)), 26),
       categoryName: 'Transfers',
       excludeFromTotals: false,
       pending: false,
@@ -63,7 +63,7 @@ export const accountCheckingTransactionSet = () => {
     {
       description: 'Toyota - TFS Payment',
       amount: -500,
-      date: addDays(startOfMonth(subMonths(new Date(), i)), 27),
+      date: addDays(startOfMonth(subMonths(new Date(), i)), 26),
       categoryName: 'Automotive',
       excludeFromTotals: false,
       pending: false,
@@ -191,7 +191,7 @@ export const accountCreditCardTransactionSet = () => {
     {
       description: 'Stellar Burger',
       amount: -19.23,
-      date: addDays(startOfMonth(subMonths(new Date(), i)), 27),
+      date: addDays(startOfMonth(subMonths(new Date(), i)), 26),
       categoryName: 'Restaurants',
       excludeFromTotals: false,
       pending: false,
@@ -223,7 +223,7 @@ export const accountCreditCardTransactionSet = () => {
     {
       description: 'Store.com (Refund)',
       amount: -24.21,
-      date: addDays(startOfMonth(subMonths(new Date(), i)), 27),
+      date: addDays(startOfMonth(subMonths(new Date(), i)), 26),
       categoryName: 'Shops',
       excludeFromTotals: true,
       pending: false,
@@ -304,7 +304,7 @@ export const accountCreditCardTransactionSet = () => {
       description:
         i % 11 === 0 ? 'Horizon Wireless (Promotional Rebate)' : 'Juggernaut Cash Back Redemption',
       amount: i % 11 === 0 ? 445 : 25.33,
-      date: addDays(startOfMonth(subMonths(new Date(), i)), 27),
+      date: addDays(startOfMonth(subMonths(new Date(), i)), 26),
       categoryName: i % 11 === 0 ? 'Internet & phone' : 'Financial & banking',
       excludeFromTotals: false,
       pending: false,

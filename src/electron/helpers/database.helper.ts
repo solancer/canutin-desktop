@@ -21,11 +21,11 @@ export const connectAndSaveDB = async (win: BrowserWindow | null, filePath: stri
     };
     const isConnected = await connection.isConnected();
     if (isConnected) await connection.close();
-  
+
     await connection.create(databaseConnection);
     await settings.set(DATABASE_PATH, filePath);
     win?.webContents.send(DATABASE_CONNECTED, { filePath });
-  } catch(error) {
+  } catch (error) {
     win?.webContents.send(DATABASE_NOT_VALID);
   }
 };

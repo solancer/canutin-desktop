@@ -2,20 +2,20 @@
 
 exports[`Balance sheet tests Balance sheet page displays an empty view when no enough data is available 1`] = `
 <div
-  class="eHSBpH"
+  class="sc-iqseJM krxsxy"
   data-testid="scrollview-balance-sheet"
 >
   <header
-    class="fagWyk"
+    class="sc-crHmcD chJYcV"
   >
     <div
-      class="jAhLsL"
+      class="sc-fFeiMQ fIMGLX"
     >
       <div
-        class="jtiQiL"
+        class="sc-egiyK hGPUxh"
       >
         <h1
-          class="hNZCJQ"
+          class="sc-bqiRlB dMSeEr"
           title="Balance sheet"
         >
           Balance sheet
@@ -23,16 +23,16 @@ exports[`Balance sheet tests Balance sheet page displays an empty view when no e
       </div>
       <nav>
         <div
-          class="cxGfAR"
+          class="sc-ikJyIC eZSpvY"
         >
           <button
-            class="fQYTKD"
+            class="sc-kLwhqv gkIUDe"
             type="button"
           >
             Add new
           </button>
           <button
-            class="fQYTKD"
+            class="sc-kLwhqv gkIUDe"
             type="button"
           >
             Import
@@ -42,35 +42,35 @@ exports[`Balance sheet tests Balance sheet page displays an empty view when no e
     </div>
   </header>
   <main
-    class="fUckcR"
+    class="sc-hBUSln VoEdK"
   >
     <div
-      class="PJmAb"
+      class="sc-eCImPb kAAJDj"
     >
       <header
-        class="iGWxFg"
+        class="sc-jRQBWg gVqNsd"
       >
         <h2
-          class="gTAXam"
+          class="sc-gKclnd NOdWh"
         >
           Balances
         </h2>
         <div>
           <nav
-            class="dDdRjc"
+            class="sc-iCfMLu bwqJIX"
           >
             <div
-              class="dAAFPm"
+              class="sc-furwcr bbwRoh"
             >
               all 
             </div>
             <div
-              class="gDxUWx"
+              class="sc-furwcr nEOmy"
             >
               accounts 1
             </div>
             <div
-              class="gDxUWx"
+              class="sc-furwcr nEOmy"
             >
               assets 0
             </div>
@@ -78,62 +78,62 @@ exports[`Balance sheet tests Balance sheet page displays an empty view when no e
         </div>
       </header>
       <div
-        class="dqUUkh"
+        class="sc-efQSVx cUhjik"
       >
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-cash"
         >
           <div
-            class="fqIxbX"
+            class="sc-bdvvtL gvuwTi"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Cash
             </p>
             <span
               appearance="1"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $0
             </span>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 undefined
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $0
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Alice's Checking"
                 >
                   Alice's Checking
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $0
               </span>
@@ -141,76 +141,76 @@ exports[`Balance sheet tests Balance sheet page displays an empty view when no e
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-debt"
         >
           <div
-            class="mCiyX"
+            class="sc-bdvvtL gLywDe"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Debt
             </p>
             <span
               appearance="2"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $0
             </span>
           </div>
           <div
-            class="bIsif"
+            class="sc-ezbkAF igaVSX"
           >
             No balances are available in this group
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-investments"
         >
           <div
-            class="fCfgKI"
+            class="sc-bdvvtL hRryZV"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Investments
             </p>
             <span
               appearance="3"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $0
             </span>
           </div>
           <div
-            class="bIsif"
+            class="sc-ezbkAF igaVSX"
           >
             No balances are available in this group
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-other-assets"
         >
           <div
-            class="gUWRgq"
+            class="sc-bdvvtL cPSxPD"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Other assets
             </p>
             <span
               appearance="4"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $0
             </span>
           </div>
           <div
-            class="bIsif"
+            class="sc-ezbkAF igaVSX"
           >
             No balances are available in this group
           </div>
@@ -223,20 +223,20 @@ exports[`Balance sheet tests Balance sheet page displays an empty view when no e
 
 exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = `
 <div
-  class="eHSBpH"
+  class="sc-iqseJM krxsxy"
   data-testid="scrollview-balance-sheet"
 >
   <header
-    class="fagWyk"
+    class="sc-crHmcD chJYcV"
   >
     <div
-      class="jAhLsL"
+      class="sc-fFeiMQ fIMGLX"
     >
       <div
-        class="jtiQiL"
+        class="sc-egiyK hGPUxh"
       >
         <h1
-          class="hNZCJQ"
+          class="sc-bqiRlB dMSeEr"
           title="Balance sheet"
         >
           Balance sheet
@@ -244,16 +244,16 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
       </div>
       <nav>
         <div
-          class="cxGfAR"
+          class="sc-ikJyIC eZSpvY"
         >
           <button
-            class="fQYTKD"
+            class="sc-kLwhqv gkIUDe"
             type="button"
           >
             Add new
           </button>
           <button
-            class="fQYTKD"
+            class="sc-kLwhqv gkIUDe"
             type="button"
           >
             Import
@@ -263,35 +263,35 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
     </div>
   </header>
   <main
-    class="fUckcR"
+    class="sc-hBUSln VoEdK"
   >
     <div
-      class="PJmAb"
+      class="sc-eCImPb kAAJDj"
     >
       <header
-        class="iGWxFg"
+        class="sc-jRQBWg gVqNsd"
       >
         <h2
-          class="gTAXam"
+          class="sc-gKclnd NOdWh"
         >
           Balances
         </h2>
         <div>
           <nav
-            class="dDdRjc"
+            class="sc-iCfMLu bwqJIX"
           >
             <div
-              class="dAAFPm"
+              class="sc-furwcr bbwRoh"
             >
               all 
             </div>
             <div
-              class="gDxUWx"
+              class="sc-furwcr nEOmy"
             >
               accounts 7
             </div>
             <div
-              class="gDxUWx"
+              class="sc-furwcr nEOmy"
             >
               assets 6
             </div>
@@ -299,142 +299,142 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
         </div>
       </header>
       <div
-        class="dqUUkh"
+        class="sc-efQSVx cUhjik"
       >
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-cash"
         >
           <div
-            class="fqIxbX"
+            class="sc-bdvvtL gvuwTi"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Cash
             </p>
             <span
               appearance="1"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $10,700
             </span>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 savings
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $6,000
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Emergency Fund"
                 >
                   Emergency Fund
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $6,000
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 checking
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $3,400
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Alice's Checking"
                 >
                   Alice's Checking
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $3,400
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 cash
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $1,300
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Wallet"
                 >
                   Wallet
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $1,300
               </span>
@@ -442,99 +442,99 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-debt"
         >
           <div
-            class="mCiyX"
+            class="sc-bdvvtL gLywDe"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Debt
             </p>
             <span
               appearance="2"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               -$21,974
             </span>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 credit card
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 -$724
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Bob's Juggernaut Visa"
                 >
                   Bob's Juggernaut Visa
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 -$724
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 auto
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 -$21,250
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Toyota Auto Loan"
                 >
                   Toyota Auto Loan
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 -$21,250
               </span>
@@ -542,223 +542,223 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-investments"
         >
           <div
-            class="fCfgKI"
+            class="sc-bdvvtL hRryZV"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Investments
             </p>
             <span
               appearance="3"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $142,831
             </span>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 cryptocurrency
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $86,920
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/Bitcoin"
                 >
                   Bitcoin
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $69,420
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/Ethereum"
                 >
                   Ethereum
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $17,500
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 security
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $33,125
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/Tesla"
                 >
                   Tesla
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $30,000
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/GameStop"
                 >
                   GameStop
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $3,125
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 roth
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $18,536
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Alice's Roth IRA"
                 >
                   Alice's Roth IRA
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $18,536
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 401k
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $4,251
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Bob's 401k"
                 >
                   Bob's 401k
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $4,251
               </span>
@@ -766,99 +766,99 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-other-assets"
         >
           <div
-            class="gUWRgq"
+            class="sc-bdvvtL cPSxPD"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Other assets
             </p>
             <span
               appearance="4"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $53,000
             </span>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 vehicle
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $38,500
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/2022 Toyota RAV4"
                 >
                   2022 Toyota RAV4
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $38,500
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 collectible
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $14,500
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/Pokemon Card Collection"
                 >
                   Pokemon Card Collection
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $14,500
               </span>
@@ -873,20 +873,20 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
 
 exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = `
 <div
-  class="eHSBpH"
+  class="sc-iqseJM krxsxy"
   data-testid="scrollview-balance-sheet"
 >
   <header
-    class="fagWyk"
+    class="sc-crHmcD chJYcV"
   >
     <div
-      class="jAhLsL"
+      class="sc-fFeiMQ fIMGLX"
     >
       <div
-        class="jtiQiL"
+        class="sc-egiyK hGPUxh"
       >
         <h1
-          class="hNZCJQ"
+          class="sc-bqiRlB dMSeEr"
           title="Balance sheet"
         >
           Balance sheet
@@ -894,16 +894,16 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
       </div>
       <nav>
         <div
-          class="cxGfAR"
+          class="sc-ikJyIC eZSpvY"
         >
           <button
-            class="fQYTKD"
+            class="sc-kLwhqv gkIUDe"
             type="button"
           >
             Add new
           </button>
           <button
-            class="fQYTKD"
+            class="sc-kLwhqv gkIUDe"
             type="button"
           >
             Import
@@ -913,35 +913,35 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
     </div>
   </header>
   <main
-    class="fUckcR"
+    class="sc-hBUSln VoEdK"
   >
     <div
-      class="PJmAb"
+      class="sc-eCImPb kAAJDj"
     >
       <header
-        class="iGWxFg"
+        class="sc-jRQBWg gVqNsd"
       >
         <h2
-          class="gTAXam"
+          class="sc-gKclnd NOdWh"
         >
           Balances
         </h2>
         <div>
           <nav
-            class="dDdRjc"
+            class="sc-iCfMLu bwqJIX"
           >
             <div
-              class="gDxUWx"
+              class="sc-furwcr nEOmy"
             >
               all 
             </div>
             <div
-              class="dAAFPm"
+              class="sc-furwcr bbwRoh"
             >
               accounts 7
             </div>
             <div
-              class="gDxUWx"
+              class="sc-furwcr nEOmy"
             >
               assets 6
             </div>
@@ -949,142 +949,142 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
         </div>
       </header>
       <div
-        class="dqUUkh"
+        class="sc-efQSVx cUhjik"
       >
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-cash"
         >
           <div
-            class="fqIxbX"
+            class="sc-bdvvtL gvuwTi"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Cash
             </p>
             <span
               appearance="1"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $10,700
             </span>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 savings
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $6,000
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Emergency Fund"
                 >
                   Emergency Fund
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $6,000
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 checking
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $3,400
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Alice's Checking"
                 >
                   Alice's Checking
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $3,400
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 cash
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $1,300
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Wallet"
                 >
                   Wallet
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $1,300
               </span>
@@ -1092,99 +1092,99 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-debt"
         >
           <div
-            class="mCiyX"
+            class="sc-bdvvtL gLywDe"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Debt
             </p>
             <span
               appearance="2"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               -$21,974
             </span>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 credit card
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 -$724
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Bob's Juggernaut Visa"
                 >
                   Bob's Juggernaut Visa
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 -$724
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 auto
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 -$21,250
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Toyota Auto Loan"
                 >
                   Toyota Auto Loan
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 -$21,250
               </span>
@@ -1192,99 +1192,99 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-investments"
         >
           <div
-            class="fCfgKI"
+            class="sc-bdvvtL hRryZV"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Investments
             </p>
             <span
               appearance="3"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $22,786
             </span>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 roth
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $18,536
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Alice's Roth IRA"
                 >
                   Alice's Roth IRA
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $18,536
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 401k
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $4,251
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/account/Bob's 401k"
                 >
                   Bob's 401k
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Account
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $4,251
               </span>
@@ -1292,26 +1292,26 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-other-assets"
         >
           <div
-            class="gUWRgq"
+            class="sc-bdvvtL cPSxPD"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Other assets
             </p>
             <span
               appearance="4"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $0
             </span>
           </div>
           <div
-            class="bIsif"
+            class="sc-ezbkAF igaVSX"
           >
             No balances are available in this group
           </div>
@@ -1324,20 +1324,20 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
 
 exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = `
 <div
-  class="eHSBpH"
+  class="sc-iqseJM krxsxy"
   data-testid="scrollview-balance-sheet"
 >
   <header
-    class="fagWyk"
+    class="sc-crHmcD chJYcV"
   >
     <div
-      class="jAhLsL"
+      class="sc-fFeiMQ fIMGLX"
     >
       <div
-        class="jtiQiL"
+        class="sc-egiyK hGPUxh"
       >
         <h1
-          class="hNZCJQ"
+          class="sc-bqiRlB dMSeEr"
           title="Balance sheet"
         >
           Balance sheet
@@ -1345,16 +1345,16 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
       </div>
       <nav>
         <div
-          class="cxGfAR"
+          class="sc-ikJyIC eZSpvY"
         >
           <button
-            class="fQYTKD"
+            class="sc-kLwhqv gkIUDe"
             type="button"
           >
             Add new
           </button>
           <button
-            class="fQYTKD"
+            class="sc-kLwhqv gkIUDe"
             type="button"
           >
             Import
@@ -1364,35 +1364,35 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
     </div>
   </header>
   <main
-    class="fUckcR"
+    class="sc-hBUSln VoEdK"
   >
     <div
-      class="PJmAb"
+      class="sc-eCImPb kAAJDj"
     >
       <header
-        class="iGWxFg"
+        class="sc-jRQBWg gVqNsd"
       >
         <h2
-          class="gTAXam"
+          class="sc-gKclnd NOdWh"
         >
           Balances
         </h2>
         <div>
           <nav
-            class="dDdRjc"
+            class="sc-iCfMLu bwqJIX"
           >
             <div
-              class="gDxUWx"
+              class="sc-furwcr nEOmy"
             >
               all 
             </div>
             <div
-              class="gDxUWx"
+              class="sc-furwcr nEOmy"
             >
               accounts 7
             </div>
             <div
-              class="dAAFPm"
+              class="sc-furwcr bbwRoh"
             >
               assets 6
             </div>
@@ -1400,196 +1400,196 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
         </div>
       </header>
       <div
-        class="dqUUkh"
+        class="sc-efQSVx cUhjik"
       >
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-cash"
         >
           <div
-            class="fqIxbX"
+            class="sc-bdvvtL gvuwTi"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Cash
             </p>
             <span
               appearance="1"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $0
             </span>
           </div>
           <div
-            class="bIsif"
+            class="sc-ezbkAF igaVSX"
           >
             No balances are available in this group
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-debt"
         >
           <div
-            class="mCiyX"
+            class="sc-bdvvtL gLywDe"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Debt
             </p>
             <span
               appearance="2"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $0
             </span>
           </div>
           <div
-            class="bIsif"
+            class="sc-ezbkAF igaVSX"
           >
             No balances are available in this group
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-investments"
         >
           <div
-            class="fCfgKI"
+            class="sc-bdvvtL hRryZV"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Investments
             </p>
             <span
               appearance="3"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $120,045
             </span>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 cryptocurrency
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $86,920
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/Bitcoin"
                 >
                   Bitcoin
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $69,420
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/Ethereum"
                 >
                   Ethereum
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $17,500
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 security
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $33,125
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/Tesla"
                 >
                   Tesla
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $30,000
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/GameStop"
                 >
                   GameStop
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $3,125
               </span>
@@ -1597,99 +1597,99 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
           </div>
         </div>
         <div
-          class="bgaVJI"
+          class="sc-iAKWXU dVBxey"
           data-testid="balance-group-other-assets"
         >
           <div
-            class="gUWRgq"
+            class="sc-bdvvtL cPSxPD"
           >
             <p
-              class="dBzXnv"
+              class="sc-gsDKAQ dLMLA-d"
             >
               Other assets
             </p>
             <span
               appearance="4"
-              class="bqilBU"
+              class="sc-hKwDye emcqkd"
             >
               $53,000
             </span>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 vehicle
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $38,500
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/2022 Toyota RAV4"
                 >
                   2022 Toyota RAV4
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $38,500
               </span>
             </div>
           </div>
           <div
-            class="ejcGQ"
+            class="sc-hiCibw jktFQO"
           >
             <div
-              class="hXIxPe"
+              class="sc-gWXbKe cgurVW"
             >
               <div
-                class="buXjmN"
+                class="sc-cidDSM ccUmfv"
               >
                 collectible
               </div>
               <span
-                class="bJfVYR"
+                class="sc-jcFjpl jLBuyl"
               >
                 $14,500
               </span>
             </div>
             <div
-              class="hFiVJW"
+              class="sc-cCcXHH hVgZl"
             >
               <div>
                 <a
-                  class="hyBYuC"
+                  class="sc-jJoQJp ilCmOc"
                   href="#/asset/Pokemon Card Collection"
                 >
                   Pokemon Card Collection
                 </a>
                 <div
-                  class="kkLQiS"
+                  class="sc-iUKqMP gmlXoT"
                 >
                   Asset
                 </div>
               </div>
               <span
-                class="fyAOWC"
+                class="sc-caiLqq Ihpmn"
               >
                 $14,500
               </span>

@@ -23,4 +23,13 @@ export class AssetTypeRepository {
 
     return accountTypeDb;
   }
+
+  static async createAssetTypes(assetTypes: AssetType[]) {
+    await getRepository(AssetType)
+      .createQueryBuilder()
+      .insert()
+      .into(AssetType)
+      .values(assetTypes)
+      .execute();
+  }
 }

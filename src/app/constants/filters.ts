@@ -5,6 +5,7 @@ import {
   endOfMonth,
   startOfYear,
   endOfYear,
+  endOfDay,
   eachMonthOfInterval,
   format,
 } from 'date-fns';
@@ -29,22 +30,22 @@ export const filters = [
   {
     label: 'Last 3 months',
     dateFrom: subMonths(today, 3),
-    dateTo: today,
+    dateTo: endOfDay(today),
   },
   {
     label: 'Last 6 months',
     dateFrom: subMonths(today, 6),
-    dateTo: today,
+    dateTo: endOfDay(today),
   },
   {
     label: 'Last 12 months',
     dateFrom: subMonths(today, 12),
-    dateTo: today,
+    dateTo: endOfDay(today),
   },
   {
     label: 'Year to date',
     dateFrom: thisYearFrom,
-    dateTo: today,
+    dateTo: endOfDay(today),
   },
   {
     label: 'Last year',
@@ -54,7 +55,7 @@ export const filters = [
   {
     label: 'Lifetime',
     dateFrom: subYears(today, 900),
-    dateTo: today,
+    dateTo: endOfDay(today),
   },
 ];
 

@@ -66,7 +66,7 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
   const [accountsIndex, setAccountsIndex] = useState<AccountsIndex>(defaultAccountsIndex);
   const [budgetsIndex, setBudgetsIndex] = useState<BudgetsIndex>(defaultBudgetsIndex);
   const [settingsIndex, setSettingsIndex] = useState<SettingsIndex>(defaultSettingsIndex);
-  const { filePath } = useContext(AppContext);
+  const { filePath, isDbEmpty } = useContext(AppContext);
 
   // Get accounts, assets & settings
   useEffect(() => {
@@ -106,46 +106,48 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
 
   // Get budgets
   useEffect(() => {
-    autoBudgetNeedsCategories.forEach(categoryName => {
-      TransactionIpc.getTransactionCategory(categoryName);
-    });
-    autoBudgetWantsCategories.forEach(categoryName => {
-      TransactionIpc.getTransactionCategory(categoryName);
-    });
+    if (!isDbEmpty) {
+      autoBudgetNeedsCategories.forEach(categoryName => {
+        TransactionIpc.getTransactionCategory(categoryName);
+      });
+      autoBudgetWantsCategories.forEach(categoryName => {
+        TransactionIpc.getTransactionCategory(categoryName);
+      });
 
-    const needsCategories: TransactionSubCategory[] = [];
-    const wantsCategories: TransactionSubCategory[] = [];
+      const needsCategories: TransactionSubCategory[] = [];
+      const wantsCategories: TransactionSubCategory[] = [];
 
-    ipcRenderer.on(
-      DB_GET_TRANSACTION_CATEGORY_ACK,
-      (_: IpcRendererEvent, category: TransactionSubCategory) => {
-        if (needsCategories.length < autoBudgetNeedsCategories.length) {
-          needsCategories.push(category);
-        } else {
-          wantsCategories.length <= autoBudgetWantsCategories.length &&
-            wantsCategories.push(category);
+      ipcRenderer.on(
+        DB_GET_TRANSACTION_CATEGORY_ACK,
+        (_: IpcRendererEvent, category: TransactionSubCategory) => {
+          if (needsCategories.length < autoBudgetNeedsCategories.length) {
+            needsCategories.push(category);
+          } else {
+            wantsCategories.length <= autoBudgetWantsCategories.length &&
+              wantsCategories.push(category);
+          }
         }
-      }
-    );
+      );
 
-    const autoBudgetCategories = {
-      needs: needsCategories,
-      wants: wantsCategories,
-    };
+      const autoBudgetCategories = {
+        needs: needsCategories,
+        wants: wantsCategories,
+      };
 
-    const autoBudgets = getAutoBudgets(accountsIndex, autoBudgetCategories) as Budget[];
+      const autoBudgets = getAutoBudgets(accountsIndex, autoBudgetCategories) as Budget[];
 
-    BudgetIpc.getBudgets();
+      BudgetIpc.getBudgets();
 
-    ipcRenderer.on(DB_GET_BUDGETS_ACK, (_: IpcRendererEvent, userBudgets: Budget[]) => {
-      setBudgetsIndex({ autoBudgets, userBudgets, lastUpdate: new Date() });
-    });
+      ipcRenderer.on(DB_GET_BUDGETS_ACK, (_: IpcRendererEvent, userBudgets: Budget[]) => {
+        setBudgetsIndex({ autoBudgets, userBudgets, lastUpdate: new Date() });
+      });
 
-    return () => {
-      ipcRenderer.removeAllListeners(DB_GET_TRANSACTION_CATEGORY_ACK);
-      ipcRenderer.removeAllListeners(DB_GET_BUDGETS_ACK);
-    };
-  }, [accountsIndex]);
+      return () => {
+        ipcRenderer.removeAllListeners(DB_GET_TRANSACTION_CATEGORY_ACK);
+        ipcRenderer.removeAllListeners(DB_GET_BUDGETS_ACK);
+      };
+    }
+  }, [accountsIndex, isDbEmpty]);
 
   const value = {
     assetsIndex,

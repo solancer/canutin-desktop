@@ -1,6 +1,8 @@
 import { AccountRepository } from '@database/repositories/account.repository';
 import { TransactionRepository } from '@database/repositories/transaction.repository';
+import { CategoryRepository } from '@database/repositories/category.repository';
 import { AssetRepository } from '@database/repositories/asset.repository';
+import { Transaction } from '@database/entities';
 
 import {
   accountCheckingDetails,
@@ -38,34 +40,76 @@ import {
 } from './demoData/balanceStatements';
 
 const seedDemoData = async () => {
+  const sessionDate = new Date();
+  const pending = false;
+
   // Account: Checking
   const accountChecking = await AccountRepository.createAccount(accountCheckingDetails);
-  accountCheckingTransactionSet().forEach(async transaction => {
-    await TransactionRepository.createTransaction({
-      ...transaction,
-      accountId: accountChecking.id,
-    });
-  });
+  const accountCheckingTransactions = await Promise.all(
+    accountCheckingTransactionSet().map(async transaction => {
+      const { description, date, amount, excludeFromTotals, categoryName } = transaction;
+      const category = await CategoryRepository.getSubCategory(categoryName);
+
+      return new Transaction(
+        description,
+        date,
+        amount,
+        excludeFromTotals,
+        pending,
+        accountChecking,
+        category,
+        new Date(),
+        sessionDate
+      );
+    })
+  );
+  await TransactionRepository.createTransactions(accountCheckingTransactions);
 
   // Account: Savings
   const accountSavings = await AccountRepository.createAccount(accountSavingsDetails);
-  accountSavingsTransactionSet().forEach(async transaction => {
-    await TransactionRepository.createTransaction({
-      ...transaction,
-      accountId: accountSavings.id,
-    });
-  });
+  const accountSavingsTransaction = await Promise.all(
+    accountSavingsTransactionSet().map(async transaction => {
+      const { description, date, amount, excludeFromTotals, categoryName } = transaction;
+      const category = await CategoryRepository.getSubCategory(categoryName);
+
+      return new Transaction(
+        description,
+        date,
+        amount,
+        excludeFromTotals,
+        pending,
+        accountSavings,
+        category,
+        new Date(),
+        sessionDate
+      );
+    })
+  );
+  await TransactionRepository.createTransactions(accountSavingsTransaction);
 
   // Account: Credit card
   const accountCreditCard = await AccountRepository.createAccount(accountCreditCardDetails);
-  accountCreditCardTransactionSet().forEach(async transaction => {
-    await TransactionRepository.createTransaction({
-      ...transaction,
-      accountId: accountCreditCard.id,
-    });
-  });
+  const accountCreditCardTransaction = await Promise.all(
+    accountCreditCardTransactionSet().map(async transaction => {
+      const { description, date, amount, excludeFromTotals, categoryName } = transaction;
+      const category = await CategoryRepository.getSubCategory(categoryName);
 
-  // Account: Auto-loan
+      return new Transaction(
+        description,
+        date,
+        amount,
+        excludeFromTotals,
+        pending,
+        accountCreditCard,
+        category,
+        new Date(),
+        sessionDate
+      );
+    })
+  );
+  await TransactionRepository.createTransactions(accountCreditCardTransaction);
+
+  // // Account: Auto-loan
   await AccountRepository.createAccount({
     ...accountAutoLoanDetails,
     balanceStatements: accountAutoLoanBalanceStatements,

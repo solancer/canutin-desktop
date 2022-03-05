@@ -15,22 +15,21 @@ import InputCurrency from '@components/common/Form/InputCurrency';
 import { AnalyzeSourceMetadataType } from '@components/AccountAsset/ImportWizardForm';
 import FormFooter from '@components/common/Form/FormFooter';
 import SubmitButton from '@components/common/Form/SubmitButton';
-
-import { LOAD_FROM_OTHER_CSV } from '@constants/events';
-import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
 import { Account } from '@database/entities';
 import { BalanceGroupEnum } from '@enums/balanceGroup.enum';
 import { accountGroupedValues } from '@constants/accountTypes';
 import { EntitiesContext } from '@app/context/entitiesContext';
-
-import { optionList, option, toggleInputContainer } from './styles';
 import {
   SUPPORTED_DATE_FORMAT_OPTIONS,
   SupportedDateFormatType,
   NEW_ACCOUNT_GROUPED_OPTION,
   NEW_ACCOUNT_VALUE,
 } from './otherCsvConstants';
+import { LOAD_FROM_OTHER_CSV } from '@constants/events';
+import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
 import { formToCantuinJsonFile } from './utils';
+import { generateAccountBalanceInfo } from '@app/utils/balance.utils';
+import { optionList, option, toggleInputContainer } from './styles';
 
 const OptionList = styled.div`
   ${optionList}
@@ -90,6 +89,7 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
 
   // Watch form values
   const autoCalculated = watch('account.autoCalculated');
+  const balanceAccount = watch('account.balance');
   const selectedAccount = watch('account.importAccount');
   const accountColumn = watch('accountColumn');
   const selectedCategoryColumn = watch('categoryColumn');
@@ -121,18 +121,17 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
       const account = accountsIndex?.accounts.find(
         account => account.id === Number.parseInt(selectedAccount)
       );
-      setValue(
-        'account.autoCalculated',
-        account?.balanceStatements ? account.autoCalculated : false,
-        { shouldValidate: true }
-      );
-      setValue(
-        'account.balance',
-        account?.balanceStatements
-          ? account.balanceStatements[account.balanceStatements.length - 1].value
-          : false,
-        { shouldValidate: true }
-      );
+
+      if (account) {
+        const { amount } = generateAccountBalanceInfo(account);
+
+        setValue(
+          'account.autoCalculated',
+          account?.balanceStatements ? account.autoCalculated : false,
+          { shouldValidate: true }
+        );
+        setValue('account.balance', amount ? amount : '', { shouldValidate: true });
+      }
     }
   }, [accountsIndex?.lastUpdate, selectedAccount, setValue]);
 
@@ -394,7 +393,10 @@ const OtherCSVForm = ({ data, metadata }: OtherCSVFormProps) => {
         </Fieldset>
       )}
       <FormFooter>
-        <SubmitButton disabled={!formState.isValid} onClick={handleSubmit(onSubmit)}>
+        <SubmitButton
+          disabled={!formState.isValid || (!autoCalculated && balanceAccount === '')}
+          onClick={handleSubmit(onSubmit)}
+        >
           Continue
         </SubmitButton>
       </FormFooter>

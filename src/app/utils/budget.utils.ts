@@ -112,7 +112,9 @@ export const getAutoBudgets = (
   autoBudgetCategories: AutoBudgetCategoriesType
 ) => {
   const transactions = accountsIndex?.accounts
-    ? accountsIndex?.accounts.map(account => account.transactions!).flat()
+    ? accountsIndex?.accounts
+        .map(account => (account.transactions ? account.transactions : []))
+        .flat()
     : [];
 
   const targetIncomeAmount = Math.round(

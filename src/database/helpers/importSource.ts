@@ -13,67 +13,70 @@ import {
 import { AssetRepository } from '@database/repositories/asset.repository';
 import { AssetTypeEnum } from '@enums/assetType.enum';
 import { Account } from '@database/entities';
+import { LOAD_DATA_ACK } from '@constants/events';
+import { StatusEnum } from '@app/constants/misc';
 
 export const importFromCanutinFile = async (
-  canutinFile: CanutinFileType,
-  win: BrowserWindow | null
+  win: BrowserWindow | null,
+  canutinFile: CanutinFileType
 ) => {
   try {
-    canutinFile.accounts?.forEach(async canutinFileAccount => {
-      // Find or create account
-      const account = await AccountRepository.getOrCreateAccount(canutinFileAccount).then(res => {
-        return res;
-      });
+    const { accounts, assets } = canutinFile;
 
-      // Process transactions
-      canutinFileAccount.transactions &&
-        handleCanutinFileTransactions(account, canutinFileAccount.transactions);
+    if (accounts) {
+      for (const canutinFileAccount of accounts) {
+        const account = await AccountRepository.getOrCreateAccount(canutinFileAccount);
+
+        canutinFileAccount.transactions &&
+          (await handleCanutinFileTransactions(account, canutinFileAccount.transactions));
+      }
+    }
+
+    if (assets) {
+      for (const canutinFileAsset of assets) {
+        await AssetRepository.getOrCreateAsset({
+          ...canutinFileAsset,
+          assetType: canutinFileAsset.assetType as AssetTypeEnum,
+        });
+      }
+    }
+
+    win?.webContents.send(LOAD_DATA_ACK, {
+      status: StatusEnum.POSITIVE,
     });
-
-    canutinFile.assets &&
-      (await Promise.all(
-        canutinFile.assets.map(async canutinFileAsset =>
-          AssetRepository.getOrCreateAsset({
-            ...canutinFileAsset,
-            assetType: canutinFileAsset.assetType as AssetTypeEnum,
-          })
-        )
-      ));
-
-    return true;
   } catch (error) {
-    return false;
+    win?.webContents.send(LOAD_DATA_ACK, {
+      status: StatusEnum.NEGATIVE,
+    });
   }
 };
 
 // FIXME: I don't think we need a separate function to updateAccounts
 export const updateAccounts = async (updatedAccounts: UpdatedAccount[]) => {
-  updatedAccounts.forEach(async ({ id, transactions }) => {
-    const account = await AccountRepository.getAccountById(id);
+  await Promise.all(
+    updatedAccounts.map(async ({ id, transactions }) => {
+      const account = await AccountRepository.getAccountById(id);
 
-    account && transactions && handleCanutinFileTransactions(account, transactions);
-  });
+      account && transactions && handleCanutinFileTransactions(account, transactions);
+    })
+  );
 };
 
 const handleCanutinFileTransactions = async (
   account: Account,
   canutinFileTransactions: CanutinFileTransactionType[]
 ) => {
+  const transactions: Transaction[] = [];
   const sessionDate = new Date(); // Applies the same date to all transactions processed in the session
-  const transactions = await Promise.all(
-    canutinFileTransactions.map(async canutinFileTransaction => {
-      const {
-        description,
-        date,
-        amount,
-        excludeFromTotals,
-        pending,
-        createdAt,
-        importedAt,
-      } = canutinFileTransaction;
-      const category = await CategoryRepository.getSubCategory(canutinFileTransaction.category);
 
-      return new Transaction(
+  for (const canutinFileTransaction of canutinFileTransactions) {
+    const { description, date, amount, excludeFromTotals, pending, createdAt, importedAt } =
+      canutinFileTransaction;
+
+    const category = await CategoryRepository.getSubCategory(canutinFileTransaction.category);
+
+    transactions.push(
+      new Transaction(
         description,
         handleDate(date),
         amount,
@@ -83,9 +86,9 @@ const handleCanutinFileTransactions = async (
         category,
         handleDate(createdAt),
         importedAt ? handleDate(importedAt) : sessionDate
-      );
-    })
-  );
+      )
+    );
+  }
 
   await TransactionRepository.createTransactions(transactions);
 };

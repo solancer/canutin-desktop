@@ -1,6 +1,5 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import 'jest-styled-components';
 
 import { seedAccounts, seedAssets, seedMinimumAccount } from '@tests/factories/entitiesFactory';
 import { initAppWith } from '@tests/utils/initApp.utils';
@@ -9,11 +8,9 @@ describe('Balance sheet tests', () => {
   test("Sidebar link can't be clicked if no accounts or assets are present", async () => {
     initAppWith({});
     const balanceSheetSidebarLink = screen.getByTestId('sidebar-balance-sheet');
-    expect(balanceSheetSidebarLink).toHaveAttribute('active', '0');
     expect(balanceSheetSidebarLink).toHaveAttribute('disabled');
-
-    userEvent.click(balanceSheetSidebarLink);
-    expect(balanceSheetSidebarLink).not.toHaveAttribute('active', '1');
+    expect(balanceSheetSidebarLink).toHaveAttribute('active', '0');
+    expect(balanceSheetSidebarLink).toHaveStyle('pointer-events: none');
   });
 
   test('Balance sheet page displays an empty view when no enough data is available', async () => {

@@ -1,17 +1,19 @@
 import React, { useMemo, useEffect, useContext } from 'react';
+import { getDate, getMonth, getYear } from 'date-fns';
 import { useForm } from 'react-hook-form';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
-import { yearsList, monthList, dayList, getCurrentDateInformation } from '@appConstants/dates';
+import { yearsList, monthList, dayList } from '@appConstants/dates';
 import { dateInUTC } from '@app/utils/date.utils';
 import { DB_EDIT_TRANSACTION_ACK, DB_NEW_TRANSACTION_ACK } from '@constants/events';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import TransactionIpc from '@app/data/transaction.ipc';
 import { StatusEnum } from '@app/constants/misc';
 import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
+import { EntitiesContext } from '@app/context/entitiesContext';
 
 import Form from '@components/common/Form/Form';
 import Fieldset from '@components/common/Form/Fieldset';
@@ -25,9 +27,7 @@ import SubmitButton from '@components/common/Form/SubmitButton';
 import InlineCheckbox from '@components/common/Form/Checkbox';
 import ToggleInputField from '@components/common/Form/ToggleInputField';
 import FieldNotice from '@components/common/Form/FieldNotice';
-
 import { dateField } from './styles';
-import { EntitiesContext } from '@app/context/entitiesContext';
 
 const DateField = styled.div`
   ${dateField}
@@ -50,8 +50,6 @@ type TransactionSubmitType = {
   id?: number;
 };
 
-const DATE_INFORMATION = getCurrentDateInformation();
-
 const TransactionForm = ({ initialState }: TransactionFormProps) => {
   const history = useHistory();
   const { setStatusMessage } = useContext(StatusBarContext);
@@ -64,6 +62,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
       })),
     [accountsIndex?.lastUpdate]
   );
+  const today = new Date();
   const { handleSubmit, control, register, watch, formState } = useForm({
     mode: 'onChange',
     defaultValues: initialState
@@ -72,9 +71,9 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
           account: accountsIndex?.accounts[0].id.toString() ?? null,
           description: null,
           category: 'Uncategorized',
-          day: DATE_INFORMATION.day,
-          month: DATE_INFORMATION.month,
-          year: DATE_INFORMATION.year,
+          day: getDate(today),
+          month: getMonth(today),
+          year: getYear(today),
           amount: '',
           excludeFromTotals: false,
         },
@@ -199,7 +198,7 @@ const TransactionForm = ({ initialState }: TransactionFormProps) => {
           <ToggleInputField>
             <InputCurrency
               value={amount && Number(amount)}
-              rules={{ validate: v => excludeFromTotals || v !== '' }}
+              rules={{ validate: v => v !== '' }}
               name="amount"
               control={control}
               required

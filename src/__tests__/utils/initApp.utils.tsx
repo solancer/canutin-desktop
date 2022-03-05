@@ -1,5 +1,5 @@
 import { ipcRenderer, IpcRendererEvent } from 'electron';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 
 import {
   DB_GET_ACCOUNTS_ACK,

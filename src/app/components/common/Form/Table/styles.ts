@@ -74,7 +74,26 @@ export const tableHeaderItem = css<{ alignRight?: boolean; isSorted: boolean }>`
   position: sticky;
   top: 0;
   padding: 12px;
-  box-shadow: 0 2px 0 ${borderGrey}, 0 -1px 0 ${borderGrey};
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    left: 0;
+    right: 0;
+    background-color: ${borderGrey};
+  }
+
+  &:before {
+    top: -1px;
+    height: 1px;
+  }
+
+  &:after {
+    bottom: -2px;
+    height: 2px;
+  }
 
   > div {
     align-items: center;

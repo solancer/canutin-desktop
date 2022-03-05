@@ -18,11 +18,11 @@ export class AssetBalanceStatement extends Base {
   @JoinColumn()
   asset: Asset;
 
-  constructor(asset: Asset, createdAt: Date, value = 0, cost?: number, quantity?: number) {
+  constructor(value = 0, asset: Asset, createdAt: Date, quantity?: number, cost?: number) {
     super();
+    this.value = quantity && cost ? quantity * cost : value;
     this.asset = asset;
     this.createdAt = createdAt;
-    this.value = quantity && cost ? quantity * cost : value;
     this.quantity = quantity;
     this.cost = cost;
   }

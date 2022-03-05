@@ -1,3 +1,4 @@
+import isDev from 'electron-is-dev';
 import {
   createConnection,
   getConnection,
@@ -6,6 +7,7 @@ import {
   AlreadyHasActiveConnectionError,
   ConnectionNotFoundError,
 } from 'typeorm';
+
 import {
   Account,
   AccountBalanceStatement,
@@ -17,25 +19,25 @@ import {
   AccountType,
   TransactionSubCategory,
   AssetBalanceStatement,
-  Settings
+  Settings,
 } from '../entities';
 
 export const dbConfig = {
   type: 'better-sqlite3',
-  synchronize: true,
-  logging: true,
+  synchronize: isDev && true,
+  logging: isDev && true,
   entities: [
     Account,
+    AccountType,
     AccountBalanceStatement,
     Asset,
-    Budget,
+    AssetType,
+    AssetBalanceStatement,
     Transaction,
     TransactionCategory,
-    AssetType,
-    AccountType,
     TransactionSubCategory,
-    AssetBalanceStatement,
-    Settings
+    Budget,
+    Settings,
   ],
 };
 
@@ -47,7 +49,7 @@ const connection = {
         callback(connection);
       }
     } catch (error) {
-      console.log('Error', error)
+      console.error('Error', error);
       if (error instanceof AlreadyHasActiveConnectionError) {
         return;
       }

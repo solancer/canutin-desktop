@@ -2,6 +2,17 @@ import { BalanceGroupEnum } from '../../enums/balanceGroup.enum';
 import { AssetTypeEnum } from '../../enums/assetType.enum';
 import { accountTypes } from '../../constants/accountTypes';
 
+export const splitInChunks = (entityArray: any[]) => {
+  // Splits arrays in chunks so they can be bulk inserted within the DB's driver limits
+  const DATABASE_CHUNK_SIZE = 250;
+
+  const chunks: any[] = [];
+  for (let i = 0; i < entityArray.length; i += DATABASE_CHUNK_SIZE) {
+    chunks.push(entityArray.slice(i, i + DATABASE_CHUNK_SIZE));
+  }
+  return chunks;
+};
+
 export const getBalanceGroupByAssetType = (assetType: AssetTypeEnum): BalanceGroupEnum => {
   let balanceGroup = BalanceGroupEnum.CASH;
   const cashBalanceGroup = [AssetTypeEnum.CASH];

@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import userEvent from '@testing-library/user-event';
 
 import { DATABASE_NOT_DETECTED } from '@constants';

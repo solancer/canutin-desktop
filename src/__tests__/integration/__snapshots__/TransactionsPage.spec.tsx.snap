@@ -2,20 +2,20 @@
 
 exports[`Transactions tests Transactions page displays an empty view when no enough data is available 1`] = `
 <div
-  class="eHSBpH"
+  class="sc-iqseJM krxsxy"
   data-testid="scrollview-transactions"
 >
   <header
-    class="fagWyk"
+    class="sc-crHmcD chJYcV"
   >
     <div
-      class="jAhLsL"
+      class="sc-fFeiMQ fIMGLX"
     >
       <div
-        class="jtiQiL"
+        class="sc-egiyK hGPUxh"
       >
         <h1
-          class="hNZCJQ"
+          class="sc-bqiRlB dMSeEr"
           title="Transactions"
         >
           Transactions
@@ -23,25 +23,25 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
       </div>
       <nav>
         <nav
-          class="becTvk"
+          class="sc-khQegj enDBeh"
         >
           <button
-            class="fQYTKD"
+            class="sc-kLwhqv gkIUDe"
             type="button"
           >
             Add transaction
           </button>
           <button
-            class="fQYTKD"
+            class="sc-kLwhqv gkIUDe"
             type="button"
           >
             Import
           </button>
           <hr
-            class="dYIkQz"
+            class="sc-hUpaCq bxvzpl"
           />
           <div
-            class="kchqSq jvTYFt css-2b097c-container"
+            class="sc-gSQFLo sc-lbhJGD lmqQpW cBdJjF css-2b097c-container"
           >
             <span
               aria-atomic="false"
@@ -100,35 +100,35 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
     </div>
   </header>
   <main
-    class="fUckcR"
+    class="sc-hBUSln VoEdK"
   >
     <div
-      class="PJmAb"
+      class="sc-eCImPb kAAJDj"
     >
       <header
-        class="iGWxFg"
+        class="sc-jRQBWg gVqNsd"
       >
         <h2
-          class="gTAXam"
+          class="sc-gKclnd NOdWh"
         >
           Browse transactions
         </h2>
         <div>
           <nav
-            class="dDdRjc"
+            class="sc-iCfMLu bwqJIX"
           >
             <div
-              class="dAAFPm"
+              class="sc-furwcr bbwRoh"
             >
               all
             </div>
             <div
-              class="gDxUWx"
+              class="sc-furwcr nEOmy"
             >
               credits
             </div>
             <div
-              class="gDxUWx"
+              class="sc-furwcr nEOmy"
             >
               debits
             </div>
@@ -136,46 +136,46 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
         </div>
       </header>
       <div
-        class="fYPmRb"
+        class="sc-hiwPVj bfeKni"
       >
         <nav
-          class="itRUgj"
+          class="sc-hOGkXu bwpttk"
         >
           <input
-            class="bVDZFG"
+            class="sc-bTfYFJ jMwQbW"
             placeholder="Type to filter by date, description, category, account or amount"
             value=""
           />
           <div
-            class="dNOxzS"
+            class="sc-kHOZwM jxKoyc"
           >
             <div
-              class="ejVLDB"
+              class="sc-bdvvtL dcNwYU"
               data-testid="card-transactions"
             >
               <p
-                class="dBzXnv"
+                class="sc-gsDKAQ dLMLA-d"
               >
                 Transactions
               </p>
               <p
-                class="gBOMVl"
+                class="sc-dkPtRN jeHjVu"
               >
                 0
               </p>
             </div>
             <div
-              class="ejVLDB"
+              class="sc-bdvvtL dcNwYU"
               data-testid="card-net-balance"
             >
               <p
-                class="dBzXnv"
+                class="sc-gsDKAQ dLMLA-d"
               >
                 Net balance
               </p>
               <span
                 appearance="0"
-                class="bqilBU"
+                class="sc-hKwDye emcqkd"
               >
                 $0
               </span>
@@ -183,16 +183,16 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
           </div>
         </nav>
         <table
-          class="iLdvjb"
+          class="sc-ehCJOs bzDiCC"
           role="table"
         >
           <thead>
             <tr
-              class="bkDuzf"
+              class="sc-lcepkR dxklns"
               role="row"
             >
               <th
-                class="fKhrkz"
+                class="sc-gGCDDS hTYhfK"
                 colspan="1"
                 role="columnheader"
                 style="cursor: pointer;"
@@ -201,14 +201,14 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
                 <div>
                   Date
                   <div
-                    class="eaApny"
+                    class="sc-clIzBv dwPbeE"
                   >
                     ▼
                   </div>
                 </div>
               </th>
               <th
-                class="kTLENc"
+                class="sc-gGCDDS rsgbZ"
                 colspan="1"
                 role="columnheader"
                 style="cursor: pointer;"
@@ -217,12 +217,12 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
                 <div>
                   Description
                   <div
-                    class="eaApny"
+                    class="sc-clIzBv dwPbeE"
                   />
                 </div>
               </th>
               <th
-                class="kTLENc"
+                class="sc-gGCDDS rsgbZ"
                 colspan="1"
                 role="columnheader"
                 style="cursor: pointer;"
@@ -231,12 +231,12 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
                 <div>
                   Category
                   <div
-                    class="eaApny"
+                    class="sc-clIzBv dwPbeE"
                   />
                 </div>
               </th>
               <th
-                class="kTLENc"
+                class="sc-gGCDDS rsgbZ"
                 colspan="1"
                 role="columnheader"
                 style="cursor: pointer;"
@@ -245,12 +245,12 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
                 <div>
                   Account
                   <div
-                    class="eaApny"
+                    class="sc-clIzBv dwPbeE"
                   />
                 </div>
               </th>
               <th
-                class="Njrxs"
+                class="sc-gGCDDS btcOBl"
                 colspan="1"
                 role="columnheader"
                 style="cursor: pointer;"
@@ -259,7 +259,7 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
                 <div>
                   Amount
                   <div
-                    class="eaApny"
+                    class="sc-clIzBv dwPbeE"
                   />
                 </div>
               </th>
@@ -268,11 +268,11 @@ exports[`Transactions tests Transactions page displays an empty view when no eno
           <tbody>
             <tr>
               <td
-                class="jwwGkQ"
+                class="sc-fWCJzd iXpbTK"
                 colspan="1000"
               >
                 <div
-                  class="bIsif bbCdFj"
+                  class="sc-ezbkAF igaVSX sc-dvQaRk lhVPeJ"
                 >
                   No transactions were found
                 </div>

@@ -48,7 +48,7 @@ export interface CanutinFileAssetType {
 }
 
 export interface CanutinFileType {
-  accounts: CanutinFileAccountType[];
+  accounts: CanutinFileAccountType[]; // FIXME: should be optional
   assets?: CanutinFileAssetType[];
 }
 
