@@ -24,7 +24,7 @@ import {
 
 export const dbConfig = {
   type: 'better-sqlite3',
-  synchronize: isDev && true,
+  synchronize: true,
   logging: isDev && true,
   entities: [
     Account,
