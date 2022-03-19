@@ -1,0 +1,11 @@
+export const VAULT_PATH = 'vaultPath';
+export const VAULT_READY = 'vaultReady';
+export const VAULT_MASTER_KEY = 'vaultMasterKey';
+export const VAULT_MASTER_KEY_ENCODING = 'latin1';
+export const VAULT_NOT_SET = 'vaultNotSet';
+export const VAULT_SET_NO_MASTER_KEY = 'vaultSetNoMasterKey';
+export const VAULT_SET_WRONG_MASTER_KEY = 'vaultSetWrongMasterKey';
+export const VAULT_SET_NO_FILE = 'vaultSetNoFile';
+export const VAULT_OPEN_SAVE_DIALOG = 'vaultOpenSaveDialog';
+export const VAULT_OPEN_EXISTING_FILE_DIALOG = 'vaultOpenExistingFileDialog';
+export const VAULT_UNLOCK = 'vaultUnlock';

@@ -5,23 +5,24 @@ import styled from 'styled-components';
 
 import { routesConfig, RouteConfigProps, routesPaths } from '@routes';
 import {
-  DATABASE_CONNECTED,
-  DATABASE_NOT_DETECTED,
-  DATABASE_DOES_NOT_EXIST,
-  DATABASE_NOT_VALID,
-} from '@constants';
+  VAULT_READY,
+  VAULT_NOT_SET,
+  VAULT_SET_NO_FILE,
+  VAULT_SET_WRONG_MASTER_KEY,
+  VAULT_SET_NO_MASTER_KEY,
+} from '@constants/vault';
 
+import TitleBar from '@components/common/TitleBar';
+import StatusBar from '@components/common/StatusBar';
+import SideBar from '@components/common/SideBar';
+import GlobalStyle from '@app/styles/global';
+import NotReady from '@app/pages/NotReady';
 import { EntitiesContext } from '@app/context/entitiesContext';
 import { AppContext } from '@app/context/appContext';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { StatusEnum } from '@app/constants/misc';
 import { DatabaseDoesNotExistsMessage } from '@constants/messages';
-import TitleBar from '@components/common/TitleBar';
-import StatusBar from '@components/common/StatusBar';
-import SideBar from '@components/common/SideBar';
-import Setup from '@pages/Setup';
-import GlobalStyle from '@app/styles/global';
-import NotReady from '@app/pages/NotReady';
+import { VaultStatusEnum } from '@enums/vault.enum';
 import { container } from './styles';
 
 const Container = styled.div`
@@ -34,31 +35,51 @@ const App = () => {
     setIsLoading,
     isAppInitialized,
     setIsAppInitialized,
-    setFilePath,
-    isDbEmpty,
-    setIsDbEmpty,
+    vaultPath,
+    setVaultPath,
+    vaultStatus,
+    setVaultStatus,
   } = useContext(AppContext);
   const { accountsIndex, assetsIndex, settingsIndex } = useContext(EntitiesContext);
   const { setStatusMessage } = useContext(StatusBarContext);
 
   useEffect(() => {
-    ipcRenderer.on(DATABASE_CONNECTED, (_, filePath) => {
+    ipcRenderer.on(VAULT_READY, (_, vaultPath: string) => {
       setIsAppInitialized(true);
-      setFilePath(filePath?.filePath);
-      setIsDbEmpty(true);
-      setIsLoading(true);
+      setVaultPath(vaultPath);
+      setVaultStatus(VaultStatusEnum.READY_TO_INDEX);
     });
 
-    ipcRenderer.on(DATABASE_NOT_DETECTED, () => {
-      setIsLoading(false);
+    ipcRenderer.on(VAULT_NOT_SET, () => {
       setIsAppInitialized(false);
+      setIsLoading(false);
+      setVaultStatus(VaultStatusEnum.NOT_SET);
     });
 
-    ipcRenderer.on(DATABASE_DOES_NOT_EXIST, (_, { dbPath }: DatabaseDoesNotExistsMessage) => {
+    ipcRenderer.on(VAULT_SET_NO_MASTER_KEY, (_, vaultPath: string) => {
+      setIsAppInitialized(true);
       setIsLoading(false);
-      setIsAppInitialized(false);
+      setVaultPath(vaultPath);
+      setVaultStatus(VaultStatusEnum.SET_EXISTING_NOT_READY);
+    });
+
+    ipcRenderer.on(VAULT_SET_WRONG_MASTER_KEY, () => {
+      setIsAppInitialized(true);
+      setIsLoading(false);
+      setVaultStatus(VaultStatusEnum.SET_EXISTING_NOT_READY);
       setStatusMessage({
-        sentiment: StatusEnum.NEGATIVE,
+        sentiment: StatusEnum.WARNING,
+        message: 'Incorrect master key or the chosen file is not a valid Canutin vault',
+        isLoading: false,
+      });
+    });
+
+    ipcRenderer.on(VAULT_SET_NO_FILE, (_, { dbPath }: DatabaseDoesNotExistsMessage) => {
+      setIsAppInitialized(true);
+      setIsLoading(false);
+      setVaultStatus(VaultStatusEnum.NOT_SET);
+      setStatusMessage({
+        sentiment: StatusEnum.WARNING,
         message: (
           <>
             The vault located at <b>{dbPath}</b> was moved or deleted
@@ -68,58 +89,62 @@ const App = () => {
       });
     });
 
-    ipcRenderer.on(DATABASE_NOT_VALID, () => {
-      setIsLoading(false);
-      setStatusMessage({
-        sentiment: StatusEnum.NEGATIVE,
-        message: 'The chosen file is not a valid Canutin vault',
-        isLoading: false,
-      });
-    });
-
     return () => {
-      ipcRenderer.removeAllListeners(DATABASE_CONNECTED);
-      ipcRenderer.removeAllListeners(DATABASE_NOT_DETECTED);
-      ipcRenderer.removeAllListeners(DATABASE_DOES_NOT_EXIST);
-      ipcRenderer.removeAllListeners(DATABASE_NOT_VALID);
+      ipcRenderer.removeAllListeners(VAULT_READY);
+      ipcRenderer.removeAllListeners(VAULT_NOT_SET);
+      ipcRenderer.removeAllListeners(VAULT_SET_NO_MASTER_KEY);
+      ipcRenderer.removeAllListeners(VAULT_SET_NO_FILE);
+      ipcRenderer.removeAllListeners(VAULT_SET_WRONG_MASTER_KEY);
     };
   }, []);
 
   useEffect(() => {
-    if (isLoading) return;
+    if (vaultStatus !== VaultStatusEnum.INDEX_PENDING) return;
     if (!Array.isArray(accountsIndex?.accounts) && !Array.isArray(assetsIndex?.assets)) return;
 
     if (accountsIndex?.accounts.length === 0 && assetsIndex?.assets.length === 0) {
-      setIsDbEmpty(true);
-    } else {
-      setIsDbEmpty(false);
-    }
-  }, [isLoading]);
-
-  // Set app loading state after all indexes have been updated
-  useEffect(() => {
-    assetsIndex?.lastUpdate &&
-      accountsIndex?.lastUpdate &&
-      settingsIndex?.lastUpdate &&
+      setVaultStatus(VaultStatusEnum.INDEXED_NO_DATA);
       setIsLoading(false);
+    } else {
+      setVaultStatus(VaultStatusEnum.INDEXED_WITH_DATA);
+      setIsLoading(false);
+    }
+  }, [vaultStatus]);
+
+  useEffect(() => {
+    if (assetsIndex?.lastUpdate && accountsIndex?.lastUpdate && settingsIndex?.lastUpdate) {
+      setIsLoading(true);
+      setVaultStatus(VaultStatusEnum.INDEX_PENDING);
+    }
   }, [assetsIndex, accountsIndex, settingsIndex]);
+
+  const isVaultNotSet = !vaultPath || vaultStatus === VaultStatusEnum.NOT_SET;
+  const isVaultLocked =
+    vaultPath &&
+    (vaultStatus === VaultStatusEnum.SET_NEW_NOT_READY ||
+      vaultStatus === VaultStatusEnum.SET_EXISTING_NOT_READY);
+  const isVaultEmpty = vaultStatus === VaultStatusEnum.INDEXED_NO_DATA;
+  const isVaultWithData = vaultStatus === VaultStatusEnum.INDEXED_WITH_DATA;
+  const hasSidebar = isVaultEmpty || isVaultWithData;
 
   return (
     <>
       <GlobalStyle />
       <HashRouter>
-        <Container hasSidebar={isAppInitialized && !isLoading}>
+        <Container hasSidebar={hasSidebar}>
           <TitleBar />
 
           {isLoading && <NotReady />}
 
-          {!isAppInitialized && !isLoading && <Setup />}
-
-          {isAppInitialized && !isLoading && (
+          {!isLoading && (
             <>
-              <SideBar />
-              {isDbEmpty && <Redirect to={routesPaths.addOrUpdateData} />}
-              {!isDbEmpty && <Redirect to={routesPaths.index} />}
+              {hasSidebar && <SideBar />}
+
+              {isVaultNotSet && <Redirect to={routesPaths.setup} />}
+              {isVaultLocked && <Redirect to={routesPaths.vaultSecurity} />}
+              {isVaultEmpty && <Redirect to={routesPaths.addOrUpdateData} />}
+              {isVaultWithData && <Redirect to={routesPaths.index} />}
+
               <Switch>
                 {routesConfig.map(({ path, component, exact }: RouteConfigProps, index) => (
                   <Route key={index} exact={exact} path={path}>

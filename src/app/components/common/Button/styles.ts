@@ -1,11 +1,11 @@
 import { css } from 'styled-components';
 
 import { sansSerifBold } from '@appConstants/fonts';
-import { grey20, grey40, grey70 } from '@appConstants/colors';
+import { grey20, grey30, grey40, grey70 } from '@appConstants/colors';
 
-export const container = css`
+export const container = css<{ disabled: boolean }>`
   ${sansSerifBold};
-  padding: 8px 16px;
+  padding: 10px 16px;
   font-size: 12px;
   border-radius: 3px;
   color: ${grey70};
@@ -24,4 +24,13 @@ export const container = css`
   &:active {
     transform: scale(0.98);
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      border: none;
+      background-color: ${grey20};
+      color: ${grey30};
+      cursor: default;
+    `}
 `;

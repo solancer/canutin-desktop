@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 import { EntitiesContext } from '@app/context/entitiesContext';
-import { DB_EDIT_BUDGET_GROUPS_ACK } from '@constants/events';
+import { DB_EDIT_BUDGET_GROUPS_ACK } from '@constants/repositories';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { StatusEnum } from '@app/constants/misc';
@@ -174,6 +174,9 @@ const EditBudgetGroups = () => {
             sentiment: StatusEnum.POSITIVE,
             isLoading: false,
           });
+
+          // FIXME: should use `routePaths.budget` but it breaks type definitions
+          // when running `yarn electron-tsc`.
           history.push('/budget');
           break;
         case EVENT_ERROR:
@@ -188,12 +191,8 @@ const EditBudgetGroups = () => {
   };
 
   const onSubmit = (editBudgetSubmit: EditBudgetSubmitType) => {
-    const {
-      autoBudgetField,
-      targetIncomeField,
-      expenseGroupFields,
-      newExpenseGroupFields,
-    } = editBudgetSubmit;
+    const { autoBudgetField, targetIncomeField, expenseGroupFields, newExpenseGroupFields } =
+      editBudgetSubmit;
 
     const editedBudgets = [];
     if (autoBudgetField === 'Disabled') {

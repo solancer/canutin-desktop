@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron';
 import userEvent from '@testing-library/user-event';
 import selectEvent from 'react-select-event';
 
-import { DB_NEW_ACCOUNT } from '@constants/events';
+import { DB_NEW_ACCOUNT } from '@constants/repositories';
 import { initAppWith } from '@tests/utils/initApp.utils';
 
 describe('Add account by Hand tests', () => {

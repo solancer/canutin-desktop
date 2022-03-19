@@ -18,7 +18,7 @@ import {
   ANALYZE_SOURCE_FILE_ACK,
   LOAD_FROM_CANUTIN_FILE,
   LOAD_DATA_ACK,
-} from '@constants/events';
+} from '@constants/imports';
 import { sourceExtensionFile, enumImportTitleOptions, StatusEnum } from '@appConstants/misc';
 import { CanutinFileType } from '@appTypes/canutinFile.type';
 import { ParseMeta } from '@appTypes/parseCsv';
@@ -30,6 +30,7 @@ import OtherCSVForm from './OtherCSVForm';
 import { generateSourceMessage } from './importWizardUtils';
 import sourceAlertsLookup from './dataSourceAlerts';
 import { AppContext } from '@app/context/appContext';
+import { VaultStatusEnum } from '@enums/vault.enum';
 
 const filePathStatusMessage = (status: StatusEnum, message?: string) => {
   if (message) {
@@ -61,7 +62,7 @@ export interface AnalyzeSourceFileType {
 
 const ImportWizardForm = () => {
   const history = useHistory();
-  const { setIsDbEmpty } = useContext(AppContext);
+  const { setVaultStatus } = useContext(AppContext);
   const { accountsIndex, assetsIndex } = useContext(EntitiesContext);
   const { statusMessage, setStatusMessage } = useContext(StatusBarContext);
   const [source, setSource] = useState<enumImportTitleOptions | null>(null);
@@ -126,7 +127,7 @@ const ImportWizardForm = () => {
 
   useEffect(() => {
     if (statusMessage.isLoading) {
-      setIsDbEmpty(false);
+      setVaultStatus(VaultStatusEnum.INDEXED_WITH_DATA);
       setStatusMessage({
         sentiment: StatusEnum.POSITIVE,
         message: 'The data was imported successfully',

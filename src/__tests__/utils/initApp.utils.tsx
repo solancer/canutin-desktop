@@ -7,9 +7,14 @@ import {
   DB_GET_SETTINGS_ACK,
   DB_GET_BUDGETS_ACK,
   FILTER_TRANSACTIONS_ACK,
-} from '@constants/events';
-import { DATABASE_CONNECTED } from '@constants';
-import { SeedAccount, SeedAsset, SeedTransaction } from '@tests/factories/entitiesFactory';
+} from '@constants/repositories';
+import { VAULT_READY } from '@constants/vault';
+import {
+  SeedAccount,
+  SeedAsset,
+  seedMinimumAccount,
+  SeedTransaction,
+} from '@tests/factories/entitiesFactory';
 import { AppCtxProvider } from '@app/context/appContext';
 import { EntitiesProvider } from '@app/context/entitiesContext';
 import { render } from '@tests/utils';
@@ -25,6 +30,23 @@ interface InitAppWithProps {
   settings?: SeedSettings;
   filterTransactions?: SeedTransaction[] | false;
 }
+
+interface MockedEventProps {
+  eventName: string;
+  eventValue: any;
+}
+
+export const mockIpcRendererOnEvents = (mockedEvents: MockedEventProps[]) => {
+  mocked(ipcRenderer).on.mockImplementation((event, callback) => {
+    mockedEvents.forEach(({ eventName, eventValue }) => {
+      if (event === eventName) {
+        callback(event as unknown as IpcRendererEvent, eventValue);
+      }
+    });
+
+    return ipcRenderer;
+  });
+};
 
 export const initAppWithContexts = () => {
   render(
@@ -42,35 +64,32 @@ export const initAppWith = ({
   settings = { autoBudget: true },
   filterTransactions = [],
 }: InitAppWithProps) => {
-  mocked(ipcRenderer).on.mockImplementation((event, callback) => {
-    if (event === DATABASE_CONNECTED) {
-      callback((event as unknown) as IpcRendererEvent, {
-        filePath: 'testFilePath',
-      });
-    }
-
-    if (event === DB_GET_ACCOUNTS_ACK) {
-      callback((event as unknown) as IpcRendererEvent, accounts);
-    }
-
-    if (event === DB_GET_ASSETS_ACK) {
-      callback((event as unknown) as IpcRendererEvent, assets);
-    }
-
-    if (event === DB_GET_SETTINGS_ACK) {
-      callback((event as unknown) as IpcRendererEvent, settings);
-    }
-
-    if (event === DB_GET_BUDGETS_ACK) {
-      callback((event as unknown) as IpcRendererEvent, []);
-    }
-
-    if (event === FILTER_TRANSACTIONS_ACK) {
-      callback((event as unknown) as IpcRendererEvent, { transactions: filterTransactions });
-    }
-
-    return ipcRenderer;
-  });
+  mockIpcRendererOnEvents([
+    {
+      eventName: VAULT_READY,
+      eventValue: 'Canutin.test.vault',
+    },
+    {
+      eventName: DB_GET_ACCOUNTS_ACK,
+      eventValue: accounts,
+    },
+    {
+      eventName: DB_GET_ASSETS_ACK,
+      eventValue: assets,
+    },
+    {
+      eventName: DB_GET_SETTINGS_ACK,
+      eventValue: settings,
+    },
+    {
+      eventName: DB_GET_BUDGETS_ACK,
+      eventValue: [],
+    },
+    {
+      eventName: FILTER_TRANSACTIONS_ACK,
+      eventValue: { transactions: filterTransactions },
+    },
+  ]);
 
   initAppWithContexts();
 };

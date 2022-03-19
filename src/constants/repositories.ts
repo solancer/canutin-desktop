@@ -1,7 +1,3 @@
-export const OPEN_CREATE_VAULT = 'openCreateVault';
-export const OPEN_EXISTING_VAULT = 'openExistingVault';
-
-// Database
 export const DB_NEW_ACCOUNT = 'dbNewAccount';
 export const DB_NEW_ACCOUNT_ACK = 'dbNewAccountAck';
 
@@ -71,19 +67,5 @@ export const DB_SEED_VAULT_ACK = 'dbSeedVaultAck';
 export const DB_EDIT_SETTINGS = 'dbEditSettings';
 export const DB_EDIT_SETTINGS_ACK = 'dbEditSettingsAck';
 
-// Import wizard
-export const IMPORT_SOURCE_FILE = 'importSourceFile';
-export const IMPORT_SOURCE_FILE_ACK = 'importSourceFileAck';
-export const ANALYZE_SOURCE_FILE = 'analyzeSourceFile';
-export const ANALYZE_SOURCE_FILE_ACK = 'analyzeSourceFileAck';
-export const LOAD_FROM_CANUTIN_FILE = 'loadFromCanutinFile';
-export const LOAD_FROM_OTHER_CSV = 'loadFromOtherCsv';
-export const LOAD_DATA_ACK = 'loadDataAck';
-
-// Transactions
 export const FILTER_TRANSACTIONS = 'filterTransactions';
 export const FILTER_TRANSACTIONS_ACK = 'filterTransactionsAck';
-
-// App
-export const WINDOW_CONTROL = 'windowControl';
-export const APP_INFO = 'appInfo';

@@ -5,7 +5,7 @@ import {
   DB_EDIT_BUDGET_GROUPS,
   DB_EDIT_BUDGET_CATEGORY,
   DB_REMOVE_BUDGET_CATEGORY,
-} from '@constants/events';
+} from '@constants/repositories';
 import { EditBudgetCategorySubmitType } from '@app/components/Budget/TransactionCategoriesForm';
 import { EditBudgetType } from '@app/components/Budget/EditBudgetGroups';
 

@@ -26,13 +26,13 @@ exports[`Balance sheet tests Balance sheet page displays an empty view when no e
           class="sc-ikJyIC eZSpvY"
         >
           <button
-            class="sc-kLwhqv gkIUDe"
+            class="sc-kLwhqv kKDXNw"
             type="button"
           >
             Add new
           </button>
           <button
-            class="sc-kLwhqv gkIUDe"
+            class="sc-kLwhqv kKDXNw"
             type="button"
           >
             Import
@@ -247,13 +247,13 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 1`] = 
           class="sc-ikJyIC eZSpvY"
         >
           <button
-            class="sc-kLwhqv gkIUDe"
+            class="sc-kLwhqv kKDXNw"
             type="button"
           >
             Add new
           </button>
           <button
-            class="sc-kLwhqv gkIUDe"
+            class="sc-kLwhqv kKDXNw"
             type="button"
           >
             Import
@@ -897,13 +897,13 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 2`] = 
           class="sc-ikJyIC eZSpvY"
         >
           <button
-            class="sc-kLwhqv gkIUDe"
+            class="sc-kLwhqv kKDXNw"
             type="button"
           >
             Add new
           </button>
           <button
-            class="sc-kLwhqv gkIUDe"
+            class="sc-kLwhqv kKDXNw"
             type="button"
           >
             Import
@@ -1348,13 +1348,13 @@ exports[`Balance sheet tests Balance sheet page displays the correct data 3`] = 
           class="sc-ikJyIC eZSpvY"
         >
           <button
-            class="sc-kLwhqv gkIUDe"
+            class="sc-kLwhqv kKDXNw"
             type="button"
           >
             Add new
           </button>
           <button
-            class="sc-kLwhqv gkIUDe"
+            class="sc-kLwhqv kKDXNw"
             type="button"
           >
             Import

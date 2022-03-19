@@ -10,7 +10,7 @@ import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import AssetIpc from '@app/data/asset.ipc';
 import { StatusEnum } from '@app/constants/misc';
-import { DB_GET_ASSET_ACK, DB_DELETE_ASSET_ACK } from '@constants/events';
+import { DB_GET_ASSET_ACK, DB_DELETE_ASSET_ACK } from '@constants/repositories';
 import { rootRoutesPaths } from '@app/routes';
 
 import AssetEditValueForm from '../AssetEditValueForm';

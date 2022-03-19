@@ -6,7 +6,7 @@ import {
   DB_DELETE_TRANSACTION,
   DB_GET_TRANSACTION_CATEGORY,
   FILTER_TRANSACTIONS,
-} from '@constants/events';
+} from '@constants/repositories';
 import { FilterTransactionInterface, NewTransactionType } from '@appTypes/transaction.type';
 
 export default class TransactionIpc {

@@ -7,7 +7,7 @@ import { Asset } from '@database/entities';
 import AssetIpc from '@app/data/asset.ipc';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
-import { DB_EDIT_ASSET_VALUE_ACK } from '@constants/events';
+import { DB_EDIT_ASSET_VALUE_ACK } from '@constants/repositories';
 import { StatusEnum } from '@app/constants/misc';
 import { assetTypesWithSymbol } from '@constants/assetTypes';
 import { AssetEditValueSubmitType } from '@appTypes/asset.type';

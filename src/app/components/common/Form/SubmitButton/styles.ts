@@ -6,19 +6,17 @@ import { grey20, grey30, bluePlain, whitePlain } from '@appConstants/colors';
 export const container = css<{ disabled: boolean }>`
   ${sansSerifBold};
   background-color: ${bluePlain};
-  border: none;
-  border-radius: 4px;
   color: ${whitePlain};
-  cursor: pointer;
-  height: 40px;
-  padding: 0 32px;
-  transition: transform 100ms;
+  border: none;
+
   &:focus {
     outline-color: ${bluePlain};
   }
-  &:active {
-    transform: scale(0.98);
+
+  &:hover {
+    filter: saturate(1.5);
   }
+
   ${({ disabled }) =>
     disabled &&
     css`

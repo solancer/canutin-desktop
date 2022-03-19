@@ -1,9 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import { ipcRenderer } from 'electron';
-import useBreadcrumbs from 'use-react-router-breadcrumbs';
+import { useHistory } from 'react-router-dom';
 
 import ScrollView from '@components/common/ScrollView';
-import Breadcrumbs from '@components/common/Breadcrumbs';
 import Section from '@components/common/Section';
 import SectionRow from '@components/common/SectionRow';
 import PrimaryCard from '@components/common/PrimaryCard';
@@ -11,37 +10,48 @@ import PrimaryCardRow from '@components/common/PrimaryCardRow';
 
 import { ReactComponent as Vault } from '@assets/icons/Vault.svg';
 import { ReactComponent as Browse } from '@assets/icons/Browse.svg';
-import { OPEN_CREATE_VAULT, OPEN_EXISTING_VAULT } from '@constants/events';
+import { VAULT_OPEN_SAVE_DIALOG, VAULT_OPEN_EXISTING_FILE_DIALOG } from '@constants/vault';
 import { routesPaths } from '@routes';
+import { AppContext } from '@app/context/appContext';
 import { emptyStatusMessage, StatusBarContext } from '@app/context/statusBarContext';
-
-const noVaultBreadcrumbs = [{ breadcrumb: 'Canutin setup', path: '/' }];
+import { VaultStatusEnum } from '@enums/vault.enum';
 
 const Setup = () => {
-  const { setStatusMessage, setBreadcrumbs } = useContext(StatusBarContext);
-  const breadcrumbItems = useBreadcrumbs(noVaultBreadcrumbs, {
-    excludePaths: Object.values(routesPaths),
-  });
+  const history = useHistory();
+  const { setVaultPath, setVaultStatus } = useContext(AppContext);
+  const { setStatusMessage } = useContext(StatusBarContext);
 
   useEffect(() => {
-    setBreadcrumbs(<Breadcrumbs items={breadcrumbItems} />);
-
     return () => {
       setStatusMessage(emptyStatusMessage);
-      setBreadcrumbs(undefined);
     };
   }, []);
 
-  const onOpenCreateVault = () => {
-    ipcRenderer.send(OPEN_CREATE_VAULT);
+  const redirectToVaultSecurity = () => {
+    history.location.pathname !== routesPaths.vaultSecurity &&
+      history.push(routesPaths.vaultSecurity);
   };
 
-  const onOpenExistingVault = () => {
-    ipcRenderer.send(OPEN_EXISTING_VAULT);
+  const onOpenCreateVault = async () => {
+    const newFilePath = await ipcRenderer.invoke(VAULT_OPEN_SAVE_DIALOG);
+    if (newFilePath) {
+      setVaultPath(newFilePath);
+      setVaultStatus(VaultStatusEnum.SET_NEW_NOT_READY);
+      redirectToVaultSecurity();
+    }
+  };
+
+  const onOpenExistingVault = async () => {
+    const existingFilePath = await ipcRenderer.invoke(VAULT_OPEN_EXISTING_FILE_DIALOG);
+    if (existingFilePath) {
+      setVaultPath(existingFilePath);
+      setVaultStatus(VaultStatusEnum.SET_EXISTING_NOT_READY);
+      redirectToVaultSecurity();
+    }
   };
 
   return (
-    <ScrollView title="Canutin setup" wizard={true}>
+    <ScrollView title="Vault setup" wizard={true}>
       <SectionRow>
         <Section title="Choose vault">
           <PrimaryCardRow>

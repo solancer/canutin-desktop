@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
 import { yearsList, monthList, dayList } from '@appConstants/dates';
 import { dateInUTC } from '@app/utils/date.utils';
-import { DB_EDIT_TRANSACTION_ACK, DB_NEW_TRANSACTION_ACK } from '@constants/events';
+import { DB_EDIT_TRANSACTION_ACK, DB_NEW_TRANSACTION_ACK } from '@constants/repositories';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import TransactionIpc from '@app/data/transaction.ipc';
 import { StatusEnum } from '@app/constants/misc';

@@ -15,7 +15,7 @@ import { filters } from '@app/constants/filters';
 import mapCategories from '@database/helpers/importResources/mapCategories';
 import { initAppWith } from '@tests/utils/initApp.utils';
 import { seedMinimumAccount } from '@tests/factories/entitiesFactory';
-import { DB_NEW_TRANSACTION } from '@constants/events';
+import { DB_NEW_TRANSACTION } from '@constants/repositories';
 
 describe('Transactions tests', () => {
   test("Sidebar link can't be clicked if no accounts or assets are present", async () => {

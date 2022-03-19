@@ -25,12 +25,29 @@ export interface CheckboxProps {
   name: string;
   id: string;
   register?: () => RefReturn;
+  disabled?: boolean;
+  disabledTitle?: string;
 }
 
-const InlineCheckbox = ({ label, name, id, register }: CheckboxProps) => (
-  <InputContainer>
-    <InputCheckbox type="checkbox" name={name} id={id} ref={register ? register : null} />
-    <ValueLabel htmlFor={id}>{label}</ValueLabel>
+const InlineCheckbox = ({
+  label,
+  name,
+  id,
+  register,
+  disabled = false,
+  disabledTitle,
+}: CheckboxProps) => (
+  <InputContainer title={disabled ? disabledTitle : ''} disabled={disabled}>
+    <InputCheckbox
+      type="checkbox"
+      name={name}
+      id={id}
+      ref={register ? register : null}
+      disabled={disabled}
+    />
+    <ValueLabel htmlFor={id} disabled={disabled}>
+      {label}
+    </ValueLabel>
   </InputContainer>
 );
 

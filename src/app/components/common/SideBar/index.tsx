@@ -15,6 +15,7 @@ import { ReactComponent as AddIcon } from '@assets/icons/Add.svg';
 
 import { container, burgerButton, nav, navItems } from './styles';
 import NavItem from './NavItem';
+import { VaultStatusEnum } from '@enums/vault.enum';
 
 const Container = styled.nav`
   ${container}
@@ -31,7 +32,8 @@ const Nav = styled.nav`
 
 const SideBar = () => {
   const [toggled, setToggled] = useState(true);
-  const { isDbEmpty } = useContext(AppContext);
+  const { vaultStatus } = useContext(AppContext);
+  const isNavDisabled = vaultStatus !== VaultStatusEnum.INDEXED_WITH_DATA;
 
   return (
     <Container>
@@ -46,7 +48,7 @@ const SideBar = () => {
             text="The big picture"
             toggled={toggled}
             to={routesPaths.bigpicture}
-            disabled={isDbEmpty}
+            disabled={isNavDisabled}
             dataTestId="sidebar-big-picture"
           />
 
@@ -55,7 +57,7 @@ const SideBar = () => {
             text="Balance sheet"
             toggled={toggled}
             to={routesPaths.balance}
-            disabled={isDbEmpty}
+            disabled={isNavDisabled}
             dataTestId="sidebar-balance-sheet"
           />
 
@@ -64,7 +66,7 @@ const SideBar = () => {
             text="Budget"
             toggled={toggled}
             to={routesPaths.budget}
-            disabled={isDbEmpty}
+            disabled={isNavDisabled}
             dataTestId="sidebar-budget"
           />
 
@@ -73,7 +75,7 @@ const SideBar = () => {
             text="Transactions"
             toggled={toggled}
             to={routesPaths.transactions}
-            disabled={isDbEmpty}
+            disabled={isNavDisabled}
             dataTestId="sidebar-transactions"
           />
 
@@ -82,7 +84,7 @@ const SideBar = () => {
             text="Trends"
             toggled={toggled}
             to={routesPaths.trends}
-            disabled={isDbEmpty}
+            disabled={isNavDisabled}
           />
         </NavItems>
       </Nav>
