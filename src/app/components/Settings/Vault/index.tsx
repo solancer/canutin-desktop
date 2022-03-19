@@ -9,22 +9,24 @@ import InputTextField from '@components/common/Form/InputTextField';
 
 import { AppContext } from '@app/context/appContext';
 import { routesPaths } from '@routes';
+import { useForm } from 'react-hook-form';
 
 const Vault = () => {
-  const { filePath } = useContext(AppContext);
+  const { vaultPath } = useContext(AppContext);
+  const { handleSubmit } = useForm();
   const history = useHistory();
 
+  const onSubmit = async () => {
+    history.push(routesPaths.setup);
+  };
+
   return (
-    <Form
-      onSubmit={() => {
-        history.push(routesPaths.canutinSetup);
-      }}
-    >
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Fieldset>
         <InputTextField
           label="Current vault"
           name="vault"
-          value={filePath || 'Not defined'}
+          value={vaultPath || 'Not defined'}
           disabled
         />
       </Fieldset>

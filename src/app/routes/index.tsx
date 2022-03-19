@@ -12,6 +12,7 @@ import AddAccountAssetByHand from '@pages/AddAccountAssetByHand';
 import AddAccountAssetByWizard from '@pages/AddAccountAssetByWizard';
 import Setup from '@pages/Setup';
 import Settings from '@pages/Settings';
+import VaultSecurity from '@app/pages/VaultSecurity';
 import EditTransaction from '@app/pages/EditTransaction';
 import AccountOverview from '@app/pages/AccountOverview';
 import AssetOverview from '@app/pages/AssetOverview';
@@ -26,6 +27,7 @@ export const rootRoutesPaths = {
   transactions: '/transactions',
   trends: '/trends',
   settings: '/settings',
+  setup: '/setup',
   addOrUpdateData: '/addOrUpdateData',
 };
 
@@ -38,7 +40,7 @@ export const routesPaths = {
   assetOverview: '/asset/:assetName',
   addTransaction: '/transactions/addTransaction',
   editTransaction: '/transactions/:transactionDescription',
-  canutinSetup: '/canutinSetup',
+  vaultSecurity: '/setup/security',
   editBudget: '/budget/edit',
 };
 
@@ -139,10 +141,16 @@ export const routesConfig: RouteConfigProps[] = [
     breadcrumb: 'Import wizard',
   },
   {
-    path: routesPaths.canutinSetup,
+    path: routesPaths.setup,
     exact: true,
     component: <Setup />,
-    breadcrumb: 'Canutin Setup',
+    breadcrumb: 'Vault setup',
+  },
+  {
+    path: routesPaths.vaultSecurity,
+    exact: true,
+    component: <VaultSecurity />,
+    breadcrumb: 'Security',
   },
   {
     path: routesPaths.accountOverview,

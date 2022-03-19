@@ -5,7 +5,7 @@ import { EntitiesContext } from '@app/context/entitiesContext';
 import { TransactionsContext } from '@app/context/transactionsContext';
 import TransactionIpc from '@app/data/transaction.ipc';
 import { Transaction } from '@database/entities';
-import { FILTER_TRANSACTIONS_ACK } from '@constants/events';
+import { FILTER_TRANSACTIONS_ACK } from '@constants/repositories';
 import { getUserBudgetForPeriod, handleBudgets } from '@app/utils/budget.utils';
 
 const getTotalFromTransactions = (transactions: Transaction[]) => {
@@ -28,12 +28,8 @@ const useBudget = () => {
     budgetsIndex?.userBudgets &&
     getUserBudgetForPeriod(budgetsIndex.userBudgets, budgetFilterOption?.value.dateFrom);
 
-  const {
-    targetIncomeAmount,
-    targetExpensesAmount,
-    targetSavingsAmount,
-    budgetExpenseGroups,
-  } = handleBudgets(autoBudget ? autoBudgetForPeriod! : userBudgetForPeriod!);
+  const { targetIncomeAmount, targetExpensesAmount, targetSavingsAmount, budgetExpenseGroups } =
+    handleBudgets(autoBudget ? autoBudgetForPeriod! : userBudgetForPeriod!);
 
   // Transactions in period
   useEffect(() => {

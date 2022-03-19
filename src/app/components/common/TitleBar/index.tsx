@@ -9,7 +9,7 @@ import { ReactComponent as IconMaximized } from '@assets/icons/windowControls/Ma
 import { ReactComponent as IconClose } from '@assets/icons/windowControls/Close.svg';
 
 import { container, icon, windowControls, minimize, maximize, close } from './styles';
-import { WINDOW_CONTROL } from '@constants/events';
+import { APP_WINDOW_CONTROL } from '@constants/app';
 import { WindowControlEnum } from '@appConstants/misc';
 
 const Container = styled.div`
@@ -37,7 +37,7 @@ const TitleBar = () => {
 
   const windowControl = (action: WindowControlEnum) => {
     action === WindowControlEnum.MAXIMIZE && setIsMaximized(!isMaximized);
-    ipcRenderer.send(WINDOW_CONTROL, action);
+    ipcRenderer.send(APP_WINDOW_CONTROL, action);
   };
 
   return (

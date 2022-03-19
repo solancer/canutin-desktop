@@ -7,7 +7,7 @@ import {
   DB_DELETE_ASSET,
   DB_EDIT_ASSET_DETAILS,
   DB_EDIT_ASSET_VALUE,
-} from '@constants/events';
+} from '@constants/repositories';
 import {
   NewAssetType,
   AssetEditValueSubmitType,

@@ -9,7 +9,7 @@ import {
   IMPORT_SOURCE_FILE,
   IMPORT_SOURCE_FILE_ACK,
   ANALYZE_SOURCE_FILE_ACK,
-} from '@constants/events';
+} from '@constants/imports';
 
 import canutinFile from '../data/canutinFile.json';
 import csvMetadata from '../data/csvMetadata.json';
@@ -104,11 +104,11 @@ describe('Import wizard tests', () => {
 
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === IMPORT_SOURCE_FILE_ACK) {
-        callback((event as unknown) as IpcRendererEvent, { filePath: 'testPath' });
+        callback(event as unknown as IpcRendererEvent, { filePath: 'testPath' });
       }
 
       if (event === ANALYZE_SOURCE_FILE_ACK) {
-        callback((event as unknown) as IpcRendererEvent, {
+        callback(event as unknown as IpcRendererEvent, {
           status: StatusEnum.POSITIVE,
           sourceData: canutinFile,
           metadata: { countAccounts: 2, countTransactions: 5, countAssets: 3 },
@@ -138,11 +138,11 @@ describe('Import wizard tests', () => {
 
     mocked(ipcRenderer).on.mockImplementation((event, callback) => {
       if (event === IMPORT_SOURCE_FILE_ACK) {
-        callback((event as unknown) as IpcRendererEvent, { filePath: 'testPath' });
+        callback(event as unknown as IpcRendererEvent, { filePath: 'testPath' });
       }
 
       if (event === ANALYZE_SOURCE_FILE_ACK) {
-        callback((event as unknown) as IpcRendererEvent, {
+        callback(event as unknown as IpcRendererEvent, {
           status: StatusEnum.POSITIVE,
           sourceData: csvSourceData,
           metadata: csvMetadata,

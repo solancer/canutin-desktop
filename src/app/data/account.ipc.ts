@@ -6,7 +6,7 @@ import {
   DB_EDIT_ACCOUNT_BALANCE,
   DB_EDIT_ACCOUNT_DETAILS,
   DB_DELETE_ACCOUNT,
-} from '@constants/events';
+} from '@constants/repositories';
 import {
   AccountEditBalanceSubmitType,
   AccountEditDetailsSubmitType,

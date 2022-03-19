@@ -25,7 +25,7 @@ import {
   NEW_ACCOUNT_GROUPED_OPTION,
   NEW_ACCOUNT_VALUE,
 } from './otherCsvConstants';
-import { LOAD_FROM_OTHER_CSV } from '@constants/events';
+import { LOAD_FROM_OTHER_CSV } from '@constants/imports';
 import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
 import { formToCantuinJsonFile } from './utils';
 import { generateAccountBalanceInfo } from '@app/utils/balance.utils';

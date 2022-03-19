@@ -10,7 +10,7 @@ import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import AccountIpc from '@app/data/account.ipc';
 import { StatusEnum } from '@app/constants/misc';
-import { DB_DELETE_ACCOUNT_ACK } from '@constants/events';
+import { DB_DELETE_ACCOUNT_ACK } from '@constants/repositories';
 import { rootRoutesPaths } from '@app/routes';
 
 import AccountEditBalanceForm from '../AccountEditBalanceForm';

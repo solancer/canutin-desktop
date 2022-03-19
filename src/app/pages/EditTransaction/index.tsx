@@ -3,7 +3,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 
 import { Transaction } from '@database/entities';
-import { DB_DELETE_TRANSACTION_ACK } from '@constants/events';
+import { DB_DELETE_TRANSACTION_ACK } from '@constants/repositories';
 import TransactionIpc from '@app/data/transaction.ipc';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';

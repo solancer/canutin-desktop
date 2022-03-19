@@ -15,14 +15,15 @@ import { ReactComponent as Keyboard } from '@assets/icons/Keyboard.svg';
 import { ReactComponent as Bot } from '@assets/icons/Bot.svg';
 import { ReactComponent as Lightning } from '@assets/icons/Lightning.svg';
 import { ReactComponent as PaperAccount } from '@assets/icons/PaperAccount.svg';
-import { DB_SEED_VAULT, DB_SEED_VAULT_ACK } from '@constants/events';
+import { DB_SEED_VAULT, DB_SEED_VAULT_ACK } from '@constants/repositories';
 import { EVENT_SUCCESS } from '@constants/eventStatus';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { StatusEnum } from '@app/constants/misc';
+import { VaultStatusEnum } from '@enums/vault.enum';
 
 const AddOrUpdateData = () => {
   const { push } = useHistory();
-  const { isDbEmpty, setIsDbEmpty } = useContext(AppContext);
+  const { vaultStatus, setVaultStatus } = useContext(AppContext);
   const { setStatusMessage } = useContext(StatusBarContext);
 
   const seedVault = () => {
@@ -37,13 +38,12 @@ const AddOrUpdateData = () => {
   useEffect(() => {
     ipcRenderer.on(DB_SEED_VAULT_ACK, (_: IpcRendererEvent, { status }) => {
       if (status === EVENT_SUCCESS) {
+        setVaultStatus(VaultStatusEnum.READY_TO_INDEX);
         setStatusMessage({
           message: 'The vault was seeded succesfully',
           sentiment: StatusEnum.POSITIVE,
           isLoading: false,
         });
-        setIsDbEmpty(false);
-        push(routesPaths.balance);
       }
     });
 
@@ -55,7 +55,7 @@ const AddOrUpdateData = () => {
   return (
     <ScrollView title="Add or update data" wizard={true}>
       <SectionRow>
-        {isDbEmpty && (
+        {vaultStatus === VaultStatusEnum.INDEXED_NO_DATA && (
           <Section title="Seed vault">
             <PrimaryCard
               icon={<PaperAccount />}

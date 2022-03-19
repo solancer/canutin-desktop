@@ -7,7 +7,7 @@ import { Account } from '@database/entities';
 import AccountIpc from '@app/data/account.ipc';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
-import { DB_EDIT_ACCOUNT_BALANCE_ACK } from '@constants/events';
+import { DB_EDIT_ACCOUNT_BALANCE_ACK } from '@constants/repositories';
 import { StatusEnum } from '@app/constants/misc';
 import { AccountEditBalanceSubmitType } from '@appTypes/account.type';
 import { routesPaths } from '@app/routes';

@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { BrowserWindow } from 'electron';
 
 import { enumImportTitleOptions, StatusEnum } from '@appConstants/misc';
-import { ANALYZE_SOURCE_FILE_ACK, LOAD_DATA_ACK } from '@constants/events';
+import { ANALYZE_SOURCE_FILE_ACK, LOAD_DATA_ACK } from '@constants/imports';
 import {
   UpdatedAccount,
   CanutinFileAccountType,
@@ -111,7 +111,7 @@ export const analyzeMintFile = async (filePath: string, win: BrowserWindow | nul
 
   if (csvData?.data) {
     try {
-      const { data, metadata } = mintCsvToJson((csvData.data as unknown) as MintCsvEntryType[]);
+      const { data, metadata } = mintCsvToJson(csvData.data as unknown as MintCsvEntryType[]);
 
       win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {
         status: StatusEnum.POSITIVE,
@@ -133,7 +133,7 @@ export const analyzePersonalCapitalFile = async (filePath: string, win: BrowserW
   if (csvData?.data) {
     try {
       const { data, metadata } = personalCapitalCsvToJson(
-        (csvData.data as unknown) as PersonalCapitalCsvEntryType[]
+        csvData.data as unknown as PersonalCapitalCsvEntryType[]
       );
 
       win?.webContents.send(ANALYZE_SOURCE_FILE_ACK, {

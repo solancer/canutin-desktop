@@ -1,14 +1,15 @@
 import { createContext, PropsWithChildren, useState } from 'react';
+import { VaultStatusEnum } from '@enums/vault.enum';
 
 interface AppContextValue {
   isLoading: boolean;
   setIsLoading: (_: boolean) => void;
   isAppInitialized: boolean;
   setIsAppInitialized: (_: boolean) => void;
-  filePath: string | null;
-  setFilePath: (_: string) => void;
-  isDbEmpty: boolean;
-  setIsDbEmpty: (_: boolean) => void;
+  vaultPath: string | null;
+  setVaultPath: (_: string) => void;
+  vaultStatus: VaultStatusEnum;
+  setVaultStatus: (_: VaultStatusEnum) => void;
 }
 
 export const AppContext = createContext<AppContextValue>({
@@ -16,27 +17,27 @@ export const AppContext = createContext<AppContextValue>({
   setIsLoading: () => {},
   isAppInitialized: false,
   setIsAppInitialized: () => {},
-  filePath: null,
-  setFilePath: () => {},
-  isDbEmpty: true,
-  setIsDbEmpty: () => {},
+  vaultPath: null,
+  setVaultPath: () => {},
+  vaultStatus: VaultStatusEnum.NOT_SET,
+  setVaultStatus: () => {},
 });
 
 export const AppCtxProvider = ({ children }: PropsWithChildren<Record<string, unknown>>) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAppInitialized, setIsAppInitialized] = useState(false);
-  const [filePath, setFilePath] = useState<string | null>(null);
-  const [isDbEmpty, setIsDbEmpty] = useState(true);
+  const [vaultPath, setVaultPath] = useState<string | null>(null);
+  const [vaultStatus, setVaultStatus] = useState(VaultStatusEnum.NOT_SET);
 
   const value = {
     isLoading,
     setIsLoading,
     isAppInitialized,
     setIsAppInitialized,
-    filePath,
-    setFilePath,
-    isDbEmpty,
-    setIsDbEmpty,
+    vaultPath,
+    setVaultPath,
+    vaultStatus,
+    setVaultStatus,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

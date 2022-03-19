@@ -13,7 +13,7 @@ import {
 import { AssetRepository } from '@database/repositories/asset.repository';
 import { AssetTypeEnum } from '@enums/assetType.enum';
 import { Account } from '@database/entities';
-import { LOAD_DATA_ACK } from '@constants/events';
+import { LOAD_DATA_ACK } from '@constants/imports';
 import { StatusEnum } from '@app/constants/misc';
 
 export const importFromCanutinFile = async (

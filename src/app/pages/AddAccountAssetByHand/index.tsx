@@ -6,16 +6,17 @@ import ScrollView from '@components/common/ScrollView';
 import Section from '@components/common/Section';
 import AddAccountAssetForm from '@components/AccountAsset/AddAccountAssetForm';
 
-import { DB_NEW_ACCOUNT_ACK, DB_NEW_ASSET_ACK } from '@constants/events';
+import { DB_NEW_ACCOUNT_ACK, DB_NEW_ASSET_ACK } from '@constants/repositories';
 import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
 import { ACCOUNT, StatusEnum } from '@appConstants/misc';
 import { emptyStatusMessage, StatusBarContext } from '@app/context/statusBarContext';
 import { AppContext } from '@app/context/appContext';
 import { routesPaths } from '@routes';
+import { VaultStatusEnum } from '@enums/vault.enum';
 
 const AddAccountAssetByHand = () => {
   const history = useHistory();
-  const { setIsDbEmpty } = useContext(AppContext);
+  const { setVaultStatus } = useContext(AppContext);
   const { setStatusMessage } = useContext(StatusBarContext);
   const [formSubtitle, setFormSubtitle] = useState('Choose Type');
 
@@ -31,7 +32,7 @@ const AddAccountAssetByHand = () => {
           ),
           isLoading: false,
         });
-        setIsDbEmpty(false);
+        setVaultStatus(VaultStatusEnum.INDEXED_WITH_DATA);
         history.push(routesPaths.balance);
       }
 
@@ -55,7 +56,7 @@ const AddAccountAssetByHand = () => {
           ),
           isLoading: false,
         });
-        setIsDbEmpty(false);
+        setVaultStatus(VaultStatusEnum.INDEXED_WITH_DATA);
         history.push(routesPaths.balance);
       }
 

@@ -14,7 +14,10 @@ import SubmitButton from '@app/components/common/Form/SubmitButton';
 import { EntitiesContext } from '@app/context/entitiesContext';
 import { CATEGORY_GROUPED_OPTIONS } from '@appConstants/categories';
 import { EVENT_ERROR, EVENT_NEUTRAL, EVENT_SUCCESS } from '@constants/eventStatus';
-import { DB_EDIT_BUDGET_CATEGORY_ACK, DB_REMOVE_BUDGET_CATEGORY_ACK } from '@constants/events';
+import {
+  DB_EDIT_BUDGET_CATEGORY_ACK,
+  DB_REMOVE_BUDGET_CATEGORY_ACK,
+} from '@constants/repositories';
 import { Budget } from '@database/entities';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { StatusEnum } from '@app/constants/misc';
@@ -59,6 +62,9 @@ const TransactionCategoriesForm = ({ expenseBudgets }: TransactionCategoriesForm
             sentiment: StatusEnum.POSITIVE,
             isLoading: false,
           });
+
+          // FIXME: should use `routePaths.budget` but it breaks type definitions
+          // when running `yarn electron-tsc`.
           history.push('/budget');
           break;
         case EVENT_NEUTRAL:
@@ -77,6 +83,9 @@ const TransactionCategoriesForm = ({ expenseBudgets }: TransactionCategoriesForm
             sentiment: StatusEnum.NEUTRAL,
             isLoading: false,
           });
+
+          // FIXME: should use `routePaths.budget` but it breaks type definitions
+          // when running `yarn electron-tsc`.
           history.push('/budget');
           break;
         case EVENT_NEUTRAL:

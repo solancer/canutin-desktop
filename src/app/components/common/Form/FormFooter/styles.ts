@@ -8,4 +8,5 @@ export const container = css`
   display: flex;
   justify-content: flex-end;
   padding: 8px 12px;
+  gap: 6px;
 `;

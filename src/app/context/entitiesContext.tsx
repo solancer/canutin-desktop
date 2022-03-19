@@ -9,7 +9,8 @@ import {
   DB_GET_BUDGETS_ACK,
   DB_GET_SETTINGS_ACK,
   DB_GET_TRANSACTION_CATEGORY_ACK,
-} from '@constants/events';
+} from '@constants/repositories';
+import { VaultStatusEnum } from '@enums/vault.enum';
 import { Account, Asset, Budget, Settings, TransactionSubCategory } from '@database/entities';
 import { AppContext } from './appContext';
 import BudgetIpc from '@app/data/budget.ipc';
@@ -66,13 +67,11 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
   const [accountsIndex, setAccountsIndex] = useState<AccountsIndex>(defaultAccountsIndex);
   const [budgetsIndex, setBudgetsIndex] = useState<BudgetsIndex>(defaultBudgetsIndex);
   const [settingsIndex, setSettingsIndex] = useState<SettingsIndex>(defaultSettingsIndex);
-  const { filePath, isDbEmpty } = useContext(AppContext);
+  const { vaultStatus } = useContext(AppContext);
 
   // Get accounts, assets & settings
   useEffect(() => {
-    if (!filePath) {
-      return;
-    }
+    if (vaultStatus !== VaultStatusEnum.READY_TO_INDEX) return;
 
     setAccountsIndex(defaultAccountsIndex);
     setAssetsIndex(defaultAssetsIndex);
@@ -102,52 +101,52 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
       ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
       ipcRenderer.removeAllListeners(DB_GET_SETTINGS_ACK);
     };
-  }, [filePath]);
+  }, [vaultStatus]);
 
   // Get budgets
   useEffect(() => {
-    if (!isDbEmpty) {
-      autoBudgetNeedsCategories.forEach(categoryName => {
-        TransactionIpc.getTransactionCategory(categoryName);
-      });
-      autoBudgetWantsCategories.forEach(categoryName => {
-        TransactionIpc.getTransactionCategory(categoryName);
-      });
+    if (vaultStatus !== VaultStatusEnum.INDEXED_WITH_DATA) return;
 
-      const needsCategories: TransactionSubCategory[] = [];
-      const wantsCategories: TransactionSubCategory[] = [];
+    autoBudgetNeedsCategories.forEach(categoryName => {
+      TransactionIpc.getTransactionCategory(categoryName);
+    });
+    autoBudgetWantsCategories.forEach(categoryName => {
+      TransactionIpc.getTransactionCategory(categoryName);
+    });
 
-      ipcRenderer.on(
-        DB_GET_TRANSACTION_CATEGORY_ACK,
-        (_: IpcRendererEvent, category: TransactionSubCategory) => {
-          if (needsCategories.length < autoBudgetNeedsCategories.length) {
-            needsCategories.push(category);
-          } else {
-            wantsCategories.length <= autoBudgetWantsCategories.length &&
-              wantsCategories.push(category);
-          }
+    const needsCategories: TransactionSubCategory[] = [];
+    const wantsCategories: TransactionSubCategory[] = [];
+
+    ipcRenderer.on(
+      DB_GET_TRANSACTION_CATEGORY_ACK,
+      (_: IpcRendererEvent, category: TransactionSubCategory) => {
+        if (needsCategories.length < autoBudgetNeedsCategories.length) {
+          needsCategories.push(category);
+        } else {
+          wantsCategories.length <= autoBudgetWantsCategories.length &&
+            wantsCategories.push(category);
         }
-      );
+      }
+    );
 
-      const autoBudgetCategories = {
-        needs: needsCategories,
-        wants: wantsCategories,
-      };
+    const autoBudgetCategories = {
+      needs: needsCategories,
+      wants: wantsCategories,
+    };
 
-      const autoBudgets = getAutoBudgets(accountsIndex, autoBudgetCategories) as Budget[];
+    const autoBudgets = getAutoBudgets(accountsIndex, autoBudgetCategories) as Budget[];
 
-      BudgetIpc.getBudgets();
+    BudgetIpc.getBudgets();
 
-      ipcRenderer.on(DB_GET_BUDGETS_ACK, (_: IpcRendererEvent, userBudgets: Budget[]) => {
-        setBudgetsIndex({ autoBudgets, userBudgets, lastUpdate: new Date() });
-      });
+    ipcRenderer.on(DB_GET_BUDGETS_ACK, (_: IpcRendererEvent, userBudgets: Budget[]) => {
+      setBudgetsIndex({ autoBudgets, userBudgets, lastUpdate: new Date() });
+    });
 
-      return () => {
-        ipcRenderer.removeAllListeners(DB_GET_TRANSACTION_CATEGORY_ACK);
-        ipcRenderer.removeAllListeners(DB_GET_BUDGETS_ACK);
-      };
-    }
-  }, [accountsIndex, isDbEmpty]);
+    return () => {
+      ipcRenderer.removeAllListeners(DB_GET_TRANSACTION_CATEGORY_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_BUDGETS_ACK);
+    };
+  }, [accountsIndex, vaultStatus]);
 
   const value = {
     assetsIndex,

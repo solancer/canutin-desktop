@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron';
 
 import { StatusEnum } from '@appConstants/misc';
-import { FILTER_TRANSACTIONS_ACK } from '@constants/events';
+import { FILTER_TRANSACTIONS_ACK } from '@constants/repositories';
 import { FilterTransactionInterface } from '@appTypes/transaction.type';
 import { TransactionRepository } from '@database/repositories/transaction.repository';
 

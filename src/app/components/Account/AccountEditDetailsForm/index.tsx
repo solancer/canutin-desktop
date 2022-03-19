@@ -10,7 +10,7 @@ import { StatusEnum } from '@app/constants/misc';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import AccountIpc from '@app/data/account.ipc';
 import { AccountEditDetailsSubmitType } from '@appTypes/account.type';
-import { DB_EDIT_ACCOUNT_DETAILS_ACK } from '@constants/events';
+import { DB_EDIT_ACCOUNT_DETAILS_ACK } from '@constants/repositories';
 import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
 import { routesPaths } from '@app/routes';
 

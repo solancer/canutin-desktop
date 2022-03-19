@@ -7,7 +7,7 @@ import TransactionsFilterTable from '@components/Transactions/TransactionsFilter
 
 import { TransactionsContext } from '@app/context/transactionsContext';
 import TransactionIpc from '@app/data/transaction.ipc';
-import { FILTER_TRANSACTIONS_ACK } from '@constants/events';
+import { FILTER_TRANSACTIONS_ACK } from '@constants/repositories';
 import { Transaction } from '@database/entities';
 
 export enum TransactionOverviewSegmentsEnum {

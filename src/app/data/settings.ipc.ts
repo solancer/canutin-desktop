@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 
-import { DB_GET_SETTINGS, DB_EDIT_SETTINGS } from '@constants/events';
+import { DB_GET_SETTINGS, DB_EDIT_SETTINGS } from '@constants/repositories';
 
 export default class SettingsIpc {
   static getSettings() {
