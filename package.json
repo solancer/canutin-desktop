@@ -78,13 +78,14 @@
     "test:coverage": "react-app-rewired test --coverage",
     "start": "concurrently \"yarn react-start\" \"wait-on http://localhost:3000 && yarn electron-tsc && electron .\"",
     "build": "yarn react-build && yarn electron-tsc",
+    "build-app": "yarn react-build && yarn electron-tsc && electron-builder",
     "postinstall": "electron-builder install-app-deps",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "build": {
     "productName": "Canutin",
     "appId": "com.canutin.desktop",
-    "artifactName": "${name}_v${version}-${platform}-${arch}.${ext}",
+    "artifactName": "${name}_v${version}-${os}-${arch}.${ext}",
     "publish": {
       "provider": "github"
     },
