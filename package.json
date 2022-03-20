@@ -77,8 +77,8 @@
     "test": "react-app-rewired test --passWithNoTests",
     "test:coverage": "react-app-rewired test --coverage",
     "start": "concurrently \"yarn react-start\" \"wait-on http://localhost:3000 && yarn electron-tsc && electron .\"",
-    "build": "yarn react-build && yarn electron-tsc",
-    "build-app": "yarn react-build && yarn electron-tsc && electron-builder",
+    "build": "yarn react-build && yarn electron-tsc && electron-builder",
+    "build:github": "yarn react-build && yarn electron-tsc",
     "postinstall": "electron-builder install-app-deps",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
@@ -90,10 +90,21 @@
       "provider": "github"
     },
     "mac": {
-      "category": "public.app-category.finance"
+      "category": "public.app-category.finance",
+      "target": {
+        "target": "dmg"
+      }
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
     },
     "linux": {
-      "category": "Office;Finance"
+      "category": "Office;Finance",
+      "target": [
+        "AppImage"
+      ]
     },
     "extends": null,
     "files": [
