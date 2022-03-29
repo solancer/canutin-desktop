@@ -1,4 +1,5 @@
-import { getRepository, getConnection } from 'typeorm';
+import { getRepository, getConnection, Between } from 'typeorm';
+import { endOfDay, startOfMonth, subMinutes, subMonths } from 'date-fns';
 
 import { AccountBalanceStatementRepository } from '@database/repositories/accountBalanceStatement.repository';
 import { AccountTypeRepository } from '@database/repositories/accountType.repository';
@@ -11,6 +12,7 @@ import {
 } from '@appTypes/account.type';
 import { TransactionRepository } from './transaction.repository';
 import { handleAccountBalanceStatements } from '@database/helpers/balanceStatement';
+import { dateInUTC } from '@app/utils/date.utils';
 
 export class AccountRepository {
   static async createAccount(account: NewAccountType): Promise<Account> {
@@ -46,19 +48,28 @@ export class AccountRepository {
   }
 
   static async getAccounts(): Promise<Account[]> {
-    return await getRepository<Account>(Account).find({
-      relations: [
-        'transactions',
-        'transactions.account',
-        'transactions.category',
-        'balanceStatements',
-        'accountType',
-      ],
-      order: {
-        name: 'ASC',
-        id: 'DESC',
-      },
-    });
+    return await getRepository<Account>(Account)
+      .createQueryBuilder('account')
+      .leftJoinAndSelect('account.balanceStatements', 'balanceStatements')
+      .leftJoinAndSelect('account.accountType', 'accountType')
+      .leftJoinAndSelect(
+        'account.transactions',
+        'transaction',
+        'transaction.excludeFromTotals = false'
+      )
+      .orderBy('account.name', 'ASC')
+      .addOrderBy('account.id', 'DESC')
+      .getMany();
+  }
+
+  static async getAccountSummaries(): Promise<Account[]> {
+    return await getRepository<Account>(Account)
+      .createQueryBuilder('account')
+      .leftJoinAndSelect('account.balanceStatements', 'balanceStatements')
+      .leftJoinAndSelect('account.accountType', 'accountType')
+      .orderBy('account.name', 'ASC')
+      .addOrderBy('account.id', 'DESC')
+      .getMany();
   }
 
   static async getAccountById(accountId: number): Promise<Account | undefined> {

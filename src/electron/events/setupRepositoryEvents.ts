@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain, IpcMainEvent } from 'electron';
+import { BrowserWindow, ipcMain, IpcMainEvent, IpcMainInvokeEvent } from 'electron';
 import { QueryFailedError } from 'typeorm';
 
 import {
@@ -8,6 +8,10 @@ import {
   DB_NEW_ACCOUNT_ACK,
   DB_GET_ACCOUNTS,
   DB_GET_ACCOUNTS_ACK,
+  ON_DB_GET_ACCOUNT,
+  ON_DB_GET_ACCOUNT_ACK,
+  DB_GET_ACCOUNT,
+  DB_GET_ACCOUNT_ACK,
   DB_GET_ASSETS,
   DB_GET_ASSETS_ACK,
   DB_GET_BALANCE_STATEMENTS,
@@ -73,7 +77,7 @@ import { filterTransactions } from '../../electron/helpers/transactionHelpers/tr
 
 const setupRepositoryEvents = async (win: BrowserWindow) => {
   const getAccounts = async () => {
-    const accounts = await AccountRepository.getAccounts();
+    const accounts = await AccountRepository.getAccountSummaries();
     win.webContents.send(DB_GET_ACCOUNTS_ACK, accounts);
   };
 
@@ -143,6 +147,15 @@ const setupRepositoryEvents = async (win: BrowserWindow) => {
 
   ipcMain.on(DB_GET_ACCOUNTS, async (_: IpcMainEvent) => {
     await getAccounts();
+  });
+
+  // ipcMain.handle(DB_GET_ACCOUNT, async (_: IpcMainInvokeEvent, accountId: number) => {
+  //   return await AccountRepository.getAccountById(accountId);
+  // });
+
+  ipcMain.on(DB_GET_ACCOUNT, async (_: IpcMainEvent, accountId: number) => {
+    const account = await AccountRepository.getAccountById(accountId);
+    win.webContents.send(DB_GET_ACCOUNT_ACK, account);
   });
 
   ipcMain.on(DB_GET_ASSETS, async (_: IpcMainEvent) => {

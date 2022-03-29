@@ -2,6 +2,7 @@ import { ipcRenderer } from 'electron';
 
 import {
   DB_GET_ACCOUNTS,
+  DB_GET_ACCOUNT,
   DB_NEW_ACCOUNT,
   DB_EDIT_ACCOUNT_BALANCE,
   DB_EDIT_ACCOUNT_DETAILS,
@@ -20,6 +21,10 @@ export default class AccountIpc {
 
   static getAccounts() {
     ipcRenderer.send(DB_GET_ACCOUNTS);
+  }
+
+  static getAccount(accountId: number) {
+    ipcRenderer.send(DB_GET_ACCOUNT, accountId);
   }
 
   static editBalance(editBalance: AccountEditBalanceSubmitType) {

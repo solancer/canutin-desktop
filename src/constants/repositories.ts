@@ -7,6 +7,9 @@ export const DB_NEW_ASSET_ACK = 'dbNewAssetAck';
 export const DB_GET_ACCOUNTS = 'dbGetAccounts';
 export const DB_GET_ACCOUNTS_ACK = 'dbGetAccountsAck';
 
+export const DB_GET_ACCOUNT = 'dbGetAccount';
+export const DB_GET_ACCOUNT_ACK = 'dbGetAccountAck';
+
 export const DB_GET_BUDGETS = 'dbGetBudgets';
 export const DB_GET_BUDGETS_ACK = 'dbGetBudgetsAck';
 
