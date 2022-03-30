@@ -14,7 +14,7 @@ import {
 } from '@constants/repositories';
 import { EVENT_ERROR, EVENT_SUCCESS } from '@constants/eventStatus';
 
-import { getAccounts } from './setupAccountEvents';
+import { getAccount } from './setupAccountEvents';
 import { getBudgets } from './setupBudgetEvents';
 import { CategoryRepository } from '@database/repositories/category.repository';
 import { FilterTransactionInterface, NewTransactionType } from '@appTypes/transaction.type';
@@ -30,7 +30,7 @@ const setupTransactionEvents = async (win: BrowserWindow) => {
     try {
       const newTransaction = await TransactionRepository.createTransaction(transaction);
       win.webContents.send(DB_NEW_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
-      await getAccounts(win);
+      await getAccount(win, transaction.accountId);
       await getBudgets(win);
     } catch (e) {
       if (e instanceof QueryFailedError) {
@@ -51,7 +51,7 @@ const setupTransactionEvents = async (win: BrowserWindow) => {
     try {
       const newTransaction = await TransactionRepository.editTransaction(transaction);
       win.webContents.send(DB_EDIT_TRANSACTION_ACK, { ...newTransaction, status: EVENT_SUCCESS });
-      await getAccounts(win);
+      await getAccount(win, transaction.accountId);
       await getBudgets(win);
     } catch (e) {
       win.webContents.send(DB_EDIT_TRANSACTION_ACK, {
@@ -67,7 +67,7 @@ const setupTransactionEvents = async (win: BrowserWindow) => {
       try {
         await TransactionRepository.deleteTransaction(transactionId);
         win.webContents.send(DB_DELETE_TRANSACTION_ACK, { status: EVENT_SUCCESS });
-        await getAccounts(win);
+        await getAccount(win, accountId);
         await getBudgets(win);
       } catch (e) {
         win.webContents.send(DB_DELETE_TRANSACTION_ACK, {
