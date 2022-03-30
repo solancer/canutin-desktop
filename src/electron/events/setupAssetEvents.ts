@@ -29,6 +29,11 @@ export const getAssets = async (win: BrowserWindow) => {
   win.webContents.send(DB_GET_ASSETS_ACK, assets);
 };
 
+export const getAsset = async (win: BrowserWindow, assetId: number) => {
+  const asset = await AssetRepository.getAssetById(assetId);
+  win.webContents.send(DB_GET_ASSET_ACK, asset);
+};
+
 const setupAssetEvents = async (win: BrowserWindow) => {
   ipcMain.on(DB_NEW_ASSET, async (_: IpcMainEvent, asset: NewAssetType) => {
     try {
@@ -55,19 +60,6 @@ const setupAssetEvents = async (win: BrowserWindow) => {
     await getAssets(win);
   });
 
-  ipcMain.on(DB_DELETE_ASSET, async (_: IpcMainEvent, assetId: number) => {
-    try {
-      await AssetRepository.deleteAsset(assetId);
-      win.webContents.send(DB_DELETE_ASSET_ACK, { status: EVENT_SUCCESS });
-      await getAssets(win);
-    } catch (e) {
-      win.webContents.send(DB_DELETE_ASSET_ACK, {
-        status: EVENT_ERROR,
-        message: 'An error occurred, please try again',
-      });
-    }
-  });
-
   ipcMain.on(DB_GET_ASSET, async (_: IpcMainEvent, assetId: number) => {
     try {
       const asset = await AssetRepository.getAssetById(assetId);
@@ -84,7 +76,7 @@ const setupAssetEvents = async (win: BrowserWindow) => {
     try {
       const newAsset = await AssetRepository.editValue(assetValue);
       win.webContents.send(DB_EDIT_ASSET_VALUE_ACK, { ...newAsset, status: EVENT_SUCCESS });
-      await getAssets(win);
+      await getAsset(win, assetValue.assetId);
     } catch (e) {
       win.webContents.send(DB_EDIT_ASSET_VALUE_ACK, {
         status: EVENT_ERROR,
@@ -99,7 +91,7 @@ const setupAssetEvents = async (win: BrowserWindow) => {
       try {
         const newAsset = await AssetRepository.editDetails(assetValue);
         win.webContents.send(DB_EDIT_ASSET_DETAILS_ACK, { ...newAsset, status: EVENT_SUCCESS });
-        await getAssets(win);
+        await getAsset(win, assetValue.assetId);
       } catch (e) {
         win.webContents.send(DB_EDIT_ASSET_DETAILS_ACK, {
           status: EVENT_ERROR,
@@ -108,6 +100,19 @@ const setupAssetEvents = async (win: BrowserWindow) => {
       }
     }
   );
+
+  ipcMain.on(DB_DELETE_ASSET, async (_: IpcMainEvent, assetId: number) => {
+    try {
+      await AssetRepository.deleteAsset(assetId);
+      win.webContents.send(DB_DELETE_ASSET_ACK, { assetId, status: EVENT_SUCCESS });
+    } catch (e) {
+      win.webContents.send(DB_DELETE_ASSET_ACK, {
+        assetId,
+        status: EVENT_ERROR,
+        message: 'An error occurred, please try again',
+      });
+    }
+  });
 };
 
 export default setupAssetEvents;

@@ -2,17 +2,17 @@ import React, { useEffect, useContext } from 'react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 import { useHistory } from 'react-router-dom';
 
-import Section from '@components/common/Section';
-import RemoveSection from '@components/common/Form/RemoveSection';
-
+import AccountIpc from '@app/data/account.ipc';
 import { Account } from '@database/entities';
+import { DB_DELETE_ACCOUNT_ACK } from '@constants/repositories';
 import { EVENT_SUCCESS, EVENT_ERROR } from '@constants/eventStatus';
 import { StatusBarContext } from '@app/context/statusBarContext';
-import AccountIpc from '@app/data/account.ipc';
+import { EntitiesContext } from '@app/context/entitiesContext';
 import { StatusEnum } from '@app/constants/misc';
-import { DB_DELETE_ACCOUNT_ACK } from '@constants/repositories';
 import { rootRoutesPaths } from '@app/routes';
 
+import Section from '@components/common/Section';
+import RemoveSection from '@components/common/Form/RemoveSection';
 import AccountEditBalanceForm from '../AccountEditBalanceForm';
 import AccountEditDetailsForm from '../AccountEditDetailsForm';
 
@@ -21,18 +21,23 @@ interface AccountOverviewEditProps {
 }
 
 const AccountOverviewEdit = ({ account }: AccountOverviewEditProps) => {
+  const { accountsIndex, setAccountsIndex } = useContext(EntitiesContext);
   const { setStatusMessage } = useContext(StatusBarContext);
   const history = useHistory();
 
   useEffect(() => {
-    ipcRenderer.on(DB_DELETE_ACCOUNT_ACK, (_: IpcRendererEvent, { status, message }) => {
+    ipcRenderer.on(DB_DELETE_ACCOUNT_ACK, (_: IpcRendererEvent, { accountId, status, message }) => {
       if (status === EVENT_SUCCESS) {
+        history.push(rootRoutesPaths.balance);
+        const accounts = accountsIndex!.accounts.filter(
+          indexedAccount => indexedAccount.id !== accountId
+        );
+        setAccountsIndex({ accounts, lastUpdate: new Date() });
         setStatusMessage({
           message: 'Account removed',
           sentiment: StatusEnum.POSITIVE,
           isLoading: false,
         });
-        history.push(rootRoutesPaths.balance);
       }
 
       if (status === EVENT_ERROR) {

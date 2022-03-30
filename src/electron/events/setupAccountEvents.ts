@@ -106,7 +106,7 @@ const setupAccountEvents = async (win: BrowserWindow) => {
   ipcMain.on(DB_DELETE_ACCOUNT, async (event: IpcMainEvent, accountId: number) => {
     try {
       await AccountRepository.deleteAccount(accountId);
-      win.webContents.send(DB_DELETE_ACCOUNT_ACK, { status: EVENT_SUCCESS });
+      win.webContents.send(DB_DELETE_ACCOUNT_ACK, { accountId, status: EVENT_SUCCESS });
       await getBudgets(win);
     } catch (e) {
       win.webContents.send(DB_DELETE_ACCOUNT_ACK, {
