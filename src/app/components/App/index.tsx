@@ -112,7 +112,12 @@ const App = () => {
   }, [vaultStatus]);
 
   useEffect(() => {
-    if (assetsIndex?.lastUpdate && accountsIndex?.lastUpdate && settingsIndex?.lastUpdate) {
+    if (
+      vaultStatus !== VaultStatusEnum.INDEXED_WITH_DATA &&
+      assetsIndex?.lastUpdate &&
+      accountsIndex?.lastUpdate &&
+      settingsIndex?.lastUpdate
+    ) {
       setIsLoading(true);
       setVaultStatus(VaultStatusEnum.INDEX_PENDING);
     }

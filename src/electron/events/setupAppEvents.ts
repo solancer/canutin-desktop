@@ -7,6 +7,7 @@ import {
   APP_SAFE_STORAGE,
   APP_SAFE_STORAGE_ACK,
 } from '@constants/app';
+
 import { WindowControlEnum } from '@appConstants/misc';
 
 const setupAppEvents = async (win: BrowserWindow) => {

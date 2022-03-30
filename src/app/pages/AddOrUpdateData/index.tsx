@@ -2,12 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 import { useHistory } from 'react-router-dom';
 
-import ScrollView from '@components/common/ScrollView';
-import Section from '@components/common/Section';
-import SectionRow from '@components/common/SectionRow';
-import PrimaryCard from '@components/common/PrimaryCard';
-import PrimaryCardRow from '@components/common/PrimaryCardRow';
-
 import { routesPaths } from '@routes';
 import { AppContext } from '@app/context/appContext';
 import { ReactComponent as Sheet } from '@assets/icons/Sheet.svg';
@@ -15,11 +9,17 @@ import { ReactComponent as Keyboard } from '@assets/icons/Keyboard.svg';
 import { ReactComponent as Bot } from '@assets/icons/Bot.svg';
 import { ReactComponent as Lightning } from '@assets/icons/Lightning.svg';
 import { ReactComponent as PaperAccount } from '@assets/icons/PaperAccount.svg';
-import { DB_SEED_VAULT, DB_SEED_VAULT_ACK } from '@constants/repositories';
+import { VAULT_SEED, VAULT_SEED_ACK } from '@constants/vault';
 import { EVENT_SUCCESS } from '@constants/eventStatus';
 import { StatusBarContext } from '@app/context/statusBarContext';
 import { StatusEnum } from '@app/constants/misc';
 import { VaultStatusEnum } from '@enums/vault.enum';
+
+import ScrollView from '@components/common/ScrollView';
+import Section from '@components/common/Section';
+import SectionRow from '@components/common/SectionRow';
+import PrimaryCard from '@components/common/PrimaryCard';
+import PrimaryCardRow from '@components/common/PrimaryCardRow';
 
 const AddOrUpdateData = () => {
   const { push } = useHistory();
@@ -32,11 +32,11 @@ const AddOrUpdateData = () => {
       message: 'Seeding vault with demo data...',
       isLoading: true,
     });
-    ipcRenderer.send(DB_SEED_VAULT);
+    ipcRenderer.send(VAULT_SEED);
   };
 
   useEffect(() => {
-    ipcRenderer.on(DB_SEED_VAULT_ACK, (_: IpcRendererEvent, { status }) => {
+    ipcRenderer.on(VAULT_SEED_ACK, (_: IpcRendererEvent, { status }) => {
       if (status === EVENT_SUCCESS) {
         setVaultStatus(VaultStatusEnum.READY_TO_INDEX);
         setStatusMessage({
@@ -48,7 +48,7 @@ const AddOrUpdateData = () => {
     });
 
     return () => {
-      ipcRenderer.removeAllListeners(DB_SEED_VAULT_ACK);
+      ipcRenderer.removeAllListeners(VAULT_SEED_ACK);
     };
   }, []);
 

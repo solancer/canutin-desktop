@@ -12,7 +12,6 @@ import {
 } from '@appTypes/account.type';
 import { TransactionRepository } from './transaction.repository';
 import { handleAccountBalanceStatements } from '@database/helpers/balanceStatement';
-import { dateInUTC } from '@app/utils/date.utils';
 
 export class AccountRepository {
   static async createAccount(account: NewAccountType): Promise<Account> {
@@ -48,29 +47,30 @@ export class AccountRepository {
   }
 
   static async getAccounts(): Promise<Account[]> {
-    return await getRepository<Account>(Account)
-      .createQueryBuilder('account')
-      .leftJoinAndSelect('account.balanceStatements', 'balanceStatements')
-      .leftJoinAndSelect('account.accountType', 'accountType')
-      .leftJoinAndSelect(
-        'account.transactions',
-        'transaction',
-        'transaction.excludeFromTotals = false'
-      )
-      .orderBy('account.name', 'ASC')
-      .addOrderBy('account.id', 'DESC')
-      .getMany();
+    return await getRepository<Account>(Account).find({
+      relations: [
+        'transactions',
+        'transactions.account',
+        'transactions.category',
+        'balanceStatements',
+        'accountType',
+      ],
+      order: {
+        name: 'ASC',
+        id: 'DESC',
+      },
+    });
   }
 
-  static async getAccountSummaries(): Promise<Account[]> {
-    return await getRepository<Account>(Account)
-      .createQueryBuilder('account')
-      .leftJoinAndSelect('account.balanceStatements', 'balanceStatements')
-      .leftJoinAndSelect('account.accountType', 'accountType')
-      .orderBy('account.name', 'ASC')
-      .addOrderBy('account.id', 'DESC')
-      .getMany();
-  }
+  // static async getAccountSummaries(): Promise<Account[]> {
+  //   return await getRepository<Account>(Account)
+  //     .createQueryBuilder('account')
+  //     .leftJoinAndSelect('account.balanceStatements', 'balanceStatements')
+  //     .leftJoinAndSelect('account.accountType', 'accountType')
+  //     .orderBy('account.name', 'ASC')
+  //     .addOrderBy('account.id', 'DESC')
+  //     .getMany();
+  // }
 
   static async getAccountById(accountId: number): Promise<Account | undefined> {
     return await getRepository<Account>(Account).findOne(accountId, {
@@ -164,6 +164,11 @@ export class AccountRepository {
         account.balanceStatements.map(({ id }) => id)
       ));
 
-    await getRepository<Account>(Account).delete(accountId);
+    try {
+      await getRepository<Account>(Account).delete(accountId);
+      return true;
+    } catch {
+      return false;
+    }
   }
 }

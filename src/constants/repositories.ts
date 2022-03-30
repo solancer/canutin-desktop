@@ -64,9 +64,6 @@ export const DB_EDIT_BUDGET_CATEGORY_ACK = 'dbEditBudgetCategoryAck';
 export const DB_REMOVE_BUDGET_CATEGORY = 'dbRemoveBudgetCategory';
 export const DB_REMOVE_BUDGET_CATEGORY_ACK = 'dbRemoveBudgetCategoryAck';
 
-export const DB_SEED_VAULT = 'dbSeedVault';
-export const DB_SEED_VAULT_ACK = 'dbSeedVaultAck';
-
 export const DB_EDIT_SETTINGS = 'dbEditSettings';
 export const DB_EDIT_SETTINGS_ACK = 'dbEditSettingsAck';
 

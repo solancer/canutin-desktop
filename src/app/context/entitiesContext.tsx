@@ -5,6 +5,7 @@ import AssetIpc from '@app/data/asset.ipc';
 import AccountIpc from '@app/data/account.ipc';
 import {
   DB_GET_ACCOUNTS_ACK,
+  DB_GET_ACCOUNT_ACK,
   DB_GET_ASSETS_ACK,
   DB_GET_BUDGETS_ACK,
   DB_GET_SETTINGS_ACK,
@@ -84,12 +85,12 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
       SettingsIpc.getSettings();
     }, 100);
 
-    ipcRenderer.on(DB_GET_ASSETS_ACK, (_: IpcRendererEvent, assets: Asset[]) => {
-      setAssetsIndex({ assets, lastUpdate: new Date() });
-    });
-
     ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
       setAccountsIndex({ accounts, lastUpdate: new Date() });
+    });
+
+    ipcRenderer.on(DB_GET_ASSETS_ACK, (_: IpcRendererEvent, assets: Asset[]) => {
+      setAssetsIndex({ assets, lastUpdate: new Date() });
     });
 
     ipcRenderer.on(DB_GET_SETTINGS_ACK, (_: IpcRendererEvent, settings: Settings) => {
@@ -97,16 +98,24 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
     });
 
     return () => {
-      ipcRenderer.removeAllListeners(DB_GET_ASSETS_ACK);
       ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_ASSETS_ACK);
       ipcRenderer.removeAllListeners(DB_GET_SETTINGS_ACK);
     };
   }, [vaultStatus]);
 
-  // Get budgets
   useEffect(() => {
     if (vaultStatus !== VaultStatusEnum.INDEXED_WITH_DATA) return;
 
+    // Get single account
+    ipcRenderer.on(DB_GET_ACCOUNT_ACK, (_: IpcRendererEvent, account: Account) => {
+      const accounts = accountsIndex.accounts.map(indexedAccount =>
+        indexedAccount.id === account.id ? account : indexedAccount
+      );
+      setAccountsIndex({ accounts, lastUpdate: new Date() });
+    });
+
+    // Get budgets
     autoBudgetNeedsCategories.forEach(categoryName => {
       TransactionIpc.getTransactionCategory(categoryName);
     });
@@ -143,6 +152,7 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
     });
 
     return () => {
+      ipcRenderer.removeAllListeners(DB_GET_ACCOUNT_ACK);
       ipcRenderer.removeAllListeners(DB_GET_TRANSACTION_CATEGORY_ACK);
       ipcRenderer.removeAllListeners(DB_GET_BUDGETS_ACK);
     };
