@@ -1,5 +1,4 @@
-import { getRepository, getConnection, Between } from 'typeorm';
-import { endOfDay, startOfMonth, subMinutes, subMonths } from 'date-fns';
+import { getRepository, getConnection } from 'typeorm';
 
 import { AccountBalanceStatementRepository } from '@database/repositories/accountBalanceStatement.repository';
 import { AccountTypeRepository } from '@database/repositories/accountType.repository';
@@ -61,16 +60,6 @@ export class AccountRepository {
       },
     });
   }
-
-  // static async getAccountSummaries(): Promise<Account[]> {
-  //   return await getRepository<Account>(Account)
-  //     .createQueryBuilder('account')
-  //     .leftJoinAndSelect('account.balanceStatements', 'balanceStatements')
-  //     .leftJoinAndSelect('account.accountType', 'accountType')
-  //     .orderBy('account.name', 'ASC')
-  //     .addOrderBy('account.id', 'DESC')
-  //     .getMany();
-  // }
 
   static async getAccountById(accountId: number): Promise<Account | undefined> {
     return await getRepository<Account>(Account).findOne(accountId, {
@@ -164,11 +153,6 @@ export class AccountRepository {
         account.balanceStatements.map(({ id }) => id)
       ));
 
-    try {
-      await getRepository<Account>(Account).delete(accountId);
-      return true;
-    } catch {
-      return false;
-    }
+    await getRepository<Account>(Account).delete(accountId);
   }
 }
