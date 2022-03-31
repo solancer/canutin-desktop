@@ -136,7 +136,7 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
       setAssetsIndex({ assets, lastUpdate: new Date() });
     });
 
-    // Get all budgets
+    // Get budgets
     autoBudgetNeedsCategories.forEach(categoryName => {
       TransactionIpc.getTransactionCategory(categoryName);
     });

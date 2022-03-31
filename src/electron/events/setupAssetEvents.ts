@@ -76,7 +76,7 @@ const setupAssetEvents = async (win: BrowserWindow) => {
     try {
       const newAsset = await AssetRepository.editValue(assetValue);
       win.webContents.send(DB_EDIT_ASSET_VALUE_ACK, { ...newAsset, status: EVENT_SUCCESS });
-      await getAsset(win, assetValue.assetId);
+      await getAsset(win, newAsset.id);
     } catch (e) {
       win.webContents.send(DB_EDIT_ASSET_VALUE_ACK, {
         status: EVENT_ERROR,

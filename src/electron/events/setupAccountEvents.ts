@@ -72,7 +72,7 @@ const setupAccountEvents = async (win: BrowserWindow) => {
           ...newAccount,
           status: EVENT_SUCCESS,
         });
-        await getAccount(win, accountBalance.accountId);
+        await getAccount(win, newAccount.id);
         await getBudgets(win);
       } catch (e) {
         win.webContents.send(DB_EDIT_ACCOUNT_BALANCE_ACK, {
