@@ -34,6 +34,10 @@ export const getAccount = async (win: BrowserWindow, accountId: number) => {
 };
 
 const setupAccountEvents = async (win: BrowserWindow) => {
+  ipcMain.on(DB_GET_ACCOUNTS, async (_: IpcMainEvent) => {
+    await getAccounts(win);
+  });
+
   ipcMain.on(DB_NEW_ACCOUNT, async (_: IpcMainEvent, account: NewAccountType) => {
     try {
       const newAccount = await AccountRepository.createAccount(account);
@@ -57,10 +61,6 @@ const setupAccountEvents = async (win: BrowserWindow) => {
   ipcMain.on(DB_GET_BALANCE_STATEMENTS, async (_: IpcMainEvent) => {
     const balanceStatements = await AccountBalanceStatementRepository.getBalanceStatements();
     win.webContents.send(DB_GET_BALANCE_STATEMENTS_ACK, balanceStatements);
-  });
-
-  ipcMain.on(DB_GET_ACCOUNTS, async (_: IpcMainEvent) => {
-    await getAccounts(win);
   });
 
   ipcMain.on(

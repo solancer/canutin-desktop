@@ -29,12 +29,16 @@ export const getAssets = async (win: BrowserWindow) => {
   win.webContents.send(DB_GET_ASSETS_ACK, assets);
 };
 
-export const getAsset = async (win: BrowserWindow, assetId: number) => {
+const getAsset = async (win: BrowserWindow, assetId: number) => {
   const asset = await AssetRepository.getAssetById(assetId);
   win.webContents.send(DB_GET_ASSET_ACK, asset);
 };
 
 const setupAssetEvents = async (win: BrowserWindow) => {
+  ipcMain.on(DB_GET_ASSETS, async (_: IpcMainEvent) => {
+    await getAssets(win);
+  });
+
   ipcMain.on(DB_NEW_ASSET, async (_: IpcMainEvent, asset: NewAssetType) => {
     try {
       const newAsset = await AssetRepository.createAsset(asset);
@@ -53,22 +57,6 @@ const setupAssetEvents = async (win: BrowserWindow) => {
           message: 'An error occurred, please try again',
         });
       }
-    }
-  });
-
-  ipcMain.on(DB_GET_ASSETS, async (_: IpcMainEvent) => {
-    await getAssets(win);
-  });
-
-  ipcMain.on(DB_GET_ASSET, async (_: IpcMainEvent, assetId: number) => {
-    try {
-      const asset = await AssetRepository.getAssetById(assetId);
-      win.webContents.send(DB_GET_ASSET_ACK, { asset, status: EVENT_SUCCESS });
-    } catch (e) {
-      win.webContents.send(DB_GET_ASSET_ACK, {
-        status: EVENT_ERROR,
-        message: 'An error occurred, please try again',
-      });
     }
   });
 
