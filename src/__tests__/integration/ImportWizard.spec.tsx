@@ -130,7 +130,7 @@ describe('Import wizard tests', () => {
     const spySendIpcRenderer = jest.spyOn(ipcRenderer, 'send');
     userEvent.click(chooseButton);
     expect(spySendIpcRenderer).toHaveBeenLastCalledWith(IMPORT_SOURCE_FILE, 'csv');
-    expect(screen.getByText('Analyzing source file...')).not.toBeNull();
+    expect(screen.getByText('Analyzing source file')).not.toBeNull();
   });
 
   test('Other CSV Form', async () => {

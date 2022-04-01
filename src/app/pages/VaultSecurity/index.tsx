@@ -26,10 +26,11 @@ import Button from '@app/components/common/Button';
 import SubmitButton from '@app/components/common/Form/SubmitButton';
 import FieldNotice from '@components/common/Form/FieldNotice';
 import AppIpc from '@app/data/app.ipc';
+import { StatusEnum } from '@app/constants/misc';
 
 const VaultSecurity = () => {
   const { vaultPath, vaultStatus } = useContext(AppContext);
-  const { setStatusMessage } = useContext(StatusBarContext);
+  const { statusMessage, setStatusMessage } = useContext(StatusBarContext);
   const [hasSafeStorage, setHasSafeStorage] = useState(false);
   const history = useHistory();
 
@@ -56,7 +57,7 @@ const VaultSecurity = () => {
     },
   });
   const vaultMasterKey = watch('vaultMasterKey');
-  const submitDisabled = !vaultMasterKey;
+  const submitDisabled = !vaultMasterKey || statusMessage.isLoading;
   const isVaultNew = vaultStatus === VaultStatusEnum.SET_NEW_NOT_READY;
 
   const onSubmit = (unlockVaultSubmit: VaultType) => {
@@ -64,7 +65,11 @@ const VaultSecurity = () => {
       ...unlockVaultSubmit,
       vaultPath: vaultPath,
     });
-    setStatusMessage(emptyStatusMessage);
+    setStatusMessage({
+      message: 'Unlocking vault',
+      sentiment: StatusEnum.NEUTRAL,
+      isLoading: true,
+    });
   };
 
   const cancelVault = () => {

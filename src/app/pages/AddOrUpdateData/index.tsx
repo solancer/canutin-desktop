@@ -29,7 +29,7 @@ const AddOrUpdateData = () => {
   const seedVault = () => {
     setStatusMessage({
       sentiment: StatusEnum.NEUTRAL,
-      message: 'Seeding vault with demo data...',
+      message: 'Seeding vault with demo data',
       isLoading: true,
     });
     ipcRenderer.send(VAULT_SEED);

@@ -83,7 +83,7 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
   const [settingsIndex, setSettingsIndex] = useState<SettingsIndex>(defaultSettingsIndex);
   const { vaultStatus } = useContext(AppContext);
 
-  // Get all accounts, assets & settings
+  // Get accounts, assets & settings when the vault is not indexed
   useEffect(() => {
     if (vaultStatus !== VaultStatusEnum.READY_TO_INDEX) return;
 
@@ -117,10 +117,14 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
     };
   }, [vaultStatus]);
 
+  // Update account/s and asset/s when the vault is already indexed
   useEffect(() => {
     if (vaultStatus !== VaultStatusEnum.INDEXED_WITH_DATA) return;
 
-    // Get single account
+    ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
+      setAccountsIndex({ accounts, lastUpdate: new Date() });
+    });
+
     ipcRenderer.on(DB_GET_ACCOUNT_ACK, (_: IpcRendererEvent, account: Account) => {
       const accounts = accountsIndex.accounts.map(indexedAccount =>
         indexedAccount.id === account.id ? account : indexedAccount
@@ -128,7 +132,10 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
       setAccountsIndex({ accounts, lastUpdate: new Date() });
     });
 
-    // Get single asset
+    ipcRenderer.on(DB_GET_ASSETS_ACK, (_: IpcRendererEvent, assets: Asset[]) => {
+      setAssetsIndex({ assets, lastUpdate: new Date() });
+    });
+
     ipcRenderer.on(DB_GET_ASSET_ACK, (_: IpcRendererEvent, asset: Asset) => {
       const assets = assetsIndex.assets.map(indexedAsset =>
         indexedAsset.id === asset.id ? asset : indexedAsset
@@ -136,7 +143,18 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
       setAssetsIndex({ assets, lastUpdate: new Date() });
     });
 
-    // Get budgets
+    return () => {
+      ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_ACCOUNT_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_ASSETS_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_ASSET_ACK);
+    };
+  }, [vaultStatus]);
+
+  // Get budgets
+  useEffect(() => {
+    if (vaultStatus !== VaultStatusEnum.INDEXED_WITH_DATA) return;
+
     autoBudgetNeedsCategories.forEach(categoryName => {
       TransactionIpc.getTransactionCategory(categoryName);
     });
@@ -173,8 +191,6 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
     });
 
     return () => {
-      ipcRenderer.removeAllListeners(DB_GET_ACCOUNT_ACK);
-      ipcRenderer.removeAllListeners(DB_GET_ASSET_ACK);
       ipcRenderer.removeAllListeners(DB_GET_TRANSACTION_CATEGORY_ACK);
       ipcRenderer.removeAllListeners(DB_GET_BUDGETS_ACK);
     };
