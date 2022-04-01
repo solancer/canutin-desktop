@@ -9,3 +9,5 @@ export const VAULT_SET_NO_FILE = 'vaultSetNoFile';
 export const VAULT_OPEN_SAVE_DIALOG = 'vaultOpenSaveDialog';
 export const VAULT_OPEN_EXISTING_FILE_DIALOG = 'vaultOpenExistingFileDialog';
 export const VAULT_UNLOCK = 'vaultUnlock';
+export const VAULT_SEED = 'vaultSeed';
+export const VAULT_SEED_ACK = 'vaultSeedAck';

@@ -39,7 +39,7 @@ const filePathStatusMessage = (status: StatusEnum, message?: string) => {
 
   switch (status) {
     case StatusEnum.NEUTRAL:
-      return 'Analyzing source file...';
+      return 'Analyzing source file';
     case StatusEnum.NEGATIVE:
       return "Couldn't interpret the chosen file";
     case StatusEnum.POSITIVE:
@@ -148,7 +148,7 @@ const ImportWizardForm = () => {
   const onSubmit = () => {
     setStatusMessage({
       sentiment: StatusEnum.NEUTRAL,
-      message: 'Importing data...',
+      message: 'Importing data',
       isLoading: true,
     });
     canutinJson && ipcRenderer.send(LOAD_FROM_CANUTIN_FILE, canutinJson);

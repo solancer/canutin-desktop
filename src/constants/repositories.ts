@@ -7,13 +7,14 @@ export const DB_NEW_ASSET_ACK = 'dbNewAssetAck';
 export const DB_GET_ACCOUNTS = 'dbGetAccounts';
 export const DB_GET_ACCOUNTS_ACK = 'dbGetAccountsAck';
 
+export const DB_GET_ACCOUNT_ACK = 'dbGetAccountAck';
+
 export const DB_GET_BUDGETS = 'dbGetBudgets';
 export const DB_GET_BUDGETS_ACK = 'dbGetBudgetsAck';
 
 export const DB_GET_ASSETS = 'dbGetAssets';
 export const DB_GET_ASSETS_ACK = 'dbGetAssetsAck';
 
-export const DB_GET_ASSET = 'dbGetAsset';
 export const DB_GET_ASSET_ACK = 'dbGetAssetAck';
 
 export const DB_DELETE_ASSET = 'dbDeleteAsset';
@@ -60,9 +61,6 @@ export const DB_EDIT_BUDGET_CATEGORY_ACK = 'dbEditBudgetCategoryAck';
 
 export const DB_REMOVE_BUDGET_CATEGORY = 'dbRemoveBudgetCategory';
 export const DB_REMOVE_BUDGET_CATEGORY_ACK = 'dbRemoveBudgetCategoryAck';
-
-export const DB_SEED_VAULT = 'dbSeedVault';
-export const DB_SEED_VAULT_ACK = 'dbSeedVaultAck';
 
 export const DB_EDIT_SETTINGS = 'dbEditSettings';
 export const DB_EDIT_SETTINGS_ACK = 'dbEditSettingsAck';

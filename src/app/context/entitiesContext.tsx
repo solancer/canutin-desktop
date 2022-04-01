@@ -1,11 +1,24 @@
-import { createContext, PropsWithChildren, useEffect, useState, useContext } from 'react';
+import {
+  createContext,
+  PropsWithChildren,
+  useEffect,
+  useState,
+  useContext,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 
 import AssetIpc from '@app/data/asset.ipc';
 import AccountIpc from '@app/data/account.ipc';
+import BudgetIpc from '@app/data/budget.ipc';
+import TransactionIpc from '@app/data/transaction.ipc';
+import SettingsIpc from '@app/data/settings.ipc';
 import {
   DB_GET_ACCOUNTS_ACK,
+  DB_GET_ACCOUNT_ACK,
   DB_GET_ASSETS_ACK,
+  DB_GET_ASSET_ACK,
   DB_GET_BUDGETS_ACK,
   DB_GET_SETTINGS_ACK,
   DB_GET_TRANSACTION_CATEGORY_ACK,
@@ -13,9 +26,6 @@ import {
 import { VaultStatusEnum } from '@enums/vault.enum';
 import { Account, Asset, Budget, Settings, TransactionSubCategory } from '@database/entities';
 import { AppContext } from './appContext';
-import BudgetIpc from '@app/data/budget.ipc';
-import TransactionIpc from '@app/data/transaction.ipc';
-import SettingsIpc from '@app/data/settings.ipc';
 import {
   autoBudgetNeedsCategories,
   autoBudgetWantsCategories,
@@ -45,7 +55,9 @@ interface SettingsIndex {
 
 interface EntitiesContextValue {
   assetsIndex: AssetsIndex | null;
+  setAssetsIndex: Dispatch<SetStateAction<AssetsIndex>>;
   accountsIndex: AccountsIndex | null;
+  setAccountsIndex: Dispatch<SetStateAction<AccountsIndex>>;
   budgetsIndex: BudgetsIndex | null;
   settingsIndex: SettingsIndex | null;
 }
@@ -57,7 +69,9 @@ const defaultSettingsIndex = { settings: { autoBudget: true } as Settings, lastU
 
 export const EntitiesContext = createContext<EntitiesContextValue>({
   assetsIndex: defaultAssetsIndex,
+  setAssetsIndex: () => {},
   accountsIndex: defaultAccountsIndex,
+  setAccountsIndex: () => {},
   budgetsIndex: defaultBudgetsIndex,
   settingsIndex: defaultSettingsIndex,
 });
@@ -69,7 +83,7 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
   const [settingsIndex, setSettingsIndex] = useState<SettingsIndex>(defaultSettingsIndex);
   const { vaultStatus } = useContext(AppContext);
 
-  // Get accounts, assets & settings
+  // Get accounts, assets & settings when the vault is not indexed
   useEffect(() => {
     if (vaultStatus !== VaultStatusEnum.READY_TO_INDEX) return;
 
@@ -84,12 +98,12 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
       SettingsIpc.getSettings();
     }, 100);
 
-    ipcRenderer.on(DB_GET_ASSETS_ACK, (_: IpcRendererEvent, assets: Asset[]) => {
-      setAssetsIndex({ assets, lastUpdate: new Date() });
-    });
-
     ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
       setAccountsIndex({ accounts, lastUpdate: new Date() });
+    });
+
+    ipcRenderer.on(DB_GET_ASSETS_ACK, (_: IpcRendererEvent, assets: Asset[]) => {
+      setAssetsIndex({ assets, lastUpdate: new Date() });
     });
 
     ipcRenderer.on(DB_GET_SETTINGS_ACK, (_: IpcRendererEvent, settings: Settings) => {
@@ -97,9 +111,43 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
     });
 
     return () => {
-      ipcRenderer.removeAllListeners(DB_GET_ASSETS_ACK);
       ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_ASSETS_ACK);
       ipcRenderer.removeAllListeners(DB_GET_SETTINGS_ACK);
+    };
+  }, [vaultStatus]);
+
+  // Update account/s and asset/s when the vault is already indexed
+  useEffect(() => {
+    if (vaultStatus !== VaultStatusEnum.INDEXED_WITH_DATA) return;
+
+    ipcRenderer.on(DB_GET_ACCOUNTS_ACK, (_: IpcRendererEvent, accounts: Account[]) => {
+      setAccountsIndex({ accounts, lastUpdate: new Date() });
+    });
+
+    ipcRenderer.on(DB_GET_ACCOUNT_ACK, (_: IpcRendererEvent, account: Account) => {
+      const accounts = accountsIndex.accounts.map(indexedAccount =>
+        indexedAccount.id === account.id ? account : indexedAccount
+      );
+      setAccountsIndex({ accounts, lastUpdate: new Date() });
+    });
+
+    ipcRenderer.on(DB_GET_ASSETS_ACK, (_: IpcRendererEvent, assets: Asset[]) => {
+      setAssetsIndex({ assets, lastUpdate: new Date() });
+    });
+
+    ipcRenderer.on(DB_GET_ASSET_ACK, (_: IpcRendererEvent, asset: Asset) => {
+      const assets = assetsIndex.assets.map(indexedAsset =>
+        indexedAsset.id === asset.id ? asset : indexedAsset
+      );
+      setAssetsIndex({ assets, lastUpdate: new Date() });
+    });
+
+    return () => {
+      ipcRenderer.removeAllListeners(DB_GET_ACCOUNTS_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_ACCOUNT_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_ASSETS_ACK);
+      ipcRenderer.removeAllListeners(DB_GET_ASSET_ACK);
     };
   }, [vaultStatus]);
 
@@ -150,7 +198,9 @@ export const EntitiesProvider = ({ children }: PropsWithChildren<Record<string, 
 
   const value = {
     assetsIndex,
+    setAssetsIndex,
     accountsIndex,
+    setAccountsIndex,
     budgetsIndex,
     settingsIndex,
   };

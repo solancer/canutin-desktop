@@ -20,9 +20,13 @@ import {
 } from './helpers/window.helpers';
 import { findAndConnectVault, getVaultFromDeviceSettings } from './helpers/database.helper';
 
-import setupVaultEvents from './events/setupVaultEvents';
-import setupRepositoryEvents from './events/setupRepositoryEvents';
 import setupAppEvents from './events/setupAppEvents';
+import setupVaultEvents from './events/setupVaultEvents';
+import setupSettingsEvents from './events/setupSettingsEvents';
+import setupAccountEvents from './events/setupAccountEvents';
+import setupAssetEvents from './events/setupAssetEvents';
+import setupTransactionEvents from './events/setupTransactionEvents';
+import setupBudgetEvents from './events/setupBudgetEvents';
 import setupImportEvents from './events/setupImportEvents';
 
 let win: BrowserWindow | null = null;
@@ -75,10 +79,14 @@ const createWindow = async () => {
     // await settings.unset(VAULT_MASTER_KEY);
   }
 
-  await setupVaultEvents(win);
-  await setupRepositoryEvents(win);
-  await setupImportEvents(win);
   await setupAppEvents(win);
+  await setupVaultEvents(win);
+  await setupSettingsEvents(win);
+  await setupAccountEvents(win);
+  await setupAssetEvents(win);
+  await setupTransactionEvents(win);
+  await setupBudgetEvents(win);
+  await setupImportEvents(win);
 
   win.on(ELECTRON_CLOSED, () => (win = null));
 

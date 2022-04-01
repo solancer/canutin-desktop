@@ -19,7 +19,7 @@ import GlobalStyle from '@app/styles/global';
 import NotReady from '@app/pages/NotReady';
 import { EntitiesContext } from '@app/context/entitiesContext';
 import { AppContext } from '@app/context/appContext';
-import { StatusBarContext } from '@app/context/statusBarContext';
+import { emptyStatusMessage, StatusBarContext } from '@app/context/statusBarContext';
 import { StatusEnum } from '@app/constants/misc';
 import { DatabaseDoesNotExistsMessage } from '@constants/messages';
 import { VaultStatusEnum } from '@enums/vault.enum';
@@ -33,7 +33,6 @@ const App = () => {
   const {
     isLoading,
     setIsLoading,
-    isAppInitialized,
     setIsAppInitialized,
     vaultPath,
     setVaultPath,
@@ -105,14 +104,21 @@ const App = () => {
     if (accountsIndex?.accounts.length === 0 && assetsIndex?.assets.length === 0) {
       setVaultStatus(VaultStatusEnum.INDEXED_NO_DATA);
       setIsLoading(false);
+      setStatusMessage(emptyStatusMessage);
     } else {
       setVaultStatus(VaultStatusEnum.INDEXED_WITH_DATA);
       setIsLoading(false);
+      setStatusMessage(emptyStatusMessage);
     }
   }, [vaultStatus]);
 
   useEffect(() => {
-    if (assetsIndex?.lastUpdate && accountsIndex?.lastUpdate && settingsIndex?.lastUpdate) {
+    if (
+      vaultStatus !== VaultStatusEnum.INDEXED_WITH_DATA &&
+      assetsIndex?.lastUpdate &&
+      accountsIndex?.lastUpdate &&
+      settingsIndex?.lastUpdate
+    ) {
       setIsLoading(true);
       setVaultStatus(VaultStatusEnum.INDEX_PENDING);
     }
